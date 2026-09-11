@@ -1,0 +1,7 @@
+.reactive/
+.env*.*
+*.tgz
+.DS_Store
+Thumbs.db
+.scratch/
+tmp/
