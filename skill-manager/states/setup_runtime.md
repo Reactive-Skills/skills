@@ -8,8 +8,9 @@ type: reactive
 
 Run the runtime setup command to configure state machine tool access for your agent harness.
 
-```
-reactive-skills-axi setup
+```bash
+npx -y @reactive-skills/axi setup
+# (or if installed globally: reactive-skills-axi setup)
 ```
 
 **If exit code is 0:**

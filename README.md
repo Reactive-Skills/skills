@@ -26,11 +26,16 @@ npx skills add Reactive-Skills/skills
 
 ---
 
-## 🛠️ Requirements
+## 🛠️ Execution & Requirements
 
-Reactive skills require the **`reactive-skills-axi`** CLI in your agent's environment:
+Reactive skills execute immediately via **`npx`** (zero install required) or via the globally installed CLI:
 
 ```bash
+# Zero install — works out of the box for any agent:
+npx -y @reactive-skills/axi state <skill>
+npx -y @reactive-skills/axi emit <skill> <signal>
+
+# Optional: Install globally for instant local commands (reactive-skills-axi / axi):
 npm install -g @reactive-skills/axi
 ```
 

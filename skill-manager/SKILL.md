@@ -13,9 +13,9 @@ metadata:
 > This skill is an event-driven state machine. Manual execution is FORBIDDEN.
 >
 > **PRIMARY EXECUTION (AXI CLI — Shell):**
-> 1. Run `reactive-skills-axi state skill-manager` (or `invoke skill-manager`) to read your current instructions.
+> 1. Run `npx -y @reactive-skills/axi state skill-manager` (or `reactive-skills-axi state skill-manager`) to read your current instructions.
 > 2. Complete the tasks described in the state prompt.
-> 3. Run `reactive-skills-axi emit skill-manager <signal>` to advance to the next state.
+> 3. Run `npx -y @reactive-skills/axi emit skill-manager <signal>` (or `reactive-skills-axi emit skill-manager <signal>`) to advance to the next state.
 >
 > **ALTERNATIVE (MCP Mode):**
 > If the `reactive_state` MCP tool is present in your tool list, you may use `reactive_state` and `reactive_emit_signal`.
