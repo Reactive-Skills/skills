@@ -37,7 +37,7 @@ Before completing this execution and emitting `EXECUTED`, verify your work passe
 
 ### Migration Integrity Standards
 - [ ] Are the migrated state files (`states/*.md`) completely free of AI gimmicks or un-gradable instructions?
-- [ ] Does the migrated `SKILL.md` include the universal `<!-- REACTIVE BOOTLOADER -->` referencing `reactive-skills-axi state <skill>` and `reactive-skills-axi emit <skill> <signal>`?
+- [ ] Does the migrated `SKILL.md` include the universal `<!-- REACTIVE BOOTLOADER -->` referencing `npx -y @reactive-skills/axi state <skill>` (or `reactive-skills-axi state <skill>`) and `npx -y @reactive-skills/axi emit <skill> <signal>`?
 - [ ] Did you inject an **Atomic Checklist** into the execution/terminal states of the new migrated skill, so it holds itself accountable?
 - [ ] Does the new `skill.yaml` (v2.1.0) strictly map to the exact files you created in the `states/` directory? (Failure mode: missing state prompt files).
 

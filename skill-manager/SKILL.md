@@ -81,10 +81,10 @@ Manages the complete lifecycle of reactive skills using a Hierarchical State Mac
 
 ## File Operations
 
-File creation/modification delegates to the `reactive-skills-axi` CLI:
+File creation/modification delegates to the `@reactive-skills/axi` CLI:
 
-```
-node <runtime>/dist/cli/index.js state <skill> [--payload JSON]
+```bash
+npx -y @reactive-skills/axi state <skill> [--payload JSON]
 ```
 
 Skills are auto-discovered from:
@@ -92,7 +92,7 @@ Skills are auto-discovered from:
 - `~/.gemini/config/skills/<name>/skill.yaml`
 - `./skills/<name>/skill.yaml` (workspace-local)
 
-CLI path: `node <runtime>/dist/cli/index.js` (<runtime> = reactive-skills package dir, portable); bin: `reactive-skills-axi`.
+CLI execution: `npx -y @reactive-skills/axi <command>` (zero install) or `reactive-skills-axi <command>` (if installed globally via `npm i -g @reactive-skills/axi`).
 
 ## Deliverables
 
@@ -203,9 +203,9 @@ MIGRATE_LEGACY uses auto-infer with a 50% confidence threshold. Below 50%, the s
 
 ## CLI / MCP Integration
 
-Primary entry: `reactive-skills-axi` CLI (portable bin), or locally `node <runtime>/dist/cli/index.js`.
+Primary entry: `npx -y @reactive-skills/axi` (zero install), or `reactive-skills-axi` (if installed globally).
 
-Fallback: MCP server via `node dist/cli/index.js mcp` (requires Reactive Skills runtime built).
+Fallback: MCP server via `npx -y @reactive-skills/axi mcp`.
 
 Skills auto-discovered from known locations — no symlinks or junctions required.
 
@@ -215,12 +215,12 @@ Skills execute via a state/invoke → emit cycle:
 
 ```bash
 # 1. Inspect current state or invoke skill with initial context
-reactive-skills-axi state <skill>
+npx -y @reactive-skills/axi state <skill>
 # Or invoke with context payload:
-reactive-skills-axi invoke <skill> --payload '{"skill_name":"my-skill","operation":"CREATE"}'
+npx -y @reactive-skills/axi invoke <skill> --payload '{"skill_name":"my-skill","operation":"CREATE"}'
 
 # 2. Emit signals to advance state machine (event ID is automatically resolved)
-reactive-skills-axi emit <skill> <SIGNAL> [--payload '{"key":"value"}']
+npx -y @reactive-skills/axi emit <skill> <SIGNAL> [--payload '{"key":"value"}']
 
 # 3. Each emit rehydrates state from disk, evaluates guards, and transitions state
 ```

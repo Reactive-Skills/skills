@@ -28,7 +28,7 @@ Before completing this execution and emitting `EXECUTED`, you MUST verify your w
 
 ### Skill Construction Standards
 - [ ] If creating or updating a skill, does the `SKILL.md` contain strict, gradable instructions without AI gimmicks (like "take a deep breath")?
-- [ ] Does the `SKILL.md` include the universal `<!-- REACTIVE BOOTLOADER -->` with primary `reactive-skills-axi state <skill>` and `reactive-skills-axi emit <skill> <signal>` instructions (never requiring event UUIDs, never bypassing runtime)?
+- [ ] Does the `SKILL.md` include the universal `<!-- REACTIVE BOOTLOADER -->` with primary `npx -y @reactive-skills/axi state <skill>` (or `reactive-skills-axi state <skill>`) and `npx -y @reactive-skills/axi emit <skill> <signal>` instructions (never requiring event UUIDs, never bypassing runtime)?
 - [ ] Did you include an **Atomic Checklist / Anti-Shortcut Gate** within the skill's state prompts (e.g., inside `states/*.md`) so the generated skill holds *itself* accountable?
 - [ ] Does the `STATECHART.md` accurately reflect the actual states and transitions defined in `skill.yaml`? (Failure mode: `STATECHART.md` describes states that don't exist in the YAML).
 - [ ] Are all required directories properly initialized (`states/`, `guards/`, `templates/`)?
