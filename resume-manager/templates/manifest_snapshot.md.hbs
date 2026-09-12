@@ -1,0 +1,17 @@
+# Resume Application Snapshot: {{context.company_name}} - {{context.target_title}}
+
+- **Generated At:** {{timestamp}}
+- **Target Company:** {{context.company_name}}
+- **Target Role:** {{context.target_title}}
+- **Role Track:** {{context.role_track}}
+- **Overqualification / Flight-Risk Calibrated:** {{context.overqualified_risk}}
+- **Calibrated Keywords ({{context.keywords.length}}):**
+{{#each context.keywords}}
+  - {{this}}
+{{/each}}
+
+## Deliverables Generated
+- **Resume Markdown:** `{{context.resume_path}}`
+- **Cover Letter Markdown:** `{{context.cover_letter_path}}`
+- **Company Alignment:** `{{context.alignment_path}}`
+- **Interview Prep:** `{{context.interview_prep_path}}`

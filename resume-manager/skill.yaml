@@ -1,0 +1,274 @@
+schema_version: 2.1.0
+version: 2.2.0
+name: resume-manager
+description: >-
+  Consolidated reactive career management engine. Orchestrates master profile bootstrapping,
+  continuous achievement maintenance, multi-track profile specialization (Senior Technical,
+  Practical Mid-Level, Operations Management, Client Solutions, and Adjacent Industry),
+  and job application tailoring with automated overqualification and anti-flight risk calibration.
+initial_state: INIT
+
+context_keys:
+  - mode
+  - active_profile_id
+  - profiles_dir
+  - master_profile_path
+  - company_name
+  - target_title
+  - role_track
+  - overqualified_risk
+  - calibration_notes
+  - jd_text
+  - keywords
+  - output_dir
+  - resume_path
+  - cover_letter_path
+  - alignment_path
+  - interview_prep_path
+  - new_achievements
+
+default_context:
+  mode: null
+  active_profile_id: "senior_technical"
+  profiles_dir: null
+  master_profile_path: null
+  company_name: null
+  target_title: null
+  role_track: "senior_technical"
+  overqualified_risk: false
+  calibration_notes: null
+  jd_text: null
+  keywords: []
+  output_dir: null
+  resume_path: null
+  cover_letter_path: null
+  alignment_path: null
+  interview_prep_path: null
+  new_achievements: []
+
+states:
+  INIT:
+    description: "Bootloader: Verify reactive runtime environment"
+    prompt_template: states/init.md
+    transitions:
+      RUNTIME_READY:
+        target: SELECT_MODE
+      SETUP_REQUIRED:
+        target: SETUP_MCP
+
+  SETUP_MCP:
+    description: "Auto-configure harness MCP server"
+    prompt_template: states/setup_mcp.md
+    tools:
+      - run_command
+    transitions:
+      SETUP_COMPLETE:
+        target: SELECT_MODE
+        guard: payload.exit_code == 0
+      SETUP_FAILED:
+        target: ERROR
+        guard: payload.exit_code != 0
+
+  SELECT_MODE:
+    description: "Determine operation mode: CUSTOMIZE, MAINTAIN, BOOTSTRAP, or MANAGE_PROFILES"
+    prompt_template: states/select_mode.md
+    tools:
+      - view_file
+      - find_by_name
+    transitions:
+      MODE_CUSTOMIZE:
+        target: INGEST_JD
+      MODE_MAINTAIN:
+        target: INSPECT_PROFILE
+      MODE_BOOTSTRAP:
+        target: PROFILE_BOOTSTRAP
+      MODE_MANAGE_PROFILES:
+        target: MANAGE_PROFILES
+
+  PROFILE_BOOTSTRAP:
+    description: "Structured career history interview for bootstrapping a new master profile"
+    prompt_template: states/profile_bootstrap.md
+    tools:
+      - ask_question
+      - view_file
+    transitions:
+      INTERVIEW_COMPLETE:
+        target: SYNTHESIZE_PROFILES
+      ABORT_BOOTSTRAP:
+        target: SELECT_MODE
+
+  SYNTHESIZE_PROFILES:
+    description: "Synthesize master profile and generate initial multi-track profile archetypes"
+    prompt_template: states/synthesize_profiles.md
+    tools:
+      - write_to_file
+      - view_file
+    transitions:
+      PROFILES_SYNTHESIZED:
+        target: SUCCESS
+
+  INSPECT_PROFILE:
+    description: "Inspect existing master profile and select target track to update"
+    prompt_template: states/inspect_profile.md
+    tools:
+      - view_file
+      - find_by_name
+    transitions:
+      PROFILE_LOADED:
+        target: RECORD_ACCOMPLISHMENT
+      NO_PROFILE_FOUND:
+        target: PROFILE_BOOTSTRAP
+
+  RECORD_ACCOMPLISHMENT:
+    description: "Capture new role, promotion, win, or skill using Google XYZ / CAR formulas"
+    prompt_template: states/record_accomplishment.md
+    tools:
+      - ask_question
+      - view_file
+    transitions:
+      RECORDED:
+        target: PERSIST_PROFILE
+      RECORD_MORE:
+        target: RECORD_ACCOMPLISHMENT
+
+  PERSIST_PROFILE:
+    description: "Persist updated profile records and skill taxonomies to disk"
+    prompt_template: states/persist_profile.md
+    tools:
+      - write_to_file
+      - replace_file_content
+      - view_file
+    transitions:
+      PROFILE_SAVED:
+        target: SUCCESS
+
+  MANAGE_PROFILES:
+    description: "Manage, create, or calibrate multiple specialized profile tracks"
+    prompt_template: states/manage_profiles.md
+    tools:
+      - view_file
+      - write_to_file
+      - ask_question
+    transitions:
+      PROFILES_UPDATED:
+        target: SUCCESS
+      SWITCH_TO_CUSTOMIZE:
+        target: INGEST_JD
+
+  INGEST_JD:
+    description: "Ingest job posting, extract company, title, responsibilities, and detect industry"
+    prompt_template: states/ingest_jd.md
+    tools:
+      - view_file
+      - ask_question
+    transitions:
+      JD_INGESTED:
+        target: PROFILE_SELECTION
+        guard: payload.company_name != null
+
+  PROFILE_SELECTION:
+    description: "Match JD to profile track and evaluate overqualification & flight-risk indicators"
+    prompt_template: states/profile_selection.md
+    tools:
+      - view_file
+      - ask_question
+    transitions:
+      CALIBRATION_REQUIRED:
+        target: CALIBRATE_FRAMING
+        guard: payload.overqualified_risk == true
+      STANDARD_MATCH:
+        target: GAP_ANALYSIS
+        guard: payload.overqualified_risk != true
+
+  CALIBRATE_FRAMING:
+    description: "Calibrate language and intent narrative to avoid intimidating or flighty impressions"
+    prompt_template: states/calibrate_framing.md
+    tools:
+      - view_file
+      - ask_question
+    transitions:
+      FRAMING_CALIBRATED:
+        target: GAP_ANALYSIS
+
+  GAP_ANALYSIS:
+    description: "Calibrate 25-35 role-specific keywords and verify candidate experience"
+    prompt_template: states/gap_analysis.md
+    tools:
+      - view_file
+      - ask_question
+    transitions:
+      ANALYSIS_COMPLETE:
+        target: COMPANY_ALIGNMENT
+
+  COMPANY_ALIGNMENT:
+    description: "Research employer context, role mission, public signals, and conversation angles"
+    prompt_template: states/company_alignment.md
+    tools:
+      - write_to_file
+      - view_file
+    transitions:
+      ALIGNMENT_DRAFTED:
+        target: DRAFTING
+
+  DRAFTING:
+    description: "Draft single-column ATS resume and tailored cover letter adhering to voice and calibration rules"
+    prompt_template: states/drafting.md
+    tools:
+      - write_to_file
+      - view_file
+    transitions:
+      MATERIALS_DRAFTED:
+        target: EXPORTING
+
+  EXPORTING:
+    description: "Export markdown application materials to formatted DOCX and PDF"
+    prompt_template: states/exporting.md
+    tools:
+      - run_command
+      - view_file
+    transitions:
+      EXPORT_COMPLETE:
+        target: INTERVIEW_PREP
+        guard: payload.exit_code == 0
+      EXPORT_FAILED:
+        target: ERROR
+        guard: payload.exit_code != 0
+
+  INTERVIEW_PREP:
+    description: "Generate strategic interview preparation artifact with pre-emptive overqualification defense"
+    prompt_template: states/interview_prep.md
+    tools:
+      - write_to_file
+      - view_file
+    transitions:
+      PREP_GENERATED:
+        target: EVOLVE_PROFILE
+
+  EVOLVE_PROFILE:
+    description: "Propose compounding newly verified skills and sharpened phrasing back to master profiles"
+    prompt_template: states/evolve_profile.md
+    tools:
+      - write_to_file
+      - replace_file_content
+      - view_file
+    transitions:
+      EVOLUTION_COMPLETE:
+        target: SUCCESS
+      SKIP_EVOLUTION:
+        target: SUCCESS
+
+  SUCCESS:
+    description: "Terminal success state with deliverable inventory"
+    prompt_template: states/success.md
+
+  ERROR:
+    description: "Terminal failure state with diagnostic logs"
+    prompt_template: states/error.md
+    tools:
+      - write_to_file
+
+deliverable_projections:
+  - template: templates/manifest_snapshot.md.hbs
+    output: .docs/resume-manager/snapshot.md
+  - template: templates/inventory.json.hbs
+    output: .docs/resume-manager/inventory.json
