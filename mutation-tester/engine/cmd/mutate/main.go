@@ -78,17 +78,26 @@ func main() {
 		}
 		if d.IsDir() {
 			name := d.Name()
-			if name == ".git" || name == "node_modules" || name == "vendor" || name == ".reactive" || name == "dist" || name == "build" {
+			if name == ".git" || name == "node_modules" || name == "vendor" || name == ".reactive" || name == "dist" || name == "build" || name == "target" || name == "bin" || name == "obj" || name == ".pytest_cache" || name == ".nx" {
 				return filepath.SkipDir
 			}
 			return nil
 		}
 
 		ext := filepath.Ext(path)
-		// Multi-language extension check
-		if ext == ".go" || ext == ".ts" || ext == ".js" || ext == ".py" || ext == ".rs" {
-			// Skip test files from mutation
-			if strings.HasSuffix(path, "_test.go") || strings.HasSuffix(path, ".test.ts") || strings.HasSuffix(path, ".test.js") || strings.HasPrefix(d.Name(), "test_") {
+		// Multi-language extension check (Go, TS, JS, Python, Rust, C#, Java)
+		if ext == ".go" || ext == ".ts" || ext == ".js" || ext == ".py" || ext == ".rs" || ext == ".cs" || ext == ".java" {
+			baseName := d.Name()
+			// Skip test and declaration files from mutation
+			if strings.HasSuffix(path, ".d.ts") || strings.HasSuffix(path, ".min.js") ||
+				strings.HasSuffix(path, "_test.go") ||
+				strings.HasSuffix(path, ".test.ts") || strings.HasSuffix(path, ".spec.ts") ||
+				strings.HasSuffix(path, ".test.js") || strings.HasSuffix(path, ".spec.js") ||
+				strings.HasPrefix(baseName, "test_") || strings.HasSuffix(baseName, "_test.py") ||
+				strings.HasSuffix(baseName, "Test.cs") || strings.HasSuffix(baseName, "Tests.cs") ||
+				strings.HasSuffix(baseName, "Test.java") || strings.HasSuffix(baseName, "Tests.java") ||
+				strings.Contains(path, "/tests/") || strings.Contains(path, "\\tests\\") ||
+				strings.Contains(path, "/test/") || strings.Contains(path, "\\test\\") {
 				return nil
 			}
 			filesToScan = append(filesToScan, path)

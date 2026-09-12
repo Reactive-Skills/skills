@@ -172,7 +172,7 @@ func ScanSource(filePath string, source []byte) ([]Mutant, error) {
 			continue
 		}
 
-		// Check return value mutations: "return true" -> "return false"
+		// Check return value mutations: "return true" -> "return false" (Go/TS/JS/Java/C#)
 		if strings.HasPrefix(string(source[i:]), "return true") {
 			afterIdx := i + len("return true")
 			if afterIdx >= n || isBoundaryChar(source[afterIdx]) {
@@ -204,6 +204,46 @@ func ScanSource(filePath string, source []byte) ([]Mutant, error) {
 					MutatedToken:  "return true",
 					Operator:      "ReturnBooleanFlip",
 					Description:   "Substitute 'return false' with 'return true'",
+					StartOffset:   i,
+					EndOffset:     afterIdx,
+				})
+				mutantIndex++
+				continue
+			}
+		}
+
+		// Check Python return value mutations: "return True" -> "return False"
+		if strings.HasPrefix(string(source[i:]), "return True") {
+			afterIdx := i + len("return True")
+			if afterIdx >= n || isBoundaryChar(source[afterIdx]) {
+				mutants = append(mutants, Mutant{
+					ID:            fmt.Sprintf("MUT_%04d", mutantIndex),
+					FilePath:      filePath,
+					LineNumber:    line,
+					ColumnNumber:  col,
+					OriginalToken: "return True",
+					MutatedToken:  "return False",
+					Operator:      "ReturnBooleanFlip",
+					Description:   "Substitute 'return True' with 'return False'",
+					StartOffset:   i,
+					EndOffset:     afterIdx,
+				})
+				mutantIndex++
+				continue
+			}
+		}
+		if strings.HasPrefix(string(source[i:]), "return False") {
+			afterIdx := i + len("return False")
+			if afterIdx >= n || isBoundaryChar(source[afterIdx]) {
+				mutants = append(mutants, Mutant{
+					ID:            fmt.Sprintf("MUT_%04d", mutantIndex),
+					FilePath:      filePath,
+					LineNumber:    line,
+					ColumnNumber:  col,
+					OriginalToken: "return False",
+					MutatedToken:  "return True",
+					Operator:      "ReturnBooleanFlip",
+					Description:   "Substitute 'return False' with 'return True'",
 					StartOffset:   i,
 					EndOffset:     afterIdx,
 				})
