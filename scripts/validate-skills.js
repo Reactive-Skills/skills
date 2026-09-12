@@ -8,7 +8,8 @@
  * 3. Verifies that all referenced prompt_template files (e.g. states/*.md) exist on disk.
  * 4. Verifies that all transition target states exist.
  * 5. Verifies that SKILL.md exists and contains the required universal bootloader (<!-- REACTIVE BOOTLOADER -->).
- * 6. Invokes `npx -y @reactive-skills/axi inspect <skill>` to ensure the runtime FSM engine compiles the statechart.
+ * 6. Checks that README.md exists for human documentation and catalog navigation.
+ * 7. Invokes `npx -y @reactive-skills/axi inspect <skill>` to ensure the runtime FSM engine compiles the statechart.
  *
  * Usage:
  *   node scripts/validate-skills.js               # Validates all skills
@@ -238,7 +239,13 @@ function validateSkill(skill, runRuntimeCheck) {
     }
   }
 
-  // 5. Run runtime inspection via @reactive-skills/axi inspect if enabled
+  // 5. Validate README.md
+  const readmeMdPath = path.join(skill.dir, 'README.md');
+  if (!fs.existsSync(readmeMdPath)) {
+    warnings.push('README.md does not exist in skill directory (recommended for catalog navigation and human readability)');
+  }
+
+  // 6. Run runtime inspection via @reactive-skills/axi inspect if enabled
   if (runRuntimeCheck && errors.length === 0) {
     try {
       const inspectCmd = `npx -y @reactive-skills/axi inspect "${skill.dir}"`;

@@ -5,8 +5,8 @@ Generate an action plan describing what files will be created/modified/deleted.
 
 ## Logic
 Based on `context.operation`:
-- CREATE: list files to scaffold (skill.yaml, SKILL.md, CONTEXT.md, STATECHART.md, states/*.md, guards/.gitkeep, templates/snapshot.md.hbs, templates/inventory.json.hbs)
-- UPDATE: list existing files to modify (MUST include STATECHART.md to keep diagram synced) and new files to add
+- CREATE: list files to scaffold (skill.yaml, SKILL.md, README.md, CONTEXT.md, STATECHART.md, states/*.md, guards/.gitkeep, templates/snapshot.md.hbs, templates/inventory.json.hbs)
+- UPDATE: list existing files to modify (MUST include STATECHART.md to keep diagram synced, and README.md if capabilities or states changed) and new files to add
 - DELETE: list files to remove
 
 ## Output

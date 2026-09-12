@@ -1,4 +1,4 @@
-# Skill Manager — Domain Context
+# Skill Manager â€” Domain Context
 
 Skill Manager is a reactive skill that manages the full lifecycle of skills in the ByteQuilt skills ecosystem.
 
@@ -42,9 +42,9 @@ A Handlebars template rendered from the event stream upon reaching a terminal st
 3. DETECTING: Verify SKILL.md exists, skill.yaml does NOT exist (confirms legacy)
 4. BACKING_UP: Copy entire skill directory to skills/.backup/<skill_name>/<timestamp>/
 5. INFERRING: Parse SKILL.md for phases, numbered steps, or workflow sections. Auto-infer states with >50% confidence. Ask targeted questions if confidence <50%.
-6. PLANNING: Generate migration plan (states/ to create, SKILL.md modifications, guards/, templates/ scaffolding)
+6. PLANNING: Generate migration plan (states/ to create, SKILL.md modifications, README.md creation, guards/, templates/ scaffolding)
 7. APPROVING: Show plan to user, await USER_APPROVED or USER_REJECTED
-8. EXECUTING: Write skill.yaml, split states/, scaffold guards/ and templates/
+8. EXECUTING: Write skill.yaml, README.md, split states/, scaffold guards/ and templates/
 9. VERIFYING: Confirm skill.yaml is valid, all states/ files exist, skill is loadable
 10. ROLLING_BACK: On failure, delete reactive structure, restore from .backup/
 11. PROJECTING: Write migration report to .docs/
@@ -57,9 +57,9 @@ A Handlebars template rendered from the event stream upon reaching a terminal st
 3. DETECTING: Verify skill.yaml exists with schema_version "reactive/v1"
 4. BACKING_UP: Copy entire skill directory to skills/.backup/<skill_name>/<timestamp>/
 5. INSPECTING: Read v1 skill.yaml, compare with v2.0.0 schema, compute delta (new fields, reorganized sections, new event store config)
-6. PLANNING: Generate migration plan (skill.yaml rewrites, states/ reorganization, SQLite init, MCP config)
+6. PLANNING: Generate migration plan (skill.yaml rewrites, states/ reorganization, SQLite init, MCP config, README.md)
 7. APPROVING: Show plan to user, await USER_APPROVED or USER_REJECTED
-8. EXECUTING: Rewrite skill.yaml to v2.0.0, reorganize states/, init SQLite event store, add MCP server config
+8. EXECUTING: Rewrite skill.yaml to v2.0.0, reorganize states/, ensure README.md is present/updated, init SQLite event store, add MCP server config
 9. VERIFYING: Confirm skill.yaml is valid v2.0.0, SQLite initialized, all states/ loadable
 10. ROLLING_BACK: On failure, delete v2.0.0 structure, restore from .backup/
 11. PROJECTING: Write migration report to .docs/

@@ -5,8 +5,8 @@ Perform the file operations according to the approved plan.
 
 ## Tools
 Use a `general` agent or shell commands to:
-- CREATE: mkdir skills/{{context.skill_name}}/, write skill.yaml, SKILL.md, CONTEXT.md, STATECHART.md (with a Mermaid stateDiagram-v2 of the skill.yaml), create states/ with .md files, guards/.gitkeep, and templates/ with .hbs files
-- UPDATE: modify listed files, and ALWAYS update STATECHART.md to reflect any state/transition changes.
+- CREATE: mkdir skills/{{context.skill_name}}/, write skill.yaml, SKILL.md, README.md (with human-facing overview, installation, CLI/MCP usage, and directory layout), CONTEXT.md, STATECHART.md (with a Mermaid stateDiagram-v2 of the skill.yaml), create states/ with .md files, guards/.gitkeep, and templates/ with .hbs files
+- UPDATE: modify listed files, and ALWAYS update STATECHART.md and README.md to reflect any state/transition/capability changes.
 - DELETE: remove skill directory and all files
 
 ## Context Note
@@ -31,6 +31,7 @@ Before completing this execution and emitting `EXECUTED`, you MUST verify your w
 - [ ] Does the `SKILL.md` include the universal `<!-- REACTIVE BOOTLOADER -->` with primary `npx -y @reactive-skills/axi state <skill>` (or `reactive-skills-axi state <skill>`) and `npx -y @reactive-skills/axi emit <skill> <signal>` instructions (never requiring event UUIDs, never bypassing runtime)?
 - [ ] Did you include an **Atomic Checklist / Anti-Shortcut Gate** within the skill's state prompts (e.g., inside `states/*.md`) so the generated skill holds *itself* accountable?
 - [ ] Does the `STATECHART.md` accurately reflect the actual states and transitions defined in `skill.yaml`? (Failure mode: `STATECHART.md` describes states that don't exist in the YAML).
+- [ ] Does the `README.md` provide clear, human-facing documentation with skill overview, installation, CLI/MCP usage commands, and directory structure?
 - [ ] Are all required directories properly initialized (`states/`, `guards/`, `templates/`)?
 
 If you fail any of these criteria, you must correct the generated files before transitioning states.

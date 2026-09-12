@@ -50,7 +50,7 @@ Manages the complete lifecycle of reactive skills using a Hierarchical State Mac
 ### CREATE / UPDATE / DELETE Branch
 1. PLANNING — Generate action plan; for CREATE, collect middleware hook declarations
 2. APPROVING — Pre-COMMIT user approval gate
-3. EXECUTING — Perform file operations; scaffold `runtime/middleware/` for CREATE
+3. EXECUTING — Perform file operations (skill.yaml, SKILL.md, README.md, CONTEXT.md, STATECHART.md, states/, guards/, templates/); scaffold `runtime/middleware/` for CREATE
 4. VERIFYING — Validate operation success
 5. ROLLING_BACK — Best-effort rollback on failure
 
@@ -61,7 +61,7 @@ Manages the complete lifecycle of reactive skills using a Hierarchical State Mac
 4. INSPECTING_REACTIVE — Diff v1 → v2.0.0 schema (MIGRATE_REACTIVE only)
 5. PLANNING_MIGRATE — Generate migration plan
 6. APPROVING_MIGRATE — Pre-COMMIT user approval gate
-7. EXECUTING_MIGRATE — Write reactive structure or upgrade schema
+7. EXECUTING_MIGRATE — Write reactive structure (including README.md) or upgrade schema
 8. VERIFYING_MIGRATE — Validate migrated skill is loadable
 9. RESTORING_MIGRATE — Restore from backup on failure
 
@@ -233,9 +233,10 @@ Context is persisted in SKILL_INITIALIZED payload and rehydrated on subsequent e
 
 ```
 skill-manager/
-├── SKILL.md           # This file
-├── skill.yaml         # HSM statechart manifest (v2.0.0)
-├── CONTEXT.md         # Domain glossary
+├── SKILL.md           # This file (LLM agent instructions & bootloader)
+├── README.md          # Human-facing documentation, catalog overview & usage
+├── skill.yaml         # HSM statechart manifest (v2.1.0)
+├── STATECHART.md      # Visual statechart diagram
 ├── docs/
 │   └── adr/
 │       └── 0001-reactive-skill-schema-v2-migration.md
