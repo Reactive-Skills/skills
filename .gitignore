@@ -7,3 +7,7 @@ Thumbs.db
 tmp/
 *.exe
 bin/
+.docs/
+AUDIT_REPORT.md
+sash-*
+*.scorecard.*
