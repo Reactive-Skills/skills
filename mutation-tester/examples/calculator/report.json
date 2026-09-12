@@ -1,0 +1,62 @@
+{
+  "total_mutants": 4,
+  "killed_mutants": 4,
+  "survived_mutants": 0,
+  "timed_out_mutants": 0,
+  "compile_error_mutants": 0,
+  "mutation_score": 100,
+  "mutants": [
+    {
+      "id": "MUT_0001",
+      "file_path": "calc.go",
+      "line_number": 5,
+      "column_number": 12,
+      "original_token": "+",
+      "mutated_token": "-",
+      "operator": "ArithmeticAdd",
+      "description": "Mutate '+' to '-'",
+      "start_offset": 86,
+      "end_offset": 87,
+      "outcome": "KILLED"
+    },
+    {
+      "id": "MUT_0002",
+      "file_path": "calc.go",
+      "line_number": 10,
+      "column_number": 8,
+      "original_token": "\u003e",
+      "mutated_token": "\u003e=",
+      "operator": "RelationalGreaterThan",
+      "description": "Mutate '\u003e' to '\u003e='",
+      "start_offset": 189,
+      "end_offset": 190,
+      "outcome": "KILLED"
+    },
+    {
+      "id": "MUT_0003",
+      "file_path": "calc.go",
+      "line_number": 11,
+      "column_number": 4,
+      "original_token": "return true",
+      "mutated_token": "return false",
+      "operator": "ReturnBooleanFlip",
+      "description": "Substitute 'return true' with 'return false'",
+      "start_offset": 197,
+      "end_offset": 208,
+      "outcome": "KILLED"
+    },
+    {
+      "id": "MUT_0004",
+      "file_path": "calc.go",
+      "line_number": 13,
+      "column_number": 3,
+      "original_token": "return false",
+      "mutated_token": "return true",
+      "operator": "ReturnBooleanFlip",
+      "description": "Substitute 'return false' with 'return true'",
+      "start_offset": 213,
+      "end_offset": 225,
+      "outcome": "KILLED"
+    }
+  ]
+}
