@@ -15,6 +15,13 @@ A high-level summary of career scope, domain expertise, and core strengths acros
 
 ---
 
+## Voice & Communication Preferences
+- **Preferred Register:** [Direct Practitioner (No Glazing) | Mission & Narrative-Led | Executive & Strategic | Standard Professional]
+- **Anti-Preferences / Custom Rules:** [e.g. "Never flatter or glaze the company in the opening; lead immediately with technical alignment and system mechanics."]
+
+
+---
+
 ## Technical & Professional Skills Taxonomy
 - **Languages:** 
 - **Frameworks & Libraries:** 

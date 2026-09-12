@@ -64,3 +64,20 @@ Application materials should reflect a **Peer-to-Peer Professional Register**:
 ### Addressing Overqualification in Cover Letter
 - ❌ **AI Generated:** *"Although my qualifications may exceed the standard prerequisites for this role, I am eager to humble myself and bring my world-class expertise to your organization."*
 - ✅ **Authentic Human:** *"Having spent years leading high-altitude enterprise software projects, I've found that my greatest day-to-day satisfaction comes from rolling up my sleeves and solving tangible operational problems directly with a focused team. I am specifically looking for a stable, hands-on role where I can contribute dependable execution without getting bogged down in corporate bureaucracy."*
+
+---
+
+## 4. Candidate Voice Profiles & Registers
+
+Different candidates have distinct personal communication styles. During profiling, allow candidates to select or specify their desired voice register:
+
+1. **Direct Practitioner / No Glazing (Default for Technical Profiles):**
+   - **Characteristics:** Cuts all rhetorical preamble, narrative storytelling, and company flattery ("glazing"). Opens immediately with the core technical domain challenge and maps concrete systems/metrics directly to the role requirements.
+   - **Key Invariant:** No praise of the company beyond stating their technical scale or operational constraints. Fact-first.
+2. **Mission & Narrative-Led (Purpose-Driven):**
+   - **Characteristics:** Connects personal motivation and real-world operational purpose with the company's mission. Highlights the human impact of the work (e.g. healthcare, education, safety, public sector) while remaining zero-fluff.
+3. **Executive / Strategic Alignment:**
+   - **Characteristics:** Focuses on business impact, organizational efficiency, team enablement, cost management, and scaling architecture to commercial goals.
+4. **Standard Clean Professional (Default Baseline):**
+   - **Characteristics:** Balanced, polite, direct professional baseline used when no specific preference is expressed. Clean, credible, and free of hype.
+

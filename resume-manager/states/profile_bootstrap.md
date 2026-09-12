@@ -18,8 +18,15 @@ You are interviewing a candidate who does not currently have a Master Experience
    - Architectural or operational hurdles overcome.
    - Leadership, mentorship, or cross-functional coordination.
 2. Collect education, certifications, and portfolio projects.
-3. When career interview is complete, emit `INTERVIEW_COMPLETE`.
-4. If candidate cancels, emit `ABORT_BOOTSTRAP`.
+3. Conduct Socratic Voice & Tone Discovery:
+   - Ask candidate for their preferred cover letter and summary register:
+     - `direct_practitioner`: Fact-first, cuts preamble and flattery, leads with technical/operational mechanics.
+     - `mission_led`: Purpose-driven, connects personal motivation to company mission and human impact.
+     - `executive_strategic`: Focuses on business impact, organizational efficiency, cost management, and commercial scaling.
+     - `standard_professional`: Balanced, polite, credible default.
+   - Record any candidate-specific anti-preferences (banned phrases or buzzwords).
+4. When career interview and voice discovery are complete, emit `INTERVIEW_COMPLETE`.
+5. If candidate cancels, emit `ABORT_BOOTSTRAP`.
 
 ## Atomic Verification Checklist
 - [CRUCIAL] Every recorded achievement contains an explicit metric or quantifiable outcome.

@@ -9,12 +9,14 @@ You are calibrating the application narrative for a role where the candidate's d
 - Title Calibration: Calibrate the headline title to match the target position cleanly rather than broadcasting intimidating executive titles.
 - De-Emphasize Raw Years: Strip out lead-in numbers (e.g., "15+ years of experience"). Convey seasoning through steady judgment, calm execution, and trade-off maturity.
 - Construct the Anti-Flight Risk Intent Narrative: Formulate a compelling, authentic explanation in the cover letter explaining why this specific environment, mission, and hands-on role represent a deliberate, long-term choice.
+- Voice & Register Calibration: Identify candidate's preferred register (`direct_practitioner`, `mission_led`, `executive_strategic`, or `standard_professional`). If `direct_practitioner`, strictly ban company flattery/glazing and narrative preamble.
 
 ## Instructions
 1. Audit candidate experience against target role context.
-2. Generate language translation mappings and intent narrative themes.
-3. Save calibration guidelines into `context.calibration_notes`.
-4. Emit `FRAMING_CALIBRATED` with payload `{"calibration_notes": calibration_notes}`.
+2. Check candidate voice preference from master profile or prompt the candidate.
+3. Generate language translation mappings and intent narrative themes.
+4. Save calibration guidelines into `context.calibration_notes`.
+5. Emit `FRAMING_CALIBRATED` with payload `{"calibration_notes": calibration_notes}`.
 
 ## Atomic Verification Checklist
 - [CRUCIAL] High-altitude tech buzzwords mapped to grounded, accessible business language.
