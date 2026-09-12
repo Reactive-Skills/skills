@@ -96,6 +96,23 @@ npm install -g @reactive-skills/axi
 
 ---
 
+## ✅ Validating Skills
+
+This repository includes a skill validator that performs structural manifest verification, prompt template checks, bootloader presence, and runtime statechart compilation via `@reactive-skills/axi`:
+
+```bash
+# Validate all skills in the repository:
+node scripts/validate-skills.js
+
+# Validate a specific skill:
+node scripts/validate-skills.js mutation-tester
+
+# Or inspect a skill directly via AXI CLI:
+npx -y @reactive-skills/axi inspect mutation-tester
+```
+
+---
+
 ## 🔄 Maintaining the Table of Contents
 
 This repository includes an automated script that scans all `skill.yaml` files and regenerates the Table of Contents in `README.md`:

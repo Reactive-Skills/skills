@@ -38,10 +38,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Run Reactive Skill Validation
-        run: npx -y @reactive-skills/axi validate
+        run: node scripts/validate-skills.js
 
       - name: Verify Table of Contents
         run: node scripts/update-toc.js --check

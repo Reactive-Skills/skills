@@ -22,6 +22,8 @@ skills/<skill-name>/
 
 ## Pull Request Checklist
 
-- [ ] Does `skill.yaml` validate against schema `2.1.0`?
+- [ ] Does `skill.yaml` validate against schema `2.1.0` or `2.2.0`?
 - [ ] Are all referenced state prompt files present in `states/`?
 - [ ] Does `SKILL.md` contain the universal bootloader with `npx -y @reactive-skills/axi`?
+- [ ] Does `node scripts/validate-skills.js` pass with zero errors?
+- [ ] Has `node scripts/update-toc.js` been run to update `README.md`?
