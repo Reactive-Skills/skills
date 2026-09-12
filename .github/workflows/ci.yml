@@ -42,3 +42,6 @@ jobs:
 
       - name: Run Reactive Skill Validation
         run: npx -y @reactive-skills/axi validate
+
+      - name: Verify Table of Contents
+        run: node scripts/update-toc.js --check
