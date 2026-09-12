@@ -1,0 +1,23 @@
+# Mutation Testing Scorecard
+
+- **Target Directory:** `{{context.target_dir}}`
+- **Runner Command:** `{{context.runner_cmd}}`
+- **Differential Scope:** `{{#if context.diff_ref}}{{context.diff_ref}}{{else}}Full Suite{{/if}}`
+
+## Summary Metrics
+
+| Metric | Value |
+| :--- | :--- |
+| **Mutation Score** | **{{context.mutation_score}}%** |
+| Total Mutants | {{context.total_mutants}} |
+| Killed Mutants | {{context.killed_mutants}} |
+| Survived Mutants | {{context.survived_mutants}} |
+| Timed Out | {{context.timed_out_mutants}} |
+| Compile Errors | {{context.compile_error_mutants}} |
+
+## Quality Verdict
+{{#if (gt context.mutation_score 80)}}
+✅ **Strong Test Quality:** Mutation score exceeds 80% threshold.
+{{else}}
+⚠️ **Gaps Detected:** Test suite allowed surviving mutants. Review test coverage and add specific assertions.
+{{/if}}

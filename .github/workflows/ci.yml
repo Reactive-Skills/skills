@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-engine:
+    name: Test Go Mutation Engine
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.22'
+          cache: true
+
+      - name: Run Go Tests
+        run: |
+          if [ -f "go.mod" ]; then
+            go test -v -race ./...
+          elif [ -d "mutation-tester/engine" ]; then
+            cd mutation-tester/engine && go test -v -race ./...
+          fi
+
+  validate-skill:
+    name: Validate Reactive Skills
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run Reactive Skill Validation
+        run: npx -y @reactive-skills/axi validate

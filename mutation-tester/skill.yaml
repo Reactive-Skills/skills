@@ -1,0 +1,132 @@
+schema_version: 2.2.0
+name: mutation-tester
+version: 1.0.0
+description: Technology-agnostic mutation testing reactive skill powered by high-performance Go CLI engine.
+initial_state: READY
+strict_execution: true
+context_keys:
+  - target_dir
+  - runner_cmd
+  - diff_ref
+  - timeout_sec
+  - baseline_passed
+  - total_mutants
+  - killed_mutants
+  - survived_mutants
+  - timed_out_mutants
+  - compile_error_mutants
+  - mutation_score
+  - report_path
+  - exit_code
+default_context:
+  target_dir: "."
+  runner_cmd: null
+  diff_ref: null
+  timeout_sec: 5
+  baseline_passed: false
+  total_mutants: 0
+  killed_mutants: 0
+  survived_mutants: 0
+  timed_out_mutants: 0
+  compile_error_mutants: 0
+  mutation_score: 0
+  report_path: ".docs/mutation-scorecard.md"
+  exit_code: 0
+states:
+  READY:
+    description: Initial intake state, await execution parameters
+    prompt_template: states/ready.md
+    tools:
+      - view_file
+      - run_command
+    transitions:
+      START:
+        target: INSPECTING
+  INSPECTING:
+    description: Auto-detect workspace runner and resolve git-diff line scoping
+    prompt_template: states/inspecting.md
+    tools:
+      - run_command
+      - view_file
+    transitions:
+      CONFIGURED:
+        target: BASELINING
+      INSPECTION_FAILED:
+        target: ERROR
+  BASELINING:
+    description: Run test suite against unmutated code to ensure 100% clean baseline
+    prompt_template: states/baselining.md
+    tools:
+      - run_command
+    transitions:
+      BASELINE_PASSED:
+        target: MUTATING
+        guard: payload.exit_code === 0
+      BASELINE_FAILED:
+        target: ERROR
+        guard: payload.exit_code !== 0
+  MUTATING:
+    description: Synthesize AST/token mutants and apply differential filters
+    prompt_template: states/mutating.md
+    tools:
+      - run_command
+      - view_file
+    transitions:
+      MUTANTS_GENERATED:
+        target: EXECUTING
+      MUTATION_FAILED:
+        target: ERROR
+  EXECUTING:
+    description: Execute test suite across mutants with in-place swap and atomic rollback
+    prompt_template: states/executing.md
+    tools:
+      - run_command
+    transitions:
+      EXECUTION_COMPLETED:
+        target: PROJECTING
+      EXECUTION_FAILED:
+        target: ERROR
+  PROJECTING:
+    description: Calculate mutation scorecard metrics and generate deliverable projections
+    prompt_template: states/projecting.md
+    tools:
+      - view_file
+      - write_to_file
+    transitions:
+      PROJECTIONS_WRITTEN:
+        target: REPORTING
+  REPORTING:
+    description: Present scorecard and surviving mutants review gate to human
+    prompt_template: states/reporting.md
+    human_gate:
+      type: choice
+      tool: ask_question
+      options:
+        - Accept Mutation Score
+        - Remediate Surviving Mutants
+    transitions:
+      USER_ACCEPTED:
+        target: SUCCESS
+      USER_REMEDIATE:
+        target: BASELINING
+  SUCCESS:
+    description: Mutation testing complete with certified scorecard
+    prompt_template: states/success.md
+    transitions:
+      RESET:
+        target: READY
+  ERROR:
+    description: Mutation testing run aborted or failed
+    prompt_template: states/error.md
+    transitions:
+      RETRY:
+        target: READY
+deliverable_projections:
+  - template: templates/mutation_scorecard.md.hbs
+    output: .docs/mutation-scorecard.md
+    trigger_on:
+      - STATE_TRANSITION
+  - template: templates/mutation_report.json.hbs
+    output: .docs/mutation-report.json
+    trigger_on:
+      - STATE_TRANSITION
