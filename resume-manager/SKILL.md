@@ -111,6 +111,7 @@ For customized applications:
 ## References & Assets
 
 - `references/ats-optimization.md` — Empirical ATS rules (single column, keyword calibration, title mirroring).
+- `references/professional-voice-standards.md` — Peer-to-peer anti-AI voice guide, zero em dashes, and cliché elimination.
 - `references/overqualification-and-framing.md` — Framework for down-leveling, non-intimidating phrasing, and anti-flight risk framing.
 - `references/multi-profile-guide.md` — Guidance on maintaining and switching between profile archetypes.
 - `assets/convert_resume.py` — Multi-tier DOCX/PDF export script (Word COM -> Headless Edge -> Pandoc).
