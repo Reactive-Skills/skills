@@ -67,10 +67,10 @@ Defined in [`skill.yaml`](skill.yaml). For full Mermaid state diagrams, see [`ST
 ```
 
 ### CRUD Branch (`CREATE` / `UPDATE` / `DELETE`)
-1. **`PLANNING`**: Synthesizes a structured file action plan. For `CREATE`, determines whether middleware hooks (telemetry, audit, metrics, invariant checkers) are needed.
-2. **`APPROVING`**: Pre-commit approval gate displaying files to create, modify, or delete.
-3. **`EXECUTING`**: Materializes files on disk (`skill.yaml`, `SKILL.md`, `README.md`, `CONTEXT.md`, `STATECHART.md`, `states/`, `guards/`, `templates/`).
-4. **`VERIFYING`**: Validates the new/modified skill with `@reactive-skills/axi inspect` and syntax checks.
+1. **`PLANNING`**: Evaluates intent against the HSM Litmus Test (cross-cutting signals, retry loops, lifecycle invariants). Proposes 2–3 candidate shapes (Flat Pipeline, Flat Iterative Loop, Hierarchical HSM) with a `[RECOMMENDED]` default, and maps out the directory layout (flat `states/*.md` or nested `states/<phase>/*.md`).
+2. **`APPROVING`**: Pre-commit approval gate displaying the chosen shape, architectural rationale, and structured file manifest.
+3. **`EXECUTING`**: Materializes files on disk (`skill.yaml`, `SKILL.md`, `README.md`, `CONTEXT.md`, `STATECHART.md`, `states/**/`, `guards/`, `templates/`), recursively creating subdirectories for composite states.
+4. **`VERIFYING`**: Validates the new/modified skill with `@reactive-skills/axi inspect`, bi-directional hygiene checks (no orphan templates or empty folders), and syntax checks.
 5. **`ROLLING_BACK`**: Atomic cleanup on verification failure before transitioning to `ERROR`.
 
 ### Migration Branch (`MIGRATE_LEGACY` / `MIGRATE_REACTIVE`)
@@ -93,9 +93,9 @@ When `skill-manager` scaffolds a skill (`CREATE` or `MIGRATE_LEGACY`), it strict
 1. **Dual Documentation**:
    - **`SKILL.md`**: Dedicated to the AI agent runtime. Contains YAML frontmatter, strict runtime bootloaders, and step instructions without human exposition.
    - **`README.md`**: Dedicated to human developers, catalog browsing, and GitHub navigation. Contains overview, architecture, installation, and CLI usage.
-2. **Self-Contained State Prompts**: Each state in `states/*.md` specifies exact preconditions, actions, and exit signals.
+2. **Self-Contained State Prompts**: Each state in `states/**/*.md` specifies exact preconditions, actions, and exit signals. Subdirectories (`states/<phase>/`) are supported and encouraged for composite states.
 3. **Anti-Shortcut Atomic Checklists**: Execution and terminal states include checklist rubrics to hold the executing agent accountable.
-4. **Synchronized Statecharts**: `STATECHART.md` is automatically maintained to mirror the exact states and transitions in `skill.yaml`.
+4. **Synchronized Statecharts**: `STATECHART.md` is automatically maintained to mirror the exact states and transitions in `skill.yaml` (including Mermaid `state PARENT { ... }` blocks for composite states).
 
 ---
 

@@ -35,6 +35,29 @@ const IGNORED_DIRS = new Set([
   'tmp'
 ]);
 
+function getFilesAndDirsRecursively(dir) {
+  const files = [];
+  const dirs = [];
+  if (!fs.existsSync(dir)) return { files, dirs };
+
+  function walk(current) {
+    const entries = fs.readdirSync(current, { withFileTypes: true });
+    for (const entry of entries) {
+      const fullPath = path.join(current, entry.name);
+      if (entry.isDirectory()) {
+        dirs.push(fullPath);
+        walk(fullPath);
+      } else if (entry.isFile()) {
+        files.push(fullPath);
+      }
+    }
+  }
+
+  walk(dir);
+  return { files, dirs };
+}
+
+
 function parseYaml(content) {
   let jsYaml = null;
   try {
@@ -189,38 +212,86 @@ function validateSkill(skill, runRuntimeCheck) {
     errors.push('skill.yaml has no states defined under `states:`');
   }
 
-  const stateNames = manifest.states ? Object.keys(manifest.states) : [];
+  const allStateNames = new Set();
+  const referencedTemplates = new Set();
+  const transitionsToCheck = [];
   let transitionCount = 0;
+  let statesCount = 0;
 
-  // 2. Validate initial_state
-  if (manifest.initial_state && !stateNames.includes(manifest.initial_state)) {
-    errors.push(`initial_state "${manifest.initial_state}" is not defined in states`);
-  }
-
-  // 3. Validate states, prompt_templates, and transitions
-  if (manifest.states) {
-    for (const [stateName, stateDef] of Object.entries(manifest.states)) {
+  function registerStates(statesObj, prefix = '') {
+    if (!statesObj || typeof statesObj !== 'object') return;
+    for (const [rawName, stateDef] of Object.entries(statesObj)) {
       if (!stateDef || typeof stateDef !== 'object') continue;
+      const fullName = prefix ? `${prefix}.${rawName}` : rawName;
+      allStateNames.add(fullName);
+      allStateNames.add(rawName);
+      statesCount++;
 
       // Check prompt_template file existence
       if (stateDef.prompt_template) {
         const tmplPath = path.resolve(skill.dir, stateDef.prompt_template);
+        referencedTemplates.add(tmplPath);
         if (!fs.existsSync(tmplPath)) {
-          errors.push(`State "${stateName}" references prompt_template "${stateDef.prompt_template}", but file does not exist at ${tmplPath}`);
+          errors.push(`State "${fullName}" references prompt_template "${stateDef.prompt_template}", but file does not exist at ${tmplPath}`);
         }
       }
 
-      // Check transitions
+      // Collect transitions
       if (stateDef.transitions && typeof stateDef.transitions === 'object') {
         for (const [signal, trans] of Object.entries(stateDef.transitions)) {
           transitionCount++;
           const target = typeof trans === 'string' ? trans : trans?.target;
-          if (!target) {
-            errors.push(`State "${stateName}" transition on signal "${signal}" has no target state`);
-          } else if (!stateNames.includes(target)) {
-            errors.push(`State "${stateName}" transition on signal "${signal}" targets unknown state "${target}"`);
-          }
+          transitionsToCheck.push({ stateName: fullName, signal, target });
         }
+      }
+
+      // Check for nested composite states
+      if (stateDef.states && typeof stateDef.states === 'object') {
+        registerStates(stateDef.states, fullName);
+      }
+    }
+  }
+
+  if (manifest.states) {
+    registerStates(manifest.states);
+  }
+
+  // 2. Validate initial_state
+  if (manifest.initial_state && !allStateNames.has(manifest.initial_state)) {
+    errors.push(`initial_state "${manifest.initial_state}" is not defined in states`);
+  }
+
+  // 3. Validate transition targets
+  for (const { stateName, signal, target } of transitionsToCheck) {
+    if (!target) {
+      errors.push(`State "${stateName}" transition on signal "${signal}" has no target state`);
+    } else if (!allStateNames.has(target)) {
+      errors.push(`State "${stateName}" transition on signal "${signal}" targets unknown state "${target}"`);
+    }
+  }
+
+  // 3b. Reverse Hygiene Checks: Orphan files & empty directories in states/
+  const statesDir = path.join(skill.dir, 'states');
+  if (fs.existsSync(statesDir)) {
+    const { files: diskStateFiles, dirs: diskStateDirs } = getFilesAndDirsRecursively(statesDir);
+
+    // Check for orphan prompt templates (files under states/ not referenced in skill.yaml)
+    for (const file of diskStateFiles) {
+      if (file.endsWith('.md')) {
+        const resolvedPath = path.resolve(file);
+        if (!referencedTemplates.has(resolvedPath)) {
+          const relPath = path.relative(skill.dir, file).replace(/\\/g, '/');
+          warnings.push(`Orphan prompt template detected: "${relPath}" is not referenced in skill.yaml (dead code)`);
+        }
+      }
+    }
+
+    // Check for empty directories under states/
+    for (const dir of diskStateDirs) {
+      const contents = fs.readdirSync(dir);
+      if (contents.length === 0) {
+        const relDir = path.relative(skill.dir, dir).replace(/\\/g, '/');
+        warnings.push(`Empty directory detected: "${relDir}" under states/`);
       }
     }
   }
@@ -277,7 +348,7 @@ function validateSkill(skill, runRuntimeCheck) {
       name: manifest?.name || skill.name,
       version: manifest?.version || 'unknown',
       schemaVersion: manifest?.schema_version || 'unknown',
-      statesCount: stateNames.length,
+      statesCount: statesCount,
       transitionCount
     }
   };
