@@ -42,6 +42,7 @@ npx skills add Reactive-Skills/skills
 | Skill | Version | Schema | Description |
 | :--- | :--- | :--- | :--- |
 | [`mutation-tester`](mutation-tester/) | `v1.0.0` | `v2.2.0` | Technology-agnostic mutation testing reactive skill powered by high-performance Go CLI engine. |
+| [`product-manager`](product-manager/) | `v1.0.0` | `v2.1.0` | Event-driven product management and opportunity realization engine. Orchestrates opportunity discovery & worthwhileness research (new green-field projects vs existing product feature enhancements), strategic goal alignment, SMART requirement scoping, Eisenhower matrix prioritization, and lean vertical slice architecture. |
 | [`resume-manager`](resume-manager/) | `v2.2.0` | `v2.1.0` | Consolidated reactive career management engine. Orchestrates master profile bootstrapping, continuous achievement maintenance, multi-track profile specialization (Senior Technical, Practical Mid-Level, Operations Management, Client Solutions, and Adjacent Industry), and job application tailoring with automated overqualification and anti-flight risk calibration. |
 | [`skill-manager`](skill-manager/) | `v1.0.0` | `v2.1.0` | Full CRUD lifecycle management for reactive skills - CREATE UPDATE DELETE MIGRATE_LEGACY and MIGRATE_REACTIVE with pre-COMMIT approval best-effort rollback and manifest snapshot projection |
 

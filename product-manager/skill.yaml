@@ -1,0 +1,224 @@
+schema_version: 2.1.0
+version: 1.0.0
+name: product-manager
+description: >-
+  Event-driven product management and opportunity realization engine. Orchestrates
+  opportunity discovery & worthwhileness research (new green-field projects vs
+  existing product feature enhancements), strategic goal alignment, SMART requirement
+  scoping, Eisenhower matrix prioritization, and lean vertical slice architecture.
+initial_state: INIT
+
+context_keys:
+  - product_name
+  - opportunity_type
+  - target_persona
+  - problem_statement
+  - worthwhileness_score
+  - strategic_goals
+  - anti_goals
+  - tested_requirements
+  - smart_requirements
+  - eisenhower_matrix
+  - vertical_slices
+  - mvp_slice_ids
+  - output_dir
+  - spec_path
+  - matrix_path
+
+default_context:
+  product_name: null
+  opportunity_type: null
+  target_persona: null
+  problem_statement: null
+  worthwhileness_score: null
+  strategic_goals: []
+  anti_goals: []
+  tested_requirements: []
+  smart_requirements: []
+  eisenhower_matrix:
+    q1_do_now: []
+    q2_schedule: []
+    q3_delegate: []
+    q4_defer_reject: []
+  vertical_slices: []
+  mvp_slice_ids: []
+  output_dir: null
+  spec_path: null
+  matrix_path: null
+
+states:
+  INIT:
+    description: "Bootloader: Verify reactive runtime environment"
+    prompt_template: states/init.md
+    transitions:
+      RUNTIME_READY:
+        target: SELECT_OPPORTUNITY_TYPE
+      SETUP_REQUIRED:
+        target: SETUP_RUNTIME
+
+  SETUP_RUNTIME:
+    description: "Auto-configure harness MCP server or reactive CLI"
+    prompt_template: states/setup_runtime.md
+    tools:
+      - run_command
+    transitions:
+      SETUP_COMPLETE:
+        target: SELECT_OPPORTUNITY_TYPE
+        guard: payload.exit_code == 0
+      SETUP_FAILED:
+        target: ERROR
+        guard: payload.exit_code != 0
+
+  SELECT_OPPORTUNITY_TYPE:
+    description: "Classify opportunity: NEW_PRODUCT (green-field) vs PRODUCT_ENHANCEMENT (existing product feature)"
+    prompt_template: states/select_opportunity_type.md
+    tools:
+      - ask_question
+      - view_file
+      - list_dir
+    transitions:
+      OPPORTUNITY_SELECTED:
+        target: RESEARCH_DISCOVERY
+        guard: context.opportunity_type != null
+
+  RESEARCH_DISCOVERY:
+    description: "Investigate problem space, target persona, market/user evidence, and competitive landscape"
+    prompt_template: states/research_discovery.md
+    tools:
+      - search_web
+      - read_url_content
+      - view_file
+      - grep_search
+      - ask_question
+    transitions:
+      DISCOVERY_COMPLETED:
+        target: VALIDATE_WORTHWHILENESS
+      PIVOT_INTAKE:
+        target: SELECT_OPPORTUNITY_TYPE
+
+  VALIDATE_WORTHWHILENESS:
+    description: "Assess Desirability, Feasibility, Viability, and Defensibility to verify if pursuit is worthwhile"
+    prompt_template: states/validate_worthwhileness.md
+    tools:
+      - ask_question
+      - view_file
+    transitions:
+      WORTHWHILE_CONFIRMED:
+        target: ALIGN_GOALS
+      WORTHWHILE_DOUBTFUL:
+        target: REVIEW_GATE
+
+  ALIGN_GOALS:
+    description: "Align product outcomes with overarching strategic vision, North Star metric, and explicit anti-goals"
+    prompt_template: states/align_goals.md
+    tools:
+      - view_file
+      - write_to_file
+      - ask_question
+    transitions:
+      GOALS_ALIGNED:
+        target: GATHER_TEST_REQUIREMENTS
+      REALIGN_RESEARCH:
+        target: RESEARCH_DISCOVERY
+
+  GATHER_TEST_REQUIREMENTS:
+    description: "Gather functional and non-functional requirements and test them with falsification checks"
+    prompt_template: states/gather_test_requirements.md
+    tools:
+      - ask_question
+      - view_file
+      - grep_search
+    transitions:
+      REQUIREMENTS_TESTED:
+        target: FORMULATE_SMART
+      REVISE_GOALS:
+        target: ALIGN_GOALS
+
+  FORMULATE_SMART:
+    description: "Scope vetted requirements into Specific, Measurable, Achievable, Relevant, and Time-bound specifications"
+    prompt_template: states/formulate_smart.md
+    tools:
+      - view_file
+      - write_to_file
+      - ask_question
+    transitions:
+      SMART_SCOPED:
+        target: EISENHOWER_PRIORITIZATION
+      REFINE_REQUIREMENTS:
+        target: GATHER_TEST_REQUIREMENTS
+
+  EISENHOWER_PRIORITIZATION:
+    description: "Prioritize scope using Eisenhower Matrix: Q1 Do Now, Q2 Schedule, Q3 Delegate/Ops, Q4 Defer/Reject"
+    prompt_template: states/eisenhower_prioritize.md
+    tools:
+      - ask_question
+      - view_file
+      - write_to_file
+    transitions:
+      PRIORITIZATION_COMPLETE:
+        target: VERTICAL_SLICING
+      REVISE_SCOPE:
+        target: FORMULATE_SMART
+
+  VERTICAL_SLICING:
+    description: "Decompose prioritized scope into end-to-end deliverable vertical slices and define MVP boundary"
+    prompt_template: states/vertical_slicing.md
+    tools:
+      - view_file
+      - write_to_file
+      - ask_question
+    transitions:
+      SLICES_DECOMPOSED:
+        target: REVIEW_GATE
+      REVISE_PRIORITIES:
+        target: EISENHOWER_PRIORITIZATION
+
+  REVIEW_GATE:
+    description: "Human Gate: Review and approve consolidated Lean Product Charter, Eisenhower Matrix, and Slices"
+    prompt_template: states/review_gate.md
+    human_gate:
+      type: choice
+      tool: ask_question
+      options:
+        - Approve Product Slices & Prioritization
+        - Revise Vertical Slices
+        - Revise Eisenhower Prioritization
+        - Abort Opportunity
+    transitions:
+      USER_APPROVED:
+        target: PROJECTING
+      REVISE_SLICES:
+        target: VERTICAL_SLICING
+      REVISE_PRIORITIES:
+        target: EISENHOWER_PRIORITIZATION
+      ABORT:
+        target: ERROR
+
+  PROJECTING:
+    description: "Render and write deliverable markdown specs, matrices, and catalog inventory"
+    prompt_template: states/projecting.md
+    tools:
+      - write_to_file
+      - view_file
+    transitions:
+      PROJECTED:
+        target: SUCCESS
+
+  SUCCESS:
+    description: "Terminal success state summarizing approved product slices and execution handover"
+    prompt_template: states/success.md
+
+  ERROR:
+    description: "Terminal error state with diagnostic logs and triage instructions"
+    prompt_template: states/error.md
+    tools:
+      - write_to_file
+
+deliverable_projections:
+  - template: templates/product_spec.md.hbs
+    output: .docs/product-manager/{{context.product_name}}-spec.md
+  - template: templates/eisenhower_matrix.md.hbs
+    output: .docs/product-manager/{{context.product_name}}-eisenhower.md
+  - template: templates/inventory.json.hbs
+    output: .docs/product-manager/inventory.json
+    table: product_inventory

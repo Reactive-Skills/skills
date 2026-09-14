@@ -1,0 +1,28 @@
+# Eisenhower Prioritization Matrix: {{product_name}}
+
+**Generated At**: {{timestamp}}  
+
+---
+
+## 4-Quadrant Matrix
+
+| Quadrant | Focus | Requirements | Triage Rationale |
+|---|---|---|---|
+| **Q1: Do Now** | *Urgent & Important* (Core MVP & Critical Path) | {{#if eisenhower_matrix.q1_do_now}}{{#each eisenhower_matrix.q1_do_now}}• `{{id}}` - {{title}}<br>{{/each}}{{else}}*None*{{/if}} | Non-negotiable capabilities forming the walking skeleton and foundational MVP. |
+| **Q2: Schedule** | *Important, Not Urgent* (Quality, Depth, Post-MVP) | {{#if eisenhower_matrix.q2_schedule}}{{#each eisenhower_matrix.q2_schedule}}• `{{id}}` - {{title}}<br>{{/each}}{{else}}*None*{{/if}} | Differentiators, edge-case hardening, performance, and secondary flows. |
+| **Q3: Delegate** | *Urgent, Less Important* (Tooling, Automation, Ops) | {{#if eisenhower_matrix.q3_delegate}}{{#each eisenhower_matrix.q3_delegate}}• `{{id}}` - {{title}}<br>{{/each}}{{else}}*None*{{/if}} | Tactical friction reducers, scaffolding, or low-complexity ops automation. |
+| **Q4: Defer / Reject** | *Neither Urgent nor Important* (Cut Log) | {{#if eisenhower_matrix.q4_defer_reject}}{{#each eisenhower_matrix.q4_defer_reject}}• `{{id}}` - {{title}}<br>{{/each}}{{else}}*None*{{/if}} | Explicitly cut to protect team bandwidth and avoid scope creep. |
+
+---
+
+## Cut Log & Rejection Rationale
+
+{{#if eisenhower_matrix.q4_defer_reject}}
+| Requirement ID | Title | Reason for Cut / Deferral |
+|---|---|---|
+{{#each eisenhower_matrix.q4_defer_reject}}
+| `{{id}}` | **{{title}}** | {{rationale}} |
+{{/each}}
+{{else}}
+*No features currently in cut log.*
+{{/if}}

@@ -1,0 +1,81 @@
+# Lean Product Specification: {{product_name}}
+
+**Opportunity Type**: {{opportunity_type}}  
+**Worthwhileness Score**: {{worthwhileness_score}} / 5.0  
+**Generated At**: {{timestamp}}  
+
+---
+
+## 1. Executive Summary & Problem Space
+
+### Problem Statement
+{{problem_statement}}
+
+### Target Persona / ICP
+{{target_persona}}
+
+---
+
+## 2. Strategic Alignment & Anti-Goals
+
+### Strategic Goals & OKRs
+{{#if strategic_goals}}
+{{#each strategic_goals}}
+- **{{objective}}**: Target: `{{target_metric}}` (Timeframe: {{timeframe}})
+{{/each}}
+{{else}}
+- *No strategic goals recorded.*
+{{/if}}
+
+### Explicit Anti-Goals ("What We Are NOT Doing")
+{{#if anti_goals}}
+{{#each anti_goals}}
+- 🛑 {{this}}
+{{/each}}
+{{else}}
+- *No anti-goals recorded.*
+{{/if}}
+
+---
+
+## 3. SMART Requirements
+
+{{#if smart_requirements}}
+| ID | Requirement Title | Specific Behavior | Measurable (Acceptance Test) | Relevant Goal | Sequence |
+|---|---|---|---|---|---|
+{{#each smart_requirements}}
+| `{{id}}` | **{{title}}** | {{specific}} | `{{measurable}}` | {{relevant_goal}} | {{time_sequence}} |
+{{/each}}
+{{else}}
+*No SMART requirements recorded.*
+{{/if}}
+
+---
+
+## 4. Vertical Slice Architecture
+
+{{#if vertical_slices}}
+{{#each vertical_slices}}
+### Slice `{{id}}`: {{title}}
+- **User Value**: {{user_value}}
+- **Scope**:
+  - *In Scope*: {{in_scope}}
+  - *Out of Scope*: {{out_of_scope}}
+- **Layer Touchpoints**: {{layer_touchpoints}}
+- **Dependencies**: {{#if dependencies}}{{dependencies}}{{else}}None (Foundation){{/if}}
+- **Acceptance Criteria**:
+  ```gherkin
+  {{acceptance_criteria}}
+  ```
+- **Verification Script**: `{{verification_script}}`
+
+---
+{{/each}}
+{{else}}
+*No vertical slices decomposed.*
+{{/if}}
+
+## 5. MVP Boundary & Delivery Roadmap
+
+- **Approved MVP Slices**: `{{mvp_slice_ids}}`
+- **Post-MVP Increments**: Slices scheduled for subsequent iterations once MVP validation metrics are reached.
