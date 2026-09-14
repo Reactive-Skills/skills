@@ -46,10 +46,55 @@ Produce `plan` object with:
 - `operation`: CREATE | UPDATE | DELETE
 - `skill_name`: context.skill_name
 - `shape`: `flat_pipeline` | `iterative_loop` | `hierarchical_hsm`
+- `skill_type`: `tool` | `agent` | `workflow` | `orchestrator` | `data_pipeline` | `domain_model`
 - `shape_rationale`: Rationale explaining the chosen architecture
 - `files_to_create`: array of paths (including nested paths if hierarchical)
 - `files_to_modify`: array of paths
 - `files_to_delete`: array of paths
+- `red_phase`: optional, included only when `context.red_phase === true`
+
+## RED Phase Integration (Optional)
+When `context.red_phase === true`, run the RED (Requirements Engineering & Discovery) phase before architectural shape selection:
+
+### Step 1: Skill Type Classification
+Classify the skill into one of these types to inform scaffolding decisions:
+
+| Type | Characteristics | Typical Shape | Middleware Concerns |
+|------|----------------|---------------|-------------------|
+| **`tool`** | Single-purpose utility, deterministic output, no human-in-loop | Flat Pipeline | Telemetry only; no invariant checks needed |
+| **`agent`** | Conversational, multi-turn, requires judgment, may pause for input | Flat Iterative Loop or Hierarchical HSM | Context sanitizer essential; invariant rules for safety |
+| **`workflow`** | Multi-step process with approval gates, retries, escalation paths | Hierarchical HSM | Audit + invariant_checker + telemetry |
+| **`orchestrator`** | Coordinates multiple sub-skills or external systems, event-driven | Hierarchical HSM with composite states | All hooks: telemetry, audit, metrics, invariant_checker, context_sanitizer |
+| **`data_pipeline`** | ETL/ELT stages, batch or streaming, idempotent retries | Flat Iterative Loop | Metrics essential; invariant rules for data integrity |
+| **`domain_model`** | Encapsulates domain logic, rules engine, inference | Flat Pipeline or Hierarchical HSM | Invariant_checker critical; audit for rule changes |
+
+Classification rules:
+- If the skill invokes external APIs or coordinates multiple systems → `orchestrator`
+- If the skill processes data in stages with retries → `data_pipeline`
+- If the skill makes judgments, gives advice, or has conversational turns → `agent`
+- If the skill has explicit approval gates or escalation → `workflow`
+- If the skill encapsulates rules or domain logic → `domain_model`
+- Otherwise → `tool`
+
+### Step 2: RED Requirements Elicitation
+When `context.red_phase === true`, ask targeted discovery questions before finalizing the plan:
+
+1. **Domain boundaries**: What are the explicit invariants and edge cases this skill must never violate?
+2. **Failure modes**: What happens when an external dependency is unavailable? Retry, fail-fast, or degrade gracefully?
+3. **Secrets surface**: Does this skill ever receive or process credentials, tokens, or PII?
+4. **Human-in-loop**: At which exact steps does the skill pause for user input or approval?
+5. **Observability**: Which transitions, durations, and error rates must be measurable in production?
+6. **Concurrency**: Can multiple instances run simultaneously? Is there shared mutable state?
+
+Record answers in `plan.red_phase_findings` as an object with keys matching the questions above.
+
+### Step 3: RED-Gate Validation
+Before emitting `PLAN_READY`, verify:
+- [ ] Skill type is classified and matches the selected architectural shape
+- [ ] If `red_phase` was requested, all 6 discovery questions have answers recorded
+- [ ] Middleware hook declarations (if any) align with the skill type classification
+- [ ] If `skill_type` is `agent` or `orchestrator`, `context_sanitizer` is declared when secrets are present
+- [ ] If `skill_type` is `workflow` or `orchestrator`, `audit` hook is declared
 
 ## Stop Criteria
 Plan complete. Emit `PLAN_READY`.

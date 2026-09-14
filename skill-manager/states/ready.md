@@ -10,6 +10,7 @@ Wait for user or event to provide skill_name and operation.
 - `context.migrate_mode` — optional: AUTO_INFER or GRILL_ON_AMBIGUITY (for MIGRATE_LEGACY)
 - `context.source_version` — optional: defaults to "reactive/v1" (for MIGRATE_REACTIVE)
 - `context.target_version` — optional: defaults to "2.0.0" (for MIGRATE_REACTIVE)
+- `context.red_phase` — optional: when true, enables RED (Requirements Engineering & Discovery) phase integration during PLANNING for skills that need pre-design validation, domain discovery, or requirements elicitation before architectural scaffolding
 
 ## Tools
 - read (to inspect existing skill if needed)

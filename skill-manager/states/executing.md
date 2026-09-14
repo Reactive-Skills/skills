@@ -50,6 +50,33 @@ Before completing this execution and emitting `EXECUTED`, you MUST verify your w
   - Does `STATECHART.md` accurately mirror `skill.yaml` states, transitions, and guards?
   - If hierarchical, does `STATECHART.md` display composite states (`state PARENT { ... }`) and bubble-up transitions?
 - [ ] **Hygiene Gate Verification**:
-  - Run `node scripts/validate-skills.js {{context.skill_name}}` — does it report `✅ VALID` with zero errors and zero warnings?
+  - Run `node ../scripts/validate-skills.js {{context.skill_name}}` — does it report `✅ VALID` with zero errors and zero warnings?
+
+### SDO & Form-Matching Standards
+- [ ] **SDO Conformance**: Does `skill.yaml` declare all required top-level fields (`schema_version`, `name`, `version`, `initial_state`, `states`) with correct types?
+- [ ] **Context Key Declaration**: Are all context variables referenced in guards or state prompts declared under `context_keys` in `skill.yaml`?
+- [ ] **Guard Syntax Validation**: Are all guard expressions valid JavaScript (not Python)? Check for `!= null`, `!== null`, `||`, `&&` usage.
+- [ ] **Transition Signal Consistency**: Do all transition signal names match between `skill.yaml` declarations and the `Emit:` directives in corresponding `states/*.md` files?
+- [ ] **Prompt Template Path Alignment**: Do all `prompt_template` paths in `skill.yaml` resolve to actual files relative to the skill directory?
+- [ ] **Deliverable Projection Templates**: Do `templates/*.hbs` files use only declared context variables and plan fields? No undefined Handlebars helpers.
+
+### Token Efficiency Standards
+- [ ] **State Prompt Brevity**: Is each `states/*.md` file under 200 words? (Verify with `wc -w` or PowerShell `($content -split '\s+').Count`)
+- [ ] **JIT Loading Readiness**: Are state prompts structured for Just-In-Time loading (focused, single-responsibility, no cross-state dependencies inlined)?
+- [ ] **Bootloader Overhead**: Does `SKILL.md` bootloader section stay under 50 lines? (Excluding metadata frontmatter)
+- [ ] **No Duplicate Instructions**: Do sibling state prompts avoid re-declaring logic already in `SKILL.md` or `CONTEXT.md`?
+
+### Cross-Reference Standards
+- [ ] **SKILL.md ↔ README.md Alignment**: Does `README.md` accurately reflect the operations, states, and capabilities declared in `SKILL.md`?
+- [ ] **CONTEXT.md ↔ skill.yaml Alignment**: Does `CONTEXT.md` document all schema versions and operations actually supported by `skill.yaml`?
+- [ ] **STATECHART.md ↔ skill.yaml Alignment**: Does the Mermaid diagram in `STATECHART.md` include ALL states and transitions from `skill.yaml` (no omissions, no extras)?
+- [ ] **README.md Directory Layout ↔ Disk**: Does the directory tree shown in `README.md` match the actual on-disk structure?
+- [ ] **Migration Branch Documentation**: If the skill supports MIGRATE_LEGACY or MIGRATE_REACTIVE, do both `SKILL.md` and `README.md` document the full migration flow?
+
+### RED Phase Standards (only when `context.red_phase === true`)
+- [ ] **Skill Type Classification**: Is `plan.skill_type` set to one of: `tool` | `agent` | `workflow` | `orchestrator` | `data_pipeline` | `domain_model`?
+- [ ] **RED Findings Recorded**: Does `plan.red_phase_findings` contain answers to all 6 discovery questions?
+- [ ] **Middleware Alignment**: Do declared middleware hooks match the skill type? (e.g., `agent` requires `context_sanitizer` if secrets present; `orchestrator` requires all hooks)
+- [ ] **RED-Gate Checklist**: Did the PLANNING state complete the RED-Gate validation checklist before emitting `PLAN_READY`?
 
 If you fail any of these criteria, you must correct the generated files before transitioning states.

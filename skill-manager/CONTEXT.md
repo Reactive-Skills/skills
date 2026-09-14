@@ -13,6 +13,15 @@ A skill with a skill.yaml (schema_version: "reactive/v1"), a states/ directory o
 **Reactive Skill (v2)**:
 A reactive skill with schema_version "2.0.0", SQLite event store, MCP server integration, and Just-In-Time prompt loading (~70% token reduction vs v1). Introduces composite states, Zod-validated guards, and live deliverable projections from the event stream.
 
+**Skill Type**:
+A classification of a reactive skill's domain and operational characteristics. Skill types inform architectural shape selection, middleware hook requirements, and verification criteria during the PLANNING phase. Types are: `tool`, `agent`, `workflow`, `orchestrator`, `data_pipeline`, `domain_model`.
+
+**RED Phase**:
+An optional pre-design requirements engineering phase enabled via `context.red_phase === true`. Runs during PLANNING to elicit domain boundaries, failure modes, secrets surface, human-in-loop checkpoints, observability needs, and concurrency considerations before architectural scaffolding begins.
+
+**Guard Circumvention Testing**:
+A verification methodology in the VERIFYING state that validates guards actually block unauthorized transitions. Uses static guard analysis plus runtime payload injection to confirm violating payloads are rejected and satisfying payloads are accepted.
+
 **Operation**:
 One of CREATE, UPDATE, DELETE, MIGRATE_LEGACY, MIGRATE_REACTIVE. The operation determines which branch of the state machine executes.
 
@@ -83,3 +92,22 @@ The reactive-skills MCP server exposes a reactive_migrate tool. The skill-manage
 |---------|---------------------|--------------|
 | v1 | "reactive/v1" | HSM, signal bus, isolated states, guards, projections |
 | v2.0.0 | "2.0.0" | +SQLite event store, MCP server, JIT prompts, composite states, Zod guards |
+
+## Skill Type Taxonomy
+
+| Type | Characteristics | Typical Shape | Middleware Concerns |
+|------|----------------|---------------|-------------------|
+| **`tool`** | Single-purpose utility, deterministic output, no human-in-loop | Flat Pipeline | Telemetry only; no invariant checks needed |
+| **`agent`** | Conversational, multi-turn, requires judgment, may pause for input | Flat Iterative Loop or Hierarchical HSM | Context sanitizer essential; invariant rules for safety |
+| **`workflow`** | Multi-step process with approval gates, retries, escalation paths | Hierarchical HSM | Audit + invariant_checker + telemetry |
+| **`orchestrator`** | Coordinates multiple sub-skills or external systems, event-driven | Hierarchical HSM with composite states | All hooks: telemetry, audit, metrics, invariant_checker, context_sanitizer |
+| **`data_pipeline`** | ETL/ELT stages, batch or streaming, idempotent retries | Flat Iterative Loop | Metrics essential; invariant rules for data integrity |
+| **`domain_model`** | Encapsulates domain logic, rules engine, inference | Flat Pipeline or Hierarchical HSM | Invariant_checker critical; audit for rule changes |
+
+Classification rules:
+- If the skill invokes external APIs or coordinates multiple systems → `orchestrator`
+- If the skill processes data in stages with retries → `data_pipeline`
+- If the skill makes judgments, gives advice, or has conversational turns → `agent`
+- If the skill has explicit approval gates or escalation → `workflow`
+- If the skill encapsulates rules or domain logic → `domain_model`
+- Otherwise → `tool`
