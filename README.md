@@ -9,6 +9,7 @@
 - [📥 Installation](#-installation)
 - [📋 Available Skills Catalog](#-available-skills-catalog)
 - [🔍 Skills Overview](#-skills-overview)
+  - [`jsm-workflow`](#jsm-workflow)
   - [`mutation-tester`](#mutation-tester)
   - [`resume-manager`](#resume-manager)
   - [`skill-manager`](#skill-manager)
@@ -25,6 +26,7 @@ Install any skill directly into your agent environment using `skills.sh` (`npx s
 
 ```bash
 # Install a specific skill
+npx skills add Reactive-Skills/skills --skill jsm-workflow
 npx skills add Reactive-Skills/skills --skill mutation-tester
 npx skills add Reactive-Skills/skills --skill resume-manager
 npx skills add Reactive-Skills/skills --skill skill-manager
@@ -45,6 +47,7 @@ npx skills add Reactive-Skills/skills
 | [`browser-verifier`](browser-verifier/) | `v1.0.0` | `v2.0.0` | Automated browser verification reactive skill that launches headless browser sessions, verifies DOM states, intercepts console errors, and captures visual artifacts. |
 | [`ci-cd-automation`](ci-cd-automation/) | `v1.0.0` | `v2.0.0` | Automated CI/CD pipeline generator and linter that scaffolds production-ready workflows with caching, matrix builds, and security gates. |
 | [`docs-architect`](docs-architect/) | `v1.0.0` | `v2.0.0` | Documentation architecture workflow that discovers source truth, designs information architecture, authors living documentation, embeds diagrams, validates links, and gates publication. |
+| [`jsm-workflow`](jsm-workflow/) | `v1.0.0` | `v2.1.0` | Reactive SDLC coordinator for taking one software change from intake to final context sync. |
 | [`mutation-tester`](mutation-tester/) | `v1.0.0` | `v2.2.0` | Technology-agnostic mutation testing reactive skill powered by high-performance Go CLI engine. |
 | [`onboarding-map`](onboarding-map/) | `v1.0.0` | `vreactive/v2.0.0` | Codebase onboarding workflow: intake role and scope, scan architecture and ownership, map modules and dependencies, design a personalized learning path, review with stakeholders, and approve completion. |
 | [`pr-triage`](pr-triage/) | `v1.0.0` | `v2.0.0` | Pull request triage workflow that collects PR metadata, classifies risk and ownership, assesses readiness, routes work, and pauses at a human disposition gate. |
@@ -61,6 +64,18 @@ npx skills add Reactive-Skills/skills
 ---
 
 ## 🔍 Skills Overview
+
+### `jsm-workflow`
+- **Directory**: [`jsm-workflow/`](jsm-workflow/)
+- **Version**: `1.0.0` | **Schema**: `skill.yaml v2.1.0`
+- **Attribution**: Based on the [Engineering Workflow Skills](https://jsmastery.com/skills) by Adrian Hajdin / JS Mastery.
+- **Capabilities**:
+  - Full-lifecycle reactive SDLC orchestrator across 5 primary states and 11 distinct operational phases (`intake`, `scope`, `architect`, `audit`, `develop`, `verify`, `test`, `debug`, `review`, `document`, and `sync`).
+  - Strict "Asks vs Acts" boundary ensuring load-bearing architectural and tier decisions are resolved through interactive consultation before code generation.
+  - Input Coverage Test enforcement — ensures every runtime value has a traceable origin in the specification.
+  - Dynamically configured workflow tiers (`Prototype`, `Alpha`, `Beta`, `GA`) that scale the testing and verification tail.
+  - Independent cross-model review simulation for confirmation-bias-free diff audits.
+  - Automated run-isolated projection artifacts in `.docs/jsm-workflow/<run_id>/` (`intake.md`, `lifecycle.md`, `adr.md`, `verification.md`, `review.md`, `handoff.md`).
 
 ### `mutation-tester`
 - **Directory**: [`mutation-tester/`](mutation-tester/)

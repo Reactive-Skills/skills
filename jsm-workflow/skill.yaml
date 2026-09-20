@@ -1,5 +1,6 @@
 schema_version: 2.1.0
 name: jsm-workflow
+version: 1.0.0
 description: Reactive SDLC coordinator for taking one software change from intake to final context sync.
 initial_state: INIT
 strict_execution: true
