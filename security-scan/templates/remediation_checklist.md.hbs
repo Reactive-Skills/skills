@@ -1,0 +1,64 @@
+# Security Scan Remediation Checklist
+**Generated:** {{lastUpdated}}
+**Blocked:** {{#if (eq context.pass_fail_verdict "blocked")}}true{{else}}false{{/if}}
+
+---
+
+## Critical Priority (Immediate)
+
+{{#each context.remediation_steps}}
+  {{#if (eq priority "critical")}}
+  - [ ] {{{action}}} — {{{finding_description}}} ({{{file}}}:{{{line}}})
+  {{/if}}
+{{/each}}
+
+---
+
+## High Priority (Before Next Deploy)
+
+{{#each context.remediation_steps}}
+  {{#if (eq priority "high")}}
+  - [ ] {{{action}}} — {{{finding_description}}} ({{{file}}}:{{{line}}})
+  {{/if}}
+{{/each}}
+
+---
+
+## Medium Priority (Tech Debt)
+
+{{#each context.remediation_steps}}
+  {{#if (eq priority "medium")}}
+  - [ ] {{{action}}} — {{{finding_description}}} ({{{file}}}:{{{line}}})
+  {{/if}}
+{{/each}}
+
+---
+
+## Low Priority (Backlog)
+
+{{#each context.remediation_steps}}
+  {{#if (eq priority "low")}}
+  - [ ] {{{action}}} — {{{finding_description}}} ({{{file}}}:{{{line}}})
+  {{/if}}
+{{/each}}
+
+---
+
+## Remediation Guidance
+
+### For Secrets Found
+1. **Rotate immediately** — Revoke the exposed key/token/credential
+2. **Remove from source** — Replace hardcoded value with environment variable reference
+3. **Add to vault** — Store secrets in HashiCorp Vault, AWS Secrets Manager, or equivalent
+4. **Prevent re-introduction** — Add pre-commit hook to block future leaks
+
+### For Credentials
+1. **Never commit credentials** — Use environment variables or config services
+2. **Rotate exposed credentials** — Change passwords, API keys, tokens immediately
+3. **Scan git history** — Use `git-secrets` or `trufflehog` to clean revision history
+
+### For Config Issues
+1. Review each flagged configuration for production safety
+2. Move hardcoded values to environment-based config
+3. Enable TLS for all external connections
+4. Disable debug mode in production

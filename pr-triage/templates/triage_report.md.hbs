@@ -1,0 +1,22 @@
+# Pull Request Triage Report
+
+**Repository:** `{{repository}}`  
+**Generated:** {{timestamp}}
+
+## Routing Plan
+
+{{#each routing_plan}}
+### PR {{pull_request}}
+
+- Risk: `{{risk}}`
+- Size: `{{size}}`
+- Owner: {{owner}}
+- Reviewers: {{reviewers}}
+- Disposition: `{{disposition}}`
+- Actions: {{actions}}
+
+{{/each}}
+
+## Decision
+
+Review decision: `{{review_decision}}`

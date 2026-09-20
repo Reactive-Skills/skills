@@ -1,0 +1,132 @@
+schema_version: "2.0.0"
+name: "browser-verifier"
+version: "1.0.0"
+description: "Automated browser verification reactive skill that launches headless browser sessions, verifies DOM states, intercepts console errors, and captures visual artifacts."
+initial_state: "INTAKE"
+
+middleware:
+  hooks:
+    - name: telemetry
+      trigger: post_transition
+      config:
+        emitter: stdout
+    - name: audit
+      trigger: post_transition
+      config:
+        destination: ".reactive/browser-verifier.audit.log"
+        redact: []
+    - name: context_sanitizer
+      trigger: pre_transition
+      config:
+        patterns:
+          - ".*_TOKEN"
+          - ".*_KEY"
+          - ".*_SECRET"
+          - "password"
+        replacement: "[REDACTED]"
+
+context_keys:
+  - "target_url"
+  - "test_suite"
+  - "browser_type"
+  - "assertion_rules"
+  - "console_errors"
+  - "network_failures"
+  - "screenshot_path"
+  - "gate_decision"
+  - "deliverable_path"
+
+default_context:
+  target_url: "http://localhost:3000"
+  test_suite: null
+  browser_type: "chromium"
+  assertion_rules: []
+  console_errors: []
+  network_failures: []
+  screenshot_path: null
+  gate_decision: null
+  deliverable_path: ".docs/browser-verifier/"
+
+states:
+  INTAKE:
+    description: "Collect target application URL, browser configuration, and DOM assertion rules"
+    prompt_template: "states/intake.md"
+    transitions:
+      CONFIGURE:
+        target: "BOOT"
+        guard: "Boolean(context.target_url)"
+      ABORT:
+        target: "ERROR"
+
+  BOOT:
+    description: "Initialize headless browser instance and configure diagnostic listeners"
+    prompt_template: "states/boot.md"
+    transitions:
+      READY:
+        target: "NAVIGATE"
+      FAIL:
+        target: "ERROR"
+
+  NAVIGATE:
+    description: "Navigate to target URL, verify HTTP response code, and await network idle"
+    prompt_template: "states/navigate.md"
+    transitions:
+      LOADED:
+        target: "ASSERT_DOM"
+      NETWORK_FAIL:
+        target: "BLOCKED"
+      FAIL:
+        target: "ERROR"
+
+  ASSERT_DOM:
+    description: "Execute structural DOM assertions, visibility checks, and interactive element verification"
+    prompt_template: "states/assert_dom.md"
+    transitions:
+      VERIFIED:
+        target: "INSPECT_CONSOLE"
+      ASSERTION_FAIL:
+        target: "BLOCKED"
+      FAIL:
+        target: "ERROR"
+
+  INSPECT_CONSOLE:
+    description: "Inspect browser execution logs for unhandled errors, warnings, and failed network calls"
+    prompt_template: "states/inspect_console.md"
+    transitions:
+      CLEAN:
+        target: "CAPTURE_ARTIFACT"
+      ERRORS_FOUND:
+        target: "BLOCKED"
+      FAIL:
+        target: "ERROR"
+
+  CAPTURE_ARTIFACT:
+    description: "Capture visual screenshot and DOM state snapshot into documentation deliverables"
+    prompt_template: "states/capture_artifact.md"
+    transitions:
+      CAPTURED:
+        target: "GATE"
+      FAIL:
+        target: "ERROR"
+
+  GATE:
+    description: "Evaluate complete browser verification results and issue release pass or block decision"
+    prompt_template: "states/gate.md"
+    transitions:
+      APPROVE:
+        target: "SUCCESS"
+        guard: "context.console_errors.length === 0"
+      REJECT:
+        target: "BLOCKED"
+
+  SUCCESS:
+    description: "Browser verification passed cleanly with zero errors and all assertions verified"
+    prompt_template: "states/success.md"
+
+  BLOCKED:
+    description: "Verification blocked due to failed assertions, console exceptions, or network errors"
+    prompt_template: "states/blocked.md"
+
+  ERROR:
+    description: "Fatal error during browser lifecycle or unrecoverable test runner fault"
+    prompt_template: "states/error.md"

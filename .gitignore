@@ -11,3 +11,5 @@ bin/
 AUDIT_REPORT.md
 sash-*
 *.scorecard.*
+sync_output.txt
+.kilo/

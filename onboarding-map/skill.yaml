@@ -1,0 +1,96 @@
+schema_version: reactive/v2.0.0
+name: onboarding-map
+version: 1.0.0
+description: >-
+  Codebase onboarding workflow: intake role and scope, scan architecture and
+  ownership, map modules and dependencies, design a personalized learning path,
+  review with stakeholders, and approve completion.
+type: workflow
+initial_state: INTAKE
+context_keys:
+  - repo_path
+  - user_role
+  - module_count
+  - dependency_graph
+  - learning_path
+  - stakeholder_feedback
+
+states:
+  INTAKE:
+    type: action
+    prompt_template: states/intake.md
+    transitions:
+      INGESTED:
+        target: SCAN
+        guard: 'context.repo_path != null && context.user_role != null'
+
+  SCAN:
+    type: action
+    prompt_template: states/scan.md
+    transitions:
+      SCANNED:
+        target: MAP
+        guard: 'context.module_count > 0'
+      SCAN_FAILED:
+        target: ERROR
+        guard: 'context.module_count == 0'
+
+  MAP:
+    type: action
+    prompt_template: states/map.md
+    transitions:
+      MAPPED:
+        target: PATH
+        guard: 'context.dependency_graph != null'
+      MAP_FAILED:
+        target: ERROR
+
+  PATH:
+    type: action
+    prompt_template: states/path.md
+    transitions:
+      DESIGNED:
+        target: REVIEW
+        guard: 'context.learning_path != null'
+      PATH_FAILED:
+        target: ERROR
+
+  REVIEW:
+    type: action
+    prompt_template: states/review.md
+    transitions:
+      APPROVED:
+        target: SUCCESS
+      REJECTED:
+        target: PATH
+      BLOCKED:
+        target: BLOCKED
+      REVIEW_FAILED:
+        target: ERROR
+
+  SUCCESS:
+    type: terminal
+    prompt_template: states/success.md
+    transitions: {}
+
+  BLOCKED:
+    type: terminal
+    prompt_template: states/blocked.md
+    transitions: {}
+
+  ERROR:
+    type: terminal
+    prompt_template: states/error.md
+    transitions: {}
+
+guards:
+  terminal_guard_assertions:
+    file: guards/terminal_guard_assertions.test.js
+    description: >-
+      Validates that terminal states have no outgoing transitions and that
+      each state has a prompt_template file present on disk.
+
+metadata:
+  created_by: skill-manager
+  created_at: 2026-09-17T02:33:30Z
+  shape: flat_pipeline

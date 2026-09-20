@@ -1,0 +1,190 @@
+schema_version: "2.0.0"
+name: "docs-architect"
+version: "1.0.0"
+description: "Documentation architecture workflow that discovers source truth, designs information architecture, authors living documentation, embeds diagrams, validates links, and gates publication."
+initial_state: "INTAKE"
+
+middleware:
+  hooks:
+    - name: telemetry
+      trigger: post_transition
+      config:
+        emitter: stdout
+    - name: audit
+      trigger: post_transition
+      config:
+        destination: ".reactive/docs-architect.audit.log"
+        redact: []
+    - name: invariant_checker
+      trigger: post_transition
+      config:
+        rules_file: "runtime/hooks/invariants.yaml"
+        on_violation: halt
+    - name: context_sanitizer
+      trigger: pre_transition
+      config:
+        patterns:
+          - ".*_TOKEN"
+          - ".*_KEY"
+          - ".*_SECRET"
+          - "password"
+          - "api_key"
+        replacement: "[REDACTED]"
+
+context_keys:
+  - "source_paths"
+  - "audience"
+  - "outcomes"
+  - "documentation_scope"
+  - "extracted_facts"
+  - "architecture_decision"
+  - "documentation_outline"
+  - "diagram_inventory"
+  - "draft_path"
+  - "validation_exit_code"
+  - "review_decision"
+  - "deliverable_path"
+
+default_context:
+  source_paths: []
+  audience: null
+  outcomes: []
+  documentation_scope: null
+  extracted_facts: []
+  architecture_decision: null
+  documentation_outline: null
+  diagram_inventory: []
+  draft_path: null
+  validation_exit_code: null
+  review_decision: null
+  deliverable_path: null
+
+states:
+  INTAKE:
+    description: "Collect source paths, audience, outcomes, and documentation scope"
+    prompt_template: "states/intake.md"
+    tools: ["view_file", "find_by_name", "grep_search"]
+    transitions:
+      INTAKE_READY:
+        target: "DISCOVER"
+        guard: "Array.isArray(event.payload.source_paths) && event.payload.source_paths.length > 0 && event.payload.audience != null && Array.isArray(event.payload.outcomes)"
+      INTAKE_INVALID:
+        target: "ERROR"
+        guard: "!(Array.isArray(event.payload.source_paths) && event.payload.source_paths.length > 0 && event.payload.audience != null && Array.isArray(event.payload.outcomes))"
+
+  DISCOVER:
+    description: "Inventory source files and identify authoritative documentation inputs"
+    prompt_template: "states/discover.md"
+    tools: ["find_by_name", "grep_search", "view_file"]
+    transitions:
+      DISCOVERY_COMPLETE:
+        target: "EXTRACT"
+        guard: "event.payload.exit_code === 0"
+      DISCOVERY_FAILED:
+        target: "ERROR"
+        guard: "event.payload.exit_code !== 0"
+
+  EXTRACT:
+    description: "Extract facts, APIs, decisions, interfaces, and operational constraints"
+    prompt_template: "states/extract.md"
+    tools: ["view_file", "grep_search", "run_command"]
+    transitions:
+      FACTS_EXTRACTED:
+        target: "DESIGN"
+        guard: "Array.isArray(event.payload.extracted_facts) && event.payload.extracted_facts.length > 0"
+      EXTRACTION_FAILED:
+        target: "ERROR"
+        guard: "!Array.isArray(event.payload.extracted_facts) || event.payload.extracted_facts.length === 0"
+
+  DESIGN:
+    description: "Choose information architecture and map content to audience outcomes"
+    prompt_template: "states/design.md"
+    tools: ["view_file", "write_to_file"]
+    transitions:
+      ARCHITECTURE_DESIGNED:
+        target: "AUTHOR"
+        guard: "event.payload.architecture_decision != null && Array.isArray(event.payload.documentation_outline) && event.payload.documentation_outline.length > 0"
+      DESIGN_FAILED:
+        target: "ERROR"
+        guard: "event.payload.architecture_decision == null || !Array.isArray(event.payload.documentation_outline) || event.payload.documentation_outline.length === 0"
+
+  AUTHOR:
+    description: "Draft concise, source-linked documentation from the approved outline"
+    prompt_template: "states/author.md"
+    tools: ["view_file", "write_to_file", "grep_search"]
+    transitions:
+      DRAFT_WRITTEN:
+        target: "DIAGRAM"
+        guard: "event.payload.draft_path != null && event.payload.draft_path.length > 0"
+      AUTHORING_FAILED:
+        target: "ERROR"
+        guard: "event.payload.draft_path == null || event.payload.draft_path.length === 0"
+
+  DIAGRAM:
+    description: "Create embedded diagrams from documented relationships and decisions"
+    prompt_template: "states/diagram.md"
+    tools: ["view_file", "write_to_file", "run_command"]
+    transitions:
+      DIAGRAMS_EMBEDDED:
+        target: "VALIDATE"
+        guard: "Array.isArray(event.payload.diagram_inventory) && event.payload.diagram_inventory.length > 0"
+      DIAGRAM_FAILED:
+        target: "ERROR"
+        guard: "!Array.isArray(event.payload.diagram_inventory) || event.payload.diagram_inventory.length === 0"
+
+  VALIDATE:
+    description: "Check links, terminology, source traceability, diagram integrity, and readability"
+    prompt_template: "states/validate.md"
+    tools: ["run_command", "view_file", "grep_search"]
+    transitions:
+      VALIDATION_PASSED:
+        target: "REVIEW"
+        guard: "event.payload.validation_exit_code === 0"
+      VALIDATION_FAILED:
+        target: "ERROR"
+        guard: "event.payload.validation_exit_code !== 0"
+
+  REVIEW:
+    description: "Human review gate for accuracy, usefulness, and publication readiness"
+    prompt_template: "states/review.md"
+    tools: ["view_file"]
+    human_gate:
+      type: "choice"
+      tool: "ask_question"
+      options:
+        - "Approve and publish"
+        - "Request revisions"
+        - "Reject publication"
+    transitions:
+      USER_APPROVED:
+        target: "SUCCESS"
+        guard: "event.payload.approved === true"
+      USER_REQUEST_REVISIONS:
+        target: "AUTHOR"
+        guard: "event.payload.revisions_requested === true"
+      USER_REJECTED:
+        target: "BLOCKED"
+        guard: "event.payload.rejected === true"
+
+  SUCCESS:
+    description: "Terminal state: validated documentation architecture is published"
+    prompt_template: "states/success.md"
+
+  BLOCKED:
+    description: "Terminal state: publication rejected or blocked by review"
+    prompt_template: "states/blocked.md"
+
+  ERROR:
+    description: "Terminal state: documentation workflow failed"
+    prompt_template: "states/error.md"
+
+deliverable_projections:
+  - template: "templates/documentation_architecture.md.hbs"
+    output: ".docs/docs-architect/documentation-architecture.md"
+    trigger_on: ["STATE_TRANSITION"]
+  - template: "templates/diagram_inventory.md.hbs"
+    output: ".docs/docs-architect/diagram-inventory.md"
+    trigger_on: ["STATE_TRANSITION"]
+  - template: "templates/state_snapshot.json.hbs"
+    output: ".docs/docs-architect/state.json"
+    trigger_on: ["STATE_TRANSITION"]

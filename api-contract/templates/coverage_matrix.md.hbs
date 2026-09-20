@@ -1,0 +1,56 @@
+# Endpoint Coverage Matrix
+
+**Generated:** {{timestamp}}
+**Spec:** {{api_spec_path}}
+
+---
+
+## Coverage Summary
+
+| Metric | Value |
+|---|---|
+| Spec Endpoints | {{coverage_stats.total_spec_endpoints}} |
+| Client-Declared Endpoints | {{coverage_stats.total_client_endpoints}} |
+| Covered (both spec + client) | {{coverage_stats.covered_endpoints}} |
+| Missing from Spec | {{coverage_stats.missing_from_spec}} |
+| Unused in Client | {{coverage_stats.unused_in_client}} |
+| Coverage Rate | {{coverage_stats.coverage_percentage}}% |
+
+---
+
+## Detailed Coverage
+
+### Fully Covered (in spec and called by client)
+
+| Endpoint | Method | Spec Status | Client Usage | Coverage |
+|---|---|---|---|---|
+{{#each coverage_matrix.covered}}
+| {{path}} | {{method}} | Defined | Called at {{call_sites}} | 100% |
+{{/each}}
+
+### Unused (in spec but not called by client)
+
+| Endpoint | Method | Recommendation |
+|---|---|---|
+{{#each coverage_matrix.unused}}
+| {{path}} | {{method}} | Remove from spec or add client call |
+{{/each}}
+
+### Undocumented (called by client but not in spec)
+
+| Endpoint | Method | Client Location | Recommendation |
+|---|---|---|---|
+{{#each coverage_matrix.undocumented}}
+| {{path}} | {{method}} | {{client_location}} | Add to spec immediately |
+{{/each}}
+
+---
+
+## Per-Path Breakdown
+
+{{#each coverage_matrix.by_path}}
+### {{.}}
+{{#each endpoints}}
+- **{{method}} {{path}}** — {{status}}
+{{/each}}
+{{/each}}

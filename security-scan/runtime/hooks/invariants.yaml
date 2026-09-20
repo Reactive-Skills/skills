@@ -1,0 +1,35 @@
+# Invariant Rules for security-scan
+# Referenced by: runtime/middleware/invariant_checker.js
+# Format: transition_key: { condition, description }
+
+invariants:
+  "COLLECT_STAGED -> SCAN_PIPELINE":
+    condition: "Array.isArray(context.staged_files) && context.staged_files.length > 0"
+    description: "Staged files must be populated before scanning"
+
+  "SCAN_PIPELINE -> REPORT":
+    condition: "Array.isArray(context.scan_results) && Array.isArray(context.findings) && Array.isArray(context.secrets_found) && Array.isArray(context.credentials_found)"
+    description: "All scan results and findings must be populated before report generation"
+
+  "REPORT -> GATE":
+    condition: "Array.isArray(context.findings) && Array.isArray(context.remediation_steps)"
+    description: "Findings and remediation steps must be generated before human review"
+
+  "SUBSTATE -> SUBSTATE":
+    condition: "event.payload.exit_code === 0"
+    description: "Each scan sub-state must complete successfully (exit_code === 0)"
+
+  "GATE -> COMPLETED":
+    condition: "event.payload.approved === true"
+    description: "Gate must be explicitly approved"
+
+  "GATE -> SCAN_PIPELINE":
+    condition: "event.payload.remediation_requested === true"
+    description: "Remediation must be explicitly requested"
+
+  "GATE -> BLOCKED":
+    condition: "event.payload.rejected === true"
+    description: "Rejection must be explicitly confirmed"
+
+critical_bubble_transitions:
+  - "CRITICAL_SECRET_FOUND"

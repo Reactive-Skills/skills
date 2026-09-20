@@ -1,0 +1,48 @@
+# Invariant Rules for api-contract
+# Referenced by: runtime/middleware/invariant_checker.js
+# Format: transition_key: { condition, description }
+
+invariants:
+  "DISCOVER_APIS -> VALIDATION_PIPELINE":
+    condition: "Boolean(context.api_spec_path) && Array.isArray(context.client_code_paths) && context.client_code_paths.length > 0"
+    description: "Spec path and client code paths must be populated before validation"
+
+  "SCHEMA_VALIDATION -> DRIFT_DIFFING":
+    condition: "Boolean(context.spec_schema)"
+    description: "Parsed schema must exist before drift diffing"
+
+  "DRIFT_DIFFING -> DRIFT_ANALYSIS":
+    condition: "Array.isArray(context.drift_findings) && Array.isArray(context.client_endpoints)"
+    description: "Drift findings and client endpoints must be populated"
+
+  "DRIFT_ANALYSIS -> REPORT":
+    condition: "Array.isArray(context.drift_findings)"
+    description: "Drift findings must be classified before report generation"
+
+  "SCHEMA_VALIDATION.SUBSTATE -> SCHEMA_VALIDATION.SUBSTATE":
+    condition: "event.payload.exit_code === 0"
+    description: "Each schema validation substate must pass (exit_code === 0)"
+
+  "REPORT.VIOLATION_SUMMARY -> REPORT.FIX_RECOMMENDATIONS":
+    condition: "true"
+    description: "Violation summary must be generated before recommendations"
+
+  "REPORT -> GATE":
+    condition: "coverage_matrix is non-empty object or array"
+    description: "Coverage matrix must be populated before human review gate"
+
+  "GATE -> COMPLETED":
+    condition: "event.payload.approved === true"
+    description: "Gate must be explicitly approved"
+
+  "GATE -> DRIFT_ANALYSIS":
+    condition: "event.payload.revisions_requested === true"
+    description: "Revisions must be explicitly requested"
+
+  "GATE -> BLOCKED":
+    condition: "event.payload.rejected === true"
+    description: "Rejection must be explicitly confirmed"
+
+critical_bubble_transitions:
+  - "SECURITY_CRITICAL_FOUND"
+  - "CRITICAL_DRIFT"

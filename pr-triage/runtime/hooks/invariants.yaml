@@ -1,0 +1,22 @@
+invariants:
+  "INTAKE -> COLLECT":
+    condition: "context.repository != null && Array.isArray(context.pull_requests) && context.pull_requests.length > 0 && context.triage_policy != null"
+    description: "Repository, PR batch, and policy must be populated"
+  "COLLECT -> CLASSIFY":
+    condition: "Array.isArray(context.collected_items) && context.collected_items.length > 0"
+    description: "Collection must produce PR evidence"
+  "CLASSIFY -> ASSESS":
+    condition: "Array.isArray(context.classifications) && context.classifications.length > 0"
+    description: "Classifications must exist before assessment"
+  "ASSESS -> ROUTE":
+    condition: "Array.isArray(context.assessments) && context.assessments.length > 0"
+    description: "Assessments must exist before routing"
+  "ROUTE -> REVIEW":
+    condition: "Array.isArray(context.routing_plan) && context.routing_plan.length > 0"
+    description: "Routing plan must exist before review"
+  "REVIEW -> SUCCESS":
+    condition: "context.review_decision === 'approved'"
+    description: "Only explicit approval reaches success"
+  "REVIEW -> BLOCKED":
+    condition: "context.review_decision === 'blocked'"
+    description: "Only explicit rejection reaches blocked"

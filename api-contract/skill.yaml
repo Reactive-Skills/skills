@@ -1,0 +1,214 @@
+schema_version: "2.0.0"
+name: "api-contract"
+version: "1.0.0"
+description: "OpenAPI/Swagger spec vs client code drift detector — parses spec, walks fetch/axios calls, detects mismatches"
+initial_state: "DISCOVER_APIS"
+
+middleware:
+  hooks:
+    - name: telemetry
+      trigger: post_transition
+      config:
+        emitter: stdout
+    - name: audit
+      trigger: post_transition
+      config:
+        destination: ".reactive/api-contract.audit.log"
+        redact: []
+    - name: invariant_checker
+      trigger: post_transition
+      config:
+        rules_file: "runtime/hooks/invariants.yaml"
+        on_violation: halt
+    - name: context_sanitizer
+      trigger: pre_transition
+      config:
+        patterns:
+          - ".*_TOKEN"
+          - ".*_KEY"
+          - "password"
+          - "api_key"
+        replacement: "[REDACTED]"
+
+context_keys:
+  - "api_spec_path"
+  - "client_code_paths"
+  - "spec_schema"
+  - "client_endpoints"
+  - "drift_findings"
+  - "missing_endpoints"
+  - "type_mismatches"
+  - "deprecated_usage"
+  - "coverage_matrix"
+
+default_context:
+  api_spec_path: null
+  client_code_paths: []
+  spec_schema: null
+  client_endpoints: []
+  drift_findings: []
+  missing_endpoints: []
+  type_mismatches: []
+  deprecated_usage: []
+  coverage_matrix: {}
+
+states:
+  DISCOVER_APIS:
+    description: "Discover OpenAPI/Swagger spec and identify client code paths"
+    prompt_template: "states/discover_apis.md"
+    tools: ["view_file", "grep_search", "find_by_name"]
+    on_enter:
+      - emit_signal: "DISCOVERY_STARTED"
+    transitions:
+      SPEC_LOADED:
+        target: "VALIDATION_PIPELINE"
+        guard: "Boolean(event.payload.api_spec_path) && Boolean(event.payload.client_code_paths)"
+
+  VALIDATION_PIPELINE:
+    description: "Composite state: spec validation, client code walking, and drift diffing"
+    initial_substate: "SCHEMA_VALIDATION"
+    on_enter:
+      - emit_signal: "VALIDATION_STARTED"
+    transitions:
+      SECURITY_CRITICAL_FOUND:
+        target: "BLOCKED"
+        guard: "event.payload.severity === 'critical'"
+    substates:
+      SCHEMA_VALIDATION:
+        description: "Composite state: parse and validate OpenAPI spec schema"
+        initial_substate: "OPENAPI_CHECK"
+        on_enter:
+          - emit_signal: "SCHEMA_VALIDATION_STARTED"
+        substates:
+          OPENAPI_CHECK:
+            description: "Validate spec is well-formed OpenAPI/Swagger"
+            prompt_template: "states/validation_pipeline/schema_validation/openapi_check.md"
+            tools: ["view_file", "grep_search"]
+            transitions:
+              OPENAPI_CHECK_DONE:
+                target: "VALIDATION_PIPELINE.SCHEMA_VALIDATION.TYPE_COMPATIBILITY"
+                guard: "event.payload.exit_code === 0"
+
+          TYPE_COMPATIBILITY:
+            description: "Verify spec schema types and definitions are consistent"
+            prompt_template: "states/validation_pipeline/schema_validation/type_compatibility.md"
+            tools: ["view_file", "grep_search"]
+            transitions:
+              TYPE_CHECK_DONE:
+                target: "VALIDATION_PIPELINE.SCHEMA_VALIDATION.BREAKING_CHANGE_DETECTION"
+                guard: "event.payload.exit_code === 0"
+
+          BREAKING_CHANGE_DETECTION:
+            description: "Scan for deprecated endpoints and breaking change patterns"
+            prompt_template: "states/validation_pipeline/schema_validation/breaking_change_detection.md"
+            tools: ["view_file", "grep_search"]
+            transitions:
+              BREAKING_CHECK_DONE:
+                target: "VALIDATION_PIPELINE.SCHEMA_VALIDATION.EXAMPLE_CONFORMANCE"
+                guard: "event.payload.exit_code === 0"
+
+          EXAMPLE_CONFORMANCE:
+            description: "Validate spec examples match schema definitions"
+            prompt_template: "states/validation_pipeline/schema_validation/example_conformance.md"
+            tools: ["view_file", "grep_search"]
+            transitions:
+              EXAMPLE_CHECK_DONE:
+                target: "VALIDATION_PIPELINE.DRIFT_DIFFING"
+                guard: "event.payload.exit_code === 0"
+
+      DRIFT_DIFFING:
+        description: "Walk client code and diff against spec for mismatches"
+        prompt_template: "states/validation_pipeline/drift_diffing.md"
+        tools: ["view_file", "grep_search"]
+        transitions:
+          DRIFT_DIFFED:
+            target: "DRIFT_ANALYSIS"
+            guard: "event.payload.exit_code === 0"
+
+  DRIFT_ANALYSIS:
+    description: "Analyze drift findings and classify by severity"
+    prompt_template: "states/drift_analysis.md"
+    tools: ["view_file", "grep_search"]
+    on_enter:
+      - emit_signal: "ANALYSIS_STARTED"
+    transitions:
+      DRIFT_CLASSIFIED:
+        target: "REPORT"
+      CRITICAL_DRIFT:
+        target: "BLOCKED"
+        guard: "event.payload.severity === 'critical'"
+
+  REPORT:
+    description: "Composite state: generate drift report and fix recommendations"
+    initial_substate: "VIOLATION_SUMMARY"
+    on_enter:
+      - emit_signal: "REPORT_STARTED"
+    transitions:
+      REPORT_ERROR:
+        target: "ERROR"
+    substates:
+      VIOLATION_SUMMARY:
+        description: "Summarize all drift violations by category"
+        prompt_template: "states/report/violation_summary.md"
+        tools: ["view_file", "write_to_file"]
+        transitions:
+          SUMMARY_GENERATED:
+            target: "REPORT.FIX_RECOMMENDATIONS"
+
+      FIX_RECOMMENDATIONS:
+        description: "Generate actionable fix recommendations for each violation"
+        prompt_template: "states/report/fix_recommendations.md"
+        tools: ["view_file", "write_to_file"]
+        transitions:
+          RECOMMENDATIONS_GENERATED:
+            target: "GATE"
+
+  GATE:
+    description: "Human review gate: approve, request revisions, or reject"
+    prompt_template: "states/gate.md"
+    human_gate:
+      type: "choice"
+      tool: "ask_question"
+      options:
+        - "Approve & Complete"
+        - "Request Revisions (back to DRIFT_ANALYSIS)"
+        - "Reject (Block)"
+    transitions:
+      USER_APPROVED:
+        target: "COMPLETED"
+        guard: "event.payload.approved === true"
+      USER_REQUEST_REVISIONS:
+        target: "DRIFT_ANALYSIS"
+        guard: "event.payload.revisions_requested === true"
+      USER_REJECTED:
+        target: "BLOCKED"
+        guard: "event.payload.rejected === true"
+
+  COMPLETED:
+    description: "Terminal state: API contract validation complete"
+    prompt_template: "states/completed.md"
+    on_enter:
+      - emit_signal: "DELIVERABLE_READY"
+
+  BLOCKED:
+    description: "Terminal state: Critical issues found, workflow halted"
+    prompt_template: "states/blocked.md"
+    on_enter:
+      - emit_signal: "PR_REVIEW_BLOCKED"
+
+  ERROR:
+    description: "Terminal state: Unrecoverable error occurred"
+    prompt_template: "states/error.md"
+    on_enter:
+      - emit_signal: "SKILL_ERROR"
+
+deliverable_projections:
+  - template: "templates/drift_report.md.hbs"
+    output: ".docs/api-contract/drift.md"
+    trigger_on: ["STATE_TRANSITION", "SIGNAL_EMITTED"]
+  - template: "templates/coverage_matrix.md.hbs"
+    output: ".docs/api-contract/coverage.md"
+    trigger_on: ["STATE_TRANSITION"]
+  - template: "templates/state_snapshot.json.hbs"
+    output: ".docs/api-contract/state.json"
+    trigger_on: ["STATE_TRANSITION"]

@@ -1,0 +1,19 @@
+invariants:
+  "INTAKE -> CONFIGURE":
+    condition: "context.target_dir != null && context.test_command != null && context.coverage_command != null && context.thresholds != null"
+    description: "Coverage workflow inputs must be populated"
+  "BASELINE -> MEASURE":
+    condition: "context.baseline_exit_code === 0"
+    description: "Coverage measurement requires a clean baseline"
+  "MEASURE -> ANALYZE":
+    condition: "context.coverage_report != null && context.coverage_metrics != null"
+    description: "Coverage report and metrics must exist before analysis"
+  "ANALYZE -> GATE":
+    condition: "context.coverage_metrics != null && Array.isArray(context.coverage_gaps)"
+    description: "Metrics and gaps must exist before the gate"
+  "GATE -> SUCCESS":
+    condition: "context.gate_decision === 'approved'"
+    description: "Only explicit approval reaches success"
+  "GATE -> BLOCKED":
+    condition: "context.gate_decision === 'blocked'"
+    description: "Only explicit rejection reaches blocked"

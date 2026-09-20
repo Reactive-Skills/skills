@@ -1,0 +1,25 @@
+# Release Notes
+
+**Repository:** `{{repository}}`  
+**Release:** `{{release_version}}`  
+**Generated:** {{timestamp}}
+
+## Changes
+
+{{#each changelog_entries}}
+### {{category}}
+
+- `{{scope}}` {{description}} ({{commit}})
+
+{{/each}}
+
+## Breaking Changes
+
+{{#each breaking_changes}}
+- {{description}} See `{{commit}}`.
+
+{{/each}}
+
+## Review Decision
+
+`{{review_decision}}`

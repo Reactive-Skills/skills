@@ -41,10 +41,20 @@ npx skills add Reactive-Skills/skills
 
 | Skill | Version | Schema | Description |
 | :--- | :--- | :--- | :--- |
+| [`api-contract`](api-contract/) | `v1.0.0` | `v2.0.0` | OpenAPI/Swagger spec vs client code drift detector — parses spec, walks fetch/axios calls, detects mismatches |
+| [`browser-verifier`](browser-verifier/) | `v1.0.0` | `v2.0.0` | Automated browser verification reactive skill that launches headless browser sessions, verifies DOM states, intercepts console errors, and captures visual artifacts. |
+| [`ci-cd-automation`](ci-cd-automation/) | `v1.0.0` | `v2.0.0` | Automated CI/CD pipeline generator and linter that scaffolds production-ready workflows with caching, matrix builds, and security gates. |
+| [`docs-architect`](docs-architect/) | `v1.0.0` | `v2.0.0` | Documentation architecture workflow that discovers source truth, designs information architecture, authors living documentation, embeds diagrams, validates links, and gates publication. |
 | [`mutation-tester`](mutation-tester/) | `v1.0.0` | `v2.2.0` | Technology-agnostic mutation testing reactive skill powered by high-performance Go CLI engine. |
+| [`onboarding-map`](onboarding-map/) | `v1.0.0` | `vreactive/v2.0.0` | Codebase onboarding workflow: intake role and scope, scan architecture and ownership, map modules and dependencies, design a personalized learning path, review with stakeholders, and approve completion. |
+| [`pr-triage`](pr-triage/) | `v1.0.0` | `v2.0.0` | Pull request triage workflow that collects PR metadata, classifies risk and ownership, assesses readiness, routes work, and pauses at a human disposition gate. |
 | [`product-manager`](product-manager/) | `v1.0.0` | `v2.1.0` | Event-driven product management and opportunity realization engine. Orchestrates opportunity discovery & worthwhileness research (new green-field projects vs existing product feature enhancements), strategic goal alignment, SMART requirement scoping, Eisenhower matrix prioritization, and lean vertical slice architecture. |
+| [`release-notes`](release-notes/) | `v1.0.0` | `v2.0.0` | Automated changelog and release note generator that scopes changes, classifies entries, composes draft notes, validates formatting, and gates human approval. |
 | [`resume-manager`](resume-manager/) | `v2.2.0` | `v2.1.0` | Consolidated reactive career management engine. Orchestrates master profile bootstrapping, continuous achievement maintenance, multi-track profile specialization (Senior Technical, Practical Mid-Level, Operations Management, Client Solutions, and Adjacent Industry), and job application tailoring with automated overqualification and anti-flight risk calibration. |
+| [`security-scan`](security-scan/) | `v1.0.0` | `v2.0.0` | Pre-commit secret and credential scanner with remediation checklist — scans staged changes for API keys, tokens, private keys, hardcoded credentials, insecure defaults |
 | [`skill-manager`](skill-manager/) | `v1.0.0` | `v2.1.0` | Full CRUD lifecycle management for reactive skills - CREATE UPDATE DELETE MIGRATE_LEGACY and MIGRATE_REACTIVE with pre-COMMIT approval best-effort rollback and manifest snapshot projection |
+| [`tdd-refactor`](tdd-refactor/) | `v2.0.2` | `v2.0.2` | Hierarchical TDD & Refactoring state machine with nested micro-cycles, regression detection, event bubbling, and live projections |
+| [`test-coverage-gate`](test-coverage-gate/) | `v1.0.0` | `v2.0.0` | Test coverage quality gate that establishes a clean baseline, measures statement, branch, function, and line coverage, analyzes gaps, and blocks release below explicit thresholds. |
 
 <!-- TOC_END -->
 

@@ -1,0 +1,121 @@
+schema_version: "2.0.0"
+name: "ci-cd-automation"
+version: "1.0.0"
+description: "Automated CI/CD pipeline generator and linter that scaffolds production-ready workflows with caching, matrix builds, and security gates."
+initial_state: "INTAKE"
+
+middleware:
+  hooks:
+    - name: telemetry
+      trigger: post_transition
+      config:
+        emitter: stdout
+    - name: audit
+      trigger: post_transition
+      config:
+        destination: ".reactive/ci-cd-automation.audit.log"
+        redact: []
+    - name: context_sanitizer
+      trigger: pre_transition
+      config:
+        patterns:
+          - ".*_TOKEN"
+          - ".*_KEY"
+          - ".*_SECRET"
+          - "password"
+        replacement: "[REDACTED]"
+
+context_keys:
+  - "provider"
+  - "ecosystem"
+  - "test_command"
+  - "build_command"
+  - "workflow_path"
+  - "lint_errors"
+  - "security_findings"
+  - "gate_decision"
+  - "deliverable_path"
+
+default_context:
+  provider: "github-actions"
+  ecosystem: null
+  test_command: null
+  build_command: null
+  workflow_path: null
+  lint_errors: []
+  security_findings: []
+  gate_decision: null
+  deliverable_path: ".docs/ci-cd-automation/"
+
+states:
+  INTAKE:
+    description: "Collect target CI provider, project build commands, and testing requirements"
+    prompt_template: "states/intake.md"
+    transitions:
+      CONFIGURE:
+        target: "DETECT_STACK"
+        guard: "Boolean(context.provider)"
+      ABORT:
+        target: "ERROR"
+
+  DETECT_STACK:
+    description: "Detect repository language, package manager, and caching strategy"
+    prompt_template: "states/detect_stack.md"
+    transitions:
+      DETECTED:
+        target: "GENERATE_PIPELINE"
+      FAIL:
+        target: "ERROR"
+
+  GENERATE_PIPELINE:
+    description: "Scaffold workflow configuration with matrix testing, caching, and least-privilege permissions"
+    prompt_template: "states/generate_pipeline.md"
+    transitions:
+      GENERATED:
+        target: "LINT_WORKFLOW"
+      FAIL:
+        target: "ERROR"
+
+  LINT_WORKFLOW:
+    description: "Verify workflow YAML syntax, step references, and action version integrity"
+    prompt_template: "states/lint_workflow.md"
+    transitions:
+      VALID:
+        target: "SECURITY_AUDIT"
+      SYNTAX_ERROR:
+        target: "BLOCKED"
+      FAIL:
+        target: "ERROR"
+
+  SECURITY_AUDIT:
+    description: "Audit pipeline for permission boundaries, secret exfiltration risks, and action pinning"
+    prompt_template: "states/security_audit.md"
+    transitions:
+      SECURE:
+        target: "GATE"
+      VULNERABILITY_FOUND:
+        target: "BLOCKED"
+      FAIL:
+        target: "ERROR"
+
+  GATE:
+    description: "Evaluate workflow compliance and issue final approval for deployment"
+    prompt_template: "states/gate.md"
+    transitions:
+      APPROVE:
+        target: "SUCCESS"
+        guard: "context.security_findings.length === 0"
+      REJECT:
+        target: "BLOCKED"
+
+  SUCCESS:
+    description: "CI/CD pipeline generated, verified, and hardened successfully"
+    prompt_template: "states/success.md"
+
+  BLOCKED:
+    description: "Pipeline blocked due to security violations, invalid syntax, or failed quality checks"
+    prompt_template: "states/blocked.md"
+
+  ERROR:
+    description: "Fatal error during stack detection or workflow generation"
+    prompt_template: "states/error.md"

@@ -1,0 +1,157 @@
+schema_version: "2.0.0"
+name: "release-notes"
+version: "1.0.0"
+description: "Automated changelog and release note generator that scopes changes, classifies entries, composes draft notes, validates formatting, and gates human approval."
+initial_state: "INTAKE"
+
+middleware:
+  hooks:
+    - name: telemetry
+      trigger: post_transition
+      config:
+        emitter: stdout
+    - name: audit
+      trigger: post_transition
+      config:
+        destination: ".reactive/release-notes.audit.log"
+        redact: []
+    - name: invariant_checker
+      trigger: post_transition
+      config:
+        rules_file: "runtime/hooks/invariants.yaml"
+        on_violation: halt
+    - name: context_sanitizer
+      trigger: pre_transition
+      config:
+        patterns:
+          - ".*_TOKEN"
+          - ".*_KEY"
+          - ".*_SECRET"
+          - "password"
+          - "api_key"
+        replacement: "[REDACTED]"
+
+context_keys:
+  - "repository"
+  - "release_version"
+  - "scope_refs"
+  - "commits"
+  - "changelog_entries"
+  - "release_notes"
+  - "reviewed_notes"
+  - "review_decision"
+  - "deliverable_path"
+
+default_context:
+  repository: null
+  release_version: null
+  scope_refs: []
+  commits: []
+  changelog_entries: []
+  release_notes: null
+  reviewed_notes: null
+  review_decision: null
+  deliverable_path: null
+
+states:
+  INTAKE:
+    description: "Collect repository, release version, scope refs, and format policy"
+    prompt_template: "states/intake.md"
+    tools: ["view_file", "run_command"]
+    transitions:
+      INTAKE_READY:
+        target: "COLLECT"
+        guard: "event.payload.repository != null && event.payload.release_version != null && Array.isArray(event.payload.scope_refs) && event.payload.scope_refs.length > 0"
+      INTAKE_INVALID:
+        target: "ERROR"
+        guard: "event.payload.repository == null || event.payload.release_version == null || !Array.isArray(event.payload.scope_refs) || event.payload.scope_refs.length === 0"
+
+  COLLECT:
+    description: "Collect commits, artifacts, and source changes within the release scope"
+    prompt_template: "states/collect.md"
+    tools: ["run_command", "view_file", "grep_search"]
+    transitions:
+      COLLECTION_COMPLETE:
+        target: "CLASSIFY"
+        guard: "Array.isArray(event.payload.commits) && event.payload.commits.length > 0"
+      COLLECTION_FAILED:
+        target: "ERROR"
+        guard: "!Array.isArray(event.payload.commits) || event.payload.commits.length === 0"
+
+  CLASSIFY:
+    description: "Classify changes into changelog categories using conventional rules"
+    prompt_template: "states/classify.md"
+    tools: ["view_file", "write_to_file"]
+    transitions:
+      ENTRIES_CLASSIFIED:
+        target: "COMPOSE"
+        guard: "Array.isArray(event.payload.changelog_entries) && event.payload.changelog_entries.length > 0"
+      CLASSIFICATION_FAILED:
+        target: "ERROR"
+        guard: "!Array.isArray(event.payload.changelog_entries) || event.payload.changelog_entries.length === 0"
+
+  COMPOSE:
+    description: "Compose human-readable release notes from classified entries"
+    prompt_template: "states/compose.md"
+    tools: ["view_file", "write_to_file"]
+    transitions:
+      NOTES_COMPOSED:
+        target: "VALIDATE"
+        guard: "event.payload.release_notes != null && event.payload.release_notes.length > 0"
+      COMPOSITION_FAILED:
+        target: "ERROR"
+        guard: "event.payload.release_notes == null || event.payload.release_notes.length === 0"
+
+  VALIDATE:
+    description: "Validate formatting, link integrity, and scope coverage"
+    prompt_template: "states/validate.md"
+    tools: ["run_command", "view_file", "grep_search"]
+    transitions:
+      VALIDATION_PASSED:
+        target: "REVIEW"
+        guard: "event.payload.exit_code === 0"
+      VALIDATION_FAILED:
+        target: "ERROR"
+        guard: "event.payload.exit_code !== 0"
+
+  REVIEW:
+    description: "Human gate to approve, revise, or reject release notes"
+    prompt_template: "states/review.md"
+    tools: ["view_file"]
+    human_gate:
+      type: "choice"
+      tool: "ask_question"
+      options:
+        - "Approve release notes"
+        - "Request revisions"
+        - "Reject release notes"
+    transitions:
+      USER_APPROVED:
+        target: "SUCCESS"
+        guard: "event.payload.approved === true"
+      USER_REQUEST_REVISIONS:
+        target: "COMPOSE"
+        guard: "event.payload.revisions_requested === true"
+      USER_REJECTED:
+        target: "BLOCKED"
+        guard: "event.payload.rejected === true"
+
+  SUCCESS:
+    description: "Terminal state: release notes approved"
+    prompt_template: "states/success.md"
+
+  BLOCKED:
+    description: "Terminal state: release notes rejected"
+    prompt_template: "states/blocked.md"
+
+  ERROR:
+    description: "Terminal state: release note workflow failed"
+    prompt_template: "states/error.md"
+
+deliverable_projections:
+  - template: "templates/release_notes.md.hbs"
+    output: ".docs/release-notes/release-notes.md"
+    trigger_on: ["STATE_TRANSITION"]
+  - template: "templates/state_snapshot.json.hbs"
+    output: ".docs/release-notes/state.json"
+    trigger_on: ["STATE_TRANSITION"]

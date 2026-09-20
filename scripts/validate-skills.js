@@ -246,8 +246,8 @@ function validateSkill(skill, runRuntimeCheck) {
       }
 
       // Check for nested composite states
-      if (stateDef.states && typeof stateDef.states === 'object') {
-        registerStates(stateDef.states, fullName);
+      if ((stateDef.substates || stateDef.states) && typeof (stateDef.substates || stateDef.states) === 'object') {
+        registerStates(stateDef.substates || stateDef.states, fullName);
       }
     }
   }

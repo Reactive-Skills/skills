@@ -1,0 +1,204 @@
+schema_version: "2.0.0"
+name: "security-scan"
+version: "1.0.0"
+description: "Pre-commit secret and credential scanner with remediation checklist — scans staged changes for API keys, tokens, private keys, hardcoded credentials, insecure defaults"
+initial_state: "COLLECT_STAGED"
+
+# NOTE: The middleware section below documents intended middleware hooks.
+# The current runtime strips 'middleware' from the Zod schema, so these
+# hooks are implemented via guards/helpers.js (guardFunction on all
+# transitions) which provides audit logging, metrics export, and context
+# derivation before each transition fires.
+
+middleware:
+  hooks:
+    - name: telemetry
+      trigger: post_transition
+      config:
+        emitter: stdout
+    - name: audit
+      trigger: post_transition
+      config:
+        destination: ".reactive/security-scan.audit.log"
+        redact: ["staged_files", "scan_results", "secrets_found", "credentials_found", "findings"]
+    - name: metrics
+      trigger: post_transition
+      config:
+        backend: prometheus
+        port: 9091
+    - name: invariant_checker
+      trigger: post_transition
+      config:
+        rules_file: "runtime/hooks/invariants.yaml"
+        on_violation: halt
+    - name: context_sanitizer
+      trigger: pre_transition
+      config:
+        patterns:
+          - ".*_TOKEN"
+          - ".*_KEY"
+          - ".*_SECRET"
+          - ".*_PASSWORD"
+          - "api_key"
+          - "bearer"
+          - "password"
+          - "private_key"
+          - "-----BEGIN"
+        replacement: "[REDACTED]"
+
+context_keys:
+  - "staged_files"
+  - "scan_results"
+  - "secrets_found"
+  - "credentials_found"
+  - "insecure_configs"
+  - "findings"
+  - "remediation_steps"
+  - "pass_fail_verdict"
+  - "critical_findings"
+
+default_context:
+  staged_files: []
+  scan_results: []
+  secrets_found: []
+  credentials_found: []
+  insecure_configs: []
+  findings: []
+  remediation_steps: []
+  pass_fail_verdict: null
+  critical_findings: []
+
+states:
+  COLLECT_STAGED:
+    description: "Collect git-staged files for scanning"
+    prompt_template: "states/collect_staged.md"
+    tools: ["run_command", "view_file", "grep_search"]
+    on_enter:
+      - emit_signal: "COLLECTION_STARTED"
+    transitions:
+      STAGED_FILES:
+        target: "SCAN_PIPELINE"
+        guard: "Array.isArray(event.payload.staged_files) && event.payload.staged_files.length > 0"
+        guardFunction: "guards/helpers.js"
+
+  SCAN_PIPELINE:
+    description: "Composite state: secrets scan, credentials scan, config scan"
+    initial_substate: "SECRETS_SCAN"
+    on_enter:
+      - emit_signal: "SCAN_STARTED"
+    transitions:
+      CRITICAL_SECRET_FOUND:
+        target: "BLOCKED"
+        guard: "event.payload.severity === 'critical'"
+        guardFunction: "guards/helpers.js"
+    substates:
+      SECRETS_SCAN:
+        description: "Scan for API keys, tokens, private keys using regex + entropy heuristics"
+        prompt_template: "states/scan_pipeline/secrets_scan.md"
+        tools: ["run_command", "grep_search", "view_file"]
+        transitions:
+          SECRETS_SCANNED:
+            target: "SCAN_PIPELINE.CREDENTIALS_SCAN"
+            guard: "event.payload.exit_code === 0"
+            guardFunction: "guards/helpers.js"
+
+      CREDENTIALS_SCAN:
+        description: "Scan for hardcoded credentials (passwords, API keys in config)"
+        prompt_template: "states/scan_pipeline/credentials_scan.md"
+        tools: ["run_command", "grep_search", "view_file"]
+        transitions:
+          CREDENTIALS_SCANNED:
+            target: "SCAN_PIPELINE.CONFIG_SCAN"
+            guard: "event.payload.exit_code === 0"
+            guardFunction: "guards/helpers.js"
+
+      CONFIG_SCAN:
+        description: "Scan for insecure defaults, hardcoded IPs, debug mode in production"
+        prompt_template: "states/scan_pipeline/config_scan.md"
+        tools: ["run_command", "grep_search", "view_file"]
+        transitions:
+          CONFIG_SCANNED:
+            target: "REPORT"
+            guard: "event.payload.exit_code === 0"
+            guardFunction: "guards/helpers.js"
+
+  REPORT:
+    description: "Composite state: generate findings summary and remediation checklist"
+    initial_substate: "VIOLATION_SUMMARY"
+    on_enter:
+      - emit_signal: "REPORT_STARTED"
+    transitions:
+      REPORT_ERROR:
+        target: "ERROR"
+        guardFunction: "guards/helpers.js"
+    substates:
+      VIOLATION_SUMMARY:
+        description: "Summarize all findings by severity and category"
+        prompt_template: "states/report/violation_summary.md"
+        tools: ["view_file", "write_to_file"]
+        transitions:
+          SUMMARY_GENERATED:
+            target: "REPORT.REMEDIATION"
+            guardFunction: "guards/helpers.js"
+
+      REMEDIATION:
+        description: "Generate actionable remediation checklist for each finding"
+        prompt_template: "states/report/remediation.md"
+        tools: ["view_file", "write_to_file"]
+        transitions:
+          REMEDIATION_GENERATED:
+            target: "GATE"
+            guardFunction: "guards/helpers.js"
+
+  GATE:
+    description: "Human review gate: pass, request remediation, or block"
+    prompt_template: "states/gate.md"
+    human_gate:
+      type: "choice"
+      tool: "ask_question"
+      options:
+        - "Pass (no critical issues)"
+        - "Request Remediation (re-run scan)"
+        - "Block Commit (critical issues found)"
+    transitions:
+      USER_APPROVED:
+        target: "COMPLETED"
+        guard: "event.payload.approved === true"
+        guardFunction: "guards/helpers.js"
+      REQUEST_REMEDIATION:
+        target: "SCAN_PIPELINE"
+        guard: "event.payload.remediation_requested === true"
+        guardFunction: "guards/helpers.js"
+      USER_REJECTED:
+        target: "BLOCKED"
+        guard: "event.payload.rejected === true"
+        guardFunction: "guards/helpers.js"
+
+  COMPLETED:
+    description: "Terminal state: Scan complete, no critical issues"
+    prompt_template: "states/completed.md"
+    on_enter:
+      - emit_signal: "DELIVERABLE_READY"
+
+  BLOCKED:
+    description: "Terminal state: Critical secrets or credentials found, commit blocked"
+    prompt_template: "states/blocked.md"
+    on_enter:
+      - emit_signal: "SKILL_BLOCKED"
+
+  ERROR:
+    description: "Terminal state: Unrecoverable error occurred"
+    prompt_template: "states/error.md"
+    on_enter:
+      - emit_signal: "SKILL_ERROR"
+
+deliverable_projections:
+  - template: "templates/findings.md.hbs"
+    output: ".docs/security-scan/findings.md"
+    trigger_on: ["STATE_TRANSITION", "SIGNAL_EMITTED"]
+  - template: "templates/remediation_checklist.md.hbs"
+    output: ".docs/security-scan/remediation-checklist.md"
+    trigger_on: ["STATE_TRANSITION"]
+  - template: "templates/state_snapshot.json.hbs"
+    output: ".docs/security-scan/state.json"
+    trigger_on: ["STATE_TRANSITION"]

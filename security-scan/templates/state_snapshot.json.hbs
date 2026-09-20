@@ -1,0 +1,29 @@
+{
+  "skill": "security-scan",
+  "version": "1.0.0",
+  "snapshot_time": "{{lastUpdated}}",
+  "current_state": "{{currentState}}",
+  "verdict": "{{context.pass_fail_verdict}}",
+  "context": {
+    "staged_files": {{{json context.staged_files}}},
+    "findings": {{{json context.findings}}},
+    "secrets_found": {{{json context.secrets_found}}},
+    "credentials_found": {{{json context.credentials_found}}},
+    "insecure_configs": {{{json context.insecure_configs}}},
+    "critical_findings": {{{json context.critical_findings}}},
+    "remediation_steps": {{{json context.remediation_steps}}}
+  },
+  "stats": {
+    "total_findings": {{context.findings_count}},
+    "critical": {{context.critical_count}},
+    "high": {{context.high_count}},
+    "medium": {{context.medium_count}},
+    "low": {{context.low_count}},
+    "scanned_files": {{context.staged_files.length}}
+  },
+  "deliverables": {
+    "findings_report": ".docs/security-scan/findings.md",
+    "remediation_checklist": ".docs/security-scan/remediation-checklist.md",
+    "state_snapshot": ".docs/security-scan/state.json"
+  }
+}

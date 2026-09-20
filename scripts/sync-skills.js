@@ -7,7 +7,7 @@
  * Reconciles authoring repositories with global agent runtimes:
  * 1. Global registry: ~/.agents/skills/
  * 2. Satellites: ~/.gemini/config/skills/, ~/.claude/skills/, ~/.cline/skills/,
- *    ~/.codex/skills/, ~/.grok/skills/, ~/.kilocode/skills/, ~/.copilot/skills/, ~/.pi/skills/
+ *    ~/.codex/skills/, ~/.grok/skills/, ~/.kilocode/skills/, ~/.copilot/skills/, ~/.pi/skills/, ~/.devin/skills/
  *
  * Key Invariants:
  * - PREFERS Windows Directory Junctions (or POSIX symlinks) by default for zero-drift live editing.
@@ -42,6 +42,7 @@ const KNOWN_SATELLITES = [
   path.join(HOME, '.kilocode', 'skills'),
   path.join(HOME, '.copilot', 'skills'),
   path.join(HOME, '.pi', 'skills'),
+  path.join(HOME, '.devin', 'skills'),
 ];
 
 const IGNORED_DIRS = new Set([

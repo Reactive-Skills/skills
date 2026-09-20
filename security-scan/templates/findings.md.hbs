@@ -1,0 +1,81 @@
+# Security Scan Findings Report
+**Generated:** {{lastUpdated}}
+**Scan Type:** Staged Files Security Scan
+**Pass/Fail Verdict:** {{context.pass_fail_verdict}}
+
+---
+
+## Summary
+
+| Severity | Count |
+|---|---|
+| Critical | {{context.critical_count}} |
+| High | {{context.high_count}} |
+| Medium | {{context.medium_count}} |
+| Low | {{context.low_count}} |
+| **Total** | {{context.findings_count}} |
+
+---
+
+## Critical Findings
+
+{{#if context.critical_findings}}
+  {{#each context.critical_findings}}
+  ### {{@index}} — {{{category}}} — {{{file}}}:{{{line}}}
+  **Type:** {{{type}}}
+  **Severity:** {{{severity}}}
+  **Description:** {{{description}}}
+  **Entropy:** {{{entropy}}}
+  **Action:** {{{remediation.action}}}
+  {{/each}}
+{{else}}
+  - No critical findings
+{{/if}}
+
+---
+
+## High Severity Findings
+
+{{#each context.findings}}
+  {{#if (eq severity "high")}}
+  - **{{{file}}}:{{{line}}}** — {{{type}}}: {{{description}}}
+  {{/if}}
+{{/each}}
+
+---
+
+## Medium Severity Findings
+
+{{#each context.findings}}
+  {{#if (eq severity "medium")}}
+  - **{{{file}}}:{{{line}}}** — {{{type}}}: {{{description}}}
+  {{/if}}
+{{/each}}
+
+---
+
+## Low Severity Findings
+
+{{#each context.findings}}
+  {{#if (eq severity "low")}}
+  - **{{{file}}}:{{{line}}}** — {{{type}}}: {{{description}}}
+  {{/if}}
+{{/each}}
+
+---
+
+## Category Breakdown
+
+| Category | Critical | High | Medium | Low | Total |
+|---|---|---|---|---|---|
+| Secrets | {{context.secrets_counts.critical}} | {{context.secrets_counts.high}} | {{context.secrets_counts.medium}} | {{context.secrets_counts.low}} | {{context.secrets_total}} |
+| Credentials | {{context.credentials_counts.critical}} | {{context.credentials_counts.high}} | {{context.credentials_counts.medium}} | {{context.credentials_counts.low}} | {{context.credentials_total}} |
+| Config Issues | {{context.config_counts.critical}} | {{context.config_counts.high}} | {{context.config_counts.medium}} | {{context.config_counts.low}} | {{context.config_total}} |
+
+---
+
+## Scanned Files
+
+{{#each context.staged_files}}
+- `{{this}}`
+{{/each}}

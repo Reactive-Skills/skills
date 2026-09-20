@@ -1,0 +1,159 @@
+schema_version: "2.0.0"
+name: "test-coverage-gate"
+version: "1.0.0"
+description: "Test coverage quality gate that establishes a clean baseline, measures statement, branch, function, and line coverage, analyzes gaps, and blocks release below explicit thresholds."
+initial_state: "INTAKE"
+
+middleware:
+  hooks:
+    - name: telemetry
+      trigger: post_transition
+      config:
+        emitter: stdout
+    - name: audit
+      trigger: post_transition
+      config:
+        destination: ".reactive/test-coverage-gate.audit.log"
+        redact: []
+    - name: invariant_checker
+      trigger: post_transition
+      config:
+        rules_file: "runtime/hooks/invariants.yaml"
+        on_violation: halt
+    - name: context_sanitizer
+      trigger: pre_transition
+      config:
+        patterns:
+          - ".*_TOKEN"
+          - ".*_KEY"
+          - ".*_SECRET"
+          - "password"
+          - "api_key"
+        replacement: "[REDACTED]"
+
+context_keys:
+  - "target_dir"
+  - "test_command"
+  - "coverage_command"
+  - "thresholds"
+  - "baseline_exit_code"
+  - "coverage_report"
+  - "coverage_metrics"
+  - "coverage_gaps"
+  - "gate_decision"
+  - "deliverable_path"
+
+default_context:
+  target_dir: "."
+  test_command: null
+  coverage_command: null
+  thresholds: null
+  baseline_exit_code: null
+  coverage_report: null
+  coverage_metrics: null
+  coverage_gaps: []
+  gate_decision: null
+  deliverable_path: null
+
+states:
+  INTAKE:
+    description: "Collect target, test command, coverage command, and quality thresholds"
+    prompt_template: "states/intake.md"
+    tools: ["view_file", "run_command"]
+    transitions:
+      INTAKE_READY:
+        target: "CONFIGURE"
+        guard: "event.payload.target_dir != null && event.payload.test_command != null && event.payload.coverage_command != null && event.payload.thresholds != null"
+      INTAKE_INVALID:
+        target: "ERROR"
+        guard: "event.payload.target_dir == null || event.payload.test_command == null || event.payload.coverage_command == null || event.payload.thresholds == null"
+
+  CONFIGURE:
+    description: "Validate commands, threshold schema, and coverage report format"
+    prompt_template: "states/configure.md"
+    tools: ["run_command", "view_file"]
+    transitions:
+      CONFIGURATION_READY:
+        target: "BASELINE"
+        guard: "event.payload.exit_code === 0 && event.payload.thresholds != null"
+      CONFIGURATION_FAILED:
+        target: "ERROR"
+        guard: "event.payload.exit_code !== 0 || event.payload.thresholds == null"
+
+  BASELINE:
+    description: "Run the unmodified test suite and require a clean baseline"
+    prompt_template: "states/baseline.md"
+    tools: ["run_command"]
+    transitions:
+      BASELINE_PASSED:
+        target: "MEASURE"
+        guard: "event.payload.exit_code === 0"
+      BASELINE_FAILED:
+        target: "ERROR"
+        guard: "event.payload.exit_code !== 0"
+
+  MEASURE:
+    description: "Run coverage collection and parse the machine-readable report"
+    prompt_template: "states/measure.md"
+    tools: ["run_command", "view_file"]
+    transitions:
+      COVERAGE_MEASURED:
+        target: "ANALYZE"
+        guard: "event.payload.coverage_report != null && event.payload.coverage_metrics != null"
+      MEASUREMENT_FAILED:
+        target: "ERROR"
+        guard: "event.payload.coverage_report == null || event.payload.coverage_metrics == null"
+
+  ANALYZE:
+    description: "Compare coverage metrics with thresholds and identify actionable gaps"
+    prompt_template: "states/analyze.md"
+    tools: ["view_file", "write_to_file", "grep_search"]
+    transitions:
+      GAPS_ANALYZED:
+        target: "GATE"
+        guard: "event.payload.coverage_metrics != null && Array.isArray(event.payload.coverage_gaps)"
+      ANALYSIS_FAILED:
+        target: "ERROR"
+        guard: "event.payload.coverage_metrics == null || !Array.isArray(event.payload.coverage_gaps)"
+
+  GATE:
+    description: "Human quality gate for threshold exceptions and release blocking"
+    prompt_template: "states/gate.md"
+    tools: ["view_file"]
+    human_gate:
+      type: "choice"
+      tool: "ask_question"
+      options:
+        - "Accept coverage result"
+        - "Request gap remediation"
+        - "Block release"
+    transitions:
+      USER_APPROVED:
+        target: "SUCCESS"
+        guard: "event.payload.approved === true"
+      USER_REQUEST_REMEDIATION:
+        target: "MEASURE"
+        guard: "event.payload.remediation_requested === true"
+      USER_REJECTED:
+        target: "BLOCKED"
+        guard: "event.payload.rejected === true"
+
+  SUCCESS:
+    description: "Terminal state: coverage gate passed"
+    prompt_template: "states/success.md"
+
+  BLOCKED:
+    description: "Terminal state: coverage gate blocked release"
+    prompt_template: "states/blocked.md"
+
+  ERROR:
+    description: "Terminal state: coverage workflow failed"
+    prompt_template: "states/error.md"
+
+deliverable_projections:
+  - template: "templates/coverage_report.md.hbs"
+    output: ".docs/test-coverage-gate/coverage-report.md"
+    trigger_on: ["STATE_TRANSITION"]
+  - template: "templates/state_snapshot.json.hbs"
+    output: ".docs/test-coverage-gate/state.json"
+    trigger_on: ["STATE_TRANSITION"]

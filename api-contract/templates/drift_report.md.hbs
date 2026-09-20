@@ -1,0 +1,104 @@
+# API Contract Drift Report
+**Generated:** {{timestamp}}
+**Spec:** {{api_spec_path}}
+**Client Paths:** {{client_code_paths}}
+
+---
+
+## Executive Summary
+
+{{#if drift_findings}}
+  {{#if (gt drift_findings.length 0)}}
+    **{{drift_findings.length}} drift findings** detected across {{missing_endpoints.length}} missing endpoints and {{type_mismatches.length}} type mismatches.
+  {{else}}
+    **No drift findings detected.** Client code is fully aligned with the API spec.
+  {{/if}}
+{{else}}
+  **No drift findings detected.** Client code is fully aligned with the API spec.
+{{/if}}
+
+---
+
+## Severity Classification
+
+{{#each drift_findings}}
+  {{#if (eq severity "critical")}}
+    ### CRITICAL: {{description}}
+    **Endpoint:** {{method}} {{path}}
+    **Client Location:** {{client_location}}
+    **Fix:** {{fix}}
+  {{/if}}
+{{/each}}
+
+{{#each drift_findings}}
+  {{#if (eq severity "high")}}
+    ### HIGH: {{description}}
+    **Endpoint:** {{method}} {{path}}
+    **Client Location:** {{client_location}}
+    **Fix:** {{fix}}
+  {{/if}}
+{{/each}}
+
+{{#each drift_findings}}
+  {{#if (eq severity "medium")}}
+    ### MEDIUM: {{description}}
+    **Endpoint:** {{method}} {{path}}
+    **Client Location:** {{client_location}}
+    **Fix:** {{fix}}
+  {{/if}}
+{{/each}}
+
+{{#each drift_findings}}
+  {{#if (eq severity "low")}}
+    ### LOW: {{description}}
+    **Endpoint:** {{method}} {{path}}
+    **Client Location:** {{client_location}}
+    **Fix:** {{fix}}
+  {{/if}}
+{{/each}}
+
+---
+
+## Coverage Matrix
+
+| Spec Endpoint | Method | In Spec | Called in Client | Coverage |
+|---|---|---|---|---|
+{{#each coverage_matrix}}
+| {{path}} | {{method}} | ✓ | {{#if called_in_client}}✓{{else}}✗{{/if}} | {{coverage_percentage}}% |
+{{/each}}
+
+---
+
+## Deprecated Usage
+
+{{#if deprecated_usage}}
+  {{#each deprecated_usage}}
+  - `{{method}} {{path}}` — marked as deprecated in spec
+  {{/each}}
+{{else}}
+  - No deprecated endpoints in use
+{{/if}}
+
+---
+
+## Type Mismatches
+
+{{#if type_mismatches}}
+  {{#each type_mismatches}}
+  - **{{endpoint}}**: {{description}} — expected `{{expected_type}}`, found `{{actual_type}}`
+  {{/each}}
+{{else}}
+  - No type mismatches detected
+{{/if}}
+
+---
+
+## Missing Endpoints (Client calls endpoints not in spec)
+
+{{#if missing_endpoints}}
+  {{#each missing_endpoints}}
+  - `{{method}} {{path}}` — called at `{{client_location}}` but not defined in spec
+  {{/each}}
+{{else}}
+  - No missing endpoints detected
+{{/if}}

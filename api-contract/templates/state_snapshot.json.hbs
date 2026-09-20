@@ -1,0 +1,29 @@
+{
+  "skill": "api-contract",
+  "version": "1.0.0",
+  "snapshot_time": "{{timestamp}}",
+  "current_state": "{{current_state}}",
+  "context": {
+    "api_spec_path": {{toJson api_spec_path}},
+    "client_code_paths": {{toJson client_code_paths}},
+    "spec_schema": {{toJson spec_schema}},
+    "client_endpoints": {{toJson client_endpoints}},
+    "drift_findings": {{toJson drift_findings}},
+    "missing_endpoints": {{toJson missing_endpoints}},
+    "type_mismatches": {{toJson type_mismatches}},
+    "deprecated_usage": {{toJson deprecated_usage}},
+    "coverage_matrix": {{toJson coverage_matrix}}
+  },
+  "stats": {
+    "total_findings": {{drift_findings.length}},
+    "critical": {{#each drift_findings}}{{#if (eq severity "critical")}}1{{/if}}{{/each}},
+    "high": {{#each drift_findings}}{{#if (eq severity "high")}}1{{/if}}{{/each}},
+    "medium": {{#each drift_findings}}{{#if (eq severity "medium")}}1{{/if}}{{/each}},
+    "low": {{#each drift_findings}}{{#if (eq severity "low")}}1{{/if}}{{/each}}
+  },
+  "deliverables": {
+    "drift_report": ".docs/api-contract/drift.md",
+    "coverage_matrix": ".docs/api-contract/coverage.md",
+    "state_snapshot": ".docs/api-contract/state.json"
+  }
+}

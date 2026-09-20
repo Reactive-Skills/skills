@@ -1,0 +1,22 @@
+invariants:
+  "INTAKE -> COLLECT":
+    condition: "context.repository != null && context.release_version != null && Array.isArray(context.scope_refs) && context.scope_refs.length > 0"
+    description: "Repository, version, and scope refs must be populated"
+  "COLLECT -> CLASSIFY":
+    condition: "Array.isArray(context.commits) && context.commits.length > 0"
+    description: "Collected commits must exist before classification"
+  "CLASSIFY -> COMPOSE":
+    condition: "Array.isArray(context.changelog_entries) && context.changelog_entries.length > 0"
+    description: "Changelog entries must exist before composition"
+  "COMPOSE -> VALIDATE":
+    condition: "context.release_notes != null && context.release_notes.length > 0"
+    description: "Release notes must be composed before validation"
+  "VALIDATE -> REVIEW":
+    condition: "context.validation_exit_code === 0"
+    description: "Validation must pass before review"
+  "REVIEW -> SUCCESS":
+    condition: "context.review_decision === 'approved'"
+    description: "Only explicit approval reaches success"
+  "REVIEW -> BLOCKED":
+    condition: "context.review_decision === 'blocked'"
+    description: "Only explicit rejection reaches blocked"

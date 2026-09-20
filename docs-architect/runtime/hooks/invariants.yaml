@@ -1,0 +1,19 @@
+invariants:
+  "INTAKE -> DISCOVER":
+    condition: "Array.isArray(context.source_paths) && context.source_paths.length > 0 && context.audience != null"
+    description: "Intake must contain source paths and an audience"
+  "EXTRACT -> DESIGN":
+    condition: "Array.isArray(context.extracted_facts) && context.extracted_facts.length > 0"
+    description: "Extracted facts must exist before design"
+  "DIAGRAM -> VALIDATE":
+    condition: "Array.isArray(context.diagram_inventory) && context.diagram_inventory.length > 0"
+    description: "Diagrams must be inventoried before validation"
+  "VALIDATE -> REVIEW":
+    condition: "context.validation_exit_code === 0"
+    description: "Validation must pass before review"
+  "REVIEW -> SUCCESS":
+    condition: "context.review_decision === 'approved'"
+    description: "Only explicit approval reaches success"
+  "REVIEW -> BLOCKED":
+    condition: "context.review_decision === 'rejected'"
+    description: "Only explicit rejection reaches blocked"

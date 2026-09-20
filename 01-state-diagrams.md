@@ -1,0 +1,340 @@
+# Reactive Skill Candidates — Mermaid State Diagrams
+
+## 1. codebase-onboarding
+
+```mermaid
+stateDiagram-v2
+  [*] --> INIT
+  INIT --> RECON
+  RECON --> DOMAIN_EXPLORATION
+  RECON --> ARCHITECTURE_MAPPING : skip_domain
+  DOMAIN_EXPLORATION --> ARCHITECTURE_MAPPING
+  ARCHITECTURE_MAPPING --> CONVENTIONS_DISCOVERY
+  CONVENTIONS_DISCOVERY --> RUN_AND_VERIFY
+  RUN_AND_VERIFY --> OWNERSHIP_TRANSFER
+  OWNERSHIP_TRANSFER --> COMPLETED
+  OWNERSHIP_TRANSFER --> RECON : request_revisions
+  COMPLETED --> INIT : RESET
+```
+
+```mermaid
+stateDiagram-v2
+  [*] --> RECON
+  RECON --> DOMAIN_EXPLORATION
+  RECON --> ARCHITECTURE_MAPPING : skip_domain
+  RECON --> RUN_AND_VERIFY
+  state DOMAIN_EXPLORATION {
+    [*] --> ENTITY_DISCOVERY
+    ENTITY_DISCOVERY --> BUSINESS_RULES
+    BUSINESS_RULES --> DOMAIN_EVENTS
+    DOMAIN_EVENTS --> ENTITY_DISCOVERY : needs_clarification
+    ENTITY_DISCOVERY --> [*]
+  }
+  state RUN_AND_VERIFY {
+    [*] --> BUILD_CHECK
+    BUILD_CHECK --> TEST_CHECK
+    TEST_CHECK --> LINT_CHECK
+    LINT_CHECK --> [*]
+  }
+```
+
+## 2. dependency-upgrade-agent
+
+```mermaid
+stateDiagram-v2
+  [*] --> INIT
+  INIT --> SCAN
+  SCAN --> PLAN
+  PLAN --> UPGRADE_LOOP_START
+  state UPGRADE_LOOP {
+    [*] --> BUMP
+    BUMP --> LINT
+    LINT --> TYPECHECK
+    TYPECHECK --> UNIT_TEST
+    UNIT_TEST --> INTEGRATION_TEST
+    INTEGRATION_TEST --> SMOKE_TEST
+    SMOKE_TEST --> GATE
+    state GATE {
+      [*] --> KEEP_CHANGES
+      KEEP_CHANGES --> [*]
+      KEEP_CHANGES --> ROLLBACK_PACKAGE : breaking_change
+      ROLLBACK_PACKAGE --> [*]
+    }
+    GATE --> BUMP : next_package
+  }
+  UPGRADE_LOOP --> REVIEW : all_packages_done
+  REVIEW --> COMPLETED
+  REVIEW --> UPGRADE_LOOP : request_more
+  COMPLETED --> INIT : RESET
+```
+
+```mermaid
+stateDiagram-v2
+  [*] --> SCAN
+  SCAN --> PLAN
+  PLAN --> UPGRADE_LOOP
+  state PLAN {
+    [*] --> PRIORITIZE
+    PRIORITIZE --> RISK_CLASSIFY
+    RISK_CLASSIFY --> [*]
+  }
+  state UPGRADE_LOOP {
+    [*] --> BUMP
+    BUMP --> LINT
+    LINT --> TYPECHECK
+    TYPECHECK --> UNIT_TEST
+    UNIT_TEST --> INTEGRATION_TEST
+    INTEGRATION_TEST --> SMOKE_TEST
+    SMOKE_TEST --> GATE
+    state GATE {
+      [*] --> KEEP_CHANGES
+      KEEP_CHANGES --> ROLLBACK_PACKAGE : breaking
+      KEEP_CHANGES --> SKIP_PACKAGE : unfixable
+      ROLLBACK_PACKAGE --> [*]
+      SKIP_PACKAGE --> [*]
+    }
+    GATE --> BUMP : next_package
+    BUMP --> [*] : error
+  }
+```
+
+## 3. performance-budget-enforcer
+
+```mermaid
+stateDiagram-v2
+  [*] --> INIT
+  INIT --> LOAD_BUDGETS
+  LOAD_BUDGETS --> MEASURE
+  state MEASURE {
+    [*] --> NETWORK_WATERFALL
+    NETWORK_WATERFALL --> ASSET_AUDIT
+    ASSET_AUDIT --> BUNDLE_ANALYSIS
+    BUNDLE_ANALYSIS --> CORE_WEB_VITALS
+    state CORE_WEB_VITALS {
+      [*] --> LCP_CHECK
+      LCP_CHECK --> INP_CHECK : lcp_ok
+      LCP_CHECK --> FIX_LCP : lcp_violated
+      INP_CHECK --> CLS_CHECK : inp_ok
+      INP_CHECK --> FIX_INP : inp_violated
+      CLS_CHECK --> [*] : cls_ok
+      CLS_CHECK --> FIX_CLS : cls_violated
+      FIX_LCP --> LCP_CHECK : reverified
+      FIX_INP --> INP_CHECK : reverified
+      FIX_CLS --> CLS_CHECK : reverified
+    }
+    CORE_WEB_VITALS --> VISUAL_REGRESSION
+    VISUAL_REGRESSION --> [*]
+  }
+  MEASURE --> COMPARE
+  COMPARE --> VIOLATIONS : violations_found
+  COMPARE --> GATE : no_violations
+  state VIOLATIONS {
+    [*] --> IDENTIFY
+    IDENTIFY --> SURGICAL_FIX
+    SURGICAL_FIX --> REMEASURE
+    REMEASURE --> RECOMPARE
+    RECOMPARE --> GATE : fixed
+    RECOMPARE --> GATE : unfixed
+  }
+  GATE --> COMPLETED
+  COMPLETED --> INIT : RESET
+```
+
+```mermaid
+stateDiagram-v2
+  [*] --> MEASURE
+  state MEASURE {
+    [*] --> NETWORK_WATERFALL
+    NETWORK_WATERFALL --> ASSET_AUDIT
+    state ASSET_AUDIT {
+      [*] --> JS_SIZE
+      JS_SIZE --> CSS_SIZE
+      CSS_SIZE --> IMAGE_SIZE
+      IMAGE_SIZE --> [*]
+    }
+  }
+  MEASURE --> VIOLATIONS
+  state VIOLATIONS {
+    [*] --> IDENTIFY
+    IDENTIFY --> SURGICAL_FIX
+    SURGICAL_FIX --> REMEASURE
+    REMEASURE --> RECOMPARE
+    RECOMPARE --> GATE : fixed
+    RECOMPARE --> GATE : unfixed
+  }
+```
+
+## 4. api-contract-validator
+
+```mermaid
+stateDiagram-v2
+  [*] --> INIT
+  INIT --> DISCOVER_APIS
+  DISCOVER_APIS --> VALIDATION_PIPELINE
+  state VALIDATION_PIPELINE {
+    [*] --> SCHEMA_VALIDATION
+    state SCHEMA_VALIDATION {
+      [*] --> OPENAPI_CHECK
+      OPENAPI_CHECK --> TYPE_COMPATIBILITY
+      TYPE_COMPATIBILITY --> BREAKING_CHANGE_DETECTION
+      BREAKING_CHANGE_DETECTION --> EXAMPLE_CONFORMANCE
+      EXAMPLE_CONFORMANCE --> [*]
+    }
+  }
+  VALIDATION_PIPELINE --> DRIFT_ANALYSIS
+  DRIFT_ANALYSIS --> REPORT
+  state REPORT {
+    [*] --> VIOLATION_SUMMARY
+    VIOLATION_SUMMARY --> FIX_RECOMMENDATIONS
+    FIX_RECOMMENDATIONS --> [*]
+  }
+  REPORT --> GATE
+  GATE --> COMPLETED
+  GATE --> VALIDATION_PIPELINE : request_extended
+  COMPLETED --> INIT : RESET
+```
+
+```mermaid
+stateDiagram-v2
+  [*] --> DISCOVER_APIS
+  DISCOVER_APIS --> VALIDATION_PIPELINE
+  state VALIDATION_PIPELINE {
+    [*] --> SCHEMA_VALIDATION
+    state SCHEMA_VALIDATION {
+      [*] --> OPENAPI_CHECK
+      OPENAPI_CHECK --> TYPE_COMPATIBILITY
+      TYPE_COMPATIBILITY --> BREAKING_CHANGE_DETECTION
+      BREAKING_CHANGE_DETECTION --> EXAMPLE_CONFORMANCE
+      EXAMPLE_CONFORMANCE --> [*]
+    }
+    state EXTENDED_VALIDATION {
+      [*] --> EDGE_CASE_TESTS
+      EDGE_CASE_TESTS --> NEGATIVE_PATH_TESTS
+      NEGATIVE_PATH_TESTS --> [*]
+    }
+  }
+```
+
+## 5. database-migration-safety
+
+```mermaid
+stateDiagram-v2
+  [*] --> INIT
+  INIT --> PARSE_MIGRATION
+  PARSE_MIGRATION --> RISK_PIPELINE
+  state RISK_PIPELINE {
+    [*] --> DATA_LOSS_CHECK
+    DATA_LOSS_CHECK --> PERFORMANCE_IMPACT
+    PERFORMANCE_IMPACT --> DOWNTIME_ANALYSIS
+    DOWNTIME_ANALYSIS --> ROLLBACK_VERIFICATION
+    ROLLBACK_VERIFICATION --> [*]
+  }
+  state RISK_REVIEW {
+    [*] --> RISK_SCORE
+    RISK_SCORE --> BLOCKED : risk_critical
+    RISK_SCORE --> APPROVAL_REQUIRED : risk_high
+    RISK_SCORE --> GATE : risk_low
+    APPROVAL_REQUIRED --> GATE : approved
+    APPROVAL_REQUIRED --> BLOCKED : rejected
+    APPROVAL_REQUIRED --> RISK_PIPELINE : request_fix
+  }
+  RISK_PIPELINE --> SIMULATE
+  SIMULATE --> RISK_REVIEW
+  RISK_REVIEW --> GATE
+  BLOCKED --> [*]
+  GATE --> COMPLETED
+  COMPLETED --> INIT : RESET
+```
+
+```mermaid
+stateDiagram-v2
+  [*] --> RISK_PIPELINE
+  state RISK_PIPELINE {
+    [*] --> DATA_LOSS_CHECK
+    DATA_LOSS_CHECK --> PERFORMANCE_IMPACT
+    state DATA_LOSS_CHECK {
+      [*] --> DROP_COLUMN_SCAN
+      DROP_COLUMN_SCAN --> TABLE_DROP_SCAN
+      TABLE_DROP_SCAN --> TRUNCATE_SCAN
+      TRUNCATE_SCAN --> [*]
+    }
+    state PERFORMANCE_IMPACT {
+      [*] --> INDEX_IMPACT
+      INDEX_IMPACT --> LOCK_DURATION
+      LOCK_DURATION --> BACKFILL_ANALYSIS
+      BACKFILL_ANALYSIS --> [*]
+    }
+  }
+  RISK_PIPELINE --> SIMULATE
+  SIMULATE --> RISK_REVIEW
+  state RISK_REVIEW {
+    [*] --> RISK_SCORE
+    RISK_SCORE --> BLOCKED : critical
+    RISK_SCORE --> APPROVAL_REQUIRED : high
+    RISK_SCORE --> GATE : low
+  }
+```
+
+## 7. browser-verifier
+
+```mermaid
+stateDiagram-v2
+  [*] --> INTAKE
+  INTAKE --> BOOT : CONFIGURE
+  INTAKE --> ERROR : ABORT
+
+  BOOT --> NAVIGATE : READY
+  BOOT --> ERROR : FAIL
+
+  NAVIGATE --> ASSERT_DOM : LOADED
+  NAVIGATE --> BLOCKED : NETWORK_FAIL
+  NAVIGATE --> ERROR : FAIL
+
+  ASSERT_DOM --> INSPECT_CONSOLE : VERIFIED
+  ASSERT_DOM --> BLOCKED : ASSERTION_FAIL
+  ASSERT_DOM --> ERROR : FAIL
+
+  INSPECT_CONSOLE --> CAPTURE_ARTIFACT : CLEAN
+  INSPECT_CONSOLE --> BLOCKED : ERRORS_FOUND
+  INSPECT_CONSOLE --> ERROR : FAIL
+
+  CAPTURE_ARTIFACT --> GATE : CAPTURED
+  CAPTURE_ARTIFACT --> ERROR : FAIL
+
+  GATE --> SUCCESS : APPROVE
+  GATE --> BLOCKED : REJECT
+
+  SUCCESS --> [*]
+  BLOCKED --> [*]
+  ERROR --> [*]
+```
+
+## 8. ci-cd-automation
+
+```mermaid
+stateDiagram-v2
+  [*] --> INTAKE
+  INTAKE --> DETECT_STACK : CONFIGURE
+  INTAKE --> ERROR : ABORT
+
+  DETECT_STACK --> GENERATE_PIPELINE : DETECTED
+  DETECT_STACK --> ERROR : FAIL
+
+  GENERATE_PIPELINE --> LINT_WORKFLOW : GENERATED
+  GENERATE_PIPELINE --> ERROR : FAIL
+
+  LINT_WORKFLOW --> SECURITY_AUDIT : VALID
+  LINT_WORKFLOW --> BLOCKED : SYNTAX_ERROR
+  LINT_WORKFLOW --> ERROR : FAIL
+
+  SECURITY_AUDIT --> GATE : SECURE
+  SECURITY_AUDIT --> BLOCKED : VULNERABILITY_FOUND
+  SECURITY_AUDIT --> ERROR : FAIL
+
+  GATE --> SUCCESS : APPROVE
+  GATE --> BLOCKED : REJECT
+
+  SUCCESS --> [*]
+  BLOCKED --> [*]
+  ERROR --> [*]
+```
