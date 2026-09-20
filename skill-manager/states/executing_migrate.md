@@ -7,10 +7,12 @@ Perform the actual migration file operations.
 - For MIGRATE_LEGACY:
   - Write skill.yaml (schema_version 2.1.0)
   - Write states/*.md (split from inferred SKILL.md sections, including init.md and setup_mcp.md)
+  - Render `templates/init_state.md.hbs` into states/init.md
+  - Render `templates/bypass_detected.md.hbs` into states/bypass_detected.md
   - Scaffold guards/.gitkeep
   - Write templates/*.hbs (default projection templates)
   - Write README.md with human-facing overview, installation commands, and architecture
-  - Inject universal <!-- REACTIVE BOOTLOADER --> into SKILL.md with primary AXI CLI instructions
+  - Inject `templates/reactive_bootloader.md.hbs` into SKILL.md with AXI CLI as the default path
 
 - For MIGRATE_REACTIVE:
   - Rewrite skill.yaml to 2.1.0 schema
@@ -18,7 +20,7 @@ Perform the actual migration file operations.
   - Add event_store config
   - Ensure INIT and SETUP_MCP states exist
   - Ensure README.md exists and is updated with schema/usage details
-  - Update SKILL.md with universal <!-- REACTIVE BOOTLOADER -->
+  - Update SKILL.md with the canonical AXI-first <!-- REACTIVE BOOTLOADER -->
 
 ## Tools
 Delegate file operations to a general agent.
@@ -39,7 +41,9 @@ Before completing this execution and emitting `EXECUTED`, verify your work passe
 
 ### Migration Integrity Standards
 - [ ] Are the migrated state files (`states/*.md`) completely free of AI gimmicks or un-gradable instructions?
-- [ ] Does the migrated `SKILL.md` include the universal `<!-- REACTIVE BOOTLOADER -->` referencing `npx -y @reactive-skills/axi state <skill>` (or `reactive-skills-axi state <skill>`) and `npx -y @reactive-skills/axi emit <skill> <signal>`?
+- [ ] Does the migrated `SKILL.md` include the canonical `<!-- REACTIVE BOOTLOADER -->` rendered from `templates/reactive_bootloader.md.hbs`?
+- [ ] Does the migrated `SKILL.md` say MCP is only for when shell access to AXI is unavailable?
+- [ ] Does the migrated `SKILL.md` avoid telling agents to check `reactive_state` before AXI?
 - [ ] Does the migrated skill include a human-facing `README.md` alongside `SKILL.md` with clear installation, CLI/MCP usage, and directory overview?
 - [ ] Did you inject an **Atomic Checklist** into the execution/terminal states of the new migrated skill, so it holds itself accountable?
 - [ ] Does the new `skill.yaml` (v2.1.0) strictly map to the exact files you created in the `states/` directory? (Failure mode: missing state prompt files).

@@ -1,17 +1,17 @@
 ---
-name: skill-manager
+name: {{skill_name}}
 description: Bootloader - Verify reactive runtime
 type: reactive
 ---
 
-# skill-manager - INIT
+# {{skill_name}} - INIT
 
 Verify access to the reactive runtime.
 
 ## Instructions
 1. Prefer AXI CLI.
-2. Run `reactive-skills-axi state skill-manager` to inspect this job, or `reactive-skills-axi invoke skill-manager` to start a fresh isolated job.
-3. If this is named or parallel work, keep `--job <job-id>` on every `state` and `emit` command.
+2. Run `reactive-skills-axi state {{skill_name}}` to inspect this job, or `reactive-skills-axi invoke {{skill_name}}` to start a fresh isolated job.
+3. If this is named or parallel work, choose a job ID and keep `--job <job-id>` on every `state` and `emit` command.
 4. Use MCP tools only when shell access to AXI is unavailable.
 5. If AXI or MCP runtime access works, emit `RUNTIME_READY`.
 6. If neither path works, emit `SETUP_REQUIRED`.

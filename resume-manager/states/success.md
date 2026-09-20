@@ -21,3 +21,8 @@ Terminal success state indicating that the `resume-manager` workflow has complet
 
 ## Signal
 Terminal state. No further signals.
+
+## Starting Another Workflow
+If the user wants another resume workflow, do not reason about the completed state.
+Run `reactive-skills-axi reset resume-manager` to archive this job and rotate to a fresh active job.
+Run `reactive-skills-axi invoke resume-manager` to start a fresh isolated job with new context.

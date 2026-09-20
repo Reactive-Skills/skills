@@ -23,16 +23,24 @@ triggers:
 > **REACTIVE SKILL — RUNTIME CHECK**
 > This skill is driven by the Reactive Skills Architecture state machine.
 >
-> **Step 1: Verify runtime is available**
-> Check your available tool list:
-> - If `reactive_state` is in your tool list -> **runtime is live. Proceed immediately.**
-> - If driving via shell -> use `npx -y @reactive-skills/axi state resume-manager` (or `reactive-skills-axi state resume-manager`) CLI.
+> **Default runtime path: AXI CLI**
+> AXI is the default runtime path, even when MCP tools are present.
+> Run `reactive-skills-axi state resume-manager` to read the active job instructions.
+> Run `reactive-skills-axi invoke resume-manager` only when you need a fresh isolated job.
+> For named or parallel work, keep the same `--job <job-id>` flag on every `state` and `emit` command.
 >
-> **Step 2: The TODO Card model**
-> `reactive_state` = READ the card (loads what to do).
+> **Fallback runtime path: MCP**
+> Use `reactive_state` and `reactive_emit_signal` only when shell access to AXI is unavailable.
+> Do not troubleshoot MCP before trying AXI.
+>
+> **The TODO Card model**
+> AXI `state` = READ the card (loads what to do).
 > Do the work described in the prompt.
-> `reactive_emit_signal` = MARK done (advances the state machine).
+> AXI `emit` = MARK done (advances the state machine).
 > These are always 3 separate steps: Load -> Execute -> Emit.
+>
+> **Terminal state recovery**
+> If this skill reports a completed terminal state and you need a new resume workflow, run `reactive-skills-axi reset resume-manager` or `reactive-skills-axi invoke resume-manager`.
 >
 > **STRICT INVARIANT:**
 > Never manually bypass runtime execution or guess next states.

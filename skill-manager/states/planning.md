@@ -23,7 +23,7 @@ Tag one shape as **`[RECOMMENDED]`** with clear trade-off rationale. Solicit use
 
 #### Map Files to Scaffold
 - `skill.yaml`: Declares the authoritative statechart topology (including composite states, sub-states, transitions, and bubbling handlers).
-- `SKILL.md`: Universal reactive bootloader.
+- `SKILL.md`: Universal AXI-first reactive bootloader from `templates/reactive_bootloader.md.hbs`.
 - `README.md`: Human-facing documentation and directory layout.
 - `CONTEXT.md`: Ubiquitous language and domain boundaries.
 - `STATECHART.md`: Mermaid diagram accurately depicting the chosen shape (including `state PARENT { ... }` for composite states).
@@ -32,6 +32,7 @@ Tag one shape as **`[RECOMMENDED]`** with clear trade-off rationale. Solicit use
   - For hierarchical shapes: `states/<phase>/<sub_state>.md` and optional `states/<phase>/_parent.md` (or `states/<phase>.md`) housing parent invariants and bubbling rules.
 - `guards/.gitkeep`
 - `templates/snapshot.md.hbs`, `templates/inventory.json.hbs`
+- `templates/reactive_bootloader.md.hbs`, `templates/init_state.md.hbs`, `templates/bypass_detected.md.hbs`
 
 ### 2. UPDATE
 - List existing files to modify (MUST include `STATECHART.md` to keep diagram synced, and `README.md` if capabilities or states changed).

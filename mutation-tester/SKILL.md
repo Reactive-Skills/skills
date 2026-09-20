@@ -8,19 +8,26 @@ metadata:
 ---
 
 <!-- REACTIVE BOOTLOADER -->
-> **REACTIVE SKILL — STRICT RUNTIME EXECUTION**
-> This skill is an event-driven state machine. Manual execution is FORBIDDEN.
+> **REACTIVE SKILL: STRICT RUNTIME EXECUTION**
+> This skill is an event-driven state machine. Manual execution is forbidden.
 >
-> **PRIMARY EXECUTION (AXI CLI — Shell):**
-> 1. Run `npx -y @reactive-skills/axi state mutation-tester` (or `reactive-skills-axi state mutation-tester`) to read your current instructions.
-> 2. Complete the tasks described in the state prompt.
-> 3. Run `npx -y @reactive-skills/axi emit mutation-tester <signal>` (or `reactive-skills-axi emit mutation-tester <signal>`) to advance to the next state.
+> **DEFAULT EXECUTION: AXI CLI**
+> AXI is the default runtime path, even when MCP tools are present.
+> 1. Run `reactive-skills-axi state mutation-tester` to read the active job instructions.
+> 2. Run `reactive-skills-axi invoke mutation-tester` only when you need a fresh isolated job.
+> 3. For named or parallel work, keep the same `--job <job-id>` flag on every `state` and `emit` command.
+> 4. Run `reactive-skills-axi emit mutation-tester <signal>` to advance the current job.
 >
-> **ALTERNATIVE (MCP Mode):**
-> If the `reactive_state` MCP tool is present in your tool list, you may use `reactive_state` and `reactive_emit_signal`.
+> **FALLBACK EXECUTION: MCP**
+> Use `reactive_state` and `reactive_emit_signal` only when shell access to AXI is unavailable.
+> Do not troubleshoot MCP before trying AXI.
 >
-> **STRICT INVARIANT:**
-> Do NOT manually author deliverables or guess next states. The runtime governs all transitions and projections.
+> **TERMINAL STATE RECOVERY**
+> If the current job is terminal, run `reactive-skills-axi reset mutation-tester` or `reactive-skills-axi invoke mutation-tester`.
+>
+> **STRICT INVARIANT**
+> Do not manually author `.docs/` deliverables or guess next states.
+> The runtime governs all transitions and projections.
 <!-- END REACTIVE BOOTLOADER -->
 
 # Mutation Tester

@@ -9,19 +9,26 @@ metadata:
 ---
 
 <!-- REACTIVE BOOTLOADER -->
-> **REACTIVE SKILL — STRICT RUNTIME EXECUTION**
-> This skill is an event-driven state machine. Manual execution is FORBIDDEN.
+> **REACTIVE SKILL: STRICT RUNTIME EXECUTION**
+> This skill is an event-driven state machine. Manual execution is forbidden.
 >
-> **Primary (AXI CLI mode):**
-> 1. Run `npx -y @reactive-skills/axi state api-contract` to read the current state prompt.
-> 2. Complete the task described in the state prompt.
-> 3. Run `npx -y @reactive-skills/axi emit api-contract <SIGNAL> --payload '{...}'` to advance.
+> **DEFAULT EXECUTION: AXI CLI**
+> AXI is the default runtime path, even when MCP tools are present.
+> 1. Run `reactive-skills-axi state api-contract` to read the active job instructions.
+> 2. Run `reactive-skills-axi invoke api-contract` only when you need a fresh isolated job.
+> 3. For named or parallel work, keep the same `--job <job-id>` flag on every `state` and `emit` command.
+> 4. Run `reactive-skills-axi emit api-contract <signal>` to advance the current job.
 >
-> **Alternative (MCP mode):**
-> If the `reactive_state` MCP tool is present, use `reactive_state` and `reactive_emit_signal`.
+> **FALLBACK EXECUTION: MCP**
+> Use `reactive_state` and `reactive_emit_signal` only when shell access to AXI is unavailable.
+> Do not troubleshoot MCP before trying AXI.
 >
-> **Strict Invariant:**
-> Do NOT manually author `.docs/` deliverables or guess next states. The runtime governs all transitions and projections.
+> **TERMINAL STATE RECOVERY**
+> If the current job is terminal, run `reactive-skills-axi reset api-contract` or `reactive-skills-axi invoke api-contract`.
+>
+> **STRICT INVARIANT**
+> Do not manually author `.docs/` deliverables or guess next states.
+> The runtime governs all transitions and projections.
 <!-- END REACTIVE BOOTLOADER -->
 
 # api-contract Reactive Skill

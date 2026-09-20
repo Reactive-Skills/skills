@@ -1,17 +1,24 @@
 <!-- REACTIVE BOOTLOADER -->
-> **REACTIVE SKILL — STRICT RUNTIME EXECUTION**
-> This skill is an event-driven state machine. Manual execution is FORBIDDEN.
+> **REACTIVE SKILL: STRICT RUNTIME EXECUTION**
+> This skill is an event-driven state machine. Manual execution is forbidden.
 >
-> **PRIMARY EXECUTION (AXI CLI — Shell):**
-> 1. Run `npx -y @reactive-skills/axi state product-manager` (or `reactive-skills-axi state product-manager`) to read your current instructions.
-> 2. Complete the tasks described in the state prompt.
-> 3. Run `npx -y @reactive-skills/axi emit product-manager <signal>` (or `reactive-skills-axi emit product-manager <signal>`) to advance to the next state.
+> **DEFAULT EXECUTION: AXI CLI**
+> AXI is the default runtime path, even when MCP tools are present.
+> 1. Run `reactive-skills-axi state product-manager` to read the active job instructions.
+> 2. Run `reactive-skills-axi invoke product-manager` only when you need a fresh isolated job.
+> 3. For named or parallel work, keep the same `--job <job-id>` flag on every `state` and `emit` command.
+> 4. Run `reactive-skills-axi emit product-manager <signal>` to advance the current job.
 >
-> **ALTERNATIVE (MCP Mode):**
-> If the `reactive_state` MCP tool is present in your tool list, you may use `reactive_state` and `reactive_emit_signal`.
+> **FALLBACK EXECUTION: MCP**
+> Use `reactive_state` and `reactive_emit_signal` only when shell access to AXI is unavailable.
+> Do not troubleshoot MCP before trying AXI.
 >
-> **STRICT INVARIANT:**
-> Do NOT manually author `.docs/` deliverables or guess next states. The runtime governs all transitions and projections.
+> **TERMINAL STATE RECOVERY**
+> If the current job is terminal, run `reactive-skills-axi reset product-manager` or `reactive-skills-axi invoke product-manager`.
+>
+> **STRICT INVARIANT**
+> Do not manually author `.docs/` deliverables or guess next states.
+> The runtime governs all transitions and projections.
 <!-- END REACTIVE BOOTLOADER -->
 
 # Product Manager

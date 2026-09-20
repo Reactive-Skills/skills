@@ -1,25 +1,17 @@
-# INIT State
+---
+name: product-manager
+description: Bootloader - Verify reactive runtime
+type: reactive
+---
 
-## Goal
-Verify that the execution harness has access to the `@reactive-skills/axi` reactive runtime or MCP server.
+# product-manager - INIT
+
+Verify access to the reactive runtime.
 
 ## Instructions
-1. Check execution environment:
-   - Primary (AXI CLI mode): Shell access is available to run `npx -y @reactive-skills/axi state product-manager` (or `reactive-skills-axi state product-manager`) and `npx -y @reactive-skills/axi emit product-manager <signal>`.
-   - Alternative (MCP mode): The `reactive_state` and `reactive_emit_signal` tools are present in your active tool list.
-2. If the reactive runtime is available via either AXI CLI or MCP:
-   - Emit signal: `RUNTIME_READY`
-3. If neither mode is available:
-   - Emit signal: `SETUP_REQUIRED`
-
-## 🛑 Atomic Checklist & Anti-Shortcut Gate
-- [ ] Confirmed existence of either CLI tool (`reactive-skills-axi` / `npx @reactive-skills/axi`) or MCP tools (`reactive_state` / `reactive_emit_signal`).
-- [ ] Verified that state machine bus is responsive.
-- [ ] Did not guess transitions or attempt manual execution outside the runtime.
-
-## Stop Criteria
-Emit `RUNTIME_READY` if runtime is operational, otherwise emit `SETUP_REQUIRED`.
-
-## Signals
-- `RUNTIME_READY`
-- `SETUP_REQUIRED`
+1. Prefer AXI CLI.
+   Run `reactive-skills-axi state product-manager` to inspect this job, or `reactive-skills-axi invoke product-manager` to start a fresh isolated job.
+2. If this is named or parallel work, choose a job ID and keep `--job <job-id>` on every `state` and `emit` command.
+3. Use MCP tools only when shell access to AXI is unavailable.
+4. If AXI or MCP runtime access works, emit `RUNTIME_READY`.
+5. If neither path works, emit `SETUP_REQUIRED`.

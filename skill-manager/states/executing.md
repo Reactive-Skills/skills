@@ -8,12 +8,14 @@ Use file manipulation tools or shell commands to:
 - **CREATE**:
   - `mkdir -p skills/{{context.skill_name}}/` (recursively creating subdirectories like `states/<phase>/` if hierarchical).
   - Write `skill.yaml`: The authoritative Single Source of Truth (SSOT). For hierarchical shapes, declare composite states (`type: composite`, nested `states:` blocks, and bubble-up event handlers).
-  - Write `SKILL.md`: Include universal reactive bootloader and gradable operational instructions.
+  - Write `SKILL.md`: Render `templates/reactive_bootloader.md.hbs` with `skill_name`, then add gradable operational instructions.
   - Write `README.md`: Include human-facing overview, installation, CLI/MCP usage, and complete directory layout.
   - Write `CONTEXT.md`: Ubiquitous language, domain boundaries, and statechart invariants.
   - Write `STATECHART.md`: Mermaid `stateDiagram-v2` depicting states and transitions. If hierarchical, render composite states using `state PARENT { ... }` blocks and document bubble-up transitions.
   - Create `states/` directory: Write individual state prompt `.md` files (and `states/<phase>/_parent.md` for composite parents if applicable).
   - Create `guards/.gitkeep` and `templates/` with `.hbs` files.
+  - Copy `templates/init_state.md.hbs` into `states/init.md` after rendering `skill_name`.
+  - Copy `templates/bypass_detected.md.hbs` into `states/bypass_detected.md` after rendering `skill_name`.
 - **UPDATE**:
   - Modify listed files.
   - ALWAYS update `STATECHART.md` and `README.md` to keep diagrams and directory layouts synced with `skill.yaml`.
@@ -40,7 +42,9 @@ Before completing this execution and emitting `EXECUTED`, you MUST verify your w
 
 ### Skill Construction & Hierarchy Standards
 - [ ] **Prompt Quality**: Does `SKILL.md` contain strict, gradable instructions without AI gimmicks (like "take a deep breath" or vague hand-waving)?
-- [ ] **Reactive Bootloader**: Does `SKILL.md` include the universal `<!-- REACTIVE BOOTLOADER -->` referencing `npx -y @reactive-skills/axi` (or `reactive-skills-axi`)?
+- [ ] **Reactive Bootloader**: Does `SKILL.md` use the canonical AXI-first bootloader from `templates/reactive_bootloader.md.hbs`?
+- [ ] **MCP Fallback Only**: Does `SKILL.md` say MCP is only for when shell access to AXI is unavailable?
+- [ ] **No MCP-First Guidance**: Does `SKILL.md` avoid telling agents to check `reactive_state` before AXI?
 - [ ] **Anti-Shortcut Gates**: Did you include an **Atomic Checklist / Anti-Shortcut Gate** within each state prompt file (under `states/**/*.md`)?
 - [ ] **Authoritative SSOT Alignment**:
   - Every `prompt_template` declared in `skill.yaml` exists on disk.
@@ -64,6 +68,7 @@ Before completing this execution and emitting `EXECUTED`, you MUST verify your w
 - [ ] **State Prompt Brevity**: Is each `states/*.md` file under 200 words? (Verify with `wc -w` or PowerShell `($content -split '\s+').Count`)
 - [ ] **JIT Loading Readiness**: Are state prompts structured for Just-In-Time loading (focused, single-responsibility, no cross-state dependencies inlined)?
 - [ ] **Bootloader Overhead**: Does `SKILL.md` bootloader section stay under 50 lines? (Excluding metadata frontmatter)
+- [ ] **Bootloader Drift Check**: Does the bootloader match `templates/reactive_bootloader.md.hbs` except for rendered `skill_name`?
 - [ ] **No Duplicate Instructions**: Do sibling state prompts avoid re-declaring logic already in `SKILL.md` or `CONTEXT.md`?
 
 ### Cross-Reference Standards

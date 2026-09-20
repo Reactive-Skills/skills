@@ -4,11 +4,12 @@
 Verify that the host agent harness is connected to the reactive runtime environment.
 
 ## Instructions
-1. Check execution environment:
-   - Primary (AXI CLI mode): Shell access to execute `npx -y @reactive-skills/axi state resume-manager` (or `reactive-skills-axi state resume-manager`) and `npx -y @reactive-skills/axi emit resume-manager <signal>`.
-   - Alternative (MCP mode): The `reactive_state` tool is in the active tool list and `allowed_tools` is not `none`.
-2. If runtime is accessible via either path, emit signal `RUNTIME_READY`.
-3. If neither path is accessible, emit signal `SETUP_REQUIRED`.
+1. Prefer AXI CLI.
+2. Run `reactive-skills-axi state resume-manager` to inspect this job, or `reactive-skills-axi invoke resume-manager` to start a fresh isolated job.
+3. If this is named or parallel work, keep `--job <job-id>` on every `state` and `emit` command.
+4. Use MCP tools only when shell access to AXI is unavailable.
+5. If AXI or MCP runtime access works, emit `RUNTIME_READY`.
+6. If neither path works, emit `SETUP_REQUIRED`.
 
 ## Atomic Checklist
 - [ ] Runtime execution capability confirmed.
