@@ -15,6 +15,7 @@
   - [`skill-manager`](#skill-manager)
 - [🛠️ Execution & Requirements](#️-execution--requirements)
 - [🔄 Maintaining the Table of Contents](#-maintaining-the-table-of-contents)
+- [🗺️ Catalog Scaling Roadmap](docs/catalog-pagination-roadmap.md)
 - [🤝 Contributing Skills](#-contributing-skills)
 - [📜 License](#-license)
 
@@ -150,6 +151,8 @@ node scripts/update-toc.js
 # Verify the Table of Contents is up to date (useful in CI):
 node scripts/update-toc.js --check
 ```
+
+> 📖 **Future Scaling & Pagination**: See [Catalog Scaling & Pagination Roadmap](docs/catalog-pagination-roadmap.md) for how the catalog will transition from flat tables to collapsible domain accordions, machine-readable `registry.json` indexing with CLI pagination, and a searchable static web portal.
 
 ---
 
