@@ -1,0 +1,208 @@
+schema_version: 2.1.0
+name: jsm-workflow
+description: Reactive SDLC coordinator for taking one software change from intake to final context sync.
+initial_state: INIT
+strict_execution: true
+lifecycle_events:
+  DECISION_REOPENED:
+    description: Bubbled lifecycle event handled by ACTIVE when any active phase reopens a load bearing decision.
+    target: ACTIVE.ARCHITECT
+    record_updates:
+      - decision_record.reopened_from
+      - decision_record.reason
+      - decision_record.downstream_work_to_rerun
+context_schema:
+  run_id:
+    type: string
+    description: Stable identifier for this lifecycle run.
+  artifact_base:
+    type: string
+    default: .docs/jsm-workflow
+    description: Base directory for projected lifecycle artifacts.
+  work_request:
+    type: object
+    description: Intake summary, target area, outcome, constraints, assumptions, and blockers.
+  scope_record:
+    type: object
+    description: Scoped slice, acceptance seeds, workflow tier, and next phase.
+  decision_record:
+    type: object
+    description: Design decisions, requirement mapping, value sources, spec path, and ADR path when an ADR is warranted.
+  context_record:
+    type: object
+    description: Root and area project context status plus any context edits or conflicts.
+  build_record:
+    type: object
+    description: Implementation summary, changed files, self check, and decision gaps.
+  verification_record:
+    type: object
+    description: Acceptance check results, failures, and deferred checks.
+  test_record:
+    type: object
+    description: Test scope, tests written, command, result, and uncovered criteria.
+  debug_record:
+    type: object
+    description: Symptom, reproduction, root cause, fix, and rerun evidence.
+  review_record:
+    type: object
+    description: Reviewed diff, findings, missing tests, and residual risk.
+  document_record:
+    type: object
+    description: Document type, evidence, output path, and audience.
+  sync_record:
+    type: object
+    description: Durable context, scope, and spec reconciliation result.
+projections:
+  intake:
+    template: templates/intake.md.hbs
+    output: "{{artifact_base}}/{{run_id}}/intake.md"
+  lifecycle:
+    template: templates/lifecycle.md.hbs
+    output: "{{artifact_base}}/{{run_id}}/lifecycle.md"
+  adr:
+    template: templates/adr.md.hbs
+    output: "{{artifact_base}}/{{run_id}}/adr.md"
+  verification:
+    template: templates/verification.md.hbs
+    output: "{{artifact_base}}/{{run_id}}/verification.md"
+  review:
+    template: templates/review.md.hbs
+    output: "{{artifact_base}}/{{run_id}}/review.md"
+  handoff:
+    template: templates/handoff.md.hbs
+    output: "{{artifact_base}}/{{run_id}}/handoff.md"
+states:
+  INIT:
+    description: Verify reactive runtime before any lifecycle work.
+    prompt_template: states/init.md
+    transitions:
+      RUNTIME_READY:
+        target: ACTIVE
+      SETUP_REQUIRED:
+        target: ERROR
+  ACTIVE:
+    description: Owns every nonterminal SDLC phase and handles lifecycle-wide decision reopening.
+    initial_substate: INTAKE
+    transitions:
+      DECISION_REOPENED:
+        target: ACTIVE.ARCHITECT
+    substates:
+      INTAKE:
+        description: Capture the work request, repo state, and completion target.
+        prompt_template: states/intake.md
+        transitions:
+          WORK_REQUEST_READY:
+            target: ACTIVE.SCOPE
+          BUG_FIX_REQUESTED:
+            target: ACTIVE.DEBUG
+          AUDIT_REQUESTED:
+            target: ACTIVE.AUDIT
+          DIRECT_BUILD_REQUESTED:
+            target: ACTIVE.DEVELOP
+          INTAKE_BLOCKED:
+            target: COMPLETE
+      SCOPE:
+        description: Convert the request into ordered work with acceptance seeds.
+        prompt_template: states/scope.md
+        transitions:
+          SCOPE_READY:
+            target: ACTIVE.ARCHITECT
+          SCOPE_ONLY:
+            target: COMPLETE
+          SCOPE_BLOCKED:
+            target: COMPLETE
+      ARCHITECT:
+        description: Settle load bearing design decisions before implementation.
+        prompt_template: states/architect.md
+        transitions:
+          SPEC_READY:
+            target: ACTIVE.AUDIT
+          DECISION_DEFERRED:
+            target: COMPLETE
+          DESIGN_FLAW_CONFIRMED:
+            target: ACTIVE.SCOPE
+      AUDIT:
+        description: Ensure durable project context exists and matches the work area.
+        prompt_template: states/audit.md
+        transitions:
+          CONTEXT_READY:
+            target: ACTIVE.DEVELOP
+          AUDIT_TO_SCOPE:
+            target: ACTIVE.SCOPE
+          CONTEXT_BLOCKED:
+            target: COMPLETE
+      DEVELOP:
+        description: Implement the scoped and designed change.
+        prompt_template: states/develop.md
+        transitions:
+          BUILD_READY:
+            target: ACTIVE.VERIFY
+          DECISION_NEEDED:
+            target: ACTIVE.ARCHITECT
+          BUILD_FAILED:
+            target: ACTIVE.DEBUG
+      VERIFY:
+        description: Prove behavior in the real product or service.
+        prompt_template: states/verify.md
+        transitions:
+          VERIFY_PASSED:
+            target: ACTIVE.TEST
+          VERIFY_FAILED:
+            target: ACTIVE.DEBUG
+          VERIFY_DEFERRED:
+            target: ACTIVE.TEST
+      TEST:
+        description: Write or update tests for durable behavior.
+        prompt_template: states/test.md
+        transitions:
+          TEST_PASSED:
+            target: ACTIVE.REVIEW
+          TEST_FAILED:
+            target: ACTIVE.DEBUG
+          TEST_DEFERRED:
+            target: ACTIVE.REVIEW
+      DEBUG:
+        description: Reproduce failures, prove the root cause, apply the smallest fix, and verify it.
+        prompt_template: states/debug.md
+        transitions:
+          BUG_FIXED:
+            target: ACTIVE.VERIFY
+          DESIGN_FLAW:
+            target: ACTIVE.ARCHITECT
+          DEBUG_BLOCKED:
+            target: COMPLETE
+      REVIEW:
+        description: Review the diff for defects, risks, and missed requirements.
+        prompt_template: states/review.md
+        transitions:
+          REVIEW_PASSED:
+            target: ACTIVE.DOCUMENT
+          REVIEW_FINDINGS:
+            target: ACTIVE.DEVELOP
+          REVIEW_DEFERRED:
+            target: ACTIVE.DOCUMENT
+      DOCUMENT:
+        description: Write human facing change prose from evidence.
+        prompt_template: states/document.md
+        transitions:
+          DOCUMENTED:
+            target: ACTIVE.SYNC
+          DOCUMENT_DEFERRED:
+            target: ACTIVE.SYNC
+      SYNC:
+        description: Reconcile durable context, scope status, and decision status from repo evidence.
+        prompt_template: states/sync.md
+        transitions:
+          SYNCED:
+            target: COMPLETE
+          SYNC_BLOCKED:
+            target: COMPLETE
+  COMPLETE:
+    description: Summarize outcome and next action.
+    prompt_template: states/complete.md
+  ERROR:
+    description: Runtime setup failed or execution became unsafe.
+    prompt_template: states/error.md
+  BYPASS_DETECTED:
+    description: Bypass detected because execution moved outside the signal contract.
+    prompt_template: states/bypass_detected.md

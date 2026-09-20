@@ -1,0 +1,52 @@
+# Statechart: jsm-workflow
+
+`ACTIVE` owns every nonterminal lifecycle phase after runtime initialization.
+`DECISION_REOPENED` bubbles from any active child to the parent and routes to `ARCHITECT`.
+
+```mermaid
+stateDiagram-v2
+    [*] --> INIT
+    INIT --> ACTIVE : RUNTIME_READY
+    INIT --> ERROR : SETUP_REQUIRED
+
+    state ACTIVE {
+        [*] --> INTAKE
+        INTAKE --> SCOPE : WORK_REQUEST_READY
+        INTAKE --> DEBUG : BUG_FIX_REQUESTED
+        INTAKE --> AUDIT : AUDIT_REQUESTED
+        INTAKE --> DEVELOP : DIRECT_BUILD_REQUESTED
+        INTAKE --> COMPLETE : INTAKE_BLOCKED
+        SCOPE --> ARCHITECT : SCOPE_READY
+        SCOPE --> COMPLETE : SCOPE_ONLY
+        SCOPE --> COMPLETE : SCOPE_BLOCKED
+        ARCHITECT --> AUDIT : SPEC_READY
+        ARCHITECT --> COMPLETE : DECISION_DEFERRED
+        ARCHITECT --> SCOPE : DESIGN_FLAW_CONFIRMED
+        AUDIT --> DEVELOP : CONTEXT_READY
+        AUDIT --> SCOPE : AUDIT_TO_SCOPE
+        AUDIT --> COMPLETE : CONTEXT_BLOCKED
+        DEVELOP --> VERIFY : BUILD_READY
+        DEVELOP --> ARCHITECT : DECISION_NEEDED
+        DEVELOP --> DEBUG : BUILD_FAILED
+        VERIFY --> TEST : VERIFY_PASSED
+        VERIFY --> DEBUG : VERIFY_FAILED
+        VERIFY --> TEST : VERIFY_DEFERRED
+        TEST --> REVIEW : TEST_PASSED
+        TEST --> DEBUG : TEST_FAILED
+        TEST --> REVIEW : TEST_DEFERRED
+        DEBUG --> VERIFY : BUG_FIXED
+        DEBUG --> ARCHITECT : DESIGN_FLAW
+        DEBUG --> COMPLETE : DEBUG_BLOCKED
+        REVIEW --> DOCUMENT : REVIEW_PASSED
+        REVIEW --> DEVELOP : REVIEW_FINDINGS
+        REVIEW --> DOCUMENT : REVIEW_DEFERRED
+        DOCUMENT --> SYNC : DOCUMENTED
+        DOCUMENT --> SYNC : DOCUMENT_DEFERRED
+        SYNC --> COMPLETE : SYNCED
+        SYNC --> COMPLETE : SYNC_BLOCKED
+    }
+
+    ACTIVE --> ARCHITECT : DECISION_REOPENED (bubbled from child)
+    COMPLETE --> [*]
+    state BYPASS_DETECTED
+```
