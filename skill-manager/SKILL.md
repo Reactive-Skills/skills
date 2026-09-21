@@ -108,16 +108,50 @@ On success:
 - .docs/skill-manager/inventory.json — skills inventory
 - SQLite skill_inventory table
 
-## Guard Syntax
+## Guard & Judgment Syntax
 
 Guards use JavaScript expression syntax (not Python). Use `!= null`, `!== null`, `||`, `&&`.
 
 ```yaml
 # Wrong (Python-like):
-guard: 'context.job_description_url != null || context.company_name != null'
+guard: 'context.job_description_url != null or context.company_name != null'
 
 # Correct (JavaScript):
 guard: 'context.job_description_url != null || context.company_name != null'
+```
+
+### Snap-On Judgments (Decoupled Model Verification)
+Transitions can declare a `judgment:` contract evaluated by the runtime's snap-on adapter cascade (e.g. TypeSafe Jev -> Ambient LLM -> Local Script):
+
+```yaml
+transitions:
+  VERIFY_ACCEPTED:
+    target: APPROVED
+    judgment:
+      type: predicate # predicate (boolean) | categorical (choice) | evaluation (score)
+      criterion: "Did all security scans and unit test suites pass with zero regressions?"
+      min_confidence: 0.85
+      fallback_target: ESCALATED_REVIEW # Routes here if verification fails or confidence is low
+```
+
+## Model Capability Tiers
+
+States can declare semantic capability requirements in `skill.yaml` without hardcoding vendor IDs:
+
+```yaml
+states:
+  triage:
+    description: "Lightweight triage step"
+    model:
+      tier: fast # fast (flash/haiku) | balanced (sonnet/gpt-4o) | reasoning (o3/sonnet-thinking) | decision (jev)
+      suggested: "gemini-2.5-flash / haiku"
+      temperature: 0.1
+
+  architect_solution:
+    description: "Deep design synthesis"
+    model:
+      tier: reasoning
+      suggested: "claude-3-7-sonnet / o3-mini"
 ```
 
 ## Error Handling

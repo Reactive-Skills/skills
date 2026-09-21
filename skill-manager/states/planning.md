@@ -22,7 +22,7 @@ Synthesize 2–3 concrete candidate shapes tailored to the user's domain intent:
 Tag one shape as **`[RECOMMENDED]`** with clear trade-off rationale. Solicit user selection (`1`, `2`, `3`, or custom adjustments). If the user confirms/proceeds without choosing, default to the `[RECOMMENDED]` shape.
 
 #### Map Files to Scaffold
-- `skill.yaml`: Declares the authoritative statechart topology (including composite states, sub-states, transitions, and bubbling handlers).
+- `skill.yaml`: Declares the authoritative statechart topology (including composite states, sub-states, transitions, bubbling handlers, per-state `model` capability tiers (`fast`, `balanced`, `reasoning`, `decision`), and deterministic guards or semantic `judgment` rules).
 - `SKILL.md`: Universal AXI-first reactive bootloader from `templates/reactive_bootloader.md.hbs`.
 - `README.md`: Human-facing documentation and directory layout.
 - `CONTEXT.md`: Ubiquitous language and domain boundaries.
@@ -86,13 +86,14 @@ When `context.red_phase === true`, ask targeted discovery questions before final
 4. **Human-in-loop**: At which exact steps does the skill pause for user input or approval?
 5. **Observability**: Which transitions, durations, and error rates must be measurable in production?
 6. **Concurrency**: Can multiple instances run simultaneously? Is there shared mutable state?
+7. **Model tiers & verification**: Which states require fast triage (`fast`) vs deep architectural reasoning (`reasoning`), and which transitions require automated semantic verification (`judgment: predicate | categorical | evaluation`)?
 
 Record answers in `plan.red_phase_findings` as an object with keys matching the questions above.
 
 ### Step 3: RED-Gate Validation
 Before emitting `PLAN_READY`, verify:
 - [ ] Skill type is classified and matches the selected architectural shape
-- [ ] If `red_phase` was requested, all 6 discovery questions have answers recorded
+- [ ] If `red_phase` was requested, all 7 discovery questions have answers recorded
 - [ ] Middleware hook declarations (if any) align with the skill type classification
 - [ ] If `skill_type` is `agent` or `orchestrator`, `context_sanitizer` is declared when secrets are present
 - [ ] If `skill_type` is `workflow` or `orchestrator`, `audit` hook is declared
