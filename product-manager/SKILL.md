@@ -4,10 +4,10 @@
 >
 > **DEFAULT EXECUTION: AXI CLI**
 > AXI is the default runtime path, even when MCP tools are present.
-> 1. Run `reactive-skills-axi state product-manager` to read the active job instructions.
-> 2. Run `reactive-skills-axi invoke product-manager` only when you need a fresh isolated job.
-> 3. For named or parallel work, keep the same `--job <job-id>` flag on every `state` and `emit` command.
-> 4. Run `reactive-skills-axi emit product-manager <signal>` to advance the current job.
+> - To start a new task: Run `reactive-skills-axi invoke product-manager [--payload JSON]`
+> - To resume an active task: Run `reactive-skills-axi state product-manager`
+> - For named or parallel work: Keep the same `--job <job-id>` flag on every command.
+> - To advance state: Run `reactive-skills-axi emit product-manager <signal>`
 >
 > **FALLBACK EXECUTION: MCP**
 > Use `reactive_state` and `reactive_emit_signal` only when shell access to AXI is unavailable.

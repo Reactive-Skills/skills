@@ -9,10 +9,26 @@ metadata:
 ---
 
 <!-- REACTIVE BOOTLOADER -->
-> **REACTIVE SKILL - STRICT RUNTIME EXECUTION**
-> Manual execution is forbidden. Use `npx -y @reactive-skills/axi state docs-architect` to read the active prompt and `npx -y @reactive-skills/axi emit docs-architect <SIGNAL>` to advance.
+> **REACTIVE SKILL: STRICT RUNTIME EXECUTION**
+> This skill is an event-driven state machine. Manual execution is forbidden.
 >
-> The runtime governs transitions, guards, and projections. Do not guess a state or author `.docs/` deliverables outside the runtime.
+> **DEFAULT EXECUTION: AXI CLI**
+> AXI is the default runtime path, even when MCP tools are present.
+> - To start a new task: Run `reactive-skills-axi invoke docs-architect [--payload JSON]`
+> - To resume an active task: Run `reactive-skills-axi state docs-architect`
+> - For named or parallel work: Keep the same `--job <job-id>` flag on every command.
+> - To advance state: Run `reactive-skills-axi emit docs-architect <signal>`
+>
+> **FALLBACK EXECUTION: MCP**
+> Use `reactive_state` and `reactive_emit_signal` only when shell access to AXI is unavailable.
+> Do not troubleshoot MCP before trying AXI.
+>
+> **TERMINAL STATE RECOVERY**
+> If the current job is terminal, run `reactive-skills-axi reset docs-architect` or `reactive-skills-axi invoke docs-architect`.
+>
+> **STRICT INVARIANT**
+> Do not manually author `.docs/` deliverables or guess next states.
+> The runtime governs all transitions and projections.
 <!-- END REACTIVE BOOTLOADER -->
 
 # Docs Architect

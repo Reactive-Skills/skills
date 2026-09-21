@@ -9,10 +9,26 @@ metadata:
 ---
 
 <!-- REACTIVE BOOTLOADER -->
-> **REACTIVE SKILL - STRICT RUNTIME EXECUTION**
-> Use `npx -y @reactive-skills/axi state test-coverage-gate` to read the active prompt and `npx -y @reactive-skills/axi emit test-coverage-gate <SIGNAL>` to advance.
+> **REACTIVE SKILL: STRICT RUNTIME EXECUTION**
+> This skill is an event-driven state machine. Manual execution is forbidden.
 >
-> The runtime governs transitions, guards, and projections. Do not bypass the baseline or quality gate.
+> **DEFAULT EXECUTION: AXI CLI**
+> AXI is the default runtime path, even when MCP tools are present.
+> - To start a new task: Run `reactive-skills-axi invoke test-coverage-gate [--payload JSON]`
+> - To resume an active task: Run `reactive-skills-axi state test-coverage-gate`
+> - For named or parallel work: Keep the same `--job <job-id>` flag on every command.
+> - To advance state: Run `reactive-skills-axi emit test-coverage-gate <signal>`
+>
+> **FALLBACK EXECUTION: MCP**
+> Use `reactive_state` and `reactive_emit_signal` only when shell access to AXI is unavailable.
+> Do not troubleshoot MCP before trying AXI.
+>
+> **TERMINAL STATE RECOVERY**
+> If the current job is terminal, run `reactive-skills-axi reset test-coverage-gate` or `reactive-skills-axi invoke test-coverage-gate`.
+>
+> **STRICT INVARIANT**
+> Do not manually author `.docs/` deliverables or guess next states.
+> The runtime governs all transitions and projections.
 <!-- END REACTIVE BOOTLOADER -->
 
 # Test Coverage Gate

@@ -20,30 +20,26 @@ triggers:
 ---
 
 <!-- REACTIVE BOOTLOADER -->
-> **REACTIVE SKILL — RUNTIME CHECK**
-> This skill is driven by the Reactive Skills Architecture state machine.
+> **REACTIVE SKILL: STRICT RUNTIME EXECUTION**
+> This skill is an event-driven state machine. Manual execution is forbidden.
 >
-> **Default runtime path: AXI CLI**
+> **DEFAULT EXECUTION: AXI CLI**
 > AXI is the default runtime path, even when MCP tools are present.
-> Run `reactive-skills-axi state resume-manager` to read the active job instructions.
-> Run `reactive-skills-axi invoke resume-manager` only when you need a fresh isolated job.
-> For named or parallel work, keep the same `--job <job-id>` flag on every `state` and `emit` command.
+> - To start a new task: Run `reactive-skills-axi invoke resume-manager [--payload JSON]`
+> - To resume an active task: Run `reactive-skills-axi state resume-manager`
+> - For named or parallel work: Keep the same `--job <job-id>` flag on every command.
+> - To advance state: Run `reactive-skills-axi emit resume-manager <signal>`
 >
-> **Fallback runtime path: MCP**
+> **FALLBACK EXECUTION: MCP**
 > Use `reactive_state` and `reactive_emit_signal` only when shell access to AXI is unavailable.
 > Do not troubleshoot MCP before trying AXI.
 >
-> **The TODO Card model**
-> AXI `state` = READ the card (loads what to do).
-> Do the work described in the prompt.
-> AXI `emit` = MARK done (advances the state machine).
-> These are always 3 separate steps: Load -> Execute -> Emit.
+> **TERMINAL STATE RECOVERY**
+> If the current job is terminal, run `reactive-skills-axi reset resume-manager` or `reactive-skills-axi invoke resume-manager`.
 >
-> **Terminal state recovery**
-> If this skill reports a completed terminal state and you need a new resume workflow, run `reactive-skills-axi reset resume-manager` or `reactive-skills-axi invoke resume-manager`.
->
-> **STRICT INVARIANT:**
-> Never manually bypass runtime execution or guess next states.
+> **STRICT INVARIANT**
+> Do not manually author `.docs/` deliverables or guess next states.
+> The runtime governs all transitions and projections.
 <!-- END REACTIVE BOOTLOADER -->
 
 # Resume Manager

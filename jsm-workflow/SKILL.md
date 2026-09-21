@@ -5,21 +5,26 @@ type: reactive
 ---
 
 <!-- REACTIVE BOOTLOADER -->
-> **REACTIVE SKILL, STRICT RUNTIME EXECUTION**
-> This skill is an event driven state machine.
-> Manual execution is forbidden.
+> **REACTIVE SKILL: STRICT RUNTIME EXECUTION**
+> This skill is an event-driven state machine. Manual execution is forbidden.
 >
-> **Primary execution, AXI CLI:**
-> 1. Run `reactive-skills-axi state jsm-workflow` to read the current state prompt.
-> 2. Complete only the work described by that state prompt.
-> 3. Run `reactive-skills-axi emit jsm-workflow <signal>` to advance.
+> **DEFAULT EXECUTION: AXI CLI**
+> AXI is the default runtime path, even when MCP tools are present.
+> - To start a new task: Run `reactive-skills-axi invoke jsm-workflow [--payload JSON]`
+> - To resume an active task: Run `reactive-skills-axi state jsm-workflow`
+> - For named or parallel work: Keep the same `--job <job-id>` flag on every command.
+> - To advance state: Run `reactive-skills-axi emit jsm-workflow <signal>`
 >
-> **Alternative execution, MCP:**
-> Use `reactive_state` and `reactive_emit_signal` only when those tools are available.
+> **FALLBACK EXECUTION: MCP**
+> Use `reactive_state` and `reactive_emit_signal` only when shell access to AXI is unavailable.
+> Do not troubleshoot MCP before trying AXI.
 >
-> **Strict invariant:**
-> Do not skip states, invent transitions, or continue from memory.
-> The runtime governs the workflow.
+> **TERMINAL STATE RECOVERY**
+> If the current job is terminal, run `reactive-skills-axi reset jsm-workflow` or `reactive-skills-axi invoke jsm-workflow`.
+>
+> **STRICT INVARIANT**
+> Do not manually author `.docs/` deliverables or guess next states.
+> The runtime governs all transitions and projections.
 <!-- END REACTIVE BOOTLOADER -->
 
 # jsm-workflow

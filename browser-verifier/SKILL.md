@@ -9,10 +9,26 @@ metadata:
 ---
 
 <!-- REACTIVE BOOTLOADER -->
-> **REACTIVE SKILL - STRICT RUNTIME EXECUTION**
-> Use `npx -y @reactive-skills/axi state browser-verifier` to read the active prompt and `npx -y @reactive-skills/axi emit browser-verifier <SIGNAL>` to advance.
+> **REACTIVE SKILL: STRICT RUNTIME EXECUTION**
+> This skill is an event-driven state machine. Manual execution is forbidden.
 >
-> The runtime governs transitions, guards, and projections. Do not bypass the baseline or quality gate.
+> **DEFAULT EXECUTION: AXI CLI**
+> AXI is the default runtime path, even when MCP tools are present.
+> - To start a new task: Run `reactive-skills-axi invoke browser-verifier [--payload JSON]`
+> - To resume an active task: Run `reactive-skills-axi state browser-verifier`
+> - For named or parallel work: Keep the same `--job <job-id>` flag on every command.
+> - To advance state: Run `reactive-skills-axi emit browser-verifier <signal>`
+>
+> **FALLBACK EXECUTION: MCP**
+> Use `reactive_state` and `reactive_emit_signal` only when shell access to AXI is unavailable.
+> Do not troubleshoot MCP before trying AXI.
+>
+> **TERMINAL STATE RECOVERY**
+> If the current job is terminal, run `reactive-skills-axi reset browser-verifier` or `reactive-skills-axi invoke browser-verifier`.
+>
+> **STRICT INVARIANT**
+> Do not manually author `.docs/` deliverables or guess next states.
+> The runtime governs all transitions and projections.
 <!-- END REACTIVE BOOTLOADER -->
 
 # Browser Verifier

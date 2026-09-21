@@ -14,10 +14,10 @@ metadata:
 >
 > **DEFAULT EXECUTION: AXI CLI**
 > AXI is the default runtime path, even when MCP tools are present.
-> 1. Run `reactive-skills-axi state api-contract` to read the active job instructions.
-> 2. Run `reactive-skills-axi invoke api-contract` only when you need a fresh isolated job.
-> 3. For named or parallel work, keep the same `--job <job-id>` flag on every `state` and `emit` command.
-> 4. Run `reactive-skills-axi emit api-contract <signal>` to advance the current job.
+> - To start a new task: Run `reactive-skills-axi invoke api-contract [--payload JSON]`
+> - To resume an active task: Run `reactive-skills-axi state api-contract`
+> - For named or parallel work: Keep the same `--job <job-id>` flag on every command.
+> - To advance state: Run `reactive-skills-axi emit api-contract <signal>`
 >
 > **FALLBACK EXECUTION: MCP**
 > Use `reactive_state` and `reactive_emit_signal` only when shell access to AXI is unavailable.

@@ -9,15 +9,15 @@ metadata:
 ---
 
 <!-- REACTIVE BOOTLOADER -->
-> **REACTIVE SKILL — STRICT RUNTIME EXECUTION**
+> **REACTIVE SKILL: STRICT RUNTIME EXECUTION**
 > This skill is an event-driven state machine. Manual execution is forbidden.
 >
-> **PRIMARY EXECUTION (AXI CLI — Shell):**
+> **DEFAULT EXECUTION: AXI CLI**
 > AXI is the default runtime path, even when MCP tools are present.
-> 1. Run `reactive-skills-axi state skill-manager` to read the active job instructions.
-> 2. Run `reactive-skills-axi invoke skill-manager` only when you need a fresh isolated job.
-> 3. For named or parallel work, keep the same `--job <job-id>` flag on every `state` and `emit` command.
-> 4. Run `reactive-skills-axi emit skill-manager <signal>` to advance the current job.
+> - To start a new task: Run `reactive-skills-axi invoke skill-manager [--payload JSON]`
+> - To resume an active task: Run `reactive-skills-axi state skill-manager`
+> - For named or parallel work: Keep the same `--job <job-id>` flag on every command.
+> - To advance state: Run `reactive-skills-axi emit skill-manager <signal>`
 >
 > **FALLBACK EXECUTION: MCP**
 > Use `reactive_state` and `reactive_emit_signal` only when shell access to AXI is unavailable.

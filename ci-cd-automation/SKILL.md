@@ -9,10 +9,26 @@ metadata:
 ---
 
 <!-- REACTIVE BOOTLOADER -->
-> **REACTIVE SKILL - STRICT RUNTIME EXECUTION**
-> Use `npx -y @reactive-skills/axi state ci-cd-automation` to read the active prompt and `npx -y @reactive-skills/axi emit ci-cd-automation <SIGNAL>` to advance.
+> **REACTIVE SKILL: STRICT RUNTIME EXECUTION**
+> This skill is an event-driven state machine. Manual execution is forbidden.
 >
-> The runtime governs transitions, guards, and projections. Do not bypass the baseline or quality gate.
+> **DEFAULT EXECUTION: AXI CLI**
+> AXI is the default runtime path, even when MCP tools are present.
+> - To start a new task: Run `reactive-skills-axi invoke ci-cd-automation [--payload JSON]`
+> - To resume an active task: Run `reactive-skills-axi state ci-cd-automation`
+> - For named or parallel work: Keep the same `--job <job-id>` flag on every command.
+> - To advance state: Run `reactive-skills-axi emit ci-cd-automation <signal>`
+>
+> **FALLBACK EXECUTION: MCP**
+> Use `reactive_state` and `reactive_emit_signal` only when shell access to AXI is unavailable.
+> Do not troubleshoot MCP before trying AXI.
+>
+> **TERMINAL STATE RECOVERY**
+> If the current job is terminal, run `reactive-skills-axi reset ci-cd-automation` or `reactive-skills-axi invoke ci-cd-automation`.
+>
+> **STRICT INVARIANT**
+> Do not manually author `.docs/` deliverables or guess next states.
+> The runtime governs all transitions and projections.
 <!-- END REACTIVE BOOTLOADER -->
 
 # CI/CD Automation
