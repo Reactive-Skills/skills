@@ -4,16 +4,12 @@
 > This skill is an event-driven state machine.
 > Manual execution is forbidden.
 >
-> **DEFAULT EXECUTION: AXI CLI**
-> AXI is the default runtime path, even when MCP tools are present.
-> 1. Run `reactive-skills-axi state security-scan` to read the active job instructions.
-> 2. Run `reactive-skills-axi invoke security-scan` only when you need a fresh isolated job.
-> 3. For named or parallel work, keep the same `--job <job-id>` flag on every `state` and `emit` command.
-> 4. Run `reactive-skills-axi emit security-scan <signal>` to advance the current job.
->
-> **FALLBACK EXECUTION: MCP**
-> Use `reactive_state` and `reactive_emit_signal` only when shell access to AXI is unavailable.
-> Do not troubleshoot MCP before trying AXI.
+> **LOCAL-FIRST RUNTIME SELECTION**
+> INIT checks local MCP and AXI capabilities and version compatibility before launching a runtime.
+> 1. Use the selected compatible local transport for `state`, `invoke`, and `emit`.
+> 2. Use direct `reactive-skills-axi` when installed and compatible.
+> 3. Use `npx -y @reactive-skills/axi` as AXI's zero-install launcher when direct AXI is unavailable.
+> 4. Persist the selected transport and version for the full run.
 >
 > **STRICT INVARIANT**
 > Do not manually author `.docs/` deliverables or guess next states.

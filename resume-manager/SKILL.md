@@ -23,19 +23,29 @@ triggers:
 > **REACTIVE SKILL: STRICT RUNTIME EXECUTION**
 > This skill is an event-driven state machine. Manual execution is forbidden.
 >
-> **DEFAULT EXECUTION: AXI CLI**
-> AXI is the default runtime path, even when MCP tools are present.
-> - To start a new task: Run `reactive-skills-axi invoke resume-manager [--payload JSON]`
-> - To resume an active task: Run `reactive-skills-axi state resume-manager`
-> - For named or parallel work: Keep the same `--job <job-id>` flag on every command.
-> - To advance state: Run `reactive-skills-axi emit resume-manager <signal>`
+> **LOCAL-FIRST RUNTIME SELECTION**
+> Select one compatible runtime during INIT, then reuse it for the full run.
+> - To start a new task, use selected runtime `invoke resume-manager [--payload JSON]`.
+> - To resume an active task, use selected runtime `state resume-manager`.
+> - For named or parallel work, keep the same `--job <alias>` flag on every command.
+> - The runtime resolves aliases to immutable UUID-backed `run_id` values.
+> - To advance state, use selected runtime `emit resume-manager <signal>`.
 >
-> **FALLBACK EXECUTION: MCP**
-> Use `reactive_state` and `reactive_emit_signal` only when shell access to AXI is unavailable.
-> Do not troubleshoot MCP before trying AXI.
+> **SELECTED RUNTIME COMMANDS**
+> Use selected MCP or AXI path for every state and signal command.
+> First check `reactive_capabilities` when this MCP tool is available.
+> Otherwise check `reactive-skills-axi capabilities --json`, then use direct AXI.
+> Otherwise use `npx -y @reactive-skills/axi capabilities --json`, then use zero-install AXI.
+> MCP uses `reactive_state` and `reactive_emit_signal`.
+> Direct AXI uses `reactive-skills-axi state|emit resume-manager`.
+> Zero-install AXI uses `npx -y @reactive-skills/axi state|emit resume-manager`.
+> Emit `RUNTIME_READY` with `transport`, `launcher`, `runtime_version`, `axi_version`, `compatible`, and `capabilities`.
+> Persist the selected runtime in `payload.contextUpdates` so later states reuse it.
+> AXI remains the runtime interface. `npx` is only its zero-install launcher.
+> Do not repeat version or capability checks after INIT.
 >
 > **TERMINAL STATE RECOVERY**
-> If the current job is terminal, run `reactive-skills-axi reset resume-manager` or `reactive-skills-axi invoke resume-manager`.
+> If the current job is terminal, run selected runtime `reset resume-manager` or `invoke resume-manager`.
 >
 > **STRICT INVARIANT**
 > Do not manually author `.docs/` deliverables or guess next states.
@@ -69,7 +79,9 @@ Candidates with deep seniority frequently run into two major friction points whe
 ### 1. Customization Mode (`CUSTOMIZE`)
 Triggered when the user provides a Job Description (JD) or asks to tailor materials for a specific opportunity:
 1. **Ingest JD:** Extract company, job title, responsibilities, industry, and detected leveling.
-2. **Profile Selection & Overqualification Evaluation:** Matches JD to the best profile archetype. If candidate seniority exceeds role leveling or targets a non-tech industry, flags `overqualified_risk = true`.
+2. **Profile Selection & Role Fit Judgment:** Matches the JD to the best profile archetype and classifies fit as `strong_fit`, `conditional_fit`, or `weak_fit` using verified evidence.
+   If fit is weak or uncertain, pauses at `FIT_REVIEW` for a human decision.
+   If candidate seniority exceeds role leveling or targets a non-tech industry, flags `overqualified_risk = true`.
 3. **Framing & Anti-Flight Risk Calibration:**
    - Translates high-abstraction tech jargon into grounded business outcomes (see `references/overqualification-and-framing.md`).
    - Crafts a credible, grounded intent narrative in the cover letter explaining why this specific environment and role are genuinely attractive.

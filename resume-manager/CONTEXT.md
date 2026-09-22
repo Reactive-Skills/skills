@@ -18,6 +18,10 @@ The intentional transformation of senior technical achievements into grounded, a
 1. *Intimidation Factor:* Eliminates unnecessary hyperscale jargon that alienates non-technical or mid-tier hiring teams.
 2. *Flight Risk:* Explicitly weaves an authentic narrative explaining why this role, team, and industry align with current career priorities.
 
+### Role Fit Judgment
+An evidence-backed classification of `strong_fit`, `conditional_fit`, or `weak_fit` based on the job description, verified profile evidence, transferable strengths, and material gaps.
+Low-confidence or weak classifications require human review before tailoring work continues.
+
 ### The 25–35 Keyword "Goldilocks Zone"
 Empirical ATS optimization standard where resumes containing between 25 and 35 exact-match keywords from the target job posting achieve peak search ranking without tripping automated AI spam/keyword-stuffing penalties.
 

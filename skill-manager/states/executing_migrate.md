@@ -12,7 +12,7 @@ Perform the actual migration file operations.
   - Scaffold guards/.gitkeep
   - Write templates/*.hbs (default projection templates)
   - Write README.md with human-facing overview, installation commands, and architecture
-  - Inject `templates/reactive_bootloader.md.hbs` into SKILL.md with AXI CLI as the default path
+  - Inject `templates/reactive_bootloader.md.hbs` into SKILL.md with local-first runtime selection
 
 - For MIGRATE_REACTIVE:
   - Rewrite skill.yaml to 2.1.0 schema
@@ -20,7 +20,7 @@ Perform the actual migration file operations.
   - Add event_store config
   - Ensure INIT and SETUP_MCP states exist
   - Ensure README.md exists and is updated with schema/usage details
-  - Update SKILL.md with the canonical AXI-first <!-- REACTIVE BOOTLOADER -->
+  - Update SKILL.md with the canonical local-first <!-- REACTIVE BOOTLOADER -->
 
 ## Tools
 Delegate file operations to a general agent.

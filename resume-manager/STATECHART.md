@@ -48,8 +48,14 @@ stateDiagram-v2
     INGEST_JD --> PROFILE_SELECTION: JD_INGESTED [company_name != null]
 
     state "PROFILE_SELECTION" as PROFILE_SELECTION
-    PROFILE_SELECTION --> CALIBRATE_FRAMING: CALIBRATION_REQUIRED [overqualified_risk == true]
-    PROFILE_SELECTION --> GAP_ANALYSIS: STANDARD_MATCH [overqualified_risk != true]
+    PROFILE_SELECTION --> CALIBRATE_FRAMING: CALIBRATION_REQUIRED [overqualified_risk == true and judgment accepted]
+    PROFILE_SELECTION --> GAP_ANALYSIS: STANDARD_MATCH [overqualified_risk != true and judgment accepted]
+    PROFILE_SELECTION --> FIT_REVIEW: FIT_REVIEW_REQUIRED [role_fit == weak_fit or role_fit_confidence < 0.8 or judgment rejected]
+
+    state "FIT_REVIEW" as FIT_REVIEW
+    FIT_REVIEW --> GAP_ANALYSIS: FIT_APPROVED
+    FIT_REVIEW --> PROFILE_SELECTION: FIT_REEVALUATE
+    FIT_REVIEW --> SELECT_MODE: FIT_REJECTED
 
     state "CALIBRATE_FRAMING" as CALIBRATE_FRAMING
     CALIBRATE_FRAMING --> GAP_ANALYSIS: FRAMING_CALIBRATED

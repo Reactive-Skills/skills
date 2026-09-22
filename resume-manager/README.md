@@ -70,7 +70,8 @@ When senior candidates apply to mid-level or non-tech-hyperscale roles, hiring m
 ### 1. Customization Mode (`CUSTOMIZE`)
 Triggered when providing a Job Description (JD) to tailor a full application package:
 1. **JD Ingestion**: Extracts role title, company, requirements, and detected leveling.
-2. **Profile Selection & Overqualification Risk Check**: Selects the optimal archetype and checks for overqualification triggers.
+2. **Profile Selection & Role Fit Judgment**: Selects the optimal archetype, evaluates fit from JD and verified profile evidence, and checks for overqualification triggers.
+   Weak or low-confidence fits pause at `FIT_REVIEW` for a human decision before tailoring continues.
 3. **Framing & Anti-Flight Risk Calibration**: Neutralizes jargon and grounds intent.
 4. **25–35 Keyword Calibration**: Weaves ATS keywords into bullet points with truthful candidate verification.
 5. **Company Alignment**: Researches employer mission, engineering values, and conversational angles.
@@ -115,6 +116,9 @@ Each customized application is materialized into its own directory:
 ## 🔄 State Machine Workflow
 
 Defined in [`skill.yaml`](skill.yaml). For the full interactive diagram, see [`STATECHART.md`](STATECHART.md).
+
+The customization path can route from `PROFILE_SELECTION` to `FIT_REVIEW` when fit evidence is weak or uncertain.
+The workflow does not auto-reject the role.
 
 ```
    ┌──────┐

@@ -8,19 +8,29 @@ type: reactive
 > **REACTIVE SKILL: STRICT RUNTIME EXECUTION**
 > This skill is an event-driven state machine. Manual execution is forbidden.
 >
-> **DEFAULT EXECUTION: AXI CLI**
-> AXI is the default runtime path, even when MCP tools are present.
-> - To start a new task: Run `reactive-skills-axi invoke jsm-workflow [--payload JSON]`
-> - To resume an active task: Run `reactive-skills-axi state jsm-workflow`
-> - For named or parallel work: Keep the same `--job <job-id>` flag on every command.
-> - To advance state: Run `reactive-skills-axi emit jsm-workflow <signal>`
+> **LOCAL-FIRST RUNTIME SELECTION**
+> Select one compatible runtime during INIT, then reuse it for the full run.
+> - To start a new task, use selected runtime `invoke jsm-workflow [--payload JSON]`.
+> - To resume an active task, use selected runtime `state jsm-workflow`.
+> - For named or parallel work, keep the same `--job <alias>` flag on every command.
+> - The runtime resolves aliases to immutable UUID-backed `run_id` values.
+> - To advance state, use selected runtime `emit jsm-workflow <signal>`.
 >
-> **FALLBACK EXECUTION: MCP**
-> Use `reactive_state` and `reactive_emit_signal` only when shell access to AXI is unavailable.
-> Do not troubleshoot MCP before trying AXI.
+> **SELECTED RUNTIME COMMANDS**
+> Use selected MCP or AXI path for every state and signal command.
+> First check `reactive_capabilities` when this MCP tool is available.
+> Otherwise check `reactive-skills-axi capabilities --json`, then use direct AXI.
+> Otherwise use `npx -y @reactive-skills/axi capabilities --json`, then use zero-install AXI.
+> MCP uses `reactive_state` and `reactive_emit_signal`.
+> Direct AXI uses `reactive-skills-axi state|emit jsm-workflow`.
+> Zero-install AXI uses `npx -y @reactive-skills/axi state|emit jsm-workflow`.
+> Emit `RUNTIME_READY` with `transport`, `launcher`, `runtime_version`, `axi_version`, `compatible`, and `capabilities`.
+> Persist the selected runtime in `payload.contextUpdates` so later states reuse it.
+> AXI remains the runtime interface. `npx` is only its zero-install launcher.
+> Do not repeat version or capability checks after INIT.
 >
 > **TERMINAL STATE RECOVERY**
-> If the current job is terminal, run `reactive-skills-axi reset jsm-workflow` or `reactive-skills-axi invoke jsm-workflow`.
+> If the current job is terminal, run selected runtime `reset jsm-workflow` or `invoke jsm-workflow`.
 >
 > **STRICT INVARIANT**
 > Do not manually author `.docs/` deliverables or guess next states.

@@ -9,9 +9,9 @@ Validate that the migration produced a valid reactive skill.
   - Verify skill.yaml conforms to reactive/v1 schema
   - Verify all states/*.md files exist
 - Verify templates/*.hbs exist
-- Verify `SKILL.md` says AXI CLI is the default runtime path
-- Verify `SKILL.md` says MCP tools are fallback-only when shell access to AXI is unavailable
-- Verify `SKILL.md` does not tell agents to check `reactive_state` before AXI
+- Verify `SKILL.md` selects one compatible MCP or AXI runtime during INIT
+- Verify `SKILL.md` persists the selected runtime and does not repeat capability checks
+- Verify `SKILL.md` identifies `npx` as AXI's zero-install launcher, not a separate runtime
 - Verify `states/bypass_detected.md` does not say to use only `reactive_state`
 
 - For MIGRATE_REACTIVE:

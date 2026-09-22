@@ -40,6 +40,10 @@ Evaluate whether pursuing this opportunity is worthwhile across the 4 canonical 
    - If composite score < 3.0 or critical red flags emerge:
      - Present findings to user and emit `WORTHWHILE_DOUBTFUL` to route to human review.
 
+For `WORTHWHILE_CONFIRMED`, emit payload `{"worthwhileness_score": score, "axis_scores": {"desirability": desirability, "feasibility": feasibility, "viability": viability, "timing": timing}, "catastrophic_blocker": false}`.
+
+For `WORTHWHILE_DOUBTFUL`, include the same score fields plus `catastrophic_blocker` and the critical risks.
+
 ## 🛑 Atomic Checklist & Anti-Shortcut Gate
 - [ ] Explicitly graded each of the 4 axes (Desirability, Feasibility, Viability, Timing).
 - [ ] Documented at least one specific risk or critical assumption that must be tested.

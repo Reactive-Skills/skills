@@ -87,6 +87,9 @@ states:
   EXTRACT:
     description: "Extract facts, APIs, decisions, interfaces, and operational constraints"
     prompt_template: "states/extract.md"
+    model:
+      tier: reasoning
+      temperature: 0.1
     tools: ["view_file", "grep_search", "run_command"]
     transitions:
       FACTS_EXTRACTED:
@@ -99,6 +102,9 @@ states:
   DESIGN:
     description: "Choose information architecture and map content to audience outcomes"
     prompt_template: "states/design.md"
+    model:
+      tier: reasoning
+      temperature: 0.1
     tools: ["view_file", "write_to_file"]
     transitions:
       ARCHITECTURE_DESIGNED:
@@ -111,6 +117,9 @@ states:
   AUTHOR:
     description: "Draft concise, source-linked documentation from the approved outline"
     prompt_template: "states/author.md"
+    model:
+      tier: balanced
+      temperature: 0.1
     tools: ["view_file", "write_to_file", "grep_search"]
     transitions:
       DRAFT_WRITTEN:
@@ -135,11 +144,20 @@ states:
   VALIDATE:
     description: "Check links, terminology, source traceability, diagram integrity, and readability"
     prompt_template: "states/validate.md"
+    model:
+      tier: fast
+      temperature: 0.1
     tools: ["run_command", "view_file", "grep_search"]
     transitions:
       VALIDATION_PASSED:
         target: "REVIEW"
         guard: "event.payload.validation_exit_code === 0"
+        judgment:
+          type: predicate
+          criterion: "payload.validation_exit_code === 0 && Array.isArray(payload.validation_checks) && payload.validation_checks.length > 0 && payload.validation_checks.every(check => check && check.passed === true)"
+          min_confidence: 0.9
+          fallback_adapter: script
+          fallback_target: "ERROR"
       VALIDATION_FAILED:
         target: "ERROR"
         guard: "event.payload.validation_exit_code !== 0"

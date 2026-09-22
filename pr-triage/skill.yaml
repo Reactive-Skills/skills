@@ -69,6 +69,9 @@ states:
   COLLECT:
     description: "Collect PR metadata, checks, reviews, diffs, and ownership signals"
     prompt_template: "states/collect.md"
+    model:
+      tier: fast
+      temperature: 0.1
     tools: ["run_command", "view_file", "grep_search"]
     transitions:
       COLLECTION_COMPLETE:
@@ -81,11 +84,20 @@ states:
   CLASSIFY:
     description: "Classify each PR by risk, size, ownership, and required reviewer"
     prompt_template: "states/classify.md"
+    model:
+      tier: balanced
+      temperature: 0.1
     tools: ["view_file", "write_to_file"]
     transitions:
       CLASSIFICATION_COMPLETE:
         target: "ASSESS"
         guard: "Array.isArray(event.payload.classifications) && event.payload.classifications.length > 0"
+        judgment:
+          type: predicate
+          criterion: "Array.isArray(payload.classifications) && payload.classifications.length > 0 && payload.classifications.every(item => item && item.risk && item.size && item.owner && Array.isArray(item.reviewer_classes) && item.evidence)"
+          min_confidence: 0.85
+          fallback_adapter: script
+          fallback_target: "CLASSIFY"
       CLASSIFICATION_FAILED:
         target: "ERROR"
         guard: "!Array.isArray(event.payload.classifications) || event.payload.classifications.length === 0"
@@ -93,11 +105,20 @@ states:
   ASSESS:
     description: "Assess readiness, risk signals, test status, and policy compliance"
     prompt_template: "states/assess.md"
+    model:
+      tier: reasoning
+      temperature: 0.1
     tools: ["view_file", "grep_search", "run_command"]
     transitions:
       ASSESSMENT_COMPLETE:
         target: "ROUTE"
         guard: "Array.isArray(event.payload.assessments) && event.payload.assessments.length > 0"
+        judgment:
+          type: predicate
+          criterion: "Array.isArray(payload.assessments) && payload.assessments.length > 0 && payload.assessments.every(item => item && item.status && item.evidence)"
+          min_confidence: 0.85
+          fallback_adapter: script
+          fallback_target: "ASSESS"
       ASSESSMENT_FAILED:
         target: "ERROR"
         guard: "!Array.isArray(event.payload.assessments) || event.payload.assessments.length === 0"
@@ -105,11 +126,20 @@ states:
   ROUTE:
     description: "Build deterministic routing and disposition recommendations"
     prompt_template: "states/route.md"
+    model:
+      tier: balanced
+      temperature: 0.1
     tools: ["view_file", "write_to_file"]
     transitions:
       ROUTING_COMPLETE:
         target: "REVIEW"
         guard: "Array.isArray(event.payload.routing_plan) && event.payload.routing_plan.length > 0"
+        judgment:
+          type: predicate
+          criterion: "Array.isArray(payload.routing_plan) && payload.routing_plan.length > 0 && payload.routing_plan.every(item => item && item.route && Array.isArray(item.required_actions) && item.evidence)"
+          min_confidence: 0.85
+          fallback_adapter: script
+          fallback_target: "ROUTE"
       ROUTING_FAILED:
         target: "ERROR"
         guard: "!Array.isArray(event.payload.routing_plan) || event.payload.routing_plan.length === 0"

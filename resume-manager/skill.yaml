@@ -16,6 +16,10 @@ context_keys:
   - company_name
   - target_title
   - role_track
+  - role_fit
+  - role_fit_confidence
+  - role_fit_reasons
+  - role_fit_gaps
   - overqualified_risk
   - calibration_notes
   - jd_text
@@ -35,6 +39,10 @@ default_context:
   company_name: null
   target_title: null
   role_track: "senior_technical"
+  role_fit: null
+  role_fit_confidence: null
+  role_fit_reasons: []
+  role_fit_gaps: []
   overqualified_risk: false
   calibration_notes: null
   jd_text: null
@@ -158,6 +166,9 @@ states:
   INGEST_JD:
     description: "Ingest job posting, extract company, title, responsibilities, and detect industry"
     prompt_template: states/ingest_jd.md
+    model:
+      tier: balanced
+      temperature: 0.1
     tools:
       - view_file
       - ask_question
@@ -167,8 +178,11 @@ states:
         guard: payload.company_name != null
 
   PROFILE_SELECTION:
-    description: "Match JD to profile track and evaluate overqualification & flight-risk indicators"
+    description: "Match JD to profile track, judge role fit, and evaluate overqualification & flight-risk indicators"
     prompt_template: states/profile_selection.md
+    model:
+      tier: decision
+      temperature: 0.1
     tools:
       - view_file
       - ask_question
@@ -176,9 +190,47 @@ states:
       CALIBRATION_REQUIRED:
         target: CALIBRATE_FRAMING
         guard: payload.overqualified_risk == true
+        judgment:
+          type: categorical
+          criterion: "payload.role_fit_confidence != null && Number(payload.role_fit_confidence) >= 0.8 ? payload.role_fit : 'low_confidence'"
+          options: ["strong_fit", "conditional_fit", "low_confidence"]
+          min_confidence: 0.8
+          fallback_adapter: script
+          fallback_target: FIT_REVIEW
       STANDARD_MATCH:
         target: GAP_ANALYSIS
         guard: payload.overqualified_risk != true
+        judgment:
+          type: categorical
+          criterion: "payload.role_fit_confidence != null && Number(payload.role_fit_confidence) >= 0.8 ? payload.role_fit : 'low_confidence'"
+          options: ["strong_fit", "conditional_fit", "low_confidence"]
+          min_confidence: 0.8
+          fallback_adapter: script
+          fallback_target: FIT_REVIEW
+
+  FIT_REVIEW:
+    description: "Human review of weak or low-confidence role fit before application work continues"
+    prompt_template: states/fit_review.md
+    tools:
+      - view_file
+      - ask_question
+    human_gate:
+      type: choice
+      tool: ask_question
+      options:
+        - "Proceed with role"
+        - "Re-evaluate fit"
+        - "Drop role"
+    transitions:
+      FIT_APPROVED:
+        target: GAP_ANALYSIS
+        guard: event.payload.approved === true
+      FIT_REEVALUATE:
+        target: PROFILE_SELECTION
+        guard: event.payload.reevaluate === true
+      FIT_REJECTED:
+        target: SELECT_MODE
+        guard: event.payload.rejected === true
 
   CALIBRATE_FRAMING:
     description: "Calibrate language and intent narrative to avoid intimidating or flighty impressions"
@@ -193,6 +245,9 @@ states:
   GAP_ANALYSIS:
     description: "Calibrate 25-35 role-specific keywords and verify candidate experience"
     prompt_template: states/gap_analysis.md
+    model:
+      tier: reasoning
+      temperature: 0.1
     tools:
       - view_file
       - ask_question

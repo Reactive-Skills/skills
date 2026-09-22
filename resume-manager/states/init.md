@@ -4,12 +4,11 @@
 Verify that the host agent harness is connected to the reactive runtime environment.
 
 ## Instructions
-1. Prefer AXI CLI.
-2. Run `reactive-skills-axi state resume-manager` to inspect this job, or `reactive-skills-axi invoke resume-manager` to start a fresh isolated job.
-3. If this is named or parallel work, keep `--job <job-id>` on every `state` and `emit` command.
-4. Use MCP tools only when shell access to AXI is unavailable.
-5. If AXI or MCP runtime access works, emit `RUNTIME_READY`.
-6. If neither path works, emit `SETUP_REQUIRED`.
+1. Check `reactive_capabilities` when the MCP tool is available.
+2. Otherwise check `reactive-skills-axi capabilities --json`, then `npx -y @reactive-skills/axi capabilities --json`.
+3. Select the compatible local MCP or AXI runtime, keep the same `--job <job-id>` for named or parallel work, and persist the selection for this run.
+4. If runtime access works, emit `RUNTIME_READY` with transport, launcher, versions, compatibility, and capabilities.
+5. If no compatible runtime works, emit `SETUP_REQUIRED`.
 
 ## Atomic Checklist
 - [ ] Runtime execution capability confirmed.

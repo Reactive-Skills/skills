@@ -63,9 +63,9 @@ Produce a `guard_circumvention_report` with:
 - [ ] **Bootloader Efficiency**: `SKILL.md` bootloader section (between `<!-- REACTIVE BOOTLOADER -->` markers) is under 50 lines.
 
 ### Step 4b: Runtime Guidance Verification
-- [ ] **AXI Default**: `SKILL.md` says AXI CLI is the default runtime path.
-- [ ] **MCP Fallback Only**: `SKILL.md` says `reactive_state` and `reactive_emit_signal` are only for when shell access to AXI is unavailable.
-- [ ] **No MCP-First Wording**: `SKILL.md` does not say to check `reactive_state` first.
+- [ ] **Local-First Selection**: `SKILL.md` selects one compatible MCP or AXI runtime during INIT.
+- [ ] **Persisted Selection**: `SKILL.md` persists the selected runtime for the full run.
+- [ ] **No Repeated Checks**: `SKILL.md` does not repeat version or capability checks after INIT.
 - [ ] **No MCP-Only Recovery**: `states/bypass_detected.md` does not say to use only `reactive_state`.
 - [ ] **Job Propagation**: `SKILL.md` tells agents to keep the same `--job <job-id>` flag on every `state` and `emit` command for named or parallel work.
 

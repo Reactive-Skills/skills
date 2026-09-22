@@ -23,7 +23,7 @@ Tag one shape as **`[RECOMMENDED]`** with clear trade-off rationale. Solicit use
 
 #### Map Files to Scaffold
 - `skill.yaml`: Declares the authoritative statechart topology (including composite states, sub-states, transitions, bubbling handlers, per-state `model` capability tiers (`fast`, `balanced`, `reasoning`, `decision`), and deterministic guards or semantic `judgment` rules).
-- `SKILL.md`: Universal AXI-first reactive bootloader from `templates/reactive_bootloader.md.hbs`.
+- `SKILL.md`: Universal local-first reactive bootloader from `templates/reactive_bootloader.md.hbs`.
 - `README.md`: Human-facing documentation and directory layout.
 - `CONTEXT.md`: Ubiquitous language and domain boundaries.
 - `STATECHART.md`: Mermaid diagram accurately depicting the chosen shape (including `state PARENT { ... }` for composite states).

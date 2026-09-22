@@ -42,9 +42,9 @@ Before completing this execution and emitting `EXECUTED`, you MUST verify your w
 
 ### Skill Construction & Hierarchy Standards
 - [ ] **Prompt Quality**: Does `SKILL.md` contain strict, gradable instructions without AI gimmicks (like "take a deep breath" or vague hand-waving)?
-- [ ] **Reactive Bootloader**: Does `SKILL.md` use the canonical AXI-first bootloader from `templates/reactive_bootloader.md.hbs`?
-- [ ] **MCP Fallback Only**: Does `SKILL.md` say MCP is only for when shell access to AXI is unavailable?
-- [ ] **No MCP-First Guidance**: Does `SKILL.md` avoid telling agents to check `reactive_state` before AXI?
+- [ ] **Reactive Bootloader**: Does `SKILL.md` use the canonical local-first bootloader from `templates/reactive_bootloader.md.hbs`?
+- [ ] **Runtime Selection**: Does `SKILL.md` select one compatible MCP or AXI runtime during INIT and reuse it?
+- [ ] **No Repeated Checks**: Does `SKILL.md` persist the selected runtime instead of repeating capability checks?
 - [ ] **Anti-Shortcut Gates**: Did you include an **Atomic Checklist / Anti-Shortcut Gate** within each state prompt file (under `states/**/*.md`)?
 - [ ] **Authoritative SSOT Alignment**:
   - Every `prompt_template` declared in `skill.yaml` exists on disk.

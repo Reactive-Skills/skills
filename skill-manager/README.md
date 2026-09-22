@@ -91,12 +91,12 @@ Defined in [`skill.yaml`](skill.yaml). For full Mermaid state diagrams, see [`ST
 When `skill-manager` scaffolds a skill (`CREATE` or `MIGRATE_LEGACY`), it strictly adheres to these engineering standards:
 
 1. **Dual Documentation**:
-  - **`SKILL.md`**: Dedicated to the AI agent runtime. Contains YAML frontmatter, the canonical AXI-first runtime bootloader, and step instructions without human exposition.
+  - **`SKILL.md`**: Dedicated to the AI agent runtime. Contains YAML frontmatter, the canonical local-first runtime bootloader, and step instructions without human exposition.
    - **`README.md`**: Dedicated to human developers, catalog browsing, and GitHub navigation. Contains overview, architecture, installation, and CLI usage.
 2. **Self-Contained State Prompts**: Each state in `states/**/*.md` specifies exact preconditions, actions, and exit signals. Subdirectories (`states/<phase>/`) are supported and encouraged for composite states.
 3. **Anti-Shortcut Atomic Checklists**: Execution and terminal states include checklist rubrics to hold the executing agent accountable.
 4. **Synchronized Statecharts**: `STATECHART.md` is automatically maintained to mirror the exact states and transitions in `skill.yaml` (including Mermaid `state PARENT { ... }` blocks for composite states).
-5. **Canonical Runtime Templates**: `templates/reactive_bootloader.md.hbs`, `templates/init_state.md.hbs`, and `templates/bypass_detected.md.hbs` define AXI-first runtime guidance for future skills.
+5. **Canonical Runtime Templates**: `templates/reactive_bootloader.md.hbs`, `templates/init_state.md.hbs`, and `templates/bypass_detected.md.hbs` define local-first runtime guidance for future skills.
 
 ---
 
