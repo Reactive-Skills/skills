@@ -1,7 +1,7 @@
-﻿{
-  "skill_name": "{{skill_name}}",
-  "operation": "{{operation}}",
-  "status": "{{status}}",
-  "timestamp": "{{timestamp}}",
-  "files": {{files}}
+{
+  "skill_name": "{{context.skill_name}}",
+  "operation": "{{context.operation}}",
+  "status": "{{currentState}}",
+  "timestamp": "{{lastUpdated}}",
+  "files": {{#if context.files}}{{{json context.files}}}{{else}}[]{{/if}}
 }
