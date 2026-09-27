@@ -12,7 +12,7 @@ Perform the actual migration file operations.
   - Scaffold guards/.gitkeep
   - Write templates/*.hbs (default projection templates)
   - Write README.md with human-facing overview, installation commands, and architecture
-  - Inject `templates/reactive_bootloader.md.hbs` into SKILL.md with local-first runtime selection
+  - Render the centralized runtime bootloader pointer from `templates/reactive_bootloader.md.hbs` into SKILL.md
 
 - For MIGRATE_REACTIVE:
   - Rewrite skill.yaml to 2.1.0 schema
@@ -20,7 +20,7 @@ Perform the actual migration file operations.
   - Add event_store config
   - Ensure INIT and SETUP_MCP states exist
   - Ensure README.md exists and is updated with schema/usage details
-  - Update SKILL.md with the canonical local-first <!-- REACTIVE BOOTLOADER -->
+  - Update SKILL.md with the centralized runtime bootloader pointer
 
 ## Tools
 Delegate file operations to a general agent.
@@ -41,9 +41,8 @@ Before completing this execution and emitting `EXECUTED`, verify your work passe
 
 ### Migration Integrity Standards
 - [ ] Are the migrated state files (`states/*.md`) completely free of AI gimmicks or un-gradable instructions?
-- [ ] Does the migrated `SKILL.md` include the canonical `<!-- REACTIVE BOOTLOADER -->` rendered from `templates/reactive_bootloader.md.hbs`?
-- [ ] Does the migrated `SKILL.md` say MCP is only for when shell access to AXI is unavailable?
-- [ ] Does the migrated `SKILL.md` avoid telling agents to check `reactive_state` before AXI?
+- [ ] Does the migrated `SKILL.md` contain exactly one complete pointer rendered from `templates/reactive_bootloader.md.hbs` for the manifest skill name?
+- [ ] Does the migrated `SKILL.md` leave shared bootloader instructions to the runtime?
 - [ ] Does the migrated skill include a human-facing `README.md` alongside `SKILL.md` with clear installation, CLI/MCP usage, and directory overview?
 - [ ] Did you inject an **Atomic Checklist** into the execution/terminal states of the new migrated skill, so it holds itself accountable?
 - [ ] Does the new `skill.yaml` (v2.1.0) strictly map to the exact files you created in the `states/` directory? (Failure mode: missing state prompt files).

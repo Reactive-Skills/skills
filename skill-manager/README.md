@@ -43,7 +43,7 @@ Every operation is governed by a deterministic Hierarchical State Machine (HSM) 
 | `UPDATE` | Modifies an existing skill's statechart, prompt templates, or guards while keeping `STATECHART.md` and `README.md` synchronized. | Adding states or modifying transitions. |
 | `DELETE` | Safely tears down a skill package and its associated artifacts. | Deprecating or removing skills. |
 | `MIGRATE_LEGACY` | Analyzes a single-file legacy `SKILL.md` skill, infers states, grills ambiguities via Socratic inquiry, and splits it into a reactive skill. | Modernizing legacy agent skills. |
-| `MIGRATE_REACTIVE` | Upgrades a reactive skill across schema versions (e.g. v1 to v2.1.0/v2.2.0), updating event store configurations and bootloaders. | Upgrading schema and capabilities. |
+| `MIGRATE_REACTIVE` | Upgrades a reactive skill across schema versions (e.g. v1 to v2.1.0/v2.2.0), updating event store configurations and bootloader pointers. | Upgrading schema and capabilities. |
 
 ---
 
@@ -80,7 +80,7 @@ Defined in [`skill.yaml`](skill.yaml). For full Mermaid state diagrams, see [`ST
 4. **`INSPECTING_REACTIVE`**: Diffs older schema definitions against the target reactive schema.
 5. **`PLANNING_MIGRATE`**: Generates a detailed migration plan.
 6. **`APPROVING_MIGRATE`**: Pre-commit user approval gate.
-7. **`EXECUTING_MIGRATE`**: Rewrites manifests, splits states, creates `README.md`, and injects universal bootloaders.
+7. **`EXECUTING_MIGRATE`**: Rewrites manifests, splits states, creates `README.md`, and replaces embedded bootloaders with the canonical runtime pointer.
 8. **`VERIFYING_MIGRATE`**: Confirms the migrated skill compiles and passes runtime validation.
 9. **`RESTORING_MIGRATE`**: Guaranteed restoration from backup on failure.
 
@@ -91,12 +91,13 @@ Defined in [`skill.yaml`](skill.yaml). For full Mermaid state diagrams, see [`ST
 When `skill-manager` scaffolds a skill (`CREATE` or `MIGRATE_LEGACY`), it strictly adheres to these engineering standards:
 
 1. **Dual Documentation**:
-  - **`SKILL.md`**: Dedicated to the AI agent runtime. Contains YAML frontmatter, the canonical local-first runtime bootloader, and step instructions without human exposition.
+  - **`SKILL.md`**: Dedicated to the AI agent runtime. Contains YAML frontmatter, a pointer to the runtime-served bootloader, and skill-specific usage guidance.
    - **`README.md`**: Dedicated to human developers, catalog browsing, and GitHub navigation. Contains overview, architecture, installation, and CLI usage.
 2. **Self-Contained State Prompts**: Each state in `states/**/*.md` specifies exact preconditions, actions, and exit signals. Subdirectories (`states/<phase>/`) are supported and encouraged for composite states.
 3. **Anti-Shortcut Atomic Checklists**: Execution and terminal states include checklist rubrics to hold the executing agent accountable.
 4. **Synchronized Statecharts**: `STATECHART.md` is automatically maintained to mirror the exact states and transitions in `skill.yaml` (including Mermaid `state PARENT { ... }` blocks for composite states).
-5. **Canonical Runtime Templates**: `templates/reactive_bootloader.md.hbs`, `templates/init_state.md.hbs`, and `templates/bypass_detected.md.hbs` define local-first runtime guidance for future skills.
+5. **Canonical Runtime Pointer**: `templates/reactive_bootloader.md.hbs` points to the bootloader served by the Reactive Skills runtime.
+   The `init_state.md.hbs` and `bypass_detected.md.hbs` templates provide per-skill state prompts.
 
 ---
 
@@ -149,7 +150,7 @@ On successful execution, `skill-manager` produces:
 ```
 skill-manager/
 ├── README.md               # Human-facing documentation (this file)
-├── SKILL.md                # Agent entrypoint with universal reactive bootloader
+├── SKILL.md                # Agent entrypoint with runtime bootloader pointer
 ├── skill.yaml              # HSM statechart manifest (schema_version: 2.1.0)
 ├── STATECHART.md           # Mermaid diagram of all lifecycle states
 ├── CONTEXT.md              # Architectural glossary and migration concepts

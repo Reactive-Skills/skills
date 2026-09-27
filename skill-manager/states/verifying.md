@@ -63,11 +63,10 @@ Produce a `guard_circumvention_report` with:
 - [ ] **Bootloader Efficiency**: `SKILL.md` bootloader section (between `<!-- REACTIVE BOOTLOADER -->` markers) is under 50 lines.
 
 ### Step 4b: Runtime Guidance Verification
-- [ ] **Local-First Selection**: `SKILL.md` selects one compatible MCP or AXI runtime during INIT.
-- [ ] **Persisted Selection**: `SKILL.md` persists the selected runtime for the full run.
-- [ ] **No Repeated Checks**: `SKILL.md` does not repeat version or capability checks after INIT.
+- [ ] **Canonical Pointer**: The `SKILL.md` block between the bootloader markers exactly matches `templates/reactive_bootloader.md.hbs` after rendering the manifest skill name.
+- [ ] **Single Block**: `SKILL.md` contains exactly one complete bootloader block.
+- [ ] **Runtime Ownership**: `SKILL.md` does not embed a second copy of the shared bootloader instructions.
 - [ ] **No MCP-Only Recovery**: `states/bypass_detected.md` does not say to use only `reactive_state`.
-- [ ] **Job Propagation**: `SKILL.md` tells agents to keep the same `--job <job-id>` flag on every `state` and `emit` command for named or parallel work.
 
 ### Step 5: Middleware Hook Verification (for CREATE with middleware declared)
 - [ ] **Hook Files Present**: All declared middleware hook modules exist at `runtime/middleware/*.js`.

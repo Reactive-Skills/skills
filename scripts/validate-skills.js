@@ -7,7 +7,7 @@
  * 2. Verifies that initial_state is defined in states.
  * 3. Verifies that all referenced prompt_template files (e.g. states/*.md) exist on disk.
  * 4. Verifies that all transition target states exist.
- * 5. Verifies that SKILL.md exists and contains the required universal bootloader (<!-- REACTIVE BOOTLOADER -->).
+ * 5. Verifies that SKILL.md contains the canonical pointer to the runtime-served bootloader.
  * 6. Checks that README.md exists for human documentation and catalog navigation.
  * 7. Invokes `npx -y @reactive-skills/axi inspect <skill>` to ensure the runtime FSM engine compiles the statechart.
  *
@@ -302,11 +302,37 @@ function validateSkill(skill, runRuntimeCheck) {
     errors.push('SKILL.md does not exist in skill directory');
   } else {
     const skillMdContent = fs.readFileSync(skillMdPath, 'utf8');
-    if (!skillMdContent.includes('<!-- REACTIVE BOOTLOADER -->')) {
-      errors.push('SKILL.md is missing the universal reactive bootloader marker: `<!-- REACTIVE BOOTLOADER -->`');
+    const startMarker = '<!-- REACTIVE BOOTLOADER -->';
+    const endMarker = '<!-- END REACTIVE BOOTLOADER -->';
+    const normalizedContent = skillMdContent.replace(/\r\n/g, '\n');
+    const start = normalizedContent.indexOf(startMarker);
+    const end = start < 0 ? -1 : normalizedContent.indexOf(endMarker, start + startMarker.length);
+    const templatePath = path.join(ROOT_DIR, 'skill-manager', 'templates', 'reactive_bootloader.md.hbs');
+
+    if (start < 0 || end < 0) {
+      errors.push('SKILL.md is missing a complete reactive bootloader pointer block');
+    } else if (!fs.existsSync(templatePath)) {
+      errors.push('Canonical reactive bootloader pointer template is missing');
+    } else {
+      const skillName = manifest.name || skill.name;
+      const expectedBlock = fs.readFileSync(templatePath, 'utf8')
+        .replace(/\r\n/g, '\n')
+        .trim()
+        .replace(/\{\{skill_name\}\}/g, skillName);
+      const actualBlock = normalizedContent.slice(start, end + endMarker.length).trim();
+      const duplicateStart = normalizedContent.indexOf(startMarker, start + startMarker.length);
+      const startCount = normalizedContent.split(startMarker).length - 1;
+      const endCount = normalizedContent.split(endMarker).length - 1;
+
+      if (actualBlock !== expectedBlock) {
+        errors.push('SKILL.md bootloader block does not match the canonical runtime pointer template');
+      }
+      if (duplicateStart >= 0 || startCount !== 1 || endCount !== 1) {
+        errors.push('SKILL.md must contain exactly one complete reactive bootloader pointer block');
+      }
     }
     if (!skillMdContent.includes('@reactive-skills/axi') && !skillMdContent.includes('reactive-skills-axi')) {
-      warnings.push('SKILL.md bootloader does not reference @reactive-skills/axi');
+      warnings.push('SKILL.md runtime pointer does not reference AXI');
     }
   }
 

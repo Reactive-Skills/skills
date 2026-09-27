@@ -9,10 +9,9 @@ Validate that the migration produced a valid reactive skill.
   - Verify skill.yaml conforms to reactive/v1 schema
   - Verify all states/*.md files exist
 - Verify templates/*.hbs exist
-- Verify `SKILL.md` selects one compatible MCP or AXI runtime during INIT
-- Verify `SKILL.md` persists the selected runtime and does not repeat capability checks
-- Verify `SKILL.md` identifies `npx` as AXI's zero-install launcher, not a separate runtime
-- Verify `states/bypass_detected.md` does not say to use only `reactive_state`
+- Verify `SKILL.md` contains exactly one complete runtime bootloader pointer
+- Verify the pointer matches `templates/reactive_bootloader.md.hbs` after rendering the manifest skill name
+- Verify `SKILL.md` does not embed a copy of the runtime-served bootloader instructions
 
 - For MIGRATE_REACTIVE:
   - Verify skill.yaml is valid YAML

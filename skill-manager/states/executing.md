@@ -8,7 +8,8 @@ Use file manipulation tools or shell commands to:
 - **CREATE**:
   - `mkdir -p skills/{{context.skill_name}}/` (recursively creating subdirectories like `states/<phase>/` if hierarchical).
   - Write `skill.yaml`: The authoritative Single Source of Truth (SSOT). For hierarchical shapes, declare composite states (`type: composite`, nested `states:` blocks, and bubble-up event handlers).
-  - Write `SKILL.md`: Render `templates/reactive_bootloader.md.hbs` with `skill_name`, then add gradable operational instructions.
+  - Write `SKILL.md`: Render `templates/reactive_bootloader.md.hbs` with `skill_name`, then add skill-specific usage guidance.
+  - Keep shared bootloader instructions in the runtime. Do not copy them into `SKILL.md`.
   - Write `README.md`: Include human-facing overview, installation, CLI/MCP usage, and complete directory layout.
   - Write `CONTEXT.md`: Ubiquitous language, domain boundaries, and statechart invariants.
   - Write `STATECHART.md`: Mermaid `stateDiagram-v2` depicting states and transitions. If hierarchical, render composite states using `state PARENT { ... }` blocks and document bubble-up transitions.
@@ -42,9 +43,8 @@ Before completing this execution and emitting `EXECUTED`, you MUST verify your w
 
 ### Skill Construction & Hierarchy Standards
 - [ ] **Prompt Quality**: Does `SKILL.md` contain strict, gradable instructions without AI gimmicks (like "take a deep breath" or vague hand-waving)?
-- [ ] **Reactive Bootloader**: Does `SKILL.md` use the canonical local-first bootloader from `templates/reactive_bootloader.md.hbs`?
-- [ ] **Runtime Selection**: Does `SKILL.md` select one compatible MCP or AXI runtime during INIT and reuse it?
-- [ ] **No Repeated Checks**: Does `SKILL.md` persist the selected runtime instead of repeating capability checks?
+- [ ] **Runtime Bootloader Pointer**: Does `SKILL.md` contain the pointer rendered from `templates/reactive_bootloader.md.hbs` for this skill name?
+- [ ] **No Embedded Bootloader**: Does `SKILL.md` leave shared runtime selection and recovery instructions to the runtime?
 - [ ] **Anti-Shortcut Gates**: Did you include an **Atomic Checklist / Anti-Shortcut Gate** within each state prompt file (under `states/**/*.md`)?
 - [ ] **Authoritative SSOT Alignment**:
   - Every `prompt_template` declared in `skill.yaml` exists on disk.
@@ -68,7 +68,7 @@ Before completing this execution and emitting `EXECUTED`, you MUST verify your w
 - [ ] **State Prompt Brevity**: Is each `states/*.md` file under 200 words? (Verify with `wc -w` or PowerShell `($content -split '\s+').Count`)
 - [ ] **JIT Loading Readiness**: Are state prompts structured for Just-In-Time loading (focused, single-responsibility, no cross-state dependencies inlined)?
 - [ ] **Bootloader Overhead**: Does `SKILL.md` bootloader section stay under 50 lines? (Excluding metadata frontmatter)
-- [ ] **Bootloader Drift Check**: Does the bootloader match `templates/reactive_bootloader.md.hbs` except for rendered `skill_name`?
+- [ ] **Bootloader Drift Check**: Does the pointer match `templates/reactive_bootloader.md.hbs` after rendering `skill_name`?
 - [ ] **No Duplicate Instructions**: Do sibling state prompts avoid re-declaring logic already in `SKILL.md` or `CONTEXT.md`?
 
 ### Cross-Reference Standards
