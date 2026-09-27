@@ -271,9 +271,11 @@ states:
     tools:
       - write_to_file
       - view_file
+      - ask_question
     transitions:
       MATERIALS_DRAFTED:
         target: EXPORTING
+        guard: payload.timeline_reconciled == true && payload.unresolved_gap_count == 0
 
   EXPORTING:
     description: "Export markdown application materials to formatted DOCX and PDF"

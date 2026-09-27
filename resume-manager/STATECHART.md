@@ -67,7 +67,7 @@ stateDiagram-v2
     COMPANY_ALIGNMENT --> DRAFTING: ALIGNMENT_DRAFTED
 
     state "DRAFTING" as DRAFTING
-    DRAFTING --> EXPORTING: MATERIALS_DRAFTED
+    DRAFTING --> EXPORTING: MATERIALS_DRAFTED [timeline_reconciled == true and unresolved_gap_count == 0]
 
     state "EXPORTING" as EXPORTING
     EXPORTING --> INTERVIEW_PREP: EXPORT_COMPLETE [exit_code == 0]

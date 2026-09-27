@@ -24,6 +24,17 @@ You are drafting the candidate's single-column ATS-compliant resume (`resume.md`
   - For overqualified/adjacent roles, weave the authentic anti-flight risk intent narrative naturally into paragraphs 1 and 4.
 - Save files to `<output_dir>/<Company>/<Role>/`.
 
+## Career Timeline Reconciliation
+- Before signaling `MATERIALS_DRAFTED`, compare the dated employment entries in the verified master profile with the dated employment entries in the tailored resume.
+- Normalize dates to month and year, sort roles chronologically, and account for concurrent roles and overlapping dates.
+- Check whether omitting any profile-backed role leaves a period with no represented employment and therefore creates an unexplained gap in the resume timeline.
+- If a verified role bridges a gap, restore it in a concise experience entry with its actual employer, title, and dates, even when its details are less relevant to the target role.
+- If profile dates are incomplete, a period is a genuine career break, or the candidate wants to omit a gap-bridging role, ask the candidate to clarify before proceeding.
+- Never invent a job, employment date, or reason for a gap.
+- A candidate-confirmed career break or intentional omission is resolved only when its confirmation is recorded in `timeline_audit_notes`.
+- Emit `MATERIALS_DRAFTED` with `timeline_reconciled: true`, `unresolved_gap_count: 0`, and `timeline_audit_notes` alongside the resume and cover letter paths.
+- If any gap is unresolved, repair the resume or ask the candidate, then repeat the chronology audit before emitting the signal.
+
 ## Instructions
 1. Draft `resume.md` adhering to all ATS and calibration constraints.
 2. Draft `cover_letter.md` adhering to voice rules and intent framing.
@@ -35,6 +46,9 @@ You are drafting the candidate's single-column ATS-compliant resume (`resume.md`
 - [CRUCIAL] Zero em dashes anywhere in cover letter.
 - [CRUCIAL] Every resume bullet point adheres to Google XYZ metric syntax.
 - [CRUCIAL] Contact info in primary body text without emojis or header XML.
+- [CRUCIAL] Every dated role from the master profile has been compared with the tailored resume timeline.
+- [CRUCIAL] No unexplained employment gaps remain before export.
+- [IMPORTANT] Confirmed career breaks or intentional omissions are recorded in the timeline audit notes.
 - [IMPORTANT] 25–35 keywords woven naturally across resume and cover letter.
 - [NEGATIVE] Absence of corporate buzzwords and AI cliché openers.
 

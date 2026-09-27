@@ -76,9 +76,10 @@ Triggered when providing a Job Description (JD) to tailor a full application pac
 4. **25–35 Keyword Calibration**: Weaves ATS keywords into bullet points with truthful candidate verification.
 5. **Company Alignment**: Researches employer mission, engineering values, and conversational angles.
 6. **ATS Drafting**: Generates clean, single-column `resume.md` and tailored `cover_letter.md`.
-7. **Document Export**: Compiles pixel-perfect `.docx` and `.pdf` files.
-8. **Interview Prep**: Produces tailored Q&A including pre-emptive answers for "Why this role? Aren't you overqualified?".
-9. **Continuous Flywheel**: Prompts to compound newly verified skills and sharpened phrasing back into the master profile.
+7. **Career Timeline Reconciliation**: Compares dated roles in the master profile with the tailored resume and resolves unexplained gaps before export.
+8. **Document Export**: Compiles pixel-perfect `.docx` and `.pdf` files.
+9. **Interview Prep**: Produces tailored Q&A including pre-emptive answers for "Why this role? Aren't you overqualified?".
+10. **Continuous Flywheel**: Prompts to compound newly verified skills and sharpened phrasing back into the master profile.
 
 ### 2. Maintenance Mode (`MAINTAIN`)
 Triggered when adding a new achievement, promotion, or skill:
@@ -119,6 +120,8 @@ Defined in [`skill.yaml`](skill.yaml). For the full interactive diagram, see [`S
 
 The customization path can route from `PROFILE_SELECTION` to `FIT_REVIEW` when fit evidence is weak or uncertain.
 The workflow does not auto-reject the role.
+The `DRAFTING` to `EXPORTING` transition requires a completed timeline reconciliation with zero unresolved employment gaps.
+The drafting state restores verified roles that resolve omissions and asks the candidate about uncertain dates or intentional omissions instead of inventing explanations.
 
 ```
    ┌──────┐
