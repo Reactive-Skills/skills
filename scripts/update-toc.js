@@ -120,18 +120,23 @@ function discoverSkills() {
     try {
       const yamlContent = fs.readFileSync(skillYamlPath, 'utf8');
       const meta = parseYamlMetadata(yamlContent);
+
+      if (!meta.name || !meta.version || !meta.schema_version) {
+        throw new Error('skill.yaml must define name, version, and schema_version');
+      }
       
       skills.push({
         dirName: entry.name,
-        name: meta.name || entry.name,
-        version: meta.version || '1.0.0',
-        schemaVersion: meta.schema_version || '2.2.0',
+        name: meta.name,
+        version: meta.version,
+        schemaVersion: meta.schema_version,
         description: meta.description || 'No description provided',
         statesCount: meta.statesCount || null,
         hasSkillMd: fs.existsSync(path.join(ROOT_DIR, entry.name, 'SKILL.md'))
       });
     } catch (err) {
-      console.warn(`⚠️ Warning: Could not parse ${skillYamlPath}: ${err.message}`);
+      console.error(`❌ Error: Could not read required catalog metadata from ${skillYamlPath}: ${err.message}`);
+      process.exit(1);
     }
   }
 

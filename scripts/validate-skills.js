@@ -77,9 +77,9 @@ function parseYaml(content) {
 
   const lines = content.split(/\r?\n/);
   let currentSection = null;
-  let currentState = null;
-  let currentSubSection = null;
-  let currentTransitionSignal = null;
+  const stateStack = [];
+  const blockStack = [];
+  let transitionEntry = null;
 
   for (let i = 0; i < lines.length; i++) {
     const rawLine = lines[i];
@@ -92,9 +92,9 @@ function parseYaml(content) {
       const topMatch = trimmed.match(/^([a-zA-Z0-9_-]+):\s*(.*)$/);
       if (topMatch) {
         currentSection = topMatch[1];
-        currentState = null;
-        currentSubSection = null;
-        currentTransitionSignal = null;
+        stateStack.length = 0;
+        blockStack.length = 0;
+        transitionEntry = null;
         const val = topMatch[2].trim().replace(/^['"]|['"]$/g, '');
         if (val) {
           result[currentSection] = val;
@@ -103,49 +103,67 @@ function parseYaml(content) {
       continue;
     }
 
-    if (currentSection === 'states') {
-      if (indent === 2) {
-        const stateMatch = trimmed.match(/^([a-zA-Z0-9_-]+):\s*(.*)$/);
-        if (stateMatch) {
-          currentState = stateMatch[1];
-          result.states[currentState] = {
-            transitions: {}
-          };
-          currentSubSection = null;
-          currentTransitionSignal = null;
-        }
-      } else if (indent === 4 && currentState) {
-        const fieldMatch = trimmed.match(/^([a-zA-Z0-9_-]+):\s*(.*)$/);
-        if (fieldMatch) {
-          const field = fieldMatch[1];
-          const val = fieldMatch[2].trim().replace(/^['"]|['"]$/g, '');
-          if (field === 'transitions') {
-            currentSubSection = 'transitions';
-          } else {
-            currentSubSection = field;
-            if (val) {
-              result.states[currentState][field] = val;
-            }
-          }
-        }
-      } else if (indent === 6 && currentState && currentSubSection === 'transitions') {
-        const sigMatch = trimmed.match(/^([a-zA-Z0-9_-]+):\s*(.*)$/);
-        if (sigMatch) {
-          currentTransitionSignal = sigMatch[1];
-          const targetInline = sigMatch[2].trim().replace(/^['"]|['"]$/g, '');
-          if (targetInline) {
-            result.states[currentState].transitions[currentTransitionSignal] = { target: targetInline };
-          } else {
-            result.states[currentState].transitions[currentTransitionSignal] = {};
-          }
-        }
-      } else if (indent === 8 && currentState && currentTransitionSignal) {
-        const targetMatch = trimmed.match(/^target:\s*(.+)$/);
-        if (targetMatch) {
-          const tgt = targetMatch[1].trim().replace(/^['"]|['"]$/g, '');
-          result.states[currentState].transitions[currentTransitionSignal].target = tgt;
-        }
+    if (currentSection !== 'states') continue;
+
+    const fieldMatch = trimmed.match(/^([a-zA-Z0-9_-]+):\s*(.*)$/);
+    if (!fieldMatch) continue;
+
+    const field = fieldMatch[1];
+    const rawValue = fieldMatch[2].trim();
+    const value = rawValue.replace(/^['"]|['"]$/g, '');
+
+    while (blockStack.length && indent <= blockStack[blockStack.length - 1].indent) {
+      blockStack.pop();
+    }
+    while (stateStack.length && indent <= stateStack[stateStack.length - 1].indent) {
+      stateStack.pop();
+    }
+    if (transitionEntry && indent <= transitionEntry.indent) {
+      transitionEntry = null;
+    }
+
+    const activeBlock = blockStack[blockStack.length - 1];
+    if (activeBlock && indent === activeBlock.indent + 2) {
+      if (activeBlock.kind === 'states') {
+        const state = { transitions: {} };
+        activeBlock.parent[activeBlock.field][field] = state;
+        stateStack.push({ name: field, definition: state, indent });
+        continue;
       }
+
+      if (activeBlock.kind === 'transitions') {
+        const transition = rawValue ? { target: value } : {};
+        activeBlock.parent.transitions[field] = transition;
+        transitionEntry = { definition: transition, indent };
+        continue;
+      }
+    }
+
+    if (transitionEntry && indent === transitionEntry.indent + 2) {
+      if (field === 'target' && value) {
+        transitionEntry.definition.target = value;
+      }
+      continue;
+    }
+
+    if (indent === 2 && stateStack.length === 0) {
+      const state = { transitions: {} };
+      result.states[field] = state;
+      stateStack.push({ name: field, definition: state, indent });
+      continue;
+    }
+
+    const currentState = stateStack[stateStack.length - 1];
+    if (!currentState || indent !== currentState.indent + 2) continue;
+
+    if (field === 'transitions') {
+      currentState.definition.transitions = {};
+      blockStack.push({ kind: 'transitions', parent: currentState.definition, indent });
+    } else if (field === 'substates' || field === 'states') {
+      currentState.definition[field] = {};
+      blockStack.push({ kind: 'states', parent: currentState.definition, field, indent });
+    } else if (value) {
+      currentState.definition[field] = value;
     }
   }
 

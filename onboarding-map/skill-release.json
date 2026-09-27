@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "skillId": "skill-manager",
+  "skillId": "onboarding-map",
   "channel": "stable",
   "version": "1.0.1",
   "type": "reactive",
-  "reactiveSchemaVersion": "2.1.0"
+  "reactiveSchemaVersion": "2.0.0"
 }
