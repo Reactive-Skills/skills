@@ -13,6 +13,17 @@ A skill with a skill.yaml (schema_version: "reactive/v1"), a states/ directory o
 **Reactive Skill (v2)**:
 A reactive skill with schema_version "2.0.0", SQLite event store, MCP server integration, and Just-In-Time prompt loading (~70% token reduction vs v1). Introduces composite states, Zod-validated guards, and live deliverable projections from the event stream.
 
+**Skill Release Version**:
+The public SemVer release of a skill, declared in `skill.yaml.version` and mirrored exactly by `skill-release.json.version`.
+
+**Reactive Schema Version**:
+The compatibility identifier declared in `skill.yaml.schema_version` for the Reactive Skills manifest and runtime schema.
+It identifies the manifest format used by this skill.
+Skill Manager migration targets and supported input schemas are documented independently.
+
+**Release Manifest Format Version**:
+The integer `schemaVersion` in `skill-release.json`, which versions the JSON release-manifest format independently from the skill and Reactive Skills schema versions.
+
 **Skill Type**:
 A classification of a reactive skill's domain and operational characteristics. Skill types inform architectural shape selection, middleware hook requirements, and verification criteria during the PLANNING phase. Types are: `tool`, `agent`, `workflow`, `orchestrator`, `data_pipeline`, `domain_model`.
 
@@ -88,10 +99,16 @@ The reactive-skills MCP server exposes a reactive_migrate tool. The skill-manage
 
 ## Schema Versions
 
-| Version | schema_version value | Key Features |
-|---------|---------------------|--------------|
-| v1 | "reactive/v1" | HSM, signal bus, isolated states, guards, projections |
-| v2.0.0 | "2.0.0" | +SQLite event store, MCP server, JIT prompts, composite states, Zod guards |
+| Reactive schema identifier | Use |
+|----------------------------|-----|
+| `reactive/v1` | Legacy Reactive Skills manifest identifier used by migration detection. |
+| `2.0.0` | Reactive Skills manifest compatibility identifier used by some registry skills. |
+| `2.1.0` | Reactive Skills manifest compatibility identifier used by some registry skills. |
+| `2.2.0` | Reactive Skills manifest compatibility identifier used by some registry skills. |
+
+Current registry schema identifiers use SemVer syntax and are compared literally.
+The schema compatibility version is independent from the skill's public release SemVer.
+Skill Manager migration targets and supported input schemas are documented independently from the schema identifier of this skill's own manifest.
 
 ## Skill Type Taxonomy
 

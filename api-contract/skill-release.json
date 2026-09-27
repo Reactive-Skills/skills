@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "skillId": "api-contract",
+  "channel": "stable",
+  "version": "1.0.0",
+  "type": "reactive",
+  "reactiveSchemaVersion": "2.0.0"
+}
