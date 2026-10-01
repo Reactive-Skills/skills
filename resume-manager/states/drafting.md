@@ -36,10 +36,11 @@ You are drafting the candidate's single-column ATS-compliant resume (`resume.md`
 - If any gap is unresolved, repair the resume or ask the candidate, then repeat the chronology audit before emitting the signal.
 
 ## Instructions
-1. Draft `resume.md` adhering to all ATS and calibration constraints.
-2. Draft `cover_letter.md` adhering to voice rules and intent framing.
-3. Save both files to the target role directory.
-4. Emit `MATERIALS_DRAFTED` with payload `{"resume_path": resume_path, "cover_letter_path": cover_letter_path}`.
+1. Use the same resolved `master_profile_path` and selected track under `profiles_dir` used by earlier states; do not search a second agent-specific location.
+2. Draft `resume.md` adhering to all ATS and calibration constraints.
+3. Draft `cover_letter.md` adhering to voice rules and intent framing.
+4. Save both files to the target role directory.
+5. Emit `MATERIALS_DRAFTED` with payload `{"resume_path": resume_path, "cover_letter_path": cover_letter_path}`.
 
 ## Atomic Verification Checklist
 - [CRUCIAL] Single-column linear layout strictly enforced.
@@ -50,7 +51,7 @@ You are drafting the candidate's single-column ATS-compliant resume (`resume.md`
 - [CRUCIAL] No unexplained employment gaps remain before export.
 - [IMPORTANT] Confirmed career breaks or intentional omissions are recorded in the timeline audit notes.
 - [IMPORTANT] 25–35 keywords woven naturally across resume and cover letter.
-- [NEGATIVE] Absence of corporate buzzwords and AI cliché openers.
+- [NEGATIVE] Absence of corporate buzzwords and AI cliché openers (enforced via `guards/voice_standards_audit.yaml`).
 
 ## Signal
-Emit: `MATERIALS_DRAFTED`
+Emit: `MATERIALS_DRAFTED` (gated by `guards/voice_standards_audit.yaml` predicate contract).

@@ -13,7 +13,7 @@ You are calibrating job description keywords against the candidate's verified pr
 
 ## Instructions
 1. Extract candidate keywords from JD text.
-2. Cross-reference against selected profile track.
+2. Cross-reference against the selected track under the resolved `context.profiles_dir`, using `CONTEXT.md` path precedence.
 3. Verify unconfirmed skills with candidate.
 4. Select 25–35 verified keywords for inclusion in resume and cover letter.
 5. Emit `ANALYSIS_COMPLETE` with payload `{"keywords": verified_keywords, "keyword_count": verified_keywords.length}`.

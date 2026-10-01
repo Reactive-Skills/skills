@@ -1,0 +1,45 @@
+# Judgment: Profile Track Selection
+primitive: choice
+
+state:
+  target_title: "`context.target_title`"
+  target_industry: "`context.industry`"
+  core_responsibilities: "`context.core_responsibilities`"
+
+question: |
+  Which career profile archetype best matches the target position `state.target_title` in industry `state.target_industry` with core responsibilities `state.core_responsibilities`?
+  - senior_technical: Staff, Principal, Lead SWE, or Platform Architect in tech
+  - practical_mid_technical: Mid/Senior Full-Stack, Backend, or Web Developer emphasizing direct delivery
+  - operations_management: Operations Manager/Director, Technical Program Manager, Process Lead
+  - solutions_client_facing: Solutions Architect, TAM, Customer Engineering, Pre-Sales
+  - adjacent_industry: Non-tech verticals (healthcare, manufacturing, logistics, public sector)
+  - other: Ambiguous or unclassified role
+
+options:
+  - senior_technical
+  - practical_mid_technical
+  - operations_management
+  - solutions_client_facing
+  - adjacent_industry
+  - other
+
+thresholds:
+  accept: "confidence >= 0.75 AND picked != 'other'"
+  escalate: "confidence < 0.75 OR picked == 'other'"
+
+failure_behavior: fail_closed
+
+snap_on:
+  judgment:
+    type: categorical
+    criterion: "Select the most appropriate career profile archetype for the target job title, industry, and responsibilities."
+    options:
+      - senior_technical
+      - practical_mid_technical
+      - operations_management
+      - solutions_client_facing
+      - adjacent_industry
+      - other
+    min_confidence: 0.75
+    fallback_adapter: script
+    fallback_target: FIT_REVIEW

@@ -8,8 +8,8 @@ type: reactive
 
 ## Context
 
-This is the terminal success or deliberate stop state.
-The run may have completed the full lifecycle or stopped at an approved boundary.
+This is the terminal success state.
+Blocked or incomplete work ends in BLOCKED.
 
 ## Objective
 
@@ -22,6 +22,7 @@ Report the result in a compact, evidence based handoff.
 - Checks run and their result.
 - Open blockers or deferred work.
 - One next action when useful.
+- Final DoD status and evidence location.
 
 ## Constraints
 
@@ -33,9 +34,11 @@ Do not omit blockers.
 
 - Outcome is stated.
 - Verification or test status is stated when implementation occurred.
-- Remaining work is explicit.
+- Every approved DoD criterion is marked passed with evidence.
+- No blocker or deferred required criterion remains.
 - No additional state transition is needed.
 
 ## Task
 
-Summarize the lifecycle result and stop.
+Summarize the delivered result, DoD evidence, changed artifacts, and verification.
+Do not claim success from an approval signal alone.

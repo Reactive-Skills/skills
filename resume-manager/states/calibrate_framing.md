@@ -13,7 +13,7 @@ You are calibrating the application narrative for a role where the candidate's d
 
 ## Instructions
 1. Audit candidate experience against target role context.
-2. Check candidate voice preference from master profile or prompt the candidate.
+2. Check candidate voice preference in the resolved `master_profile_path` or prompt the candidate.
 3. Generate language translation mappings and intent narrative themes.
 4. Save calibration guidelines into `context.calibration_notes`.
 5. Emit `FRAMING_CALIBRATED` with payload `{"calibration_notes": calibration_notes}`.

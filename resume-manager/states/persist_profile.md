@@ -4,13 +4,14 @@
 You are writing updated achievements, metrics, and skill taxonomies to disk.
 
 ## Realistic Constraints
-- Update `master_profile.md` while strictly preserving existing history and formatting.
-- Propagate relevant bullet points to designated profile tracks under `profiles/`.
+- Update only the resolved `master_profile_path` while strictly preserving existing history and formatting.
+- Propagate relevant bullet points only to designated tracks under the resolved `profiles_dir`.
+- Resolve both paths using `CONTEXT.md`; do not rediscover or write to an agent-specific directory.
 - Append any newly confirmed tools, languages, or domain skills to the taxonomy blocks.
 
 ## Instructions
-1. Modify `master_profile.md` with the new bullet points or role entries.
-2. Update corresponding profile track files under `profiles/`.
+1. Modify the resolved master profile with the new bullet points or role entries.
+2. Update corresponding profile track files under the resolved `profiles_dir`.
 3. Verify files are properly formatted and saved.
 4. Emit `PROFILE_SAVED`.
 

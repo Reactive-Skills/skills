@@ -2,6 +2,8 @@
 
 Hierarchical & Finite State Machine architecture for the `resume-manager` skill.
 
+Profile states resolve `master_profile_path` and `profiles_dir` through `CONTEXT.md`, using `profile_home` with default `~/.resume-manager/` unless exact paths are supplied.
+
 ```mermaid
 stateDiagram-v2
     [*] --> INIT
@@ -32,7 +34,7 @@ stateDiagram-v2
     INSPECT_PROFILE --> PROFILE_BOOTSTRAP: NO_PROFILE_FOUND
 
     state "RECORD_ACCOMPLISHMENT" as RECORD_ACCOMPLISHMENT
-    RECORD_ACCOMPLISHMENT --> PERSIST_PROFILE: RECORDED
+    RECORD_ACCOMPLISHMENT --> PERSIST_PROFILE: RECORDED [XYZ predicate judgment >= 0.85]
     RECORD_ACCOMPLISHMENT --> RECORD_ACCOMPLISHMENT: RECORD_MORE
 
     state "PERSIST_PROFILE" as PERSIST_PROFILE
@@ -67,7 +69,7 @@ stateDiagram-v2
     COMPANY_ALIGNMENT --> DRAFTING: ALIGNMENT_DRAFTED
 
     state "DRAFTING" as DRAFTING
-    DRAFTING --> EXPORTING: MATERIALS_DRAFTED [timeline_reconciled == true and unresolved_gap_count == 0]
+    DRAFTING --> EXPORTING: MATERIALS_DRAFTED [timeline_reconciled == true, gaps == 0, and voice predicate judgment confidence >= 0.7]
 
     state "EXPORTING" as EXPORTING
     EXPORTING --> INTERVIEW_PREP: EXPORT_COMPLETE [exit_code == 0]

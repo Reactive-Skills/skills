@@ -1,6 +1,6 @@
 schema_version: 2.1.0
 name: jsm-workflow
-version: 1.0.0
+version: 1.1.0
 description: Reactive SDLC coordinator taking software changes from intake to final context sync, implementing the JS Mastery Engineering Workflow (https://jsmastery.com/skills).
 initial_state: INIT
 strict_execution: true
@@ -12,6 +12,13 @@ lifecycle_events:
       - decision_record.reopened_from
       - decision_record.reason
       - decision_record.downstream_work_to_rerun
+  DOD_CHANGE_REQUESTED:
+    description: Bubbled event for a requested change to an approved outcome contract.
+    target: ACTIVE.DOD_AMENDMENT
+    record_updates:
+      - dod_record.pending_diff
+      - dod_record.revision_reason
+      - dod_record.downstream_work_to_rerun
 context_schema:
   run_id:
     type: string
@@ -53,6 +60,12 @@ context_schema:
   sync_record:
     type: object
     description: Durable context, scope, and spec reconciliation result.
+  dod_record:
+    type: object
+    description: Approved outcome, deliverables, setup, boundaries, and itemized acceptance criteria.
+  dod_audit_record:
+    type: object
+    description: Per-item check question, exact or semantic judgment, evidence, failure reason, and repair routing.
 projections:
   intake:
     template: templates/intake.md.hbs
@@ -72,6 +85,9 @@ projections:
   handoff:
     template: templates/handoff.md.hbs
     output: "{{artifact_base}}/{{run_id}}/handoff.md"
+  dod:
+    template: templates/dod.md.hbs
+    output: "{{artifact_base}}/{{run_id}}/dod.md"
 states:
   INIT:
     description: Verify reactive runtime before any lifecycle work.
@@ -95,13 +111,13 @@ states:
           WORK_REQUEST_READY:
             target: ACTIVE.SCOPE
           BUG_FIX_REQUESTED:
-            target: ACTIVE.DEBUG
+            target: ACTIVE.DOD_APPROVAL
           AUDIT_REQUESTED:
             target: ACTIVE.AUDIT
           DIRECT_BUILD_REQUESTED:
-            target: ACTIVE.DEVELOP
+            target: ACTIVE.DOD_APPROVAL
           INTAKE_BLOCKED:
-            target: COMPLETE
+            target: BLOCKED
       SCOPE:
         description: Convert the request into ordered work with acceptance seeds.
         prompt_template: states/scope.md
@@ -109,17 +125,19 @@ states:
           SCOPE_READY:
             target: ACTIVE.ARCHITECT
           SCOPE_ONLY:
-            target: COMPLETE
+            target: ACTIVE.DOD_APPROVAL
           SCOPE_BLOCKED:
-            target: COMPLETE
+            target: BLOCKED
       ARCHITECT:
         description: Settle load bearing design decisions before implementation.
         prompt_template: states/architect.md
         transitions:
           SPEC_READY:
             target: ACTIVE.AUDIT
+          DOD_AMENDMENT_REQUIRED:
+            target: ACTIVE.DOD_AMENDMENT
           DECISION_DEFERRED:
-            target: COMPLETE
+            target: BLOCKED
           DESIGN_FLAW_CONFIRMED:
             target: ACTIVE.SCOPE
       AUDIT:
@@ -127,15 +145,74 @@ states:
         prompt_template: states/audit.md
         transitions:
           CONTEXT_READY:
+            target: ACTIVE.DOD_APPROVAL
+          CONTEXT_REFRESHED:
             target: ACTIVE.DEVELOP
           AUDIT_TO_SCOPE:
             target: ACTIVE.SCOPE
           CONTEXT_BLOCKED:
+            target: BLOCKED
+      DOD_APPROVAL:
+        description: Present the complete outcome contract and collect one approval before implementation.
+        prompt_template: states/dod_approval.md
+        human_gate:
+          type: choice
+          tool: ask_question
+          options:
+            - Approve DoD
+            - Request DoD Changes
+            - Stop
+        transitions:
+          USER_APPROVED:
+            target: ACTIVE.DEVELOP
+          USER_REVISION_REQUESTED:
+            target: ACTIVE.DOD_APPROVAL
+          USER_REJECTED:
+            target: BLOCKED
+      DOD_AMENDMENT:
+        description: Approve a focused DoD diff after an accepted outcome or load-bearing decision changes.
+        prompt_template: states/dod_amendment.md
+        human_gate:
+          type: choice
+          tool: ask_question
+          options:
+            - Approve DoD Diff
+            - Request DoD Changes
+            - Stop
+        transitions:
+          USER_APPROVED:
+            target: ACTIVE.AUDIT
+          USER_REVISION_REQUESTED:
+            target: ACTIVE.DOD_AMENDMENT
+          USER_REJECTED:
+            target: BLOCKED
+      DOD_AUDIT:
+        description: Check every approved criterion, capture evidence, and route failures for repair.
+        prompt_template: states/dod_audit.md
+        transitions:
+          DOD_CHECK_SUBMITTED:
+            target: ACTIVE.DOD_AUDIT
+            judgment:
+              type: predicate
+              criterion: "Does the delivered output satisfy the single approved assertion in `context.dod_record.active_check.question`, based only on `context.dod_record.active_check.expected_result` and `context.dod_record.active_check.evidence`?"
+              min_confidence: 0.85
+              adapter_hint: jev
+              fallback_target: ACTIVE.DEVELOP
+          DOD_AUDIT_PASSED:
             target: COMPLETE
+            guard: "context.dod_record && Array.isArray(context.dod_record.criteria) && context.dod_record.criteria.length > 0 && context.dod_record.criteria.every(item => item && item.status === 'passed' && typeof item.evidence === 'string' && item.evidence.trim().length > 0)"
+          DOD_AUDIT_REPAIR_REQUIRED:
+            target: ACTIVE.DEVELOP
+          DOD_AUDIT_BLOCKED:
+            target: BLOCKED
       DEVELOP:
         description: Implement the scoped and designed change.
         prompt_template: states/develop.md
         transitions:
+          DEBUG_NEEDED:
+            target: ACTIVE.DEBUG
+          BUILD_SKIPPED:
+            target: ACTIVE.DOD_AUDIT
           BUILD_READY:
             target: ACTIVE.VERIFY
           DECISION_NEEDED:
@@ -171,7 +248,7 @@ states:
           DESIGN_FLAW:
             target: ACTIVE.ARCHITECT
           DEBUG_BLOCKED:
-            target: COMPLETE
+            target: BLOCKED
       REVIEW:
         description: Review the diff for defects, risks, and missed requirements.
         prompt_template: states/review.md
@@ -195,12 +272,15 @@ states:
         prompt_template: states/sync.md
         transitions:
           SYNCED:
-            target: COMPLETE
+            target: ACTIVE.DOD_AUDIT
           SYNC_BLOCKED:
-            target: COMPLETE
+            target: BLOCKED
   COMPLETE:
-    description: Summarize outcome and next action.
+    description: Report success after every approved DoD criterion passes with evidence.
     prompt_template: states/complete.md
+  BLOCKED:
+    description: Report blocked or stopped work and its unmet DoD item or missing decision.
+    prompt_template: states/blocked.md
   ERROR:
     description: Runtime setup failed or execution became unsafe.
     prompt_template: states/error.md

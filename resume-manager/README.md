@@ -12,6 +12,7 @@
 
 - [Overview](#-overview)
 - [Multi-Profile Specialization](#-multi-profile-specialization)
+- [Profile Storage](#profile-storage)
 - [The Overqualification & Flight-Risk Problem](#-the-overqualification--flight-risk-problem)
 - [Core Modes](#-core-modes)
   - [1. Customization Mode (`CUSTOMIZE`)](#1-customization-mode-customize)
@@ -49,6 +50,16 @@ Senior practitioners applying across diverse roles or industries need different 
 | `operations_management` | Operations Manager / Director, Program Manager | Process optimization, workflow automation, cost reduction, cycle time compression, cross-functional leadership. |
 | `solutions_client_facing` | Solutions Architect, Technical Account Manager | Client enablement, commercial value translation, empathy, stakeholder alignment, high-trust advisory. |
 | `adjacent_industry` | Healthcare, Supply Chain, Manufacturing, Retail, Public Sector | Grounded problem solving, dependable stability, practical automation, authentic long-term commitment. |
+
+---
+
+## Profile Storage
+
+The default profile home is `~/.resume-manager/`, an agent-neutral directory under the current user's home.
+Set `context.profile_home` to use another home, or pass `context.master_profile_path` and `context.profiles_dir` as exact overrides.
+Fresh installs write the master profile to `<profile_home>/master_profile.md` and tracks to `<profile_home>/profiles/`.
+Exact path precedence and legacy migration rules are defined in [`CONTEXT.md`](CONTEXT.md).
+The skill asks before reading from or copying legacy data and preserves legacy files after an approved copy.
 
 ---
 

@@ -1,0 +1,27 @@
+# Judgment: Overqualification and Flight-Risk Assessment
+primitive: noul
+
+state:
+  candidate_seniority_tier: "`context.candidate_seniority_tier`"
+  candidate_years_experience: "`context.candidate_years_experience`"
+  target_role_title: "`context.target_title`"
+  target_role_leveling: "`context.leveling`"
+  target_industry: "`context.industry`"
+
+question: |
+  Does the candidate's seniority background in `state.candidate_seniority_tier` and `state.candidate_years_experience` significantly exceed the level of `state.target_role_title` (level: `state.target_role_leveling`) in `state.target_industry`, presenting an overqualification, intimidation, or flight-risk concern that requires language down-leveling and authentic intent calibration?
+
+thresholds:
+  accept: ">= 0.70"
+  reject: "< 0.30"
+  escalate: "0.30 – 0.70"
+
+failure_behavior: fail_closed
+
+snap_on:
+  judgment:
+    type: predicate
+    criterion: "Does candidate seniority significantly exceed target role leveling, creating an overqualification or flight-risk concern that requires calibrated framing?"
+    min_confidence: 0.70
+    fallback_adapter: script
+    fallback_target: CALIBRATE_FRAMING

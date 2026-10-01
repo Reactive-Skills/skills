@@ -1,0 +1,54 @@
+# Judgment: Profile Evaluation Questionnaire (Flat Fan-Out)
+# Evaluates track selection, role fit, and overqualification in a single forward pass
+
+state:
+  target_title: "`context.target_title`"
+  target_industry: "`context.industry`"
+  target_leveling: "`context.leveling`"
+  jd_requirements: "`context.jd_requirements`"
+  candidate_experience: "`context.candidate_experience_summary`"
+  candidate_seniority_tier: "`context.candidate_seniority_tier`"
+  candidate_years_experience: "`context.candidate_years_experience`"
+
+questions:
+  profile_track:
+    primitive: choice
+    question: |
+      Which profile archetype best matches `state.target_title` in industry `state.target_industry`?
+    options:
+      - senior_technical
+      - practical_mid_technical
+      - operations_management
+      - solutions_client_facing
+      - adjacent_industry
+      - other
+
+  role_fit:
+    primitive: choice
+    question: |
+      Given `state.candidate_experience` and requirements in `state.jd_requirements` for `state.target_title`, how does the candidate fit the role?
+    options:
+      - strong_fit
+      - conditional_fit
+      - weak_fit
+      - other
+
+  overqualified_risk:
+    primitive: noul
+    question: |
+      Does `state.candidate_seniority_tier` (`state.candidate_years_experience` years) significantly exceed `state.target_title` (level: `state.target_leveling`) in `state.target_industry`, posing an intimidation or flight-risk concern?
+
+thresholds:
+  profile_track:
+    accept: "confidence >= 0.75 AND picked != 'other'"
+    escalate: "confidence < 0.75 OR picked == 'other'"
+  role_fit:
+    accept: "confidence >= 0.80 AND picked in ['strong_fit', 'conditional_fit']"
+    reject: "picked == 'weak_fit'"
+    escalate: "confidence < 0.80 OR picked == 'other'"
+  overqualified_risk:
+    accept: ">= 0.70"
+    reject: "< 0.30"
+    escalate: "0.30 – 0.70"
+
+failure_behavior: fail_closed

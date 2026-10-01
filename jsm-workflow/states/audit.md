@@ -6,46 +6,35 @@ type: reactive
 
 # AUDIT
 
-## Context
-
-This phase gives later work durable context.
-It follows the source corpus pattern where project conventions live in `AGENTS.md`.
-
 ## Objective
 
-Confirm that the repo has enough project context for implementation.
+Confirm project context is sufficient for the planned work.
 
 ## Deliverables
 
-- Root context status.
-- Area context status.
-- Relevant conventions for the current work.
-- Missing context items that would make implementation unsafe.
-- Created or updated `AGENTS.md` files when appropriate.
+- Root and area context status and paths.
+- Relevant conventions, edits, conflicts, and missing context.
 
 ## Constraints
 
-Do not overwrite curated context.
-Do not duplicate `AGENTS.md` content into tool specific files.
-Create nested context only when the current evidence covers that area well enough.
-Do not create specs or code in this phase.
+Do not overwrite curated context, duplicate it into tool specific files, or create specs or code.
+Create nested context only when evidence supports it.
 
 ## Uncertainty
 
-If existing context conflicts with repo evidence, flag the conflict and stop before changing curated prose.
-If the area predates the change and lacks context, recommend a focused audit rather than inventing full area knowledge from a slice.
+If context conflicts with repo evidence, stop and report the conflict.
+For established codebases without context, recommend a focused audit before scope.
 
 ## Atomic Gate
 
-- The implementation phase has a clear source for project conventions.
-- Any context edits are surgical and evidence based.
-- Any missing context that blocks build work is named.
-- No curated context was overwritten.
+- Build conventions have a named source.
+- Context edits are surgical and evidence based.
+- Blocking gaps are named; curated prose is intact.
 
 ## Task
 
-Verify or create the project context needed for this change.
-Update `context_record` with `summary`, `root_context_status`, `area_context_status`, `context_paths`, `edits`, `conflicts`, and `missing_context`.
-Emit `CONTEXT_READY` when implementation can use the available context and design/spec is already in place.
-Emit `AUDIT_TO_SCOPE` when running on an existing codebase (brownfield) to establish AGENTS.md before scoping the next slice.
-Emit `CONTEXT_BLOCKED` when missing or conflicting context requires human direction.
+Verify or create the context needed for this change.
+Update `context_record` with summary, statuses, paths, edits, conflicts, and gaps.
+Emit `CONTEXT_READY` when design and context are ready before DoD approval.
+When `dod_record.status` is `approved`, emit `CONTEXT_REFRESHED` after an amendment refresh without another approval.
+Emit `AUDIT_TO_SCOPE` for a brownfield context audit that must precede scoping, or `CONTEXT_BLOCKED` when human direction is required.

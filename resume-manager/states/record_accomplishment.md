@@ -24,4 +24,4 @@ You are capturing a new accomplishment, role, promotion, metric, or technical sk
 - [NEGATIVE] Zero vague or responsibility-only descriptions allowed.
 
 ## Signal
-Emit: `RECORDED` or `RECORD_MORE`
+Emit: `RECORDED` (verified by `guards/accomplishment_xyz_audit.yaml` predicate contract) or `RECORD_MORE`
