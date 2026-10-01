@@ -1,0 +1,15 @@
+---
+name: {{skill_name}}
+description: Bootloader - Verify reactive runtime
+type: reactive
+---
+
+# {{skill_name}} INIT
+
+Verify access to the reactive runtime.
+
+1. Check reactive capabilities when the MCP tool is available.
+2. Otherwise check reactive-skills-axi capabilities --json, then the zero-install AXI launcher.
+3. Select one compatible runtime and retain it for this job.
+4. Emit RUNTIME_READY when runtime access works.
+5. Emit SETUP_REQUIRED when no compatible runtime works.

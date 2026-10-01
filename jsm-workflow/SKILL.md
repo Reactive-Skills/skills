@@ -38,8 +38,19 @@ It operates as a standalone reactive orchestrator across intake, scope, architec
 `DECISION_REOPENED` is a lifecycle level event.
 Any active lifecycle phase may emit it when evidence or user direction changes a load bearing decision.
 The event bubbles to the `ACTIVE` parent, which routes to `ACTIVE.ARCHITECT`.
-After the decision and ADR are updated when applicable, the lifecycle moves forward through context and build again.
+After the decision and ADR are updated when applicable, an accepted DoD change uses the amendment gate before implementation resumes.
 Use this instead of forcing the current phase to patch around a changed decision.
+
+## DoD and Approval Contract
+
+The workflow drafts one DoD after scope, design, and context discovery, then waits for one approval before implementation.
+The DoD names the outcome, deliverables and locations, setup and use, observable checks with evidence methods, assumptions, gotchas, exclusions, approved decisions, and planned external actions.
+Scope and architecture recommendations appear in the same approval card.
+After approval, exact checks run deterministically and Jev judges semantic criteria at a 0.85 pass threshold.
+The workflow repairs failed criteria and reruns affected checks.
+The workflow requests approval again only for a focused DoD diff after an accepted outcome or load-bearing decision changes.
+The workflow reaches COMPLETE only after every DoD criterion passes with recorded evidence.
+Unmet work ends in BLOCKED.
 
 ## Operating Contract
 
@@ -50,6 +61,8 @@ Each phase writes a structured record into context before emitting a success, de
 The projection contract in `skill.yaml` uses those records to produce run artifacts under `.docs/jsm-workflow/<run_id>/`.
 
 ## Projected Artifacts
+
+- dod.md: approved final output, setup, acceptance checks, evidence methods, and boundaries.
 
 - `intake.md`: request, target area, desired outcome, constraints, assumptions, blockers.
 - `lifecycle.md`: scope, decision, context, build, document, and sync summary.

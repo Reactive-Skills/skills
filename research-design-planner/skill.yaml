@@ -1,0 +1,488 @@
+schema_version: "2.1.0"
+name: research-design-planner
+version: "1.0.0"
+description: >-
+  One reactive entry point that helps users explore, choose, plan, or review a
+  quantitative, qualitative, or mixed methods research design.
+initial_state: INIT
+strict_execution: true
+context_keys:
+  - requested_task
+  - study_topic
+  - research_problem
+  - research_purpose
+  - intended_audience
+  - research_questions
+  - hypotheses
+  - worldview
+  - literature_gap
+  - theory_or_framework
+  - decision_kind
+  - selected_choice
+  - selected_approach
+  - quantitative_design
+  - qualitative_strategy
+  - mixed_methods_design
+  - design_notes
+  - ethics_notes
+  - missing_information
+  - review_mode
+  - output_scope
+  - judgment_fallback
+default_context:
+  requested_task: null
+  study_topic: null
+  research_problem: null
+  research_purpose: null
+  intended_audience: null
+  research_questions: []
+  hypotheses: []
+  worldview: null
+  literature_gap: null
+  theory_or_framework: null
+  decision_kind: null
+  selected_choice: null
+  selected_approach: null
+  quantitative_design: null
+  qualitative_strategy: null
+  mixed_methods_design: null
+  design_notes: []
+  ethics_notes: []
+  missing_information: []
+  review_mode: false
+  output_scope: null
+  judgment_fallback: false
+states:
+  INIT:
+    description: Verify access to the reactive runtime.
+    prompt_template: states/init.md
+    transitions:
+      RUNTIME_READY:
+        target: INTAKE
+      SETUP_REQUIRED:
+        target: SETUP_RUNTIME
+  SETUP_RUNTIME:
+    description: Explain the runtime setup requirement and wait for a user-controlled retry.
+    prompt_template: states/setup_runtime.md
+    transitions:
+      SETUP_COMPLETE:
+        target: INIT
+      SETUP_FAILED:
+        target: ERROR
+  INTAKE:
+    description: Accept a complete request or a starting point, including uncertainty.
+    prompt_template: states/intake.md
+    transitions:
+      INTAKE_COMPLETE:
+        target: DECISIONS.ROUTE_TASK
+      NEED_CLARIFICATION:
+        target: CLARIFY
+      EXISTING_PLAN_REVIEW:
+        target: SYNTHESIZE
+  CLARIFY:
+    description: Resolve one decision or missing detail at a time.
+    prompt_template: states/clarify.md
+    transitions:
+      CLARIFIED:
+        target: DECISIONS.ROUTE_TASK
+      ROUTE_FOUNDATIONS:
+        target: FOUNDATIONS.TOPIC_AND_PROBLEM
+      ROUTE_APPROACH:
+        target: DECISIONS.CHOOSE_APPROACH
+      ROUTE_PROPOSAL:
+        target: PROPOSAL.SECTION_ROUTER
+      ROUTE_QUANTITATIVE:
+        target: DECISIONS.CHOOSE_QUANTITATIVE_DESIGN
+      ROUTE_QUALITATIVE:
+        target: DECISIONS.CHOOSE_QUALITATIVE_STRATEGY
+      ROUTE_MIXED_METHODS:
+        target: DECISIONS.CHOOSE_MIXED_METHODS_DESIGN
+      ROUTE_REVIEW:
+        target: SYNTHESIZE
+      USER_CANCELLED:
+        target: DONE
+  DECISIONS:
+    description: Composite routing and bounded method selection.
+    prompt_template: states/decisions/_parent.md
+    initial_substate: ROUTE_TASK
+    transitions:
+      USER_CANCELLED:
+        target: DONE
+      NEED_CLARIFICATION:
+        target: CLARIFY
+    substates:
+      ROUTE_TASK:
+        description: Select the smallest useful work path.
+        prompt_template: states/decisions/route_task.md
+        transitions:
+          USER_CHOICE_SUBMITTED:
+            target: DECISIONS.DISPATCH
+            guard: payload.decision_kind === "route_task" && ["explore_or_clarify_goal","choose_research_approach","work_on_proposal_section","plan_quantitative_methods","plan_qualitative_methods","plan_mixed_methods","review_existing_plan","other"].includes(payload.choice)
+          RECOMMENDATION_SUBMITTED:
+            target: DECISIONS.DISPATCH
+            guard: payload.decision_kind === "route_task" && ["explore_or_clarify_goal","choose_research_approach","work_on_proposal_section","plan_quantitative_methods","plan_qualitative_methods","plan_mixed_methods","review_existing_plan","other"].includes(payload.choice)
+            judgment:
+              type: categorical
+              criterion: "Which allowed work path best fits the user's stated need and relevant non-identifying study context?"
+              options: ["explore_or_clarify_goal","choose_research_approach","work_on_proposal_section","plan_quantitative_methods","plan_qualitative_methods","plan_mixed_methods","review_existing_plan","other"]
+              min_confidence: 0.7
+              adapter_hint: jev
+              fallback_adapter: jev
+              fallback_target: CLARIFY
+      CHOOSE_APPROACH:
+        description: Select or recommend a research approach from the stated problem and purpose.
+        prompt_template: states/decisions/choose_approach.md
+        transitions:
+          USER_CHOICE_SUBMITTED:
+            target: DECISIONS.DISPATCH
+            guard: payload.decision_kind === "research_approach" && ["quantitative","qualitative","mixed_methods","other"].includes(payload.choice)
+          RECOMMENDATION_SUBMITTED:
+            target: DECISIONS.DISPATCH
+            guard: payload.decision_kind === "research_approach" && ["quantitative","qualitative","mixed_methods","other"].includes(payload.choice)
+            judgment:
+              type: categorical
+              criterion: "Which allowed research approach best fits the problem, purpose, questions, audience, and available information?"
+              options: ["quantitative","qualitative","mixed_methods","other"]
+              min_confidence: 0.7
+              adapter_hint: jev
+              fallback_adapter: jev
+              fallback_target: CLARIFY
+      CHOOSE_QUANTITATIVE_DESIGN:
+        description: Select or recommend a survey or experimental design.
+        prompt_template: states/decisions/choose_quantitative_design.md
+        transitions:
+          USER_CHOICE_SUBMITTED:
+            target: DECISIONS.DISPATCH
+            guard: payload.decision_kind === "quantitative_design" && ["survey","experiment","other"].includes(payload.choice)
+          RECOMMENDATION_SUBMITTED:
+            target: DECISIONS.DISPATCH
+            guard: payload.decision_kind === "quantitative_design" && ["survey","experiment","other"].includes(payload.choice)
+            judgment:
+              type: categorical
+              criterion: "Which allowed quantitative design best fits the questions, variables, comparison needs, and feasible data collection?"
+              options: ["survey","experiment","other"]
+              min_confidence: 0.7
+              adapter_hint: jev
+              fallback_adapter: jev
+              fallback_target: CLARIFY
+      CHOOSE_QUALITATIVE_STRATEGY:
+        description: Select or recommend a qualitative strategy.
+        prompt_template: states/decisions/choose_qualitative_strategy.md
+        transitions:
+          USER_CHOICE_SUBMITTED:
+            target: DECISIONS.DISPATCH
+            guard: payload.decision_kind === "qualitative_strategy" && ["narrative","phenomenology","ethnography","case_study","grounded_theory","other"].includes(payload.choice)
+          RECOMMENDATION_SUBMITTED:
+            target: DECISIONS.DISPATCH
+            guard: payload.decision_kind === "qualitative_strategy" && ["narrative","phenomenology","ethnography","case_study","grounded_theory","other"].includes(payload.choice)
+            judgment:
+              type: categorical
+              criterion: "Which allowed qualitative strategy best fits the phenomenon, unit of analysis, setting, and intended understanding?"
+              options: ["narrative","phenomenology","ethnography","case_study","grounded_theory","other"]
+              min_confidence: 0.7
+              adapter_hint: jev
+              fallback_adapter: jev
+              fallback_target: CLARIFY
+      CHOOSE_MIXED_METHODS_DESIGN:
+        description: Select or recommend a mixed methods design.
+        prompt_template: states/decisions/choose_mixed_methods_design.md
+        transitions:
+          USER_CHOICE_SUBMITTED:
+            target: DECISIONS.DISPATCH
+            guard: payload.decision_kind === "mixed_methods_design" && ["convergent","explanatory_sequential","exploratory_sequential","complex","other"].includes(payload.choice)
+          RECOMMENDATION_SUBMITTED:
+            target: DECISIONS.DISPATCH
+            guard: payload.decision_kind === "mixed_methods_design" && ["convergent","explanatory_sequential","exploratory_sequential","complex","other"].includes(payload.choice)
+            judgment:
+              type: categorical
+              criterion: "Which allowed mixed methods design best fits the purpose for combining strands, their sequence, priority, and integration point?"
+              options: ["convergent","explanatory_sequential","exploratory_sequential","complex","other"]
+              min_confidence: 0.7
+              adapter_hint: jev
+              fallback_adapter: jev
+              fallback_target: CLARIFY
+      DISPATCH:
+        description: Route a validated choice using exact membership and decision-kind checks.
+        prompt_template: states/decisions/_parent.md
+        transitions:
+          GO_FOUNDATIONS:
+            target: FOUNDATIONS.TOPIC_AND_PROBLEM
+            guard: context.decision_kind === "route_task" && context.selected_choice === "explore_or_clarify_goal"
+          GO_APPROACH:
+            target: DECISIONS.CHOOSE_APPROACH
+            guard: context.decision_kind === "route_task" && context.selected_choice === "choose_research_approach"
+          GO_PROPOSAL:
+            target: PROPOSAL.SECTION_ROUTER
+            guard: context.decision_kind === "route_task" && context.selected_choice === "work_on_proposal_section"
+          GO_QUANTITATIVE:
+            target: DECISIONS.CHOOSE_QUANTITATIVE_DESIGN
+            guard: (context.decision_kind === "route_task" && context.selected_choice === "plan_quantitative_methods") || (context.decision_kind === "research_approach" && context.selected_choice === "quantitative")
+          GO_QUALITATIVE:
+            target: DECISIONS.CHOOSE_QUALITATIVE_STRATEGY
+            guard: (context.decision_kind === "route_task" && context.selected_choice === "plan_qualitative_methods") || (context.decision_kind === "research_approach" && context.selected_choice === "qualitative")
+          GO_MIXED_METHODS:
+            target: DECISIONS.CHOOSE_MIXED_METHODS_DESIGN
+            guard: (context.decision_kind === "route_task" && context.selected_choice === "plan_mixed_methods") || (context.decision_kind === "research_approach" && context.selected_choice === "mixed_methods")
+          GO_SURVEY:
+            target: QUANTITATIVE.SURVEY
+            guard: context.decision_kind === "quantitative_design" && context.selected_choice === "survey"
+          GO_EXPERIMENT:
+            target: QUANTITATIVE.EXPERIMENT
+            guard: context.decision_kind === "quantitative_design" && context.selected_choice === "experiment"
+          GO_QUAL_STRATEGY:
+            target: QUALITATIVE.ACCESS_SAMPLING_COLLECTION
+            guard: context.decision_kind === "qualitative_strategy" && ["narrative","phenomenology","ethnography","case_study","grounded_theory"].includes(context.selected_choice)
+          GO_MIXED_DESIGN:
+            target: MIXED_METHODS.STRAND_PROCEDURES
+            guard: context.decision_kind === "mixed_methods_design" && ["convergent","explanatory_sequential","exploratory_sequential","complex"].includes(context.selected_choice)
+          GO_REVIEW:
+            target: SYNTHESIZE
+            guard: context.decision_kind === "route_task" && context.selected_choice === "review_existing_plan"
+          GO_CLARIFY:
+            target: CLARIFY
+            guard: context.selected_choice === "other" || context.selected_choice == null || context.judgment_fallback === true
+  FOUNDATIONS:
+    description: Composite foundations for problem framing, literature, theory, writing, and ethics.
+    prompt_template: states/foundations/_parent.md
+    initial_substate: TOPIC_AND_PROBLEM
+    transitions:
+      RETURN_TO_ROUTER:
+        target: DECISIONS.ROUTE_TASK
+      RETURN_TO_INTAKE:
+        target: INTAKE
+      FINISH_SECTION:
+        target: SYNTHESIZE
+    substates:
+      TOPIC_AND_PROBLEM:
+        description: Shape a feasible research problem from a topic or concern.
+        prompt_template: states/foundations/topic_and_problem.md
+        transitions:
+          CONTINUE_TO_LITERATURE:
+            target: FOUNDATIONS.LITERATURE_AND_THEORY
+          CONTINUE_TO_ETHICS:
+            target: FOUNDATIONS.WRITING_AND_ETHICS
+          SELECT_APPROACH:
+            target: DECISIONS.CHOOSE_APPROACH
+          SELECT_PROPOSAL_SECTION:
+            target: PROPOSAL.SECTION_ROUTER
+          ASK_CLARIFY:
+            target: CLARIFY
+          SYNTHESIZE:
+            target: SYNTHESIZE
+      LITERATURE_AND_THEORY:
+        description: Frame a literature review, gap, and role for theory or a conceptual framework.
+        prompt_template: states/foundations/literature_and_theory.md
+        transitions:
+          CONTINUE_TO_PROBLEM:
+            target: FOUNDATIONS.TOPIC_AND_PROBLEM
+          CONTINUE_TO_ETHICS:
+            target: FOUNDATIONS.WRITING_AND_ETHICS
+          SELECT_APPROACH:
+            target: DECISIONS.CHOOSE_APPROACH
+          SELECT_PROPOSAL_SECTION:
+            target: PROPOSAL.SECTION_ROUTER
+          ASK_CLARIFY:
+            target: CLARIFY
+          SYNTHESIZE:
+            target: SYNTHESIZE
+      WRITING_AND_ETHICS:
+        description: Apply writing and ethics considerations throughout the design.
+        prompt_template: states/foundations/writing_and_ethics.md
+        transitions:
+          RETURN_TO_PROBLEM:
+            target: FOUNDATIONS.TOPIC_AND_PROBLEM
+          SELECT_APPROACH:
+            target: DECISIONS.CHOOSE_APPROACH
+          SELECT_PROPOSAL_SECTION:
+            target: PROPOSAL.SECTION_ROUTER
+          ASK_CLARIFY:
+            target: CLARIFY
+          SYNTHESIZE:
+            target: SYNTHESIZE
+  PROPOSAL:
+    description: Composite route for introduction, purpose or aim, and questions or hypotheses.
+    prompt_template: states/proposal/_parent.md
+    initial_substate: SECTION_ROUTER
+    transitions:
+      RETURN_TO_FOUNDATIONS:
+        target: FOUNDATIONS.TOPIC_AND_PROBLEM
+      RETURN_TO_ROUTER:
+        target: DECISIONS.ROUTE_TASK
+      FINISH_SECTION:
+        target: SYNTHESIZE
+    substates:
+      SECTION_ROUTER:
+        description: Choose the requested proposal section and load only that prompt.
+        prompt_template: states/proposal/_parent.md
+        transitions:
+          SECTION_INTRODUCTION:
+            target: PROPOSAL.INTRODUCTION
+          SECTION_PURPOSE:
+            target: PROPOSAL.PURPOSE_AND_AIM
+          SECTION_QUESTIONS:
+            target: PROPOSAL.QUESTIONS_AND_HYPOTHESES
+          SECTION_OTHER:
+            target: FOUNDATIONS.TOPIC_AND_PROBLEM
+          ASK_CLARIFY:
+            target: CLARIFY
+      INTRODUCTION:
+        description: Build the proposal introduction and justify the study.
+        prompt_template: states/proposal/introduction.md
+        transitions:
+          SECTION_PURPOSE:
+            target: PROPOSAL.PURPOSE_AND_AIM
+          SECTION_QUESTIONS:
+            target: PROPOSAL.QUESTIONS_AND_HYPOTHESES
+          ASK_CLARIFY:
+            target: CLARIFY
+          SYNTHESIZE:
+            target: SYNTHESIZE
+      PURPOSE_AND_AIM:
+        description: State the study purpose or aim and its alignment.
+        prompt_template: states/proposal/purpose_and_aim.md
+        transitions:
+          SECTION_INTRODUCTION:
+            target: PROPOSAL.INTRODUCTION
+          SECTION_QUESTIONS:
+            target: PROPOSAL.QUESTIONS_AND_HYPOTHESES
+          ASK_CLARIFY:
+            target: CLARIFY
+          SYNTHESIZE:
+            target: SYNTHESIZE
+      QUESTIONS_AND_HYPOTHESES:
+        description: Form questions or quantitative hypotheses aligned with the purpose.
+        prompt_template: states/proposal/questions_and_hypotheses.md
+        transitions:
+          SECTION_INTRODUCTION:
+            target: PROPOSAL.INTRODUCTION
+          SECTION_PURPOSE:
+            target: PROPOSAL.PURPOSE_AND_AIM
+          ASK_CLARIFY:
+            target: CLARIFY
+          SYNTHESIZE:
+            target: SYNTHESIZE
+  QUANTITATIVE:
+    description: Composite survey, experiment, analysis, preregistration, and validity path.
+    prompt_template: states/quantitative/_parent.md
+    initial_substate: SURVEY
+    transitions:
+      RETURN_TO_ROUTER:
+        target: DECISIONS.ROUTE_TASK
+      RETURN_TO_FOUNDATIONS:
+        target: FOUNDATIONS.TOPIC_AND_PROBLEM
+      FINISH_DESIGN:
+        target: SYNTHESIZE
+    substates:
+      SURVEY:
+        description: Plan survey purpose, population, sampling, instrument, administration, and analysis.
+        prompt_template: states/quantitative/survey.md
+        transitions:
+          CONTINUE_TO_ANALYSIS:
+            target: QUANTITATIVE.ANALYSIS_PREREGISTRATION_VALIDITY
+          ASK_CLARIFY:
+            target: CLARIFY
+          SYNTHESIZE:
+            target: SYNTHESIZE
+      EXPERIMENT:
+        description: Plan an experiment, comparison, assignment, measures, procedure, and analysis.
+        prompt_template: states/quantitative/experiment.md
+        transitions:
+          CONTINUE_TO_ANALYSIS:
+            target: QUANTITATIVE.ANALYSIS_PREREGISTRATION_VALIDITY
+          ASK_CLARIFY:
+            target: CLARIFY
+          SYNTHESIZE:
+            target: SYNTHESIZE
+      ANALYSIS_PREREGISTRATION_VALIDITY:
+        description: Align quantitative analysis, preregistration, validity, reliability, and interpretation.
+        prompt_template: states/quantitative/analysis_preregistration_validity.md
+        transitions:
+          RETURN_TO_SURVEY:
+            target: QUANTITATIVE.SURVEY
+          RETURN_TO_EXPERIMENT:
+            target: QUANTITATIVE.EXPERIMENT
+          ASK_CLARIFY:
+            target: CLARIFY
+          SYNTHESIZE:
+            target: SYNTHESIZE
+  QUALITATIVE:
+    description: Composite qualitative strategy, access, sampling, collection, analysis, and reporting path.
+    prompt_template: states/qualitative/_parent.md
+    initial_substate: ACCESS_SAMPLING_COLLECTION
+    transitions:
+      RETURN_TO_ROUTER:
+        target: DECISIONS.ROUTE_TASK
+      RETURN_TO_FOUNDATIONS:
+        target: FOUNDATIONS.TOPIC_AND_PROBLEM
+      FINISH_DESIGN:
+        target: SYNTHESIZE
+    substates:
+      ACCESS_SAMPLING_COLLECTION:
+        description: Plan strategy-specific access, researcher role, sampling, and collection.
+        prompt_template: states/qualitative/access_sampling_collection.md
+        transitions:
+          CONTINUE_TO_ANALYSIS:
+            target: QUALITATIVE.ANALYSIS_VALIDATION_REPORTING
+          ASK_CLARIFY:
+            target: CLARIFY
+          SYNTHESIZE:
+            target: SYNTHESIZE
+      ANALYSIS_VALIDATION_REPORTING:
+        description: Plan iterative analysis, validation, and qualitative reporting.
+        prompt_template: states/qualitative/analysis_validation_reporting.md
+        transitions:
+          RETURN_TO_COLLECTION:
+            target: QUALITATIVE.ACCESS_SAMPLING_COLLECTION
+          ASK_CLARIFY:
+            target: CLARIFY
+          SYNTHESIZE:
+            target: SYNTHESIZE
+  MIXED_METHODS:
+    description: Composite mixed methods strand procedures, integration, and interpretation path.
+    prompt_template: states/mixed_methods/_parent.md
+    initial_substate: STRAND_PROCEDURES
+    transitions:
+      RETURN_TO_ROUTER:
+        target: DECISIONS.ROUTE_TASK
+      RETURN_TO_FOUNDATIONS:
+        target: FOUNDATIONS.TOPIC_AND_PROBLEM
+      FINISH_DESIGN:
+        target: SYNTHESIZE
+    substates:
+      STRAND_PROCEDURES:
+        description: Plan both strands and align order, priority, and timing with the selected design.
+        prompt_template: states/mixed_methods/strand_procedures.md
+        transitions:
+          CONTINUE_TO_INTEGRATION:
+            target: MIXED_METHODS.INTEGRATION_AND_INTERPRETATION
+          ASK_CLARIFY:
+            target: CLARIFY
+          SYNTHESIZE:
+            target: SYNTHESIZE
+      INTEGRATION_AND_INTERPRETATION:
+        description: Specify integration points, joint displays, and mixed methods interpretations.
+        prompt_template: states/mixed_methods/integration_and_interpretation.md
+        transitions:
+          RETURN_TO_STRANDS:
+            target: MIXED_METHODS.STRAND_PROCEDURES
+          ASK_CLARIFY:
+            target: CLARIFY
+          SYNTHESIZE:
+            target: SYNTHESIZE
+  SYNTHESIZE:
+    description: Produce the requested focused design brief or proposal section outline.
+    prompt_template: states/synthesize.md
+    transitions:
+      DELIVERED:
+        target: DONE
+      REFINE:
+        target: CLARIFY
+      CONTINUE_DESIGN:
+        target: DECISIONS.ROUTE_TASK
+  DONE:
+    description: Requested research design work has been delivered.
+  ERROR:
+    description: Runtime is unavailable or a required operation failed.
+  BYPASS_DETECTED:
+    description: Terminal recovery state for work outside the reactive signal contract.
+    prompt_template: states/bypass_detected.md

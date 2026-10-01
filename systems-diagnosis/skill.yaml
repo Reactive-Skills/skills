@@ -1,0 +1,117 @@
+schema_version: 2.1.0
+name: systems-diagnosis
+version: 1.0.0
+description: >-
+  Diagnose recurring or surprising behavior in a system, explain it through
+  observed patterns and structure, and develop a testable intervention.
+initial_state: INIT
+
+context_keys:
+  - problem_statement
+  - behavior_over_time
+  - system_boundary
+  - time_horizon
+  - desired_outcome
+  - key_actors
+  - system_map
+  - causal_hypotheses
+  - archetype_hypotheses
+  - candidate_interventions
+  - selected_intervention
+  - test_plan
+  - final_diagnosis
+
+default_context:
+  problem_statement: null
+  behavior_over_time: null
+  system_boundary: null
+  time_horizon: null
+  desired_outcome: null
+  key_actors: []
+  system_map: null
+  causal_hypotheses: []
+  archetype_hypotheses: []
+  candidate_interventions: []
+  selected_intervention: null
+  test_plan: null
+  final_diagnosis: null
+
+states:
+  INIT:
+    description: Verify access to the reactive runtime.
+    prompt_template: states/init.md
+    transitions:
+      RUNTIME_READY:
+        target: INTAKE
+      SETUP_REQUIRED:
+        target: BYPASS_DETECTED
+
+  INTAKE:
+    description: Capture the recurring behavior, evidence, and decision need.
+    prompt_template: states/intake.md
+    transitions:
+      INTAKE_READY:
+        target: DEFINE_BOUNDARY
+        guard: context.problem_statement != null && context.behavior_over_time != null
+      NEED_INTAKE_DETAIL:
+        target: INTAKE
+
+  DEFINE_BOUNDARY:
+    description: Confirm the system boundary, time horizon, actors, and desired outcome.
+    prompt_template: states/define_boundary.md
+    transitions:
+      BOUNDARY_CONFIRMED:
+        target: MAP_STRUCTURE
+        guard: context.system_boundary != null && context.time_horizon != null && context.desired_outcome != null
+      SCOPE_REVISED:
+        target: DEFINE_BOUNDARY
+
+  MAP_STRUCTURE:
+    description: Map relevant elements, stocks, flows, information, feedback, delays, and rules.
+    prompt_template: states/map_structure.md
+    transitions:
+      MAP_READY:
+        target: DIAGNOSE_DYNAMICS
+        guard: context.system_map != null
+      MAP_NEEDS_EVIDENCE:
+        target: MAP_STRUCTURE
+      TARGET_CHANGED:
+        target: INTAKE
+
+  DIAGNOSE_DYNAMICS:
+    description: Explain the observed pattern with testable causal hypotheses.
+    prompt_template: states/diagnose_dynamics.md
+    transitions:
+      DYNAMICS_EXPLAINED:
+        target: SELECT_LEVERAGE
+        guard: Array.isArray(context.causal_hypotheses) && context.causal_hypotheses.length > 0
+      EVIDENCE_CONFLICTS:
+        target: MAP_STRUCTURE
+
+  SELECT_LEVERAGE:
+    description: Compare feasible, context-specific intervention points.
+    prompt_template: states/select_leverage.md
+    transitions:
+      LEVERAGE_SELECTED:
+        target: DESIGN_TEST
+        guard: context.selected_intervention != null
+      NO_VIABLE_OPTION:
+        target: DIAGNOSE_DYNAMICS
+
+  DESIGN_TEST:
+    description: Design a bounded test with measures, timing, and stop conditions.
+    prompt_template: states/design_test.md
+    transitions:
+      TEST_DESIGNED:
+        target: SYNTHESIZE
+        guard: context.test_plan != null
+      TEST_UNSAFE:
+        target: SELECT_LEVERAGE
+
+  SYNTHESIZE:
+    description: Present the diagnosis, uncertainty, intervention, and test plan.
+    prompt_template: states/synthesize.md
+
+  BYPASS_DETECTED:
+    description: Stop when runtime setup fails or the signal contract is bypassed.
+    prompt_template: states/bypass_detected.md
