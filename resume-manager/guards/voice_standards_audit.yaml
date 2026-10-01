@@ -1,0 +1,24 @@
+# Judgment: Voice Standards and Anti-Slop Audit
+primitive: noul
+
+state:
+  cover_letter_text: "`context.cover_letter_text`"
+  voice_register: "`context.voice_register`"
+
+question: |
+  Does `state.cover_letter_text` contain AI writing clichés (such as "I am writing to express my enthusiastic interest", "testament to", "delve", "leverage", "synergy"), corporate buzzword slop, or ungrounded flattery violating `state.voice_register` standards?
+
+thresholds:
+  reject: ">= 0.60"
+  accept: "< 0.20"
+  escalate: "0.20 – 0.60"
+
+failure_behavior: fail_closed
+
+snap_on:
+  judgment:
+    type: predicate
+    criterion: "Does the drafted application cover letter violate professional voice standards by containing AI clichés, generic buzzwords, or sycophantic openings?"
+    min_confidence: 0.70
+    fallback_adapter: script
+    fallback_target: DRAFTING

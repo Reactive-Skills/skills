@@ -43,7 +43,7 @@ A single, static resume is ineffective for candidates with diverse capabilities 
 ## 3. Directory Layout for Profiles
 
 ```
-~/.gemini/resume/ (or user-configured profiles directory)
+~/.resume-manager/ (default; configurable through context.profile_home)
 ├── master_profile.md          # Comprehensive source of truth
 └── profiles/
     ├── senior_technical.md
@@ -52,6 +52,11 @@ A single, static resume is ineffective for candidates with diverse capabilities 
     ├── solutions_client_facing.md
     └── adjacent_industry.md
 ```
+
+`context.master_profile_path` and `context.profiles_dir` can override either exact path.
+All states use the path precedence documented in `../CONTEXT.md`.
+The skill checks legacy agent-specific directories only when `context.profile_home` is the default, exact path overrides are unset, and the default home has no master profile.
+It asks before reading from or copying legacy data, copies only after explicit approval, verifies copies, and leaves source files intact.
 
 ## 4. Switching and Updating Profiles
 

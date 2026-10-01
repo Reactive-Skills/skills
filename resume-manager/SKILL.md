@@ -51,21 +51,31 @@ Candidates with deep seniority frequently run into two major friction points whe
 
 ---
 
+## Profile Storage
+
+The default profile home is `~/.resume-manager/`, an agent-neutral directory under the current user's home.
+Set `context.profile_home` to use another home, or pass `context.master_profile_path` and `context.profiles_dir` as exact overrides.
+Path precedence, legacy discovery, and migration rules are defined in `CONTEXT.md` and apply to every profile workflow.
+Fresh installs write the master profile and tracks only under the resolved paths.
+
+---
+
 ## Core Capabilities & Workflows
 
 ### 1. Customization Mode (`CUSTOMIZE`)
 Triggered when the user provides a Job Description (JD) or asks to tailor materials for a specific opportunity:
 1. **Ingest JD:** Extract company, job title, responsibilities, industry, and detected leveling.
-2. **Profile Selection & Role Fit Judgment:** Matches the JD to the best profile archetype and classifies fit as `strong_fit`, `conditional_fit`, or `weak_fit` using verified evidence.
-   If fit is weak or uncertain, pauses at `FIT_REVIEW` for a human decision.
-   If candidate seniority exceeds role leveling or targets a non-tech industry, flags `overqualified_risk = true`.
+2. **Profile Selection & Role Fit Judgment:** Matches the JD to the best profile archetype (`guards/profile_track_selection.yaml`) and classifies fit as `strong_fit`, `conditional_fit`, or `weak_fit` via calibrated decider contract (`guards/role_fit.yaml`).
+   If fit is weak or uncertain (confidence < 0.8), automatically routes via snap-on adapter to `FIT_REVIEW` for a human gate.
+   Evaluates overqualification and flight risk via predicate contract (`guards/overqualification_risk.yaml`).
+   All three evaluations can execute in parallel in a single forward pass via `guards/profile_evaluation_questionnaire.yaml`.
 3. **Framing & Anti-Flight Risk Calibration:**
    - Translates high-abstraction tech jargon into grounded business outcomes (see `references/overqualification-and-framing.md`).
    - Crafts a credible, grounded intent narrative in the cover letter explaining why this specific environment and role are genuinely attractive.
    - De-emphasizes raw years of experience unless explicitly demanded by JD thresholds.
 4. **Gap Analysis & 25–35 Keyword Calibration:** Weaves 25–35 role-specific terms into bullet points and taxonomy. Socratic verification prevents unearned keyword claims.
 5. **Company Alignment:** Researches culture, mission, public signals, and conversation angles (`company_alignment.md`).
-6. **ATS Drafting:** Generates single-column `resume.md` and tailored `cover_letter.md` in `<output_dir>/<Company>/<Role>/`.
+6. **ATS Drafting:** Generates single-column `resume.md` and tailored `cover_letter.md` in `<output_dir>/<Company>/<Role>/`. Gated before export by `guards/voice_standards_audit.yaml` to ensure zero AI clichés or sycophantic corporate openings.
 7. **Document Export:** Automatically compiles `.docx` and `.pdf` via bundled `convert_resume.py`.
 8. **Interview Prep:** Produces `interview_prep.md` including pre-emptive answers to "Why this job? Aren't you overqualified?".
 9. **Continuous Flywheel:** Offers to capture newly verified skills and sharpened phrasing back into the master profile.
@@ -107,6 +117,13 @@ For customized applications:
 - `references/professional-voice-standards.md` — Peer-to-peer anti-AI voice guide, zero em dashes, and cliché elimination.
 - `references/overqualification-and-framing.md` — Framework for down-leveling, non-intimidating phrasing, and anti-flight risk framing.
 - `references/multi-profile-guide.md` — Guidance on maintaining and switching between profile archetypes.
+- `guards/role_fit.yaml` — Jev categorical contract for evidence-backed role fit classification.
+- `guards/overqualification_risk.yaml` — Jev predicate contract for candidate seniority vs leveling risk evaluation.
+- `guards/profile_track_selection.yaml` — Jev choice contract for matching target JD to profile archetype.
+- `guards/profile_evaluation_questionnaire.yaml` — Jev bundled questionnaire for parallel forward-pass profile evaluation.
+- `guards/voice_standards_audit.yaml` — Jev predicate gate auditing cover letter drafts for AI clichés and corporate slop.
+- `guards/accomplishment_xyz_audit.yaml` — Jev predicate gate validating Google XYZ metric syntax.
+- `guards/mode_selection.yaml` — Jev choice contract for classifying user intent into operational modes.
 - `assets/convert_resume.py` — Multi-tier DOCX/PDF export script (Word COM -> Headless Edge -> Pandoc).
 - `assets/msedge-print.ps1` — Edge headless PDF generation helper.
 - `assets/resume_style.css` — Typographic print stylesheet.

@@ -1,0 +1,41 @@
+# Judgment: Role Fit Evaluation
+primitive: choice
+
+state:
+  target_title: "`context.target_title`"
+  target_industry: "`context.industry`"
+  jd_requirements: "`context.jd_requirements`"
+  candidate_experience: "`context.candidate_experience_summary`"
+
+question: |
+  Given the candidate's verified experience in `state.candidate_experience` and the requirements in `state.jd_requirements` for `state.target_title` (in `state.target_industry`), does the candidate represent:
+  - strong_fit: Direct alignment across core competencies, seniority tier, technologies, and primary responsibilities
+  - conditional_fit: Transferable strengths or adjacent experience with manageable gaps in core domain or tech stack
+  - weak_fit: Critical required qualifications, domain knowledge, or mandatory skills are largely absent with minimal overlap
+  - other: Ambiguous or unclassifiable alignment
+
+options:
+  - strong_fit
+  - conditional_fit
+  - weak_fit
+  - other
+
+thresholds:
+  accept: "confidence >= 0.8 AND picked in ['strong_fit', 'conditional_fit']"
+  reject: "picked == 'weak_fit'"
+  escalate: "confidence < 0.8 OR picked == 'other'"
+
+failure_behavior: fail_closed
+
+snap_on:
+  judgment:
+    type: categorical
+    criterion: "Classify candidate role fit as strong_fit, conditional_fit, or weak_fit based on verified experience against job requirements."
+    options:
+      - strong_fit
+      - conditional_fit
+      - weak_fit
+      - other
+    min_confidence: 0.8
+    fallback_adapter: script
+    fallback_target: FIT_REVIEW

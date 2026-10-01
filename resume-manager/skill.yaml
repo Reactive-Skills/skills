@@ -1,5 +1,5 @@
 schema_version: 2.1.0
-version: 2.2.0
+version: 2.3.0
 name: resume-manager
 description: >-
   Consolidated reactive career management engine. Orchestrates master profile bootstrapping,
@@ -10,6 +10,7 @@ initial_state: INIT
 
 context_keys:
   - mode
+  - profile_home
   - active_profile_id
   - profiles_dir
   - master_profile_path
@@ -33,6 +34,7 @@ context_keys:
 
 default_context:
   mode: null
+  profile_home: "~/.resume-manager"
   active_profile_id: "senior_technical"
   profiles_dir: null
   master_profile_path: null
@@ -83,6 +85,8 @@ states:
     tools:
       - view_file
       - find_by_name
+      - ask_question
+      - run_command
     transitions:
       MODE_CUSTOMIZE:
         target: INGEST_JD
@@ -111,6 +115,7 @@ states:
     tools:
       - write_to_file
       - view_file
+      - ask_question
     transitions:
       PROFILES_SYNTHESIZED:
         target: SUCCESS
@@ -121,6 +126,8 @@ states:
     tools:
       - view_file
       - find_by_name
+      - ask_question
+      - run_command
     transitions:
       PROFILE_LOADED:
         target: RECORD_ACCOMPLISHMENT
@@ -136,6 +143,12 @@ states:
     transitions:
       RECORDED:
         target: PERSIST_PROFILE
+        judgment:
+          type: predicate
+          criterion: "Does the achievement bullet strictly satisfy the Google XYZ syntax with a quantified measurement [Y] and specific action [Z]?"
+          min_confidence: 0.85
+          fallback_adapter: script
+          fallback_target: RECORD_ACCOMPLISHMENT
       RECORD_MORE:
         target: RECORD_ACCOMPLISHMENT
 
@@ -186,14 +199,15 @@ states:
     tools:
       - view_file
       - ask_question
+      - run_command
     transitions:
       CALIBRATION_REQUIRED:
         target: CALIBRATE_FRAMING
         guard: payload.overqualified_risk == true
         judgment:
           type: categorical
-          criterion: "payload.role_fit_confidence != null && Number(payload.role_fit_confidence) >= 0.8 ? payload.role_fit : 'low_confidence'"
-          options: ["strong_fit", "conditional_fit", "low_confidence"]
+          criterion: "Classify candidate role fit as strong_fit, conditional_fit, or weak_fit based on verified experience against job requirements."
+          options: ["strong_fit", "conditional_fit", "weak_fit", "other"]
           min_confidence: 0.8
           fallback_adapter: script
           fallback_target: FIT_REVIEW
@@ -202,8 +216,8 @@ states:
         guard: payload.overqualified_risk != true
         judgment:
           type: categorical
-          criterion: "payload.role_fit_confidence != null && Number(payload.role_fit_confidence) >= 0.8 ? payload.role_fit : 'low_confidence'"
-          options: ["strong_fit", "conditional_fit", "low_confidence"]
+          criterion: "Classify candidate role fit as strong_fit, conditional_fit, or weak_fit based on verified experience against job requirements."
+          options: ["strong_fit", "conditional_fit", "weak_fit", "other"]
           min_confidence: 0.8
           fallback_adapter: script
           fallback_target: FIT_REVIEW
@@ -276,6 +290,12 @@ states:
       MATERIALS_DRAFTED:
         target: EXPORTING
         guard: payload.timeline_reconciled == true && payload.unresolved_gap_count == 0
+        judgment:
+          type: predicate
+          criterion: "Does the drafted application cover letter adhere to professional voice standards and remain free of AI clichés, generic buzzwords, or sycophantic corporate openings?"
+          min_confidence: 0.7
+          fallback_adapter: script
+          fallback_target: DRAFTING
 
   EXPORTING:
     description: "Export markdown application materials to formatted DOCX and PDF"

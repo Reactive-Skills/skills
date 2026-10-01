@@ -1,0 +1,23 @@
+# Judgment: Accomplishment XYZ Syntax Audit
+primitive: noul
+
+state:
+  bullet_text: "`context.new_accomplishment`"
+
+question: |
+  Does `state.bullet_text` strictly satisfy the Google XYZ syntax by articulating what was accomplished [X], a measurable quantified outcome [Y], and the specific engineering or operational method [Z]?
+
+thresholds:
+  accept: ">= 0.85"
+  reject: "< 0.35"
+  escalate: "0.35 – 0.85"
+
+failure_behavior: fail_closed
+
+snap_on:
+  judgment:
+    type: predicate
+    criterion: "Does the achievement bullet strictly satisfy the Google XYZ syntax with a quantified measurement [Y] and specific action [Z]?"
+    min_confidence: 0.85
+    fallback_adapter: script
+    fallback_target: RECORD_ACCOMPLISHMENT

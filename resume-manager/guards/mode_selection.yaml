@@ -1,0 +1,41 @@
+# Judgment: Operational Mode Selection
+primitive: choice
+
+state:
+  user_prompt: "`context.user_prompt`"
+  has_existing_profile: "`context.has_existing_profile`"
+
+question: |
+  Based on `state.user_prompt` and whether an existing master profile is available (`state.has_existing_profile`), which operational mode best matches the user's intent?
+  - customize: Tailoring resume, cover letter, and application materials for a specific job posting
+  - maintain: Recording a new accomplishment, promotion, win, or skill into an existing profile
+  - bootstrap: Conducting a career history interview to create a new master profile from scratch
+  - manage_profiles: Viewing, tuning, or managing specialized profile archetype tracks
+  - other: Ambiguous or unrelated request
+
+options:
+  - customize
+  - maintain
+  - bootstrap
+  - manage_profiles
+  - other
+
+thresholds:
+  accept: "confidence >= 0.75 AND picked != 'other'"
+  escalate: "confidence < 0.75 OR picked == 'other'"
+
+failure_behavior: fail_closed
+
+snap_on:
+  judgment:
+    type: categorical
+    criterion: "Classify user intent into customize, maintain, bootstrap, manage_profiles, or other based on the initial request and profile presence."
+    options:
+      - customize
+      - maintain
+      - bootstrap
+      - manage_profiles
+      - other
+    min_confidence: 0.75
+    fallback_adapter: script
+    fallback_target: SELECT_MODE

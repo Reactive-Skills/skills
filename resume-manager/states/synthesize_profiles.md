@@ -4,7 +4,9 @@
 You are transforming raw interview notes into the candidate's canonical Master Experience Profile and scaffolding initial specialized profile tracks.
 
 ## Realistic Constraints
-- Primary master profile must be written to `~/.gemini/resume/master_profile.md` (or workspace profile directory).
+- Resolve `master_profile_path` and `profiles_dir` using `CONTEXT.md`; never hardcode an agent-specific home.
+- For a fresh install, write to `~/.resume-manager/master_profile.md` and `~/.resume-manager/profiles/` unless an explicit override is supplied.
+- Do not overwrite an existing master profile or track; ask the user to resolve any destination collision before writing.
 - Must scaffold five distinct Profile Archetypes under `profiles/`:
   1. `senior_technical.md`: Emphasizing distributed systems, throughput, architecture, and systems leadership.
   2. `practical_mid_technical.md`: Emphasizing hands-on execution, reliable feature delivery, clean code, and team collaboration.
@@ -14,8 +16,8 @@ You are transforming raw interview notes into the candidate's canonical Master E
 - All bullet points across all profiles must adhere to the Google XYZ formula.
 
 ## Instructions
-1. Compile and format `master_profile.md` using the standard master profile template.
-2. Generate the five specialized profile archetype files under `profiles/`.
+1. Compile and format `master_profile.md` at the resolved `master_profile_path` using the standard master profile template.
+2. Generate the five specialized profile archetype files under the resolved `profiles_dir`.
 3. Verify all files are written to disk cleanly.
 4. Emit `PROFILES_SYNTHESIZED`.
 

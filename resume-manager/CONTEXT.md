@@ -5,6 +5,23 @@
 ### Master Experience Profile (`master_profile.md`)
 The single, comprehensive repository of a professional's entire career history. Unlike a tailored resume, it is intentionally unconstrained in length and contains every role, quantifiable accomplishment, system architecture decision, leadership metric, patent, and tool ever used.
 
+## Profile Home and Path Resolution
+
+The default profile home is `~/.resume-manager/`, where `~` expands to the current user's home directory.
+Fresh installs create the master profile at `~/.resume-manager/master_profile.md` and profile tracks under `~/.resume-manager/profiles/`.
+The home is agent-neutral and can be changed with `context.profile_home`.
+Exact path overrides take precedence: when both `context.master_profile_path` and `context.profiles_dir` are supplied, use both as given.
+When only `context.master_profile_path` is supplied, derive tracks from its parent directory's `profiles/` folder.
+When only `context.profiles_dir` is supplied, derive the master path from that directory's parent as `master_profile.md`.
+When neither exact path is supplied, derive both paths from `context.profile_home`, defaulting to `~/.resume-manager/`.
+
+Search legacy roots `~/.gemini/resume/`, `~/.agents/resume/`, and `~/.kilocode/resume/` only when `context.profile_home` is the default `~/.resume-manager/`, both exact path overrides are unset, and that home has no master profile.
+Ask before reading from or migrating any legacy root.
+If the user chooses to use a legacy profile in place, set explicit `master_profile_path` and `profiles_dir` values before reading it.
+If the user approves a copy, copy the master and existing tracks to the resolved home only when destination files do not exist, verify the copies, and preserve all legacy files.
+Never silently switch to, overwrite, move, or delete legacy records.
+If the user declines migration, continue with the resolved path and treat it as empty.
+
 ### Profile Archetype / Specialized Track
 A targeted projection of the Master Profile calibrated for a specific job category or seniority tier. Archetypes prevent cognitive dissonance and overqualification pushback by curating relevant wins and setting the appropriate narrative register:
 - **`senior_technical`**: Principal, Staff, Lead Engineer, Architect. Focus on scale, architecture, distributed systems, trade-offs.
