@@ -166,7 +166,7 @@ jsm-workflow/
 ├── skill-release.json
 ├── skill.yaml
 ├── guards/
-│   └── .gitkeep
+│   └── workflow.test.cjs
 ├── states/
 │   ├── architect.md
 │   ├── audit.md
@@ -196,6 +196,18 @@ jsm-workflow/
     ├── review.md.hbs
     └── verification.md.hbs
 ```
+
+## Validate
+
+```bash
+node scripts/validate-skills.js jsm-workflow --no-runtime
+node --test jsm-workflow/guards/workflow.test.cjs
+```
+
+The acceptance scenarios cover the bubbled `DOD_CHANGE_REQUESTED` and `DECISION_REOPENED` events, the Jev probability threshold at 0.84, 0.85, and 0.86, and the completion guard.
+They stub the TypeSafe SDK that the runtime loads, so no Jev key or network is needed.
+Bubbled events need a runtime that keeps run version checks valid during bubbling; Reactive Skills 0.16.0 rejects them with `RUN_VERSION_CONFLICT`.
+To test a local runtime build, set `JSM_WORKFLOW_RUNTIME` to its absolute `dist/index.js` path before running the acceptance suite.
 
 ---
 
