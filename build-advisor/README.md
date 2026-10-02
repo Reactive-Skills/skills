@@ -22,7 +22,8 @@ Ask an agent to use build-advisor with your actual situation.
 For example: "Challenge this onboarding experience" or "Help us preserve quality while our team grows."
 Provide the material you have; missing evidence stays visible.
 
-Start through a compatible Reactive Skills runtime, version 0.16.0 or later.
+Start through a compatible Reactive Skills runtime, version 0.16.0 or later, containing the SQLite ancestor-dispatch repair.
+Unmodified 0.16.0 fails inherited transitions; version alone does not establish compatibility.
 No separate service or API key is required by this skill.
 
 ```powershell
@@ -51,7 +52,7 @@ Each stage may be mapped, awaiting a test, or explicitly inapplicable.
 
 ## Deliverables
 
-The runtime projects a decision memo and a machine-readable snapshot under .docs/build-advisor/<run-id>/.
+The runtime projects a decision memo and a machine-readable snapshot in a job-specific directory under .docs/build-advisor/.
 Each run has an isolated projection path.
 The memo includes the recommendation, decision, owner, action, review trigger, evidence, and applicable route artifacts.
 The runtime ledger preserves prior revisions.
@@ -83,3 +84,5 @@ rtk node --test build-advisor/guards/workflow.test.cjs
 ```
 
 The acceptance scenarios cover all routes, incomplete inputs, stale revisions, human approval, parent-event handling, evidence loops, rehydration, and projection isolation.
+To test a repaired local build, set BUILD_ADVISOR_RUNTIME to its absolute dist/index.js path before running the acceptance suite.
+The local runtime repair does not replace an installed CLI or MCP server automatically.

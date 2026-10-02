@@ -17,3 +17,5 @@ Do not imply a prototype, customer result, or capability already exists when it 
 - [ ] Record uses context.basis_version.
 
 Emit: STORY_READY with story in payload.contextUpdates.
+
+Emit: ROUTE_CHANGED, SITUATION_CHANGED, CANCEL, REVISE_PROBLEM using the shared event contract in CONTEXT.md.

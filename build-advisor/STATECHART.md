@@ -1,6 +1,6 @@
 # build-advisor statechart
 
-Generated from the current manifest by the authoring check.
+The diagram and guard table mirror skill.yaml.
 
 ```mermaid
 stateDiagram-v2
@@ -67,12 +67,13 @@ stateDiagram-v2
     BYPASS_DETECTED --> [*]
 ```
 
-Parent transitions handle unhandled signals from every descendant.
+CANCEL, ROUTE_CHANGED, and SITUATION_CHANGED are declared once on ACTIVE and inherited by every active descendant.
+Route-specific revision events are declared once on their route parent.
 A waiting run resumes at its persisted leaf; no unsupported history pseudo-state is required.
 
 | From | Signal | To | Guard |
 | --- | --- | --- | --- |
-| INIT | RUNTIME_READY | ACTIVE | `payload.compatible === true && payload.contextUpdates?.selected_runtime?.compatible === true` |
+| INIT | RUNTIME_READY | ACTIVE | `payload.compatible === true && payload.contextUpdates?.selected_runtime?.compatible === true && payload.contextUpdates.selected_runtime.parent_dispatch_verified === true` |
 | INIT | SETUP_REQUIRED | BYPASS_DETECTED | `payload.compatible === false` |
 | ACTIVE | ROUTE_CHANGED | ACTIVE.FRAME | `["develop","challenge","advise"].includes(payload.contextUpdates?.route) && typeof payload.reason === "string" && payload.reason.trim().length > 0` |
 | ACTIVE | SITUATION_CHANGED | ACTIVE.FRAME | `Number.isInteger(payload.contextUpdates?.basis_version) && payload.contextUpdates.basis_version === context.basis_version + 1 && typeof payload.reason === "string" && payload.reason.trim().length > 0` |

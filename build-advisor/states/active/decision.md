@@ -18,3 +18,5 @@ If the user requests rework, capture feedback and return to framing.
 
 Emit: DECISION_ACCEPTED with decision in payload.contextUpdates, approved, and approval_source.
 Emit: DECISION_REVISED with feedback when rework is requested.
+
+Emit: ROUTE_CHANGED, SITUATION_CHANGED, CANCEL using the shared event contract in CONTEXT.md.

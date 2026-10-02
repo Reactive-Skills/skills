@@ -17,3 +17,5 @@ Each choice has choice and consequences; include additional evidence and tradeof
 - [ ] Record uses context.basis_version.
 
 Emit: OPTIONS_READY with options in payload.contextUpdates.
+
+Emit: ROUTE_CHANGED, SITUATION_CHANGED, CANCEL, REVISE_DIAGNOSIS using the shared event contract in CONTEXT.md.

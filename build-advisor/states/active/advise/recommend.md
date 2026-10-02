@@ -17,3 +17,5 @@ Set route to context.route.
 - [ ] Record uses context.basis_version.
 
 Emit: ADVICE_READY with recommendation in payload.contextUpdates.
+
+Emit: ROUTE_CHANGED, SITUATION_CHANGED, CANCEL, REVISE_DIAGNOSIS using the shared event contract in CONTEXT.md.

@@ -16,3 +16,5 @@ Save context.assessment with basis_version, artifact, summary, and findings.
 - [ ] Record uses context.basis_version.
 
 Emit: REVIEW_SCOPED with assessment in payload.contextUpdates.
+
+Emit: ROUTE_CHANGED, SITUATION_CHANGED, CANCEL, REVISE_REVIEW using the shared event contract in CONTEXT.md.

@@ -16,3 +16,5 @@ Use context.basis_version as the record's basis_version.
 - [ ] Record uses the current basis.
 
 Emit: PROBLEM_FRAMED with problem in payload.contextUpdates.
+
+Emit: ROUTE_CHANGED, SITUATION_CHANGED, CANCEL, REVISE_PROBLEM using the shared event contract in CONTEXT.md.

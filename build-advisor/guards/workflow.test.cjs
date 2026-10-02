@@ -8,16 +8,20 @@ const { execFileSync } = require('node:child_process');
 const { test } = require('node:test');
 
 const skillDir = path.resolve(__dirname, '..');
+const guardCoverage = new Map();
 let runtimePromise;
 function runtime() {
   if (!runtimePromise) {
-    let entry;
-    try {
-      entry = require.resolve('@reactive-skills/runtime');
-    } catch {
-      const globalRoot = execFileSync('rtk', ['npm', 'root', '-g'], { encoding: 'utf8' }).trim();
-      const axiRequire = createRequire(path.join(globalRoot, '@reactive-skills/axi/package.json'));
-      entry = axiRequire.resolve('@reactive-skills/runtime');
+    let entry = process.env.BUILD_ADVISOR_RUNTIME;
+    if (entry) entry = path.resolve(entry);
+    else {
+      try {
+        entry = require.resolve('@reactive-skills/runtime');
+      } catch {
+        const globalRoot = execFileSync('rtk', ['npm', 'root', '-g'], { encoding: 'utf8' }).trim();
+        const axiRequire = createRequire(path.join(globalRoot, '@reactive-skills/axi/package.json'));
+        entry = axiRequire.resolve('@reactive-skills/runtime');
+      }
     }
     runtimePromise = import(pathToFileURL(entry).href);
   }
@@ -27,9 +31,14 @@ function runtime() {
 async function fixture(t) {
   const { FSMEngine } = await runtime();
   const workspaceDir = fs.mkdtempSync(path.join(os.tmpdir(), 'build-advisor-test-'));
-  t.after(() => fs.rmSync(workspaceDir, { recursive: true, force: true }));
   const engine = new FSMEngine({ skillDir, workspaceDir, jobId: 'acceptance', initialContext: {} });
-  t.after(() => engine.getEventStore().close?.());
+  t.after(() => {
+    engine.getEventStore().close();
+    const target = fs.realpathSync(workspaceDir);
+    assert.equal(path.dirname(target), fs.realpathSync(os.tmpdir()));
+    assert.match(path.basename(target), /^build-advisor-test-/);
+    fs.rmSync(target, { recursive: true, force: true, maxRetries: 3 });
+  });
   return { engine, workspaceDir, FSMEngine };
 }
 
@@ -51,9 +60,29 @@ const recommendation = route => ({
 const update = (key, value, extra = {}) => ({ ...extra, contextUpdates: { [key]: value } });
 
 async function signal(engine, name, payload, state, transitioned = true) {
+  const previousState = engine.getCurrentState();
+  const segments = previousState.split('.');
+  let handledAt;
+  for (let depth = segments.length; depth > 0; depth--) {
+    if (engine.getStateDefinition(segments.slice(0, depth))?.transitions?.[name]) {
+      handledAt = segments.slice(0, depth).join('.');
+      break;
+    }
+  }
+  assert.ok(handledAt, name + ' must have a declared handler');
+  const key = handledAt + ':' + name;
+  const coverage = guardCoverage.get(key) || { accepted: false, rejected: false };
+  if (transitioned) {
+    const incomplete = await engine.handleSignal(name, {});
+    assert.equal(incomplete.transitioned, false, key + ' must reject missing inputs');
+    assert.equal(engine.getCurrentState(), previousState, key + ' must retain its state on rejection');
+    coverage.rejected = true;
+  }
   const result = await engine.handleSignal(name, payload);
   assert.equal(result.transitioned, transitioned, name);
   assert.equal(engine.getCurrentState(), state, name);
+  coverage[transitioned ? 'accepted' : 'rejected'] = true;
+  guardCoverage.set(key, coverage);
   return result;
 }
 async function boot(engine) {
@@ -62,6 +91,7 @@ async function boot(engine) {
     contextUpdates: { selected_runtime: {
       compatible: true, transport: 'axi', launcher: 'direct', runtime_version: '0.16.0',
       axi_version: '0.16.0', capabilities: ['runtime.bootloader', 'runtime.transport_handshake'],
+      parent_dispatch_verified: true,
     } },
   }, 'ACTIVE.FRAME');
 }
@@ -134,6 +164,9 @@ const action = type => ({
 test('bootstrap and framing reject missing compatibility and required situation details', async t => {
   const { engine } = await fixture(t);
   await signal(engine, 'RUNTIME_READY', { compatible: true }, 'INIT', false);
+  await signal(engine, 'RUNTIME_READY', { compatible: true, contextUpdates: {
+    selected_runtime: { compatible: true, parent_dispatch_verified: false },
+  } }, 'INIT', false);
   await boot(engine);
   await signal(engine, 'DEVELOP_SELECTED', { contextUpdates: { route: 'develop' } }, 'ACTIVE.FRAME', false);
   await select(engine, 'develop');
@@ -191,7 +224,7 @@ test('a scoped challenge can reasonably require no further test', async t => {
   }), 'ACTIVE.CHALLENGE.VERDICT');
 });
 
-test('a route change bubbles from a leaf and retains the evidence history', async t => {
+test('a shared route change works from a leaf and retains the evidence history', async t => {
   const { engine } = await fixture(t);
   await boot(engine);
   await select(engine, 'develop');
@@ -253,12 +286,74 @@ test('waiting state and shared records survive actual ledger rehydration', async
   assert.deepEqual(resumed.getContext().evidence, evidence);
 });
 
-test('cancellation bubbles from a nested route and requires a reason', async t => {
+test('one parent cancellation handler serves every active leaf and requires a reason', async t => {
   const { engine } = await fixture(t);
   await boot(engine);
   await select(engine, 'advise');
   await signal(engine, 'CANCEL', {}, 'ACTIVE.ADVISE.DIAGNOSE', false);
   await signal(engine, 'CANCEL', { reason: 'User cancelled this task' }, 'CANCELLED');
+  const bubbled = engine.getEventStore().query({ type: 'EVENT_BUBBLED' });
+  assert.equal(bubbled.at(-1).payload.handledAt, 'ACTIVE');
+});
+
+const firstSteps = {
+  develop: { signal: 'PROBLEM_FRAMED', key: 'problem', state: 'ACTIVE.DEVELOP.STORY', record: {
+    basis_version: 1, customer: 'New clients', pain: 'Setup is confusing', why_now: 'Recurring support requests',
+    alternatives: ['Improve instructions', 'Keep the current process'],
+  } },
+  challenge: { signal: 'REVIEW_SCOPED', key: 'assessment', state: 'ACTIVE.CHALLENGE.STRESS_TEST', record: {
+    basis_version: 1, artifact: 'Setup proposal', summary: 'Proposed fix is untested',
+    findings: [{ consequence: 'May solve the wrong problem', evidence_refs: ['e1'] }],
+  } },
+  advise: { signal: 'DIAGNOSIS_READY', key: 'diagnosis', state: 'ACTIVE.ADVISE.OPTIONS', record: {
+    basis_version: 1, issue: 'Redesign precedes observation', decision_type: 'evidence-informed judgment',
+    principles: ['2.2', '3.1'],
+  } },
+};
+
+for (const [route, revision, initial] of [
+  ['develop', 'REVISE_PROBLEM', 'ACTIVE.DEVELOP.PROBLEM'],
+  ['challenge', 'REVISE_REVIEW', 'ACTIVE.CHALLENGE.INSPECT'],
+  ['advise', 'REVISE_DIAGNOSIS', 'ACTIVE.ADVISE.DIAGNOSE'],
+]) {
+  test(route + ' revisions are handled once at the route parent', async t => {
+    const { engine } = await fixture(t);
+    await boot(engine);
+    await select(engine, route);
+    const step = firstSteps[route];
+    await signal(engine, step.signal, update(step.key, step.record), step.state);
+    await signal(engine, revision, { reason: 'User supplied a revised premise' }, initial);
+    const bubbled = engine.getEventStore().query({ type: 'EVENT_BUBBLED' });
+    assert.equal(bubbled.at(-1).payload.handledAt, 'ACTIVE.' + route.toUpperCase());
+  });
+}
+
+test('experience review can return to a product story without bypassing its guard', async t => {
+  const { engine } = await fixture(t);
+  await boot(engine);
+  await select(engine, 'develop');
+  const step = firstSteps.develop;
+  await signal(engine, step.signal, update(step.key, step.record), step.state);
+  await signal(engine, 'STORY_READY', update('story', {
+    basis_version: 1, narrative: 'Make setup clearer', promise: 'Fewer confusing steps',
+    claims: [{ claim: 'Setup is easier', kind: 'assumption' }],
+  }), 'ACTIVE.DEVELOP.EXPERIENCE');
+  await signal(engine, 'REVISE_STORY', { reason: 'Experience review found an unsupported promise' },
+    'ACTIVE.DEVELOP.STORY');
+});
+
+test('human feedback returns a recommendation to framing', async t => {
+  const { engine } = await fixture(t);
+  await boot(engine);
+  await select(engine, 'advise');
+  await advise(engine);
+  await signal(engine, 'DECISION_REVISED', { feedback: 'Reconsider the available team capacity' }, 'ACTIVE.FRAME');
+  assert.equal(engine.getContext().recommendation, null);
+});
+
+test('an incompatible runtime follows the recovery route', async t => {
+  const { engine } = await fixture(t);
+  await signal(engine, 'SETUP_REQUIRED', { compatible: false }, 'BYPASS_DETECTED');
 });
 
 test('state prompts, signals, context keys, and diagram match the manifest', async () => {
@@ -270,6 +365,8 @@ test('state prompts, signals, context keys, and diagram match the manifest', asy
   const diagram = fs.readFileSync(path.join(skillDir, 'STATECHART.md'), 'utf8');
   const referenced = new Set();
   const signals = [];
+  const cancellationStates = [];
+  const guardedTransitions = [];
   function walk(states, prefix = '') {
     for (const [name, state] of Object.entries(states)) {
       const full = prefix ? prefix + '.' + name : name;
@@ -279,6 +376,8 @@ test('state prompts, signals, context keys, and diagram match the manifest', asy
       assert.ok(prompt.trim().split(/\s+/).length < 200, full + ' exceeds the word budget');
       assert.match(prompt, /Atomic checklist/, full + ' needs an atomic checklist');
       for (const [signalName, transition] of Object.entries(state.transitions || {})) {
+        guardedTransitions.push(full + ':' + signalName);
+        if (signalName === 'CANCEL') cancellationStates.push(full);
         assert.ok(prompt.includes('Emit:') && prompt.includes(signalName), full + ' omits ' + signalName);
         new Function('event', 'payload', 'context', 'return (' + transition.guard + ');');
         const edge = full.replaceAll('.', '__') + ' --> ' + transition.target.replaceAll('.', '__') + ' : ' + signalName;
@@ -293,6 +392,11 @@ test('state prompts, signals, context keys, and diagram match the manifest', asy
     }
   }
   walk(manifest.states);
+  assert.deepEqual(cancellationStates, ['ACTIVE']);
+  for (const key of guardedTransitions) {
+    assert.deepEqual(guardCoverage.get(key), { accepted: true, rejected: true },
+      key + ' requires both passing and violating actual-runtime inputs');
+  }
   function diskPrompts(dir) {
     return fs.readdirSync(dir, { withFileTypes: true }).flatMap(entry => {
       const child = path.join(dir, entry.name);

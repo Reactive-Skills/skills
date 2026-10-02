@@ -1,0 +1,28 @@
+---
+name: {{skill_name}}
+description: Bypass detected - Agent operated outside signal contract
+type: reactive
+---
+
+# {{skill_name}} - BYPASS_DETECTED
+
+Runtime compatibility failed or work occurred outside the signal contract.
+
+## Recovery
+1. Run selected runtime `reset {{skill_name}}`.
+2. Run selected runtime `invoke {{skill_name}}` to start a fresh isolated job.
+3. Use selected runtime `state {{skill_name}} --job <alias>` only when resuming a known run.
+
+## Prevention
+- Use selected runtime `state` to load the TODO card.
+- Use selected runtime `emit` after each completed state task.
+- Keep `--job <alias>` on every command for named or parallel work.
+
+## Atomic checklist
+
+- [ ] Report the actual compatibility or contract failure.
+- [ ] Preserve useful evidence without continuing the failed run.
+- [ ] Do not manually author runtime projections.
+
+Terminal state.
+No further signal is required.

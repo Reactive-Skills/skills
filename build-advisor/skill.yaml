@@ -54,7 +54,9 @@ states:
     transitions:
       RUNTIME_READY:
         target: ACTIVE
-        guard: payload.compatible === true && payload.contextUpdates?.selected_runtime?.compatible === true
+        guard: >-
+          payload.compatible === true && payload.contextUpdates?.selected_runtime?.compatible === true &&
+          payload.contextUpdates.selected_runtime.parent_dispatch_verified === true
       SETUP_REQUIRED:
         target: BYPASS_DETECTED
         guard: payload.compatible === false
@@ -136,6 +138,17 @@ states:
               recommendation: null
               decision: null
               action: null
+        context_scope:
+          - selected_runtime
+          - basis_version
+          - route
+          - situation
+          - evidence
+          - problem
+          - story
+          - experience
+          - assessment
+          - diagnosis
       DEVELOP:
         description: Make a worthwhile direction and prototype the whole customer experience
         prompt_template: states/active/develop/parent.md
@@ -162,6 +175,13 @@ states:
                   payload.contextUpdates.problem.why_now.trim().length > 0 &&
                   Array.isArray(payload.contextUpdates.problem.alternatives) &&
                   payload.contextUpdates.problem.alternatives.length > 0
+            context_scope:
+              - selected_runtime
+              - basis_version
+              - route
+              - situation
+              - evidence
+              - problem
           STORY:
             description: Explain why the product should exist and what it promises
             prompt_template: states/active/develop/story.md
@@ -177,6 +197,14 @@ states:
                   payload.contextUpdates.story.promise === "string" &&
                   payload.contextUpdates.story.promise.trim().length > 0 &&
                   Array.isArray(payload.contextUpdates.story.claims)
+            context_scope:
+              - selected_runtime
+              - basis_version
+              - route
+              - situation
+              - evidence
+              - problem
+              - story
           EXPERIENCE:
             description: Map and prototype every applicable journey stage
             prompt_template: states/active/develop/experience.md
@@ -195,6 +223,15 @@ states:
               REVISE_STORY:
                 target: ACTIVE.DEVELOP.STORY
                 guard: typeof payload.reason === "string" && payload.reason.trim().length > 0
+            context_scope:
+              - selected_runtime
+              - basis_version
+              - route
+              - situation
+              - evidence
+              - problem
+              - story
+              - experience
           LEARNING:
             description: Define constraints, experiments, launch readiness, and later learning
             prompt_template: states/active/develop/learning.md
@@ -218,6 +255,16 @@ states:
                   && typeof payload.contextUpdates.recommendation.rationale === "string" &&
                   payload.contextUpdates.recommendation.rationale.trim().length > 0 &&
                   Array.isArray(payload.contextUpdates.recommendation.limitations)
+            context_scope:
+              - selected_runtime
+              - basis_version
+              - route
+              - situation
+              - evidence
+              - problem
+              - story
+              - experience
+              - learning_plan
       CHALLENGE:
         description: Stress-test an existing proposal without inventing defects
         prompt_template: states/active/challenge/parent.md
@@ -242,6 +289,16 @@ states:
                   payload.contextUpdates.assessment.summary === "string" &&
                   payload.contextUpdates.assessment.summary.trim().length > 0 &&
                   Array.isArray(payload.contextUpdates.assessment.findings)
+            context_scope:
+              - selected_runtime
+              - basis_version
+              - route
+              - situation
+              - evidence
+              - problem
+              - story
+              - experience
+              - assessment
           STRESS_TEST:
             description: Design bounded tests for consequential unknowns
             prompt_template: states/active/challenge/stress_test.md
@@ -262,6 +319,14 @@ states:
                   t.deadline.trim().length > 0 && ["planned","observed"].includes(t.status) &&
                   Array.isArray(t.evidence_refs) && (t.status === "planned" || (t.evidence_refs.length > 0 &&
                   t.evidence_refs.every(id => context.evidence.some(e => e.id === id && e.kind === "observed")))))
+            context_scope:
+              - selected_runtime
+              - basis_version
+              - route
+              - situation
+              - evidence
+              - assessment
+              - uncertainty_plan
           VERDICT:
             description: Recommend pursue, revise, investigate, defer, or stop with uncertainty
             prompt_template: states/active/challenge/verdict.md
@@ -277,6 +342,14 @@ states:
                   && typeof payload.contextUpdates.recommendation.rationale === "string" &&
                   payload.contextUpdates.recommendation.rationale.trim().length > 0 &&
                   Array.isArray(payload.contextUpdates.recommendation.limitations)
+            context_scope:
+              - selected_runtime
+              - basis_version
+              - route
+              - situation
+              - evidence
+              - assessment
+              - uncertainty_plan
       ADVISE:
         description: Diagnose a concrete builder decision and compare tradeoffs
         prompt_template: states/active/advise/parent.md
@@ -302,6 +375,13 @@ states:
                   payload.contextUpdates.diagnosis.decision_type.trim().length > 0 &&
                   Array.isArray(payload.contextUpdates.diagnosis.principles) &&
                   payload.contextUpdates.diagnosis.principles.length > 0
+            context_scope:
+              - selected_runtime
+              - basis_version
+              - route
+              - situation
+              - evidence
+              - diagnosis
           OPTIONS:
             description: Compare feasible options and their consequences
             prompt_template: states/active/advise/options.md
@@ -315,6 +395,14 @@ states:
                   Array.isArray(payload.contextUpdates.options.choices) && payload.contextUpdates.options.choices.length
                   >= 2 && payload.contextUpdates.options.choices.every(o => o && typeof o.choice === "string" &&
                   o.choice.trim().length > 0 && typeof o.consequences === "string" && o.consequences.trim().length > 0)
+            context_scope:
+              - selected_runtime
+              - basis_version
+              - route
+              - situation
+              - evidence
+              - diagnosis
+              - options
           RECOMMEND:
             description: Recommend a direction, responsible owner, and communication
             prompt_template: states/active/advise/recommend.md
@@ -330,6 +418,14 @@ states:
                   && typeof payload.contextUpdates.recommendation.rationale === "string" &&
                   payload.contextUpdates.recommendation.rationale.trim().length > 0 &&
                   Array.isArray(payload.contextUpdates.recommendation.limitations)
+            context_scope:
+              - selected_runtime
+              - basis_version
+              - route
+              - situation
+              - evidence
+              - diagnosis
+              - options
       DECISION:
         description: Present the recommendation and obtain an explicit human decision
         prompt_template: states/active/decision.md
@@ -356,6 +452,16 @@ states:
           tool: chat
           prompt: Review the recommendation, uncertainty, and alternatives; choose or revise the direction.
           auto_stop: true
+        context_scope:
+          - selected_runtime
+          - basis_version
+          - route
+          - situation
+          - evidence
+          - recommendation
+          - options
+          - assessment
+          - uncertainty_plan
       NEXT_ACTION:
         description: Assign the next action and define when to revisit the decision
         prompt_template: states/active/next_action.md
@@ -383,6 +489,15 @@ states:
               payload.contextUpdates.action.review_trigger.trim().length > 0 && context.decision?.basis_version ===
               context.basis_version && ["handoff","stop"].includes(payload.contextUpdates.action.type) &&
               payload.handoff_delivered === true
+        context_scope:
+          - selected_runtime
+          - basis_version
+          - route
+          - situation
+          - evidence
+          - recommendation
+          - decision
+          - action
       AWAIT_EVIDENCE:
         description: Wait for actual external results without manufacturing progress
         prompt_template: states/active/await_evidence.md
@@ -403,6 +518,14 @@ states:
           tool: chat
           prompt: Return with observed results and their sources, or request a route change or handoff.
           auto_stop: true
+        context_scope:
+          - selected_runtime
+          - basis_version
+          - route
+          - situation
+          - evidence
+          - decision
+          - action
   COMPLETED:
     description: Decision and handoff delivered
     prompt_template: states/completed.md

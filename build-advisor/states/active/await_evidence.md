@@ -19,3 +19,5 @@ New results return to framing so the relevant route can reconsider its direction
 
 Emit: RESULTS_RECEIVED with evidence and basis_version in payload.contextUpdates and result_refs.
 Parent signals ROUTE_CHANGED, SITUATION_CHANGED, and CANCEL remain available.
+
+Emit: ROUTE_CHANGED, SITUATION_CHANGED, CANCEL using the shared event contract in CONTEXT.md.

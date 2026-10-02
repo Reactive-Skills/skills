@@ -29,3 +29,4 @@ Resume the same run when real results arrive.
 
 Use README.md for invocation and CONTEXT.md for record shapes and source lenses.
 The runtime owns persistence and deliverable projections.
+Require a runtime build with verified SQLite ancestor dispatch.
