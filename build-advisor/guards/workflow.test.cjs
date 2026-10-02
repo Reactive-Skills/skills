@@ -28,18 +28,24 @@ function runtime() {
   return runtimePromise;
 }
 
-async function fixture(t) {
+async function fixture(t, jobId = 'acceptance') {
   const { FSMEngine } = await runtime();
   const workspaceDir = fs.mkdtempSync(path.join(os.tmpdir(), 'build-advisor-test-'));
-  const engine = new FSMEngine({ skillDir, workspaceDir, jobId: 'acceptance', initialContext: {} });
+  const engines = [];
+  const createEngine = options => {
+    const engine = new FSMEngine({ skillDir, workspaceDir, initialContext: {}, ...options });
+    engines.push(engine);
+    return engine;
+  };
+  const engine = createEngine({ jobId });
   t.after(() => {
-    engine.getEventStore().close();
+    for (const instance of engines) instance.getEventStore().close();
     const target = fs.realpathSync(workspaceDir);
     assert.equal(path.dirname(target), fs.realpathSync(os.tmpdir()));
     assert.match(path.basename(target), /^build-advisor-test-/);
     fs.rmSync(target, { recursive: true, force: true, maxRetries: 3 });
   });
-  return { engine, workspaceDir, FSMEngine };
+  return { engine, workspaceDir, FSMEngine, createEngine };
 }
 
 const evidence = [
@@ -174,7 +180,7 @@ test('bootstrap and framing reject missing compatibility and required situation 
 
 for (const route of ['develop', 'challenge', 'advise']) {
   test(route + ' reaches a human decision and produces a truthful handoff', async t => {
-    const { engine } = await fixture(t);
+    const { engine, workspaceDir } = await fixture(t);
     await boot(engine);
     await select(engine, route);
     await { develop, challenge, advise }[route](engine);
@@ -184,14 +190,21 @@ for (const route of ['develop', 'challenge', 'advise']) {
     await approve(engine);
     const result = await signal(engine, 'HANDOFF_READY', update('action', action('handoff'),
       { handoff_delivered: true }), 'COMPLETED');
-    const memoPath = result.deliverablesWritten.find(file => path.basename(file) === 'decision.md');
-    assert.ok(memoPath, 'Runtime must generate the memo');
+    const outputDir = path.join(workspaceDir, '.docs', 'build-advisor', 'acceptance', 'jobs', 'acceptance');
+    const memoPath = path.join(outputDir, 'decision.md');
+    assert.ok(result.deliverablesWritten.includes(memoPath), 'Expected memo at ' + memoPath + '; got ' + JSON.stringify(result.deliverablesWritten));
     const memo = fs.readFileSync(memoPath, 'utf8');
+    const runId = engine.getEventStore().getEventContext().run_id;
+    assert.ok(memo.includes('Run: ' + runId));
+    assert.ok(memo.includes('Job: acceptance'));
     assert.match(memo, /Product owner/);
     assert.match(memo, /Planned work below has not been completed/);
     assert.match(memo, /basis_version/);
-    const snapshotPath = result.deliverablesWritten.find(file => path.basename(file) === 'snapshot.json');
+    const snapshotPath = path.join(outputDir, 'snapshot.json');
+    assert.ok(result.deliverablesWritten.includes(snapshotPath), 'Runtime must generate the snapshot at the job path');
     const snapshot = JSON.parse(fs.readFileSync(snapshotPath, 'utf8'));
+    assert.equal(snapshot.run_id, runId);
+    assert.equal(snapshot.job_id, 'acceptance');
     assert.equal(snapshot.context.route, route);
     assert.equal(snapshot.state, 'COMPLETED');
     assert.equal(engine.getContext().evidence[0].kind, 'observed');
@@ -284,6 +297,52 @@ test('waiting state and shared records survive actual ledger rehydration', async
   assert.equal(resumed.getCurrentState(), 'ACTIVE.AWAIT_EVIDENCE');
   assert.deepEqual(resumed.getContext().action, action('review'));
   assert.deepEqual(resumed.getContext().evidence, evidence);
+});
+
+test('two jobs in one workspace keep exact projection paths and run identities separate', async t => {
+  const { engine: first, workspaceDir, createEngine } = await fixture(t, 'project-alpha');
+  const firstRunId = first.getEventStore().getEventContext().run_id;
+  await boot(first);
+  await select(first, 'develop');
+  await develop(first);
+  await approve(first);
+  const firstResult = await signal(first, 'HANDOFF_READY', update('action', action('handoff'),
+    { handoff_delivered: true }), 'COMPLETED');
+  const firstDir = path.join(workspaceDir, '.docs', 'build-advisor', 'project-alpha', 'jobs', 'project-alpha');
+  const firstMemoPath = path.join(firstDir, 'decision.md');
+  const firstSnapshotPath = path.join(firstDir, 'snapshot.json');
+  assert.ok(firstResult.deliverablesWritten.includes(firstMemoPath));
+  assert.ok(firstResult.deliverablesWritten.includes(firstSnapshotPath));
+  const firstMemo = fs.readFileSync(firstMemoPath, 'utf8');
+  const firstSnapshot = fs.readFileSync(firstSnapshotPath, 'utf8');
+
+  const second = createEngine({ jobId: 'project-beta', setActive: false });
+  const secondRunId = second.getEventStore().getEventContext().run_id;
+  assert.notEqual(firstRunId, secondRunId);
+  assert.equal(Object.hasOwn(second.getContext(), 'jobId'), false, 'jobId is runtime projection metadata');
+  await boot(second);
+  await select(second, 'challenge');
+  await challenge(second);
+  await approve(second);
+  const secondResult = await signal(second, 'HANDOFF_READY', update('action', action('handoff'),
+    { handoff_delivered: true }), 'COMPLETED');
+  const secondDir = path.join(workspaceDir, '.docs', 'build-advisor', 'project-beta', 'jobs', 'project-beta');
+  const secondMemoPath = path.join(secondDir, 'decision.md');
+  const secondSnapshotPath = path.join(secondDir, 'snapshot.json');
+  assert.ok(secondResult.deliverablesWritten.includes(secondMemoPath));
+  assert.ok(secondResult.deliverablesWritten.includes(secondSnapshotPath));
+  assert.equal(fs.readFileSync(firstMemoPath, 'utf8'), firstMemo, 'Second job must preserve the first memo');
+  assert.equal(fs.readFileSync(firstSnapshotPath, 'utf8'), firstSnapshot, 'Second job must preserve the first snapshot');
+  assert.equal(fs.existsSync(path.join(workspaceDir, '.docs', 'build-advisor', 'decision.md')), false);
+  assert.equal(fs.existsSync(path.join(workspaceDir, '.docs', 'build-advisor', 'snapshot.json')), false);
+
+  const snapshots = [JSON.parse(firstSnapshot), JSON.parse(fs.readFileSync(secondSnapshotPath, 'utf8'))];
+  assert.deepEqual(snapshots.map(snapshot => snapshot.run_id), [firstRunId, secondRunId]);
+  assert.deepEqual(snapshots.map(snapshot => snapshot.job_id), ['project-alpha', 'project-beta']);
+  assert.deepEqual(snapshots.map(snapshot => snapshot.context.route), ['develop', 'challenge']);
+  const secondMemo = fs.readFileSync(secondMemoPath, 'utf8');
+  assert.ok(secondMemo.includes('Run: ' + secondRunId));
+  assert.ok(secondMemo.includes('Job: project-beta'));
 });
 
 test('one parent cancellation handler serves every active leaf and requires a reason', async t => {

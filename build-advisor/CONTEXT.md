@@ -1,7 +1,7 @@
 # build-advisor contract
 
 Schema version is 2.1.0.
-Package version is 1.0.0.
+Package version is 1.0.1.
 The supported operation is contextual advisory work through develop, challenge, and advise routes.
 Use substates and initial_substate for hierarchy supported by the runtime.
 
@@ -32,6 +32,15 @@ Action type is experiment, review, handoff, or stop.
 Evidence kind is observed, interpretation, assumption, or conviction.
 An observed entry needs an actual source; an assumption is not an observation.
 Do not store credentials or unnecessary personal information.
+
+## Projection identity
+
+jobId, skillName, currentState, events, and lastUpdated are supplied by the runtime's ProjectionContext outside skill context.
+jobId is the job label when named, otherwise the runtime job identifier; do not declare or synthesize it in context_keys.
+Output paths are scoped to that job label, including the runtime archive under jobs/<jobId>/.
+The snapshot's job_id records the label, while run_id comes from events.[0].run_id and identifies the immutable SQLite event stream.
+The decision memo records both identities.
+Reusing a label updates its projected view; use distinct labels for separate projects and the event ledger for immutable run history.
 
 ## Revision and scope rules
 

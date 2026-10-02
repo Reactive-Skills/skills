@@ -1,6 +1,7 @@
 {
   "skill": "{{skillName}}",
-  "run_id": "{{jobId}}",
+  "run_id": {{{json events.[0].run_id}}},
+  "job_id": {{{json jobId}}},
   "state": "{{currentState}}",
   "updated_at": "{{lastUpdated}}",
   "context": {{{json context}}}
