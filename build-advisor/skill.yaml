@@ -1,0 +1,434 @@
+schema_version: 2.1.0
+name: build-advisor
+version: 1.0.0
+type: reactive
+description: >-
+  Develop worthwhile products, challenge existing ideas and experiences, or advise builders on product, leadership,
+  team, business, and career decisions using contextual principles from Tony Fadell's Build.
+initial_state: INIT
+strict_execution: true
+runtime_requirements:
+  min_runtime_version: 0.16.0
+  required_capabilities:
+    - runtime.bootloader
+    - runtime.transport_handshake
+context_keys:
+  - selected_runtime
+  - basis_version
+  - route
+  - situation
+  - evidence
+  - problem
+  - story
+  - experience
+  - learning_plan
+  - assessment
+  - uncertainty_plan
+  - diagnosis
+  - options
+  - recommendation
+  - decision
+  - action
+default_context:
+  basis_version: 1
+  route: null
+  situation: null
+  evidence: []
+  problem: null
+  story: null
+  experience: null
+  learning_plan: null
+  assessment: null
+  uncertainty_plan: null
+  diagnosis: null
+  options: null
+  recommendation: null
+  decision: null
+  action: null
+states:
+  INIT:
+    description: Select a compatible runtime
+    prompt_template: states/init.md
+    model:
+      tier: fast
+    transitions:
+      RUNTIME_READY:
+        target: ACTIVE
+        guard: payload.compatible === true && payload.contextUpdates?.selected_runtime?.compatible === true
+      SETUP_REQUIRED:
+        target: BYPASS_DETECTED
+        guard: payload.compatible === false
+  ACTIVE:
+    description: Shared situation and evidence; global changes bubble from any route
+    prompt_template: states/active/parent.md
+    initial_substate: FRAME
+    transitions:
+      ROUTE_CHANGED:
+        target: ACTIVE.FRAME
+        guard: >-
+          ["develop","challenge","advise"].includes(payload.contextUpdates?.route) && typeof payload.reason === "string"
+          && payload.reason.trim().length > 0
+      SITUATION_CHANGED:
+        target: ACTIVE.FRAME
+        guard: >-
+          Number.isInteger(payload.contextUpdates?.basis_version) && payload.contextUpdates.basis_version ===
+          context.basis_version + 1 && typeof payload.reason === "string" && payload.reason.trim().length > 0
+      CANCEL:
+        target: CANCELLED
+        guard: typeof payload.reason === "string" && payload.reason.trim().length > 0
+    substates:
+      FRAME:
+        description: Capture the decision question, stage, constraints, evidence, and requested route
+        prompt_template: states/active/frame.md
+        model:
+          tier: balanced
+        transitions:
+          DEVELOP_SELECTED:
+            target: ACTIVE.DEVELOP
+            guard: >-
+              payload.contextUpdates?.route === "develop" && payload.contextUpdates?.situation != null && typeof
+              payload.contextUpdates.situation.question === "string" &&
+              payload.contextUpdates.situation.question.trim().length > 0 &&
+              ["product","leadership","business","team","career"].includes(payload.contextUpdates.situation.domain) &&
+              typeof payload.contextUpdates.situation.stage === "string" &&
+              payload.contextUpdates.situation.stage.trim().length > 0 && typeof
+              payload.contextUpdates.situation.decision_owner === "string" &&
+              payload.contextUpdates.situation.decision_owner.trim().length > 0 &&
+              Array.isArray(payload.contextUpdates.situation.constraints) &&
+              Array.isArray(payload.contextUpdates.evidence) && payload.contextUpdates.evidence.every(e => e && typeof
+              e.id === "string" && e.id.trim().length > 0 && typeof e.claim === "string" && e.claim.trim().length > 0 &&
+              ["observed","interpretation","assumption","conviction"].includes(e.kind) && typeof e.source === "string"
+              && e.source.trim().length > 0)
+          CHALLENGE_SELECTED:
+            target: ACTIVE.CHALLENGE
+            guard: >-
+              payload.contextUpdates?.route === "challenge" && payload.contextUpdates?.situation != null && typeof
+              payload.contextUpdates.situation.question === "string" &&
+              payload.contextUpdates.situation.question.trim().length > 0 &&
+              ["product","leadership","business","team","career"].includes(payload.contextUpdates.situation.domain) &&
+              typeof payload.contextUpdates.situation.stage === "string" &&
+              payload.contextUpdates.situation.stage.trim().length > 0 && typeof
+              payload.contextUpdates.situation.decision_owner === "string" &&
+              payload.contextUpdates.situation.decision_owner.trim().length > 0 &&
+              Array.isArray(payload.contextUpdates.situation.constraints) &&
+              Array.isArray(payload.contextUpdates.evidence) && payload.contextUpdates.evidence.every(e => e && typeof
+              e.id === "string" && e.id.trim().length > 0 && typeof e.claim === "string" && e.claim.trim().length > 0 &&
+              ["observed","interpretation","assumption","conviction"].includes(e.kind) && typeof e.source === "string"
+              && e.source.trim().length > 0)
+          ADVISE_SELECTED:
+            target: ACTIVE.ADVISE
+            guard: >-
+              payload.contextUpdates?.route === "advise" && payload.contextUpdates?.situation != null && typeof
+              payload.contextUpdates.situation.question === "string" &&
+              payload.contextUpdates.situation.question.trim().length > 0 &&
+              ["product","leadership","business","team","career"].includes(payload.contextUpdates.situation.domain) &&
+              typeof payload.contextUpdates.situation.stage === "string" &&
+              payload.contextUpdates.situation.stage.trim().length > 0 && typeof
+              payload.contextUpdates.situation.decision_owner === "string" &&
+              payload.contextUpdates.situation.decision_owner.trim().length > 0 &&
+              Array.isArray(payload.contextUpdates.situation.constraints) &&
+              Array.isArray(payload.contextUpdates.evidence) && payload.contextUpdates.evidence.every(e => e && typeof
+              e.id === "string" && e.id.trim().length > 0 && typeof e.claim === "string" && e.claim.trim().length > 0 &&
+              ["observed","interpretation","assumption","conviction"].includes(e.kind) && typeof e.source === "string"
+              && e.source.trim().length > 0)
+        on_enter:
+          - set_context:
+              recommendation: null
+              decision: null
+              action: null
+      DEVELOP:
+        description: Make a worthwhile direction and prototype the whole customer experience
+        prompt_template: states/active/develop/parent.md
+        initial_substate: PROBLEM
+        transitions:
+          REVISE_PROBLEM:
+            target: ACTIVE.DEVELOP.PROBLEM
+            guard: typeof payload.reason === "string" && payload.reason.trim().length > 0
+        substates:
+          PROBLEM:
+            description: Frame recurring customer pain and existing alternatives
+            prompt_template: states/active/develop/problem.md
+            model:
+              tier: reasoning
+            transitions:
+              PROBLEM_FRAMED:
+                target: ACTIVE.DEVELOP.STORY
+                guard: >-
+                  payload.contextUpdates?.problem?.basis_version === context.basis_version && typeof
+                  payload.contextUpdates.problem.customer === "string" &&
+                  payload.contextUpdates.problem.customer.trim().length > 0 && typeof
+                  payload.contextUpdates.problem.pain === "string" && payload.contextUpdates.problem.pain.trim().length
+                  > 0 && typeof payload.contextUpdates.problem.why_now === "string" &&
+                  payload.contextUpdates.problem.why_now.trim().length > 0 &&
+                  Array.isArray(payload.contextUpdates.problem.alternatives) &&
+                  payload.contextUpdates.problem.alternatives.length > 0
+          STORY:
+            description: Explain why the product should exist and what it promises
+            prompt_template: states/active/develop/story.md
+            model:
+              tier: reasoning
+            transitions:
+              STORY_READY:
+                target: ACTIVE.DEVELOP.EXPERIENCE
+                guard: >-
+                  payload.contextUpdates?.story?.basis_version === context.basis_version && typeof
+                  payload.contextUpdates.story.narrative === "string" &&
+                  payload.contextUpdates.story.narrative.trim().length > 0 && typeof
+                  payload.contextUpdates.story.promise === "string" &&
+                  payload.contextUpdates.story.promise.trim().length > 0 &&
+                  Array.isArray(payload.contextUpdates.story.claims)
+          EXPERIENCE:
+            description: Map and prototype every applicable journey stage
+            prompt_template: states/active/develop/experience.md
+            model:
+              tier: reasoning
+            transitions:
+              EXPERIENCE_READY:
+                target: ACTIVE.DEVELOP.LEARNING
+                guard: >-
+                  payload.contextUpdates?.experience?.basis_version === context.basis_version &&
+                  Array.isArray(payload.contextUpdates.experience.touchpoints) &&
+                  ["discovery","evaluation","acquisition","onboarding","use","support","retention","exit"].every(stage
+                  => payload.contextUpdates.experience.touchpoints.some(t => t?.stage === stage &&
+                  ["mapped","needs_test","not_applicable"].includes(t.status) && typeof t.detail === "string" &&
+                  t.detail.trim().length > 0))
+              REVISE_STORY:
+                target: ACTIVE.DEVELOP.STORY
+                guard: typeof payload.reason === "string" && payload.reason.trim().length > 0
+          LEARNING:
+            description: Define constraints, experiments, launch readiness, and later learning
+            prompt_template: states/active/develop/learning.md
+            model:
+              tier: reasoning
+            transitions:
+              DEVELOPMENT_READY:
+                target: ACTIVE.DECISION
+                guard: >-
+                  payload.contextUpdates?.learning_plan?.basis_version === context.basis_version &&
+                  Array.isArray(payload.contextUpdates.learning_plan.experiments) &&
+                  Array.isArray(payload.contextUpdates.learning_plan.milestones) &&
+                  payload.contextUpdates.learning_plan.milestones.length > 0 && typeof
+                  payload.contextUpdates.learning_plan.launch_criteria === "string" &&
+                  payload.contextUpdates.learning_plan.launch_criteria.trim().length > 0 && typeof
+                  payload.contextUpdates.learning_plan.next_generation === "string" &&
+                  payload.contextUpdates.learning_plan.next_generation.trim().length > 0 &&
+                  payload.contextUpdates?.recommendation?.basis_version === context.basis_version &&
+                  payload.contextUpdates.recommendation.route === context.route &&
+                  ["proceed","revise","investigate","defer","stop"].includes(payload.contextUpdates.recommendation.direction)
+                  && typeof payload.contextUpdates.recommendation.rationale === "string" &&
+                  payload.contextUpdates.recommendation.rationale.trim().length > 0 &&
+                  Array.isArray(payload.contextUpdates.recommendation.limitations)
+      CHALLENGE:
+        description: Stress-test an existing proposal without inventing defects
+        prompt_template: states/active/challenge/parent.md
+        initial_substate: INSPECT
+        transitions:
+          REVISE_REVIEW:
+            target: ACTIVE.CHALLENGE.INSPECT
+            guard: typeof payload.reason === "string" && payload.reason.trim().length > 0
+        substates:
+          INSPECT:
+            description: Inspect the actual proposal or experience and its promises
+            prompt_template: states/active/challenge/inspect.md
+            model:
+              tier: reasoning
+            transitions:
+              REVIEW_SCOPED:
+                target: ACTIVE.CHALLENGE.STRESS_TEST
+                guard: >-
+                  payload.contextUpdates?.assessment?.basis_version === context.basis_version && typeof
+                  payload.contextUpdates.assessment.artifact === "string" &&
+                  payload.contextUpdates.assessment.artifact.trim().length > 0 && typeof
+                  payload.contextUpdates.assessment.summary === "string" &&
+                  payload.contextUpdates.assessment.summary.trim().length > 0 &&
+                  Array.isArray(payload.contextUpdates.assessment.findings)
+          STRESS_TEST:
+            description: Design bounded tests for consequential unknowns
+            prompt_template: states/active/challenge/stress_test.md
+            model:
+              tier: reasoning
+            transitions:
+              TESTS_DEFINED:
+                target: ACTIVE.CHALLENGE.VERDICT
+                guard: >-
+                  payload.contextUpdates?.uncertainty_plan?.basis_version === context.basis_version &&
+                  Array.isArray(payload.contextUpdates.uncertainty_plan.tests) &&
+                  (payload.contextUpdates.uncertainty_plan.tests.length > 0 || (typeof
+                  payload.contextUpdates.uncertainty_plan.no_test_reason === "string" &&
+                  payload.contextUpdates.uncertainty_plan.no_test_reason.trim().length > 0)) &&
+                  payload.contextUpdates.uncertainty_plan.tests.every(t => t && typeof t.question === "string" &&
+                  t.question.trim().length > 0 && typeof t.method === "string" && t.method.trim().length > 0 && typeof
+                  t.measure === "string" && t.measure.trim().length > 0 && typeof t.deadline === "string" &&
+                  t.deadline.trim().length > 0 && ["planned","observed"].includes(t.status) &&
+                  Array.isArray(t.evidence_refs) && (t.status === "planned" || (t.evidence_refs.length > 0 &&
+                  t.evidence_refs.every(id => context.evidence.some(e => e.id === id && e.kind === "observed")))))
+          VERDICT:
+            description: Recommend pursue, revise, investigate, defer, or stop with uncertainty
+            prompt_template: states/active/challenge/verdict.md
+            model:
+              tier: reasoning
+            transitions:
+              VERDICT_READY:
+                target: ACTIVE.DECISION
+                guard: >-
+                  payload.contextUpdates?.recommendation?.basis_version === context.basis_version &&
+                  payload.contextUpdates.recommendation.route === context.route &&
+                  ["proceed","revise","investigate","defer","stop"].includes(payload.contextUpdates.recommendation.direction)
+                  && typeof payload.contextUpdates.recommendation.rationale === "string" &&
+                  payload.contextUpdates.recommendation.rationale.trim().length > 0 &&
+                  Array.isArray(payload.contextUpdates.recommendation.limitations)
+      ADVISE:
+        description: Diagnose a concrete builder decision and compare tradeoffs
+        prompt_template: states/active/advise/parent.md
+        initial_substate: DIAGNOSE
+        transitions:
+          REVISE_DIAGNOSIS:
+            target: ACTIVE.ADVISE.DIAGNOSE
+            guard: typeof payload.reason === "string" && payload.reason.trim().length > 0
+        substates:
+          DIAGNOSE:
+            description: Identify the underlying builder decision and relevant principles
+            prompt_template: states/active/advise/diagnose.md
+            model:
+              tier: reasoning
+            transitions:
+              DIAGNOSIS_READY:
+                target: ACTIVE.ADVISE.OPTIONS
+                guard: >-
+                  payload.contextUpdates?.diagnosis?.basis_version === context.basis_version && typeof
+                  payload.contextUpdates.diagnosis.issue === "string" &&
+                  payload.contextUpdates.diagnosis.issue.trim().length > 0 && typeof
+                  payload.contextUpdates.diagnosis.decision_type === "string" &&
+                  payload.contextUpdates.diagnosis.decision_type.trim().length > 0 &&
+                  Array.isArray(payload.contextUpdates.diagnosis.principles) &&
+                  payload.contextUpdates.diagnosis.principles.length > 0
+          OPTIONS:
+            description: Compare feasible options and their consequences
+            prompt_template: states/active/advise/options.md
+            model:
+              tier: reasoning
+            transitions:
+              OPTIONS_READY:
+                target: ACTIVE.ADVISE.RECOMMEND
+                guard: >-
+                  payload.contextUpdates?.options?.basis_version === context.basis_version &&
+                  Array.isArray(payload.contextUpdates.options.choices) && payload.contextUpdates.options.choices.length
+                  >= 2 && payload.contextUpdates.options.choices.every(o => o && typeof o.choice === "string" &&
+                  o.choice.trim().length > 0 && typeof o.consequences === "string" && o.consequences.trim().length > 0)
+          RECOMMEND:
+            description: Recommend a direction, responsible owner, and communication
+            prompt_template: states/active/advise/recommend.md
+            model:
+              tier: reasoning
+            transitions:
+              ADVICE_READY:
+                target: ACTIVE.DECISION
+                guard: >-
+                  payload.contextUpdates?.recommendation?.basis_version === context.basis_version &&
+                  payload.contextUpdates.recommendation.route === context.route &&
+                  ["proceed","revise","investigate","defer","stop"].includes(payload.contextUpdates.recommendation.direction)
+                  && typeof payload.contextUpdates.recommendation.rationale === "string" &&
+                  payload.contextUpdates.recommendation.rationale.trim().length > 0 &&
+                  Array.isArray(payload.contextUpdates.recommendation.limitations)
+      DECISION:
+        description: Present the recommendation and obtain an explicit human decision
+        prompt_template: states/active/decision.md
+        model:
+          tier: balanced
+        transitions:
+          DECISION_ACCEPTED:
+            target: ACTIVE.NEXT_ACTION
+            guard: >-
+              payload.approved === true && typeof payload.approval_source === "string" &&
+              payload.approval_source.trim().length > 0 && payload.contextUpdates?.decision?.basis_version ===
+              context.basis_version && context.recommendation?.basis_version === context.basis_version &&
+              context.recommendation?.route === context.route &&
+              ["proceed","revise","investigate","defer","stop"].includes(payload.contextUpdates.decision.direction) &&
+              typeof payload.contextUpdates.decision.rationale === "string" &&
+              payload.contextUpdates.decision.rationale.trim().length > 0 && typeof
+              payload.contextUpdates.decision.owner === "string" && payload.contextUpdates.decision.owner.trim().length
+              > 0
+          DECISION_REVISED:
+            target: ACTIVE.FRAME
+            guard: typeof payload.feedback === "string" && payload.feedback.trim().length > 0
+        human_gate:
+          type: approval
+          tool: chat
+          prompt: Review the recommendation, uncertainty, and alternatives; choose or revise the direction.
+          auto_stop: true
+      NEXT_ACTION:
+        description: Assign the next action and define when to revisit the decision
+        prompt_template: states/active/next_action.md
+        model:
+          tier: balanced
+        transitions:
+          ACTION_PLANNED:
+            target: ACTIVE.AWAIT_EVIDENCE
+            guard: >-
+              payload.contextUpdates?.action?.basis_version === context.basis_version && typeof
+              payload.contextUpdates.action.owner === "string" && payload.contextUpdates.action.owner.trim().length > 0
+              && typeof payload.contextUpdates.action.next_step === "string" &&
+              payload.contextUpdates.action.next_step.trim().length > 0 && typeof
+              payload.contextUpdates.action.review_trigger === "string" &&
+              payload.contextUpdates.action.review_trigger.trim().length > 0 && context.decision?.basis_version ===
+              context.basis_version && ["experiment","review"].includes(payload.contextUpdates.action.type)
+          HANDOFF_READY:
+            target: COMPLETED
+            guard: >-
+              payload.contextUpdates?.action?.basis_version === context.basis_version && typeof
+              payload.contextUpdates.action.owner === "string" && payload.contextUpdates.action.owner.trim().length > 0
+              && typeof payload.contextUpdates.action.next_step === "string" &&
+              payload.contextUpdates.action.next_step.trim().length > 0 && typeof
+              payload.contextUpdates.action.review_trigger === "string" &&
+              payload.contextUpdates.action.review_trigger.trim().length > 0 && context.decision?.basis_version ===
+              context.basis_version && ["handoff","stop"].includes(payload.contextUpdates.action.type) &&
+              payload.handoff_delivered === true
+      AWAIT_EVIDENCE:
+        description: Wait for actual external results without manufacturing progress
+        prompt_template: states/active/await_evidence.md
+        model:
+          tier: balanced
+        transitions:
+          RESULTS_RECEIVED:
+            target: ACTIVE.FRAME
+            guard: >-
+              Number.isInteger(payload.contextUpdates?.basis_version) && payload.contextUpdates.basis_version ===
+              context.basis_version + 1 && Array.isArray(payload.contextUpdates.evidence) &&
+              Array.isArray(payload.result_refs) && payload.result_refs.length > 0 && payload.result_refs.every(id =>
+              payload.contextUpdates.evidence.some(e => e?.id === id && e.kind === "observed" && typeof e.claim ===
+              "string" && e.claim.trim().length > 0 && typeof e.source === "string" && e.source.trim().length > 0) &&
+              !context.evidence.some(e => e.id === id))
+        human_gate:
+          type: text
+          tool: chat
+          prompt: Return with observed results and their sources, or request a route change or handoff.
+          auto_stop: true
+  COMPLETED:
+    description: Decision and handoff delivered
+    prompt_template: states/completed.md
+    model:
+      tier: fast
+    transitions: {}
+  CANCELLED:
+    description: User cancelled this advisory run
+    prompt_template: states/cancelled.md
+    model:
+      tier: fast
+    transitions: {}
+  BYPASS_DETECTED:
+    description: Stop and recover when runtime compatibility or signal contract fails
+    prompt_template: states/bypass_detected.md
+    model:
+      tier: fast
+    transitions: {}
+deliverable_projections:
+  - template: templates/decision.md.hbs
+    output: .docs/build-advisor/{{jobId}}/decision.md
+    trigger_on:
+      - DECISION_ACCEPTED
+      - ACTION_PLANNED
+      - HANDOFF_READY
+  - template: templates/snapshot.json.hbs
+    output: .docs/build-advisor/{{jobId}}/snapshot.json
+    trigger_on:
+      - STATE_TRANSITION

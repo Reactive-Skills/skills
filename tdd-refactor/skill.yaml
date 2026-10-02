@@ -1,6 +1,6 @@
 schema_version: "2.1.0"
 name: tdd-refactor
-version: "2.0.2"
+version: "2.0.3"
 description: >-
   Hierarchical TDD & Refactoring state machine with nested micro-cycles,
   regression detection, event bubbling, and live projections

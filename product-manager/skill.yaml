@@ -1,5 +1,5 @@
 schema_version: 2.1.0
-version: 1.0.0
+version: 1.0.1
 name: product-manager
 description: >-
   Event-driven product management and opportunity realization engine. Orchestrates

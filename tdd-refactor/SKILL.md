@@ -1,6 +1,6 @@
 ---
 name: tdd-refactor
-description: Skill: tdd-refactor
+description: "Hierarchical TDD & Refactoring state machine with nested micro-cycles, regression detection, event bubbling, and live projections"
 type: reactive
 ---
 

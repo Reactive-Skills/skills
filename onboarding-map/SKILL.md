@@ -1,3 +1,8 @@
+---
+name: onboarding-map
+description: "Codebase onboarding workflow: intake role and scope, scan architecture and ownership, map modules and dependencies, design a personalized learning path, review with stakeholders, and approve completion."
+---
+
 <!-- REACTIVE BOOTLOADER -->
 > The authoritative bootloader is served by the Reactive Skills runtime.
 > Retrieve it before loading full skill context:

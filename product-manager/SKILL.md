@@ -1,3 +1,8 @@
+---
+name: product-manager
+description: "Event-driven product management and opportunity realization engine. Orchestrates opportunity discovery & worthwhileness research (new green-field projects vs existing product feature enhancements), strategic goal alignment, SMART requirement scoping, Eisenhower matrix prioritization, and lean vertical slice architecture."
+---
+
 <!-- REACTIVE BOOTLOADER -->
 > The authoritative bootloader is served by the Reactive Skills runtime.
 > Retrieve it before loading full skill context:

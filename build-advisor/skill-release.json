@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "skillId": "product-manager",
+  "skillId": "build-advisor",
   "channel": "stable",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "type": "reactive",
   "reactiveSchemaVersion": "2.1.0"
 }
