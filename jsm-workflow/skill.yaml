@@ -196,14 +196,15 @@ states:
             target: ACTIVE.DOD_AUDIT
             judgment:
               type: predicate
-              criterion: "Does the delivered output satisfy the single approved assertion in `context.dod_record.active_check.question`, based only on `context.dod_record.active_check.expected_result` and `context.dod_record.active_check.evidence`?"
+              criterion: "Does the delivered output satisfy the single approved assertion in `event.contextUpdates.dod_record.active_check.question` (or `context.dod_record.active_check.question` when this signal omits it), based only on that check's `expected_result` and `evidence`?"
               # The runtime scores a Jev predicate as confidence = |2p - 1|, so 0.70 passes a true verdict at probability p >= 0.85.
               min_confidence: 0.70
               adapter_hint: jev
               fallback_target: ACTIVE.DEVELOP
           DOD_AUDIT_PASSED:
             target: COMPLETE
-            guard: "context.dod_record && Array.isArray(context.dod_record.criteria) && context.dod_record.criteria.length > 0 && context.dod_record.criteria.every(item => item && item.status === 'passed' && typeof item.evidence === 'string' && item.evidence.trim().length > 0)"
+            # Guards read the stored context before this signal's contextUpdates merge, so check the record this signal would store.
+            guard: "(record => Boolean(record) && Array.isArray(record.criteria) && record.criteria.length > 0 && record.criteria.every(item => item && item.status === 'passed' && typeof item.evidence === 'string' && item.evidence.trim().length > 0))((payload.contextUpdates && payload.contextUpdates.dod_record) || context.dod_record)"
           DOD_AUDIT_REPAIR_REQUIRED:
             target: ACTIVE.DEVELOP
           DOD_AUDIT_BLOCKED:

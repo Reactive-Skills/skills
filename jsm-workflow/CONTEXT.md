@@ -91,6 +91,8 @@ Do not put secrets, credentials, private tokens, or unrelated chat history into 
 Each DoD criterion has a unique `id`, one atomic `question`, `expected_result`, `check_type`, `evidence_method`, optional exact `command`, `status`, and evidence.
 `dod_audit_record` contains per-item results, Jev probability, exact command results, failed item IDs, passed and failed counts, and evidence location.
 The exact completion guard independently requires every criterion to be marked passed with evidence.
+Guards read the stored context before a signal's `contextUpdates` merge, so the completion guard checks the `dod_record` carried by `DOD_AUDIT_PASSED`, or the stored record when the signal omits it.
+The DoD check judgment likewise reads the active check from the signal before the stored record.
 
 ## ADR Policy
 

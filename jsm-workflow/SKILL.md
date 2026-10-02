@@ -52,6 +52,7 @@ The DoD names the outcome, deliverables and locations, setup and use, observable
 Scope and architecture recommendations appear in the same approval card.
 After approval, exact checks run deterministically and Jev judges semantic criteria at a 0.85 probability pass threshold.
 The runtime scores a Jev probability `p` as confidence `|2p - 1|`, so the judgment declares `min_confidence: 0.70`, which is exactly `p >= 0.85`.
+The completion guard checks the `dod_record` carried by `DOD_AUDIT_PASSED`, or the stored record when the signal omits it.
 The workflow repairs failed criteria and reruns affected checks.
 The workflow requests approval again only for a focused DoD diff after an accepted outcome or load-bearing decision changes.
 The workflow reaches COMPLETE only after every DoD criterion passes with recorded evidence.
