@@ -1,0 +1,9 @@
+<!-- REACTIVE BOOTLOADER -->
+> The authoritative bootloader is served by the Reactive Skills runtime.
+> Retrieve it before loading full skill context:
+> - MCP: call `reactive_bootloader` with `skill_name: "{{skill_name}}"`.
+> - AXI: run `reactive-skills-axi bootloader {{skill_name}} --json`.
+> - Zero-install AXI: run `npx -y @reactive-skills/axi bootloader {{skill_name}} --json`.
+> Follow the returned `instructions`, then call `reactive_context_prepare` before assembling prompt context when MCP is available.
+> If bootloader retrieval is unavailable, continue with the directly requested runtime path and do not preload unrelated skill context.
+<!-- END REACTIVE BOOTLOADER -->

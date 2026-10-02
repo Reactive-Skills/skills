@@ -18,3 +18,5 @@ Direction is proceed, revise, investigate, defer, or stop.
 - [ ] Both records use context.basis_version.
 
 Emit: DEVELOPMENT_READY with learning_plan and recommendation in payload.contextUpdates.
+
+Emit: ROUTE_CHANGED, SITUATION_CHANGED, CANCEL, REVISE_PROBLEM using the shared event contract in CONTEXT.md.

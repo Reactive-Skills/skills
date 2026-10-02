@@ -20,3 +20,5 @@ Save context.experience with basis_version and touchpoints.
 
 Emit: EXPERIENCE_READY with experience in payload.contextUpdates.
 Emit: REVISE_STORY with a reason when its promise needs revision.
+
+Emit: ROUTE_CHANGED, SITUATION_CHANGED, CANCEL, REVISE_PROBLEM using the shared event contract in CONTEXT.md.

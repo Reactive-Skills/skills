@@ -9,7 +9,7 @@ Use substates and initial_substate for hierarchy supported by the runtime.
 
 | Key | Meaning |
 | --- | --- |
-| selected_runtime | Compatible transport, launcher, version, and capabilities selected at INIT. |
+| selected_runtime | Compatible transport, launcher, version, capabilities, and verified parent dispatch selected at INIT. |
 | basis_version | Positive revision number for the current situation and evidence. |
 | route | develop, challenge, or advise. |
 | situation | question, domain, stage, decision_owner, and constraints. |
@@ -42,6 +42,12 @@ FRAME clears pending recommendation, decision, and action while retaining eviden
 Prior artifacts may be reused only after their assumptions remain valid under the current basis.
 Old-basis route records cannot satisfy fresh output guards.
 The runtime preserves the active leaf and ledger; no history pseudo-state extension is assumed.
+CANCEL, ROUTE_CHANGED, and SITUATION_CHANGED are declared once on ACTIVE and inherited by every active descendant.
+REVISE_PROBLEM, REVISE_REVIEW, and REVISE_DIAGNOSIS belong to their respective route parents.
+All cancellations use one nonempty reason guard and one CANCELLED destination.
+Unmodified runtime 0.16.0 has a SQLite ancestor-dispatch version conflict.
+Use a runtime build containing the repair and set selected_runtime.parent_dispatch_verified only after its inherited-cancellation acceptance test passes.
+Nested states still express the three independent routes and their local revision loops.
 
 ## Human responsibility
 

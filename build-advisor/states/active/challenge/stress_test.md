@@ -18,3 +18,5 @@ Save context.uncertainty_plan with basis_version, tests, and no_test_reason.
 - [ ] Record uses context.basis_version.
 
 Emit: TESTS_DEFINED with uncertainty_plan in payload.contextUpdates.
+
+Emit: ROUTE_CHANGED, SITUATION_CHANGED, CANCEL, REVISE_REVIEW using the shared event contract in CONTEXT.md.

@@ -18,3 +18,5 @@ Save context.diagnosis with basis_version, issue, decision_type, and principles.
 - [ ] Record uses context.basis_version.
 
 Emit: DIAGNOSIS_READY with diagnosis in payload.contextUpdates.
+
+Emit: ROUTE_CHANGED, SITUATION_CHANGED, CANCEL, REVISE_DIAGNOSIS using the shared event contract in CONTEXT.md.

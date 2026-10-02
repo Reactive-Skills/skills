@@ -19,3 +19,5 @@ Retain context.basis_version unless circumstances changed.
 - [ ] Selected route matches the requested work.
 
 Emit: DEVELOP_SELECTED, CHALLENGE_SELECTED, or ADVISE_SELECTED with situation, route, and evidence in payload.contextUpdates.
+
+Emit: ROUTE_CHANGED, SITUATION_CHANGED, CANCEL using the shared event contract in CONTEXT.md.
