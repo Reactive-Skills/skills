@@ -9,6 +9,7 @@ type: reactive
 ## Objective
 
 Get approval only when evidence or a load-bearing decision changes the accepted outcome.
+This state is entered from ARCHITECT through `DOD_AMENDMENT_REQUIRED`, or from any active phase through the bubbled `DOD_CHANGE_REQUESTED`, which carries `dod_record.pending_diff`, `revision_reason`, and `downstream_work_to_rerun`.
 
 ## Required diff
 

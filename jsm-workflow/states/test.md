@@ -26,6 +26,7 @@ If a required environment change is unapproved, request a DoD diff.
 Use an existing project command or record why none can run.
 Record non-automatable criteria for verification.
 If evidence changes a decision, emit `DECISION_REOPENED`.
+If the user or evidence changes the approved outcome without reopening a decision, emit `DOD_CHANGE_REQUESTED` with the full `dod_record` plus `pending_diff`, `revision_reason`, and `downstream_work_to_rerun`.
 
 ## Atomic Gate
 
@@ -36,4 +37,4 @@ If evidence changes a decision, emit `DECISION_REOPENED`.
 ## Task
 
 Update `test_record` with scope, strategy, files, command, result, gaps, and install status.
-Emit `TEST_PASSED`, `TEST_FAILED`, `TEST_DEFERRED`, or `DECISION_REOPENED`.
+Emit `TEST_PASSED`, `TEST_FAILED`, `TEST_DEFERRED`, `DECISION_REOPENED`, or `DOD_CHANGE_REQUESTED`.

@@ -25,6 +25,7 @@ Do not mark a criterion passed without observed evidence.
 Record unavailable environment or credentials as a deferred check.
 Compare ambiguous behavior to the approved scope or spec.
 If evidence invalidates an accepted decision, emit `DECISION_REOPENED`.
+If the user or evidence changes the approved outcome without reopening a decision, emit `DOD_CHANGE_REQUESTED` with the full `dod_record` plus `pending_diff`, `revision_reason`, and `downstream_work_to_rerun`.
 
 ## Atomic Gate
 
@@ -35,4 +36,4 @@ If evidence invalidates an accepted decision, emit `DECISION_REOPENED`.
 ## Task
 
 Update `verification_record` with checks, pass state, failures, deferred items, evidence, and next action.
-Emit `VERIFY_PASSED`, `VERIFY_FAILED`, `VERIFY_DEFERRED`, or `DECISION_REOPENED`.
+Emit `VERIFY_PASSED`, `VERIFY_FAILED`, `VERIFY_DEFERRED`, `DECISION_REOPENED`, or `DOD_CHANGE_REQUESTED`.

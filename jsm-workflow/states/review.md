@@ -25,6 +25,7 @@ Do not claim pass without noting relevant gaps.
 
 Derive unclear scope from git or identify missing targets.
 If architecture or requirements are wrong, emit `DECISION_REOPENED`.
+If the user or evidence changes the approved outcome without reopening a decision, emit `DOD_CHANGE_REQUESTED` with the full `dod_record` plus `pending_diff`, `revision_reason`, and `downstream_work_to_rerun`.
 
 ## Atomic Gate
 
@@ -35,4 +36,4 @@ If architecture or requirements are wrong, emit `DECISION_REOPENED`.
 ## Task
 
 Update `review_record` with scope, findings, missing tests, risk, and result.
-Emit `REVIEW_PASSED`, `REVIEW_FINDINGS`, `REVIEW_DEFERRED`, or `DECISION_REOPENED`.
+Emit `REVIEW_PASSED`, `REVIEW_FINDINGS`, `REVIEW_DEFERRED`, `DECISION_REOPENED`, or `DOD_CHANGE_REQUESTED`.

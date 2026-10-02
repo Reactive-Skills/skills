@@ -24,7 +24,8 @@ It unifies the nine discrete JSM workflow skills (`scope`, `audit`, `architect`,
 
 The workflow presents one concise Definition of Done before implementation.
 The approval card names the outcome, deliverables and locations, setup and use, itemized checks and evidence, assumptions, gotchas, exclusions, decisions, and planned external actions.
-Exact checks run deterministically; Jev judges semantic checks at a 0.85 confidence threshold, with each question tied to one criterion ID.
+Exact checks run deterministically; Jev judges semantic checks at a 0.85 probability threshold, with each question tied to one criterion ID.
+The runtime scores a Jev probability `p` as confidence `|2p - 1|`, so `skill.yaml` declares `min_confidence: 0.70`, which is exactly `p >= 0.85`.
 Failed criteria return to the agent with the unsupported assertions and evidence, then route through repair and re-check.
 The workflow asks for another approval only for a focused DoD diff after an accepted outcome or load-bearing decision changes.
 
@@ -91,7 +92,7 @@ stateDiagram-v2
     }
 
     ACTIVE --> ARCHITECT : DECISION_REOPENED (Bubbled from any active phase)
-    ACTIVE --> DOD_AMENDMENT : DOD_CHANGE_REQUESTED
+    ACTIVE --> DOD_AMENDMENT : DOD_CHANGE_REQUESTED (Bubbled from any active phase)
     COMPLETE --> [*]
     BLOCKED --> [*]
     ERROR --> [*]
@@ -165,7 +166,7 @@ jsm-workflow/
 ├── skill-release.json
 ├── skill.yaml
 ├── guards/
-│   └── .gitkeep
+│   └── workflow.test.cjs
 ├── states/
 │   ├── architect.md
 │   ├── audit.md
@@ -195,6 +196,18 @@ jsm-workflow/
     ├── review.md.hbs
     └── verification.md.hbs
 ```
+
+## Validate
+
+```bash
+node scripts/validate-skills.js jsm-workflow --no-runtime
+node --test jsm-workflow/guards/workflow.test.cjs
+```
+
+The acceptance scenarios cover the bubbled `DOD_CHANGE_REQUESTED` and `DECISION_REOPENED` events, the Jev probability threshold at 0.84, 0.85, and 0.86, and the completion guard.
+They stub the TypeSafe SDK that the runtime loads, so no Jev key or network is needed.
+Bubbled events need a runtime that keeps run version checks valid during bubbling; Reactive Skills 0.16.0 rejects them with `RUN_VERSION_CONFLICT`.
+To test a local runtime build, set `JSM_WORKFLOW_RUNTIME` to its absolute `dist/index.js` path before running the acceptance suite.
 
 ---
 

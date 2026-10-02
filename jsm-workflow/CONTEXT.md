@@ -28,7 +28,8 @@ It syncs durable context, scope status, and decision status from repo evidence.
 Each implementation route converges on one DoD approval before changes begin.
 The concise approval card records outcome, deliverables and locations, setup and use, itemized criteria with observable results and evidence methods, boundaries, assumptions, gotchas, approved decisions, and planned external actions.
 Scope, workflow tier, architecture, UI direction, and optional documentation recommendations appear in that same approval card.
-After approval, exact checks run deterministically and Jev judges semantic criteria at a 0.85 pass threshold.
+After approval, exact checks run deterministically and Jev judges semantic criteria at a 0.85 probability pass threshold.
+The runtime scores a Jev probability `p` as confidence `|2p - 1|`, so the judgment declares `min_confidence: 0.70`, which is exactly `p >= 0.85`.
 Each semantic check includes a focused question tied to one criterion ID; a failed judgment records unsupported assertions and routes those items to repair and re-verification.
 The lifecycle reaches COMPLETE only when all approved criteria pass with evidence.
 Unmet work ends in BLOCKED.
@@ -76,7 +77,8 @@ Exact DoD checks remain executable commands or guards and never go through Jev.
 `DECISION_REOPENED` is handled once by the `ACTIVE` compound parent and bubbles from any active child phase.
 Its transition targets `ACTIVE.ARCHITECT`, where the decision and ADR are revised before context and build work resume.
 When a phase emits it, preserve that phase record and add `reopened_from`, `reason`, and `downstream_work_to_rerun` to `decision_record`.
-`DOD_CHANGE_REQUESTED` bubbles to `ACTIVE.DOD_AMENDMENT` and carries the proposed diff, reason, and downstream work to rerun.
+`DOD_CHANGE_REQUESTED` is handled once by the `ACTIVE` compound parent, bubbles from any active child phase to `ACTIVE.DOD_AMENDMENT`, and carries the proposed diff, reason, and downstream work to rerun.
+Emit it with the full `dod_record` plus `pending_diff`, `revision_reason`, and `downstream_work_to_rerun`, because `contextUpdates` replaces each top level record.
 
 ## Projection Records
 
@@ -89,6 +91,8 @@ Do not put secrets, credentials, private tokens, or unrelated chat history into 
 Each DoD criterion has a unique `id`, one atomic `question`, `expected_result`, `check_type`, `evidence_method`, optional exact `command`, `status`, and evidence.
 `dod_audit_record` contains per-item results, Jev probability, exact command results, failed item IDs, passed and failed counts, and evidence location.
 The exact completion guard independently requires every criterion to be marked passed with evidence.
+Guards read the stored context before a signal's `contextUpdates` merge, so the completion guard checks the `dod_record` carried by `DOD_AUDIT_PASSED`, or the stored record when the signal omits it.
+The DoD check judgment likewise reads the active check from the signal before the stored record.
 
 ## ADR Policy
 
