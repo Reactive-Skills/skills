@@ -4,7 +4,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { createRequire } = require('node:module');
 const { pathToFileURL } = require('node:url');
-const { execFileSync } = require('node:child_process');
+const { execSync } = require('node:child_process');
 const { test } = require('node:test');
 
 const skillDir = path.resolve(__dirname, '..');
@@ -18,7 +18,9 @@ function runtime() {
       try {
         runtimeEntry = require.resolve('@reactive-skills/runtime');
       } catch {
-        const globalRoot = execFileSync('npm', ['root', '-g'], { encoding: 'utf8', shell: process.platform === 'win32' }).trim();
+        // One command string through the shell finds npm.cmd on Windows without the argument
+        // array that Node 24 deprecates alongside `shell` (DEP0190).
+        const globalRoot = execSync('npm root -g', { encoding: 'utf8' }).trim();
         const axiRequire = createRequire(path.join(globalRoot, '@reactive-skills/axi/package.json'));
         runtimeEntry = axiRequire.resolve('@reactive-skills/runtime');
       }
