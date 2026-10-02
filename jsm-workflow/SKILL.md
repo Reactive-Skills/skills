@@ -46,7 +46,8 @@ Use this instead of forcing the current phase to patch around a changed decision
 The workflow drafts one DoD after scope, design, and context discovery, then waits for one approval before implementation.
 The DoD names the outcome, deliverables and locations, setup and use, observable checks with evidence methods, assumptions, gotchas, exclusions, approved decisions, and planned external actions.
 Scope and architecture recommendations appear in the same approval card.
-After approval, exact checks run deterministically and Jev judges semantic criteria at a 0.85 pass threshold.
+After approval, exact checks run deterministically and Jev judges semantic criteria at a 0.85 probability pass threshold.
+The runtime scores a Jev probability `p` as confidence `|2p - 1|`, so the judgment declares `min_confidence: 0.70`, which is exactly `p >= 0.85`.
 The workflow repairs failed criteria and reruns affected checks.
 The workflow requests approval again only for a focused DoD diff after an accepted outcome or load-bearing decision changes.
 The workflow reaches COMPLETE only after every DoD criterion passes with recorded evidence.

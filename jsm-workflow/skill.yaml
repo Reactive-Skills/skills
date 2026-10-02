@@ -1,6 +1,6 @@
 schema_version: 2.1.0
 name: jsm-workflow
-version: 1.1.0
+version: 1.2.0
 description: Reactive SDLC coordinator taking software changes from intake to final context sync, implementing the JS Mastery Engineering Workflow (https://jsmastery.com/skills).
 initial_state: INIT
 strict_execution: true
@@ -195,7 +195,8 @@ states:
             judgment:
               type: predicate
               criterion: "Does the delivered output satisfy the single approved assertion in `context.dod_record.active_check.question`, based only on `context.dod_record.active_check.expected_result` and `context.dod_record.active_check.evidence`?"
-              min_confidence: 0.85
+              # The runtime scores a Jev predicate as confidence = |2p - 1|, so 0.70 passes a true verdict at probability p >= 0.85.
+              min_confidence: 0.70
               adapter_hint: jev
               fallback_target: ACTIVE.DEVELOP
           DOD_AUDIT_PASSED:

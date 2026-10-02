@@ -15,6 +15,7 @@ Prove the delivered result meets every approved criterion.
 Run exact commands deterministically and record results and evidence.
 For each semantic item, set `dod_record.active_check` to its ID, atomic yes/no question, expected result, and evidence; emit `DOD_CHECK_SUBMITTED` for the configured decider, Jev by default.
 Pass semantic items only at probability 0.85 or higher.
+The judgment declares `min_confidence: 0.70` because the runtime scores a Jev probability `p` as confidence `|2p - 1|`, and 0.70 is exactly `p >= 0.85` for a true verdict.
 Jev returns probabilities, not explanations; use failed item IDs to make repair tasks.
 If authority or access is missing, emit `DOD_AUDIT_BLOCKED` with the exact blocker.
 

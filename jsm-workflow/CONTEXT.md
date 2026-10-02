@@ -28,7 +28,8 @@ It syncs durable context, scope status, and decision status from repo evidence.
 Each implementation route converges on one DoD approval before changes begin.
 The concise approval card records outcome, deliverables and locations, setup and use, itemized criteria with observable results and evidence methods, boundaries, assumptions, gotchas, approved decisions, and planned external actions.
 Scope, workflow tier, architecture, UI direction, and optional documentation recommendations appear in that same approval card.
-After approval, exact checks run deterministically and Jev judges semantic criteria at a 0.85 pass threshold.
+After approval, exact checks run deterministically and Jev judges semantic criteria at a 0.85 probability pass threshold.
+The runtime scores a Jev probability `p` as confidence `|2p - 1|`, so the judgment declares `min_confidence: 0.70`, which is exactly `p >= 0.85`.
 Each semantic check includes a focused question tied to one criterion ID; a failed judgment records unsupported assertions and routes those items to repair and re-verification.
 The lifecycle reaches COMPLETE only when all approved criteria pass with evidence.
 Unmet work ends in BLOCKED.
