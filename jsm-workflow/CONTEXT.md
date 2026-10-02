@@ -77,7 +77,8 @@ Exact DoD checks remain executable commands or guards and never go through Jev.
 `DECISION_REOPENED` is handled once by the `ACTIVE` compound parent and bubbles from any active child phase.
 Its transition targets `ACTIVE.ARCHITECT`, where the decision and ADR are revised before context and build work resume.
 When a phase emits it, preserve that phase record and add `reopened_from`, `reason`, and `downstream_work_to_rerun` to `decision_record`.
-`DOD_CHANGE_REQUESTED` bubbles to `ACTIVE.DOD_AMENDMENT` and carries the proposed diff, reason, and downstream work to rerun.
+`DOD_CHANGE_REQUESTED` is handled once by the `ACTIVE` compound parent, bubbles from any active child phase to `ACTIVE.DOD_AMENDMENT`, and carries the proposed diff, reason, and downstream work to rerun.
+Emit it with the full `dod_record` plus `pending_diff`, `revision_reason`, and `downstream_work_to_rerun`, because `contextUpdates` replaces each top level record.
 
 ## Projection Records
 

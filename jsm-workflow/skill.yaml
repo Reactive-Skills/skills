@@ -103,6 +103,8 @@ states:
     transitions:
       DECISION_REOPENED:
         target: ACTIVE.ARCHITECT
+      DOD_CHANGE_REQUESTED:
+        target: ACTIVE.DOD_AMENDMENT
     substates:
       INTAKE:
         description: Capture the work request, repo state, and completion target.

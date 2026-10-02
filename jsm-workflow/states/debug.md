@@ -25,6 +25,7 @@ Route design flaws back to ARCHITECT.
 
 If reproduction data or access is missing, name the exact blocker.
 If causes compete, record the hypothesis and proving experiment.
+If the user or evidence changes the approved outcome without reopening a decision, emit `DOD_CHANGE_REQUESTED` with the full `dod_record` plus `pending_diff`, `revision_reason`, and `downstream_work_to_rerun`.
 
 ## Atomic Gate
 
@@ -35,4 +36,4 @@ If causes compete, record the hypothesis and proving experiment.
 ## Task
 
 Update `debug_record` with symptom, reproduction, cause, fix, verification, regression test, and blocker.
-Emit `BUG_FIXED`, `DESIGN_FLAW`, or `DEBUG_BLOCKED` with evidence.
+Emit `BUG_FIXED`, `DESIGN_FLAW`, `DOD_CHANGE_REQUESTED`, or `DEBUG_BLOCKED` with evidence.

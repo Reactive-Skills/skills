@@ -41,6 +41,10 @@ The event bubbles to the `ACTIVE` parent, which routes to `ACTIVE.ARCHITECT`.
 After the decision and ADR are updated when applicable, an accepted DoD change uses the amendment gate before implementation resumes.
 Use this instead of forcing the current phase to patch around a changed decision.
 
+`DOD_CHANGE_REQUESTED` is also a lifecycle level event.
+Any active phase may emit it when the user or evidence changes the approved outcome without reopening a load bearing decision.
+The event bubbles to the `ACTIVE` parent, which routes to `ACTIVE.DOD_AMENDMENT` with `dod_record.pending_diff`, `revision_reason`, and `downstream_work_to_rerun`.
+
 ## DoD and Approval Contract
 
 The workflow drafts one DoD after scope, design, and context discovery, then waits for one approval before implementation.

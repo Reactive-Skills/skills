@@ -92,7 +92,7 @@ stateDiagram-v2
     }
 
     ACTIVE --> ARCHITECT : DECISION_REOPENED (Bubbled from any active phase)
-    ACTIVE --> DOD_AMENDMENT : DOD_CHANGE_REQUESTED
+    ACTIVE --> DOD_AMENDMENT : DOD_CHANGE_REQUESTED (Bubbled from any active phase)
     COMPLETE --> [*]
     BLOCKED --> [*]
     ERROR --> [*]
