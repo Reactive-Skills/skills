@@ -1,0 +1,69 @@
+# Builder decision
+
+Run: {{jobId}}
+Route: {{context.route}}
+Revision: {{context.basis_version}}
+
+## Situation
+
+{{context.situation.question}}
+
+Domain: {{context.situation.domain}}
+Stage: {{context.situation.stage}}
+Decision owner: {{context.situation.decision_owner}}
+
+## Recommendation
+
+{{context.recommendation.direction}}
+
+{{context.recommendation.rationale}}
+
+{{#each context.recommendation.limitations}}
+- {{this}}
+{{/each}}
+
+## Human decision
+
+{{context.decision.direction}}
+
+{{context.decision.rationale}}
+
+Owner: {{context.decision.owner}}
+
+## Next action
+
+{{#if context.action}}
+Type: {{context.action.type}}
+
+{{context.action.next_step}}
+
+Owner: {{context.action.owner}}
+Review trigger: {{context.action.review_trigger}}
+{{else}}
+Action assignment is pending.
+{{/if}}
+
+## Evidence
+
+{{#each context.evidence}}
+- {{id}} [{{kind}}]: {{claim}} (source: {{source}})
+{{else}}
+No observed evidence has been supplied.
+{{/each}}
+
+## Route records
+
+Only records for the current revision are shown.
+Planned work below has not been completed unless observed evidence says otherwise.
+
+{{#each context}}
+{{#if basis_version}}
+{{#if (eq basis_version ../context.basis_version)}}
+### {{@key}}
+
+```json
+{{{json this}}}
+```
+{{/if}}
+{{/if}}
+{{/each}}
