@@ -1,6 +1,7 @@
 # build-advisor statechart
 
 The diagram and guard table mirror skill.yaml.
+Projection paths use the runtime job label; snapshot and memo metadata also record the immutable event run ID.
 
 ```mermaid
 stateDiagram-v2

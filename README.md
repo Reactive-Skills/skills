@@ -46,7 +46,7 @@ npx skills add Reactive-Skills/skills
 | :--- | :--- | :--- | :--- |
 | [`api-contract`](api-contract/) | `v1.0.0` | `v2.0.0` | OpenAPI/Swagger spec vs client code drift detector — parses spec, walks fetch/axios calls, detects mismatches |
 | [`browser-verifier`](browser-verifier/) | `v1.0.0` | `v2.0.0` | Automated browser verification reactive skill that launches headless browser sessions, verifies DOM states, intercepts console errors, and captures visual artifacts. |
-| [`build-advisor`](build-advisor/) | `v1.0.0` | `v2.1.0` | Develop worthwhile products, challenge existing ideas and experiences, or advise builders on product, leadership, team, business, and career decisions using contextual principles from Tony Fadell's Build. |
+| [`build-advisor`](build-advisor/) | `v1.0.1` | `v2.1.0` | Develop worthwhile products, challenge existing ideas and experiences, or advise builders on product, leadership, team, business, and career decisions using contextual principles from Tony Fadell's Build. |
 | [`ci-cd-automation`](ci-cd-automation/) | `v1.0.0` | `v2.0.0` | Automated CI/CD pipeline generator and linter that scaffolds production-ready workflows with caching, matrix builds, and security gates. |
 | [`docs-architect`](docs-architect/) | `v1.0.0` | `v2.0.0` | Documentation architecture workflow that discovers source truth, designs information architecture, authors living documentation, embeds diagrams, validates links, and gates publication. |
 | [`jsm-workflow`](jsm-workflow/) | `v1.1.0` | `v2.1.0` | Reactive SDLC coordinator taking software changes from intake to final context sync, implementing the JS Mastery Engineering Workflow (https://jsmastery.com/skills). |

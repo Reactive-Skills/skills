@@ -53,7 +53,11 @@ Each stage may be mapped, awaiting a test, or explicitly inapplicable.
 ## Deliverables
 
 The runtime projects a decision memo and a machine-readable snapshot in a job-specific directory under .docs/build-advisor/.
-Each run has an isolated projection path.
+The runtime supplies jobId directly to projection templates and output paths; it is not a skill context key.
+Named jobs use their alias in .docs/build-advisor/<jobId>/; separate aliases have separate output directories.
+The runtime writes an archive below that directory at jobs/<jobId>/ and mirrors active jobs into the declared output path.
+Reusing a job label updates that label's projected view; immutable run history stays in the event ledger.
+Snapshots expose that label as job_id and the ledger UUID as run_id, read from the first event's run_id.
 The memo includes the recommendation, decision, owner, action, review trigger, evidence, and applicable route artifacts.
 The runtime ledger preserves prior revisions.
 
@@ -83,6 +87,7 @@ rtk node scripts/validate-skills.js build-advisor --no-runtime
 rtk node --test build-advisor/guards/workflow.test.cjs
 ```
 
-The acceptance scenarios cover all routes, incomplete inputs, stale revisions, human approval, parent-event handling, evidence loops, rehydration, and projection isolation.
+The acceptance scenarios cover all routes, incomplete inputs, stale revisions, human approval, parent-event handling, evidence loops, and rehydration.
+Projection checks assert exact paths, immutable run IDs, and independent memo and snapshot contents for two named jobs sharing one SQLite workspace.
 To test a repaired local build, set BUILD_ADVISOR_RUNTIME to its absolute dist/index.js path before running the acceptance suite.
 The local runtime repair does not replace an installed CLI or MCP server automatically.

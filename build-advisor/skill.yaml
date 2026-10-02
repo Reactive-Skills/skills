@@ -1,6 +1,6 @@
 schema_version: 2.1.0
 name: build-advisor
-version: 1.0.0
+version: 1.0.1
 type: reactive
 description: >-
   Develop worthwhile products, challenge existing ideas and experiences, or advise builders on product, leadership,
