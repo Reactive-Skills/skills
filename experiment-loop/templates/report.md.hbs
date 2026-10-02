@@ -1,0 +1,20 @@
+# Experiment report
+Job: {{jobId}}
+{{context.report.summary}}
+
+Retained artifact: {{context.report.incumbent_id}}
+Claimed confirmed improvement: {{context.report.claimed_improvement}}
+Cleanup complete: {{context.report.cleanup_complete}}
+
+## Evidence and limitations
+```json
+{{{json context.report.evidence_refs}}}
+{{{json context.report.limitations}}}
+{{{json context.stop}}}
+{{{json context.progress}}}
+{{{json context.confirmation}}}
+```
+
+Selection results remain exploratory.
+Confirmation supports only the declared cases, evaluator, conditions, and comparison policy.
+Synthetic fixtures demonstrate workflow behavior, not real optimization effectiveness.

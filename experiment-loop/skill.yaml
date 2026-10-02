@@ -1,0 +1,286 @@
+schema_version: 2.1.0
+name: experiment-loop
+version: 1.0.0
+type: reactive
+description: >-
+  Run bounded, evidence-backed improvement experiments with fixed evaluators, repeated baselines,
+  protected confirmation, budgets, and recovery.
+initial_state: INIT
+strict_execution: true
+runtime_requirements:
+  min_runtime_version: 0.16.0
+  required_capabilities:
+    - runtime.bootloader
+    - runtime.transport_handshake
+    - runtime.accepted_update_replay
+context_keys: []
+context_schema:
+  selected_runtime:
+    type: object
+    nullable: true
+  task:
+    type: object
+    nullable: true
+  contract:
+    type: object
+    nullable: true
+  approval:
+    type: object
+    nullable: true
+  calibration:
+    type: object
+    nullable: true
+  baseline:
+    type: object
+    nullable: true
+  incumbent:
+    type: object
+    nullable: true
+  proposal:
+    type: object
+    nullable: true
+  trial:
+    type: object
+    nullable: true
+  assessment:
+    type: object
+    nullable: true
+  progress:
+    type: object
+    nullable: false
+  history:
+    type: array
+    nullable: false
+  pause:
+    type: object
+    nullable: true
+  confirmation:
+    type: object
+    nullable: true
+  consumed_confirmation_cases:
+    type: array
+    nullable: false
+  stop:
+    type: object
+    nullable: true
+  report:
+    type: object
+    nullable: true
+default_context:
+  selected_runtime: null
+  task: null
+  contract: null
+  approval: null
+  calibration: null
+  baseline: null
+  incumbent: null
+  proposal: null
+  trial: null
+  assessment: null
+  progress:
+    trials: 0
+    seconds: 0
+    cost: 0
+  history: []
+  pause: null
+  confirmation: null
+  consumed_confirmation_cases: []
+  stop: null
+  report: null
+states:
+  INIT:
+    prompt_template: states/init.md
+    model:
+      tier: fast
+    transitions:
+      RUNTIME_READY:
+        target: ACTIVE
+        guardFunction: guards/runtime-ready.cjs
+      SETUP_REQUIRED:
+        target: BYPASS_DETECTED
+        guardFunction: guards/setup-required.cjs
+  ACTIVE:
+    prompt_template: states/active/parent.md
+    model:
+      tier: balanced
+    transitions:
+      CANCEL:
+        target: ACTIVE.FINALIZE
+        guardFunction: guards/cancel.cjs
+      DEPENDENCY_FAILED:
+        target: ACTIVE.FINALIZE
+        guardFunction: guards/dependency-failed.cjs
+      CONTRACT_CHANGED:
+        target: ACTIVE.CONTRACT
+        guardFunction: guards/contract-changed.cjs
+      PAUSE:
+        target: PAUSED
+        guardFunction: guards/pause.cjs
+    initial_substate: INTAKE
+    substates:
+      INTAKE:
+        prompt_template: states/active/intake.md
+        model:
+          tier: reasoning
+        transitions:
+          INTAKE_READY:
+            target: ACTIVE.CONTRACT
+            guardFunction: guards/intake-ready.cjs
+      CONTRACT:
+        prompt_template: states/active/contract.md
+        model:
+          tier: decision
+        transitions:
+          CONTRACT_APPROVED:
+            target: ACTIVE.CALIBRATE
+            guardFunction: guards/contract-approved.cjs
+      CALIBRATE:
+        prompt_template: states/active/calibrate.md
+        model:
+          tier: reasoning
+        transitions:
+          CALIBRATION_PASSED:
+            target: ACTIVE.BASELINE
+            guardFunction: guards/calibration-passed.cjs
+      BASELINE:
+        prompt_template: states/active/baseline.md
+        model:
+          tier: balanced
+        transitions:
+          BASELINE_MEASURED:
+            target: ACTIVE.TRIAL
+            guardFunction: guards/baseline-measured.cjs
+          BUDGET_EXHAUSTED:
+            target: ACTIVE.FINALIZE
+            guardFunction: guards/budget-exhausted.cjs
+      TRIAL:
+        prompt_template: states/active/trial/parent.md
+        model:
+          tier: balanced
+        transitions:
+          SEARCH_FINISHED:
+            target: ACTIVE.CONFIRM
+            guardFunction: guards/search-finished.cjs
+          NO_CANDIDATE:
+            target: ACTIVE.FINALIZE
+            guardFunction: guards/no-candidate.cjs
+          BUDGET_EXHAUSTED:
+            target: ACTIVE.FINALIZE
+            guardFunction: guards/budget-exhausted.cjs
+        initial_substate: DIAGNOSE
+        substates:
+          DIAGNOSE:
+            prompt_template: states/active/trial/diagnose.md
+            model:
+              tier: reasoning
+            transitions:
+              DIAGNOSIS_READY:
+                target: ACTIVE.TRIAL.PROPOSE
+                guardFunction: guards/diagnosis-ready.cjs
+          PROPOSE:
+            prompt_template: states/active/trial/propose.md
+            model:
+              tier: reasoning
+            transitions:
+              PROPOSAL_READY:
+                target: ACTIVE.TRIAL.RUN
+                guardFunction: guards/proposal-ready.cjs
+          RUN:
+            prompt_template: states/active/trial/run.md
+            model:
+              tier: balanced
+            transitions:
+              TRIAL_MEASURED:
+                target: ACTIVE.TRIAL.ASSESS
+                guardFunction: guards/trial-measured.cjs
+              TRIAL_FAILED:
+                target: ACTIVE.TRIAL.ASSESS
+                guardFunction: guards/trial-failed.cjs
+              TRIAL_INVALID:
+                target: ACTIVE.TRIAL.ASSESS
+                guardFunction: guards/trial-invalid.cjs
+          ASSESS:
+            prompt_template: states/active/trial/assess.md
+            model:
+              tier: decision
+            transitions:
+              CANDIDATE_ACCEPTED:
+                target: ACTIVE.TRIAL.DIAGNOSE
+                guardFunction: guards/candidate-accepted.cjs
+              CANDIDATE_REJECTED:
+                target: ACTIVE.TRIAL.DIAGNOSE
+                guardFunction: guards/candidate-rejected.cjs
+      CONFIRM:
+        prompt_template: states/active/confirm.md
+        model:
+          tier: reasoning
+        transitions:
+          CONFIRMATION_MEASURED:
+            target: ACTIVE.FINALIZE
+            guardFunction: guards/confirmation-measured.cjs
+      FINALIZE:
+        prompt_template: states/active/finalize.md
+        model:
+          tier: balanced
+        transitions:
+          REPORT_READY:
+            target: COMPLETE
+            guardFunction: guards/report-ready.cjs
+          REPORT_BLOCKED:
+            target: BLOCKED
+            guardFunction: guards/report-blocked.cjs
+  PAUSED:
+    prompt_template: states/paused.md
+    model:
+      tier: balanced
+    transitions:
+      RESUME_INTAKE:
+        target: ACTIVE.INTAKE
+        guardFunction: guards/resume-intake.cjs
+      RESUME_CONTRACT:
+        target: ACTIVE.CONTRACT
+        guardFunction: guards/resume-contract.cjs
+      RESUME_CALIBRATION:
+        target: ACTIVE.CALIBRATE
+        guardFunction: guards/resume-calibration.cjs
+      RESUME_BASELINE:
+        target: ACTIVE.BASELINE
+        guardFunction: guards/resume-baseline.cjs
+      RESUME_SEARCH:
+        target: ACTIVE.TRIAL
+        guardFunction: guards/resume-search.cjs
+      RESUME_FINALIZE:
+        target: ACTIVE.FINALIZE
+        guardFunction: guards/resume-finalize.cjs
+      CANCEL:
+        target: ACTIVE.FINALIZE
+        guardFunction: guards/cancel.cjs
+      DEPENDENCY_FAILED:
+        target: ACTIVE.FINALIZE
+        guardFunction: guards/dependency-failed.cjs
+  COMPLETE:
+    prompt_template: states/complete.md
+    model:
+      tier: fast
+  BLOCKED:
+    prompt_template: states/blocked.md
+    model:
+      tier: fast
+  BYPASS_DETECTED:
+    prompt_template: states/bypass_detected.md
+    model:
+      tier: fast
+deliverable_projections:
+  - template: templates/snapshot.md.hbs
+    output: .docs/experiment-loop/{{jobId}}/snapshot.md
+    trigger_on:
+      - STATE_TRANSITION
+  - template: templates/inventory.json.hbs
+    output: .docs/experiment-loop/{{jobId}}/inventory.json
+    trigger_on:
+      - STATE_TRANSITION
+  - template: templates/report.md.hbs
+    output: .docs/experiment-loop/{{jobId}}/report.md
+    trigger_on:
+      - REPORT_READY
+      - REPORT_BLOCKED
