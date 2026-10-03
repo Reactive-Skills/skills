@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "id": "portable-codex-cli-current-create-hsm-no-skill-1",
+  "checkpoint": "portable",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "create-hsm",
+  "repetition": 1,
+  "arm": "no-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T16:56:31.596Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "1ace3297db3eccd5db920e5d22ed880a93bc6231cdd0038eba888697d456a7ba",
+    "bundle_path": "results/bundles/portable",
+    "version": "1.2.0"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "795b215bd2484d90e4b39311b089b3331f07cb47bc1ecad5b211196721f146e1",
+  "task_template_digest": "1640e4bd44562b6020090097e29d01c355b8aca3a79b342459efa514e7f3b746",
+  "resolved_task_digest": "6e53520d927127fa0628ae3eedb9491c49e8c499f841f1b057f946dc09e0a57a",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 1653112,
+    "output": 33731,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "requested-artifacts",
+      "status": "PASS",
+      "reason": "Exactly the eleven approved source-A files exist, including canonical runtime bootloader pointer, all nested state prompts, README, CONTEXT, manifest, and matching statechart. Independent schema validation passes."
+    },
+    {
+      "id": "guarded-topology",
+      "status": "PASS",
+      "reason": "Independent actual FSM constructor tests prove INIT to WORK.COLLECT, rejection of false checks_passed, acceptance of true, HUMAN_APPROVED to DONE, and parent CANCEL bubbling from both children. Child CLI and ledger checks additionally reject omitted, string, and numeric checks."
+    },
+    {
+      "id": "diagram",
+      "status": "PASS",
+      "reason": "The Mermaid diagram matches all four manifest signal transitions, nested initial child, strict boolean guard, and parent cancellation."
+    },
+    {
+      "id": "red-answers",
+      "status": "PASS",
+      "reason": "RED is enabled and all seven supplied decisions are present: aggregate reports, fail fast, no secrets or personal data, explicit approval before writes, record state transitions, isolated runs, and actual executor coverage separate from semantic tiers."
+    },
+    {
+      "id": "source-approval",
+      "status": "PASS",
+      "reason": "All 32 phase-one commands were reviewed and performed no task-file writes. All task writes occurred after 2026-10-02T16:42:01.274Z approval and touched only the eleven approved source-A files. Comparison copies and fixture registries stayed unchanged. Phase-two commands and file-change events were reviewed."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "NOT_APPLICABLE",
+      "reason": "No-skill control does not invoke the manager runtime"
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/portable-codex-cli-current-create-hsm-no-skill-1.json",
+    "digest": "212f335b46fe2ba105032f41866fb33223a9a4f27b818790434977f0cc09e6a8"
+  }
+}

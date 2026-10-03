@@ -1,0 +1,18 @@
+{
+  "status": "DRAFT_PENDING_SOURCE_REVERSION_CLARIFICATION",
+  "source_changes": [
+    "apps/axi/src/commands/emit.ts",
+    "apps/axi/tests/commands/emit.test.ts"
+  ],
+  "current": {
+    "emit": "c94aedb4f6a32c7b5fada13b4536b46e64090794062059849bbdc7dd030cf6f8",
+    "test": "44b621be0943c786f08b866ab92258f0b27052f2270784c15c8f8649dde43c14"
+  },
+  "candidate": {
+    "emit": "96d53ff2f6e0cec1a7c0aded21a0f1c463de16acd65877170c494dba12360d9a",
+    "test": "cc2dbd27d1d90c69bbd4319cf7d99f82b45ffdc28847b1bd7fda2d9866c922cb"
+  },
+  "validation": "Source bug reproduced separately; restoration draft not yet applied or unit-tested.",
+  "compiled_runtime": "Must remain unchanged during current evaluation matrix.",
+  "candidate_transpiles_to_frozen_emit": true
+}

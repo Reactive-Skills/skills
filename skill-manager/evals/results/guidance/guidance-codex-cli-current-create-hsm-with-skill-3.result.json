@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "id": "guidance-codex-cli-current-create-hsm-with-skill-3",
+  "checkpoint": "guidance",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "create-hsm",
+  "repetition": 3,
+  "arm": "with-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T22:54:54.357Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "6e10534d0dff717590ac320cfe0660a39bad9ace8034d361650b824be26de9b3",
+    "bundle_path": "results/bundles/guidance",
+    "version": "1.3.0"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "795b215bd2484d90e4b39311b089b3331f07cb47bc1ecad5b211196721f146e1",
+  "task_template_digest": "1640e4bd44562b6020090097e29d01c355b8aca3a79b342459efa514e7f3b746",
+  "resolved_task_digest": "e488db1f311ff24c231d4ef4cf4d35a5f2c7aeaf346a1f8ba619cbba8cdaa711",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 2644288,
+    "output": 31738,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "requested-artifacts",
+      "status": "PASS",
+      "reason": "All ten approved files read fully and final hashes verified unchanged: manifest, canonical bootloader pointer, README/CONTEXT/diagram and five executable-state prompts. Exact approved source-A manifest retained."
+    },
+    {
+      "id": "guarded-topology",
+      "status": "PASS",
+      "reason": "Native validation and independent real FSMEngine topology proof pass INIT -> WORK.COLLECT -> WORK.REVIEW -> DONE with strict boolean DATA_READY guard and parent WORK CANCEL from both children. Executor memory-adapter checks test true plus ten invalid/missing values with stale true context, out-of-order human approval and terminal signals. In-memory evidence is honestly distinguished from persisted target execution; human-response authentication, report data and cross-model integration remain untested."
+    },
+    {
+      "id": "diagram",
+      "status": "PASS",
+      "reason": "Fully reviewed Mermaid hierarchy and signalled edges match explicit nested substates/initial_substate, strict DATA_READY guard, parent WORK cancellation and terminal states. Structural correspondence proven; Mermaid rendering unclaimed."
+    },
+    {
+      "id": "red-answers",
+      "status": "PASS",
+      "reason": "All seven supplied RED answers retained in CONTEXT and native plan; default_context.red_phase true. Semantic model tiers separated from actual observed execution coverage and provisional source-word measurements."
+    },
+    {
+      "id": "source-approval",
+      "status": "PASS",
+      "reason": "All 36 intake and 21 execution command bodies reviewed, including full native signal payloads. No encoded scripts. Exact ten-file manifest approved 2026-10-02T22:41:39.632Z; sole creation patch follows USER_APPROVED, EXECUTING and containment checks. All 39 protected files, registry, source-B, distribution and frozen manager remain unchanged."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "PASS",
+      "reason": "One native manager UUID 01a0fec4-3008-750d-8cd8-cf79cea3ce84, alias eval-report-create, reaches SUCCESS at 2026-10-02T22:53:18.419Z. All 38 SQLite/JSONL full payloads match in native ledger order. Actual filesystem snapshot/inventory show CREATE/SUCCESS/exact ten files; SQL projection contents unclaimed and independently zero rows. No fabricated persistent target ledger, extra manager job or forced completion."
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/guidance-codex-cli-current-create-hsm-with-skill-3.json",
+    "digest": "abe42b141c700d37c1e50c786679543c8e4d810e424f3eb5ef0479f1bb60d535"
+  }
+}

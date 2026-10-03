@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "id": "portable-paths-codex-cli-current-update-source-with-skill-1",
+  "checkpoint": "portable-paths",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "update-source",
+  "repetition": 1,
+  "arm": "with-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T18:06:35.851Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "d42859aaef8b289affbcf0c68cdec5fb24c7a844e757acd573ebc2442df56dfc",
+    "bundle_path": "results/bundles/portable-paths",
+    "version": "1.2.1"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "5e36ea24eef2dde275489ec95aa1cc1f1544921fff50bbf7d7ee7db7e6ada698",
+  "task_template_digest": "ccbcca279158348bc2931bbf66a1c5a90926bf9344943794ff4517cf6127910d",
+  "resolved_task_digest": "4f6678c2f82c20b89515b1cb41fd148655be1af6ac82242faa8de64c48fd61ef",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 2242412,
+    "output": 20905,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "exact-update",
+      "status": "PASS",
+      "reason": "Final bytes equal the original review.md plus exactly Include the review date. and one LF; only the approved source-a target changed."
+    },
+    {
+      "id": "other-hashes",
+      "status": "PASS",
+      "reason": "Before/after inventories and the independently inspected hash checks preserve the other 63 fixture files, nested layout, duplicate source-b, distribution, frozen manager, and registries."
+    },
+    {
+      "id": "approval-first",
+      "status": "PASS",
+      "reason": "All 36 phase-one commands, decoded bodies, and all 21 phase-two commands were reviewed. Phase one only reads task files and advances the manager runtime; the single task append follows approval at 2026-10-02T18:00:43.006Z."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "PASS",
+      "reason": "One invoke and one retained UUID 01a0fdc3-7647-7e29-bbf5-94c4a9f07040 reach SUCCESS through the observed signals. Full commands and decoded payloads match the ledger. Final report links actual job archive snapshot and inventory after recursive path enumeration and content verification; SQLite projection absence is scoped truthfully, 39 ledger/export events match, and no model-tier execution is claimed. Initial phase-two undefined-argument state command failed without creating a job."
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/portable-paths-codex-cli-current-update-source-with-skill-1.json",
+    "digest": "363790e30603091e4a3b2713aca975f45adf7d430f257c2b0834cc8b34bbde28"
+  }
+}

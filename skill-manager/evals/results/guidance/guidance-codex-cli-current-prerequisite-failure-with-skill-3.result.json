@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "id": "guidance-codex-cli-current-prerequisite-failure-with-skill-3",
+  "checkpoint": "guidance",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "prerequisite-failure",
+  "repetition": 3,
+  "arm": "with-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T22:19:41.248Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "6e10534d0dff717590ac320cfe0660a39bad9ace8034d361650b824be26de9b3",
+    "bundle_path": "results/bundles/guidance",
+    "version": "1.3.0"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "c1f447e96a160543fd6f6c027e65174b9100bf29381ff1ee89bbac865d2ca9ab",
+  "task_template_digest": "7142ec97f3368554a8c148258fb03f50e71905a36ad5c225f748d2b741010cee",
+  "resolved_task_digest": "eb81de0d15028eaff90e51cc41a16fd2a195f2e4f39a5f5f1d62fc69999e4f5d",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 408572,
+    "output": 6362,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "exact-prerequisite",
+      "status": "PASS",
+      "reason": "Exact Application lookup printed MISSING_EXECUTABLE=eval-missing-tool-do-not-install. Fixture registries and synthetic HOME verified; no replacement selected."
+    },
+    {
+      "id": "fail-fast",
+      "status": "PASS",
+      "reason": "All 16 full commands reviewed, with no encoded payloads or task patches. After unavailable executable, only read-only isolation/runtime checks and one native blocked manager job were recorded. No report design, task writes, installation or configuration."
+    },
+    {
+      "id": "truthful-result",
+      "status": "PASS",
+      "reason": "Final BLOCKED names the missing executable and empty file manifest, correctly reports runtime READY rather than success. Before/after task files unchanged; real home registry unused."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "PASS",
+      "reason": "One native manager UUID 01a0feb2-634b-7521-8ebd-76187c73bcb0, alias aggregate-reports-prerequisite-check. Independent SQLite/JSONL all 11 events match, only INIT -> READY, with unavailable-prerequisite context and empty task manifest. Native filesystem archives show READY/CREATE/empty files; no false skill completion, manual ledger writes, extra invocation or force-completion."
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/guidance-codex-cli-current-prerequisite-failure-with-skill-3.json",
+    "digest": "d05dda27c99d85a5f90c2ad3264276133b78c79700d6643573d3063bb1793b68"
+  }
+}

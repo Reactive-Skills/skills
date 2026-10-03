@@ -1,0 +1,5 @@
+{
+  "status": "INVALID_REVIEW_DRAFT",
+  "reason": "Reviewer supplied runtime-trace to no-skill helper, which automatically appends it. Structural validator rejected duplicate assertion before any canonical result was written. Preserve this unused evidence draft; rerecord same observed outcomes with automatic NOT_APPLICABLE only.",
+  "trial_unchanged": true
+}

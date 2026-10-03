@@ -1,0 +1,15 @@
+{
+  "before": "1ace3297db3eccd5db920e5d22ed880a93bc6231cdd0038eba888697d456a7ba",
+  "after": "d42859aaef8b289affbcf0c68cdec5fb24c7a844e757acd573ebc2442df56dfc",
+  "changed": [
+    "CONTEXT.md",
+    "README.md",
+    "SKILL.md",
+    "STATECHART.md",
+    "skill.yaml",
+    "states/verifying.md"
+  ],
+  "manifest_only_release_changed": true,
+  "bootloader_unchanged": true,
+  "diagram_unchanged": true
+}

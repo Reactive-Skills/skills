@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "id": "guidance-codex-cli-current-create-hsm-no-skill-3",
+  "checkpoint": "guidance",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "create-hsm",
+  "repetition": 3,
+  "arm": "no-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T22:47:46.519Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "6e10534d0dff717590ac320cfe0660a39bad9ace8034d361650b824be26de9b3",
+    "bundle_path": "results/bundles/guidance",
+    "version": "1.3.0"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "795b215bd2484d90e4b39311b089b3331f07cb47bc1ecad5b211196721f146e1",
+  "task_template_digest": "1640e4bd44562b6020090097e29d01c355b8aca3a79b342459efa514e7f3b746",
+  "resolved_task_digest": "b20e62d0159c66a8c6f4f9300be3593239ce0f9191e46f2c5a7aa4c7afdc7606",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 1344257,
+    "output": 25760,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "requested-artifacts",
+      "status": "PASS",
+      "reason": "All ten approved package files exist and were read in full, including four final documentation/path amendments. Final reviewed hashes match; canonical bootloader, schema2.1.0 and both nested prompts retained."
+    },
+    {
+      "id": "guarded-topology",
+      "status": "PASS",
+      "reason": "Independent real isolated runtime proof passes guarded success and parent cancellation from each child. Executor's four native validation runs also verify five invalid guard payloads despite stale true context, human wait, isolation, premature signals and snapshot recovery. All74 native target SQLite/JSONL full payloads match; the additional INIT-only job came from postapproval inspect."
+    },
+    {
+      "id": "diagram",
+      "status": "PASS",
+      "reason": "Reviewed nested Mermaid diagram includes initial child, exact requested four transitions, strict payload guard, parent WORK cancellation and terminal markers; executor compared parsed edges to manifest."
+    },
+    {
+      "id": "red-answers",
+      "status": "PASS",
+      "reason": "Manifest default_context.red_discovery.enabled is true; manifest and CONTEXT record all seven supplied answers, and coverage explicitly separates native FSM tests from semantic model tiers, actual model execution and real human approval."
+    },
+    {
+      "id": "source-approval",
+      "status": "PASS",
+      "reason": "All25 intake and16 execution command bodies reviewed, no encoded scripts. Ten-file manifest approved at2026-10-02T22:38:15.389Z before sole creation patch. Subsequent four-file documentation patch remains within it. Every original seed hash and fixture registry preserved. Native EventStore append/snapshot APIs retain actual test evidence, not manually fabricated ledger files; no manager instructions invoked. Name-only CLI lookup failed read-only, recovered via explicit source path to the same run."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "NOT_APPLICABLE",
+      "reason": "No-skill control does not invoke the manager runtime"
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/guidance-codex-cli-current-create-hsm-no-skill-3.json",
+    "digest": "50cf1b36e011bc6f8c0c7643ad7fcbaa393b91acdf548bff45cce12cd80870ca"
+  }
+}

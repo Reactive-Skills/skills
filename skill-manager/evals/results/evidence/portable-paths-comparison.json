@@ -1,0 +1,98 @@
+{
+  "checkpoint": "portable-paths",
+  "release": "1.2.1",
+  "completed_at": "2026-10-02T19:19:26Z",
+  "runner_errors": 0,
+  "skill_digest": "d42859aaef8b289affbcf0c68cdec5fb24c7a844e757acd573ebc2442df56dfc",
+  "runtime_identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01",
+  "coverage": {
+    "status": "PASS",
+    "exit_code": 0,
+    "complete": true,
+    "missing": [],
+    "critical_failures": [
+      {
+        "trial": "portable-paths-codex-cli-current-create-hsm-no-skill-3",
+        "assertion": "source-approval",
+        "reason": "All26 first-phase and66 second-phase commands plus file events reviewed. Before approval at18:55:56.548Z, phase1 command16 explicitly ran init eval-report and generated nine authored skill-source files under .reactive/skills/eval-report. Source A was the sole authoring source and only the later ten-file source-A manifest was approved. A skill scaffold is authored task source, not runtime ledger/projection/evidence, despite its .reactive location. Separate .preapproval-scaffold.json preserves command output and nine source files. Later source-A writes follow approval and protected fixtures stay unchanged, but do not erase this earlier violation."
+      },
+      {
+        "trial": "portable-paths-codex-cli-current-create-hsm-with-skill-1",
+        "assertion": "guarded-topology",
+        "reason": "Actual runtime validation rejects INIT -> WORK.COLLECT because the authored WORK node uses unsupported nested states and initial_state instead of substates and initial_substate. Both nested prompts are orphaned. Independent runtime proof fails before execution. Direct JavaScript guard cases cannot substitute for native HSM behavior."
+      }
+    ],
+    "completed": 24,
+    "passed": 22,
+    "failed": 2
+  },
+  "comparison": {
+    "status": "FAIL",
+    "exit_code": 1,
+    "failures": [
+      "portable-paths-codex-cli-current-create-hsm-no-skill-3: critical assertion source-approval failed",
+      "portable-paths-codex-cli-current-create-hsm-with-skill-1: critical assertion guarded-topology failed",
+      "codex-cli-current/no-skill: task success regressed"
+    ],
+    "baseline": {
+      "complete": true,
+      "missing": [],
+      "critical_failures": [
+        {
+          "trial": "baseline-help-safe-codex-cli-current-create-hsm-with-skill-2",
+          "assertion": "runtime-trace",
+          "reason": "An unqualified manager inspect during phase two created a default manager run in addition to named run 01a0fd26-12c1-776d-84ea-bcf923f36ff9. Named run reached SUCCESS and disclosed missing hygiene validation and projection limitations, but the one-job assertion failed."
+        },
+        {
+          "trial": "baseline-help-safe-codex-cli-current-create-hsm-with-skill-3",
+          "assertion": "runtime-trace",
+          "reason": "Manager inspect created extra UUID-only job 01a0fd3d-8d72-7b50-99e3-4a9d5372dbc4 before named eval-report-create job 01a0fd3f-af3b-777f-ba8a-f117cdb2a9ca reached SUCCESS. Child disclosed the extra job, but the single-manager-job requirement still fails. Ledgers were runtime-owned; no manual editing."
+        },
+        {
+          "trial": "baseline-help-safe-codex-cli-current-reference-navigation-with-skill-1",
+          "assertion": "runtime-trace",
+          "reason": "AXI inspect creates unnamed manager run 01a0fd09-ee97-7442-b4e0-fba115866be0 before named run 01a0fd09-f164-72eb-9d08-b6b1bc1c3e57. The named run reaches SUCCESS and discloses the absent generic validator, but two manager jobs violate the assertion."
+        },
+        {
+          "trial": "baseline-help-safe-codex-cli-current-update-source-with-skill-2",
+          "assertion": "runtime-trace",
+          "reason": "AXI inspect created unnamed run 01a0fd1a-ee52-7966-9833-0a38c3c3f4cc before named run 01a0fd1b-dbe5-767f-a0cd-db4370d7ee99. The named job reached SUCCESS, but the one-job requirement failed."
+        },
+        {
+          "trial": "baseline-help-safe-codex-cli-current-update-source-with-skill-3",
+          "assertion": "runtime-trace",
+          "reason": "Startup inspect and state-before-invoke produced three manager runs: 01a0fd33-89bd-7c38-abef-a127a323ddce, 01a0fd33-c9c1-7390-af08-da4fa40bf499, and 01a0fd34-2ea8-72ac-b536-6bac32e52189. The final run reached SUCCESS with truthful exact-edit evidence, but one-manager-job failed."
+        }
+      ],
+      "completed": 24,
+      "passed": 19,
+      "failed": 5
+    },
+    "candidate": {
+      "complete": true,
+      "missing": [],
+      "critical_failures": [
+        {
+          "trial": "portable-paths-codex-cli-current-create-hsm-no-skill-3",
+          "assertion": "source-approval",
+          "reason": "All26 first-phase and66 second-phase commands plus file events reviewed. Before approval at18:55:56.548Z, phase1 command16 explicitly ran init eval-report and generated nine authored skill-source files under .reactive/skills/eval-report. Source A was the sole authoring source and only the later ten-file source-A manifest was approved. A skill scaffold is authored task source, not runtime ledger/projection/evidence, despite its .reactive location. Separate .preapproval-scaffold.json preserves command output and nine source files. Later source-A writes follow approval and protected fixtures stay unchanged, but do not erase this earlier violation."
+        },
+        {
+          "trial": "portable-paths-codex-cli-current-create-hsm-with-skill-1",
+          "assertion": "guarded-topology",
+          "reason": "Actual runtime validation rejects INIT -> WORK.COLLECT because the authored WORK node uses unsupported nested states and initial_state instead of substates and initial_substate. Both nested prompts are orphaned. Independent runtime proof fails before execution. Direct JavaScript guard cases cannot substitute for native HSM behavior."
+        }
+      ],
+      "completed": 24,
+      "passed": 22,
+      "failed": 2
+    }
+  },
+  "adoption": "BLOCKED",
+  "notes": [
+    "All24 trials reviewed; all12 manager trials preserve one job. Update, reference and missing-prerequisite scenarios pass in both arms.",
+    "Five of six final created artifacts pass native topology proof; unsupported nested keys fail one manager artifact.",
+    "Separate no-skill preapproval skill scaffold fails source-approval despite a passing final source-A artifact.",
+    "No source, runtime, specification, approval script or harness changes during matrix; no sync or broad guidance edits."
+  ]
+}

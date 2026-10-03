@@ -1,0 +1,9 @@
+{
+  "checkpoint": "portable-hsm",
+  "finished": true,
+  "completed_at": "2026-10-02T21:21:10.099Z",
+  "runner_errors": 0,
+  "infrastructure_stop": false,
+  "dispatched": 11,
+  "queued": 0
+}

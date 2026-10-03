@@ -1,0 +1,50 @@
+import { it, expect } from 'vitest';
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { runDistribution } from '../../src/sync/distribution.js';
+
+it('distributes bundled scripts through physical and linked skill destinations', () => {
+  const workspace = fs.mkdtempSync(path.join(os.tmpdir(), 'sync-bundled-scripts-'));
+  try {
+    const source = path.join(workspace, 'source');
+    const skill = path.join(source, 'fixture');
+    fs.mkdirSync(path.join(skill, 'scripts/nested'), { recursive: true });
+    fs.writeFileSync(path.join(skill, 'SKILL.md'), '# Fixture');
+    const helper = path.join(skill, 'scripts/nested/helper.cjs');
+    fs.writeFileSync(helper, 'module.exports = 42;\n');
+    fs.mkdirSync(path.join(skill, 'scripts/node_modules/pkg'), { recursive: true });
+    fs.writeFileSync(path.join(skill, 'scripts/node_modules/pkg/index.js'), 'excluded');
+    fs.mkdirSync(path.join(source, 'scripts'), { recursive: true });
+    fs.writeFileSync(path.join(source, 'scripts/SKILL.md'), '# Repository tooling');
+    const central = path.join(workspace, 'central');
+    const linked = path.join(workspace, 'linked');
+    const physical = path.join(workspace, 'physical');
+    const options = {
+      sources: [source], central, satellites: [linked], physicalSatellites: [physical],
+      statePath: path.join(workspace, 'sync-state.json'),
+    };
+    const report = runDistribution(options);
+    expect(report.errors).toEqual([]);
+    expect(report.skillsFound).toBe(1);
+    for (const target of [central, linked, physical]) {
+      expect(fs.readFileSync(path.join(target, 'fixture/scripts/nested/helper.cjs'), 'utf8')).toBe('module.exports = 42;\n');
+      expect(fs.existsSync(path.join(target, 'fixture/scripts/node_modules'))).toBe(false);
+      expect(fs.existsSync(path.join(target, 'scripts'))).toBe(false);
+    }
+    expect(fs.lstatSync(path.join(linked, 'fixture')).isSymbolicLink()).toBe(true);
+    expect(fs.lstatSync(path.join(physical, 'fixture')).isSymbolicLink()).toBe(false);
+    const repeated = runDistribution(options);
+    expect(repeated.errors).toEqual([]);
+    expect(repeated.results.some(result => result.action === 'mirrored')).toBe(false);
+    fs.writeFileSync(helper, 'module.exports = 43;\n');
+    expect(runDistribution(options).errors).toEqual([]);
+    for (const target of [central, linked, physical]) {
+      expect(fs.readFileSync(path.join(target, 'fixture/scripts/nested/helper.cjs'), 'utf8')).toBe('module.exports = 43;\n');
+    }
+  } finally {
+    const relative = path.relative(fs.realpathSync(os.tmpdir()), fs.realpathSync(workspace));
+    if (!relative || relative.startsWith('..') || path.isAbsolute(relative)) throw new Error('Refusing cleanup outside test temporary directory');
+    fs.rmSync(workspace, { recursive: true, force: true });
+  }
+});

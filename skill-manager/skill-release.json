@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "skillId": "skill-manager",
   "channel": "stable",
-  "version": "1.0.1",
+  "version": "1.3.0",
   "type": "reactive",
   "reactiveSchemaVersion": "2.1.0"
 }

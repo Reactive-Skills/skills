@@ -1,0 +1,11 @@
+schema_version: 2.1.0
+name: nested
+version: 1.0.0
+initial_state: WORK
+states:
+  WORK:
+    prompt_template: states/work/_parent.md
+    initial_substate: COLLECT
+    substates:
+      COLLECT:
+        prompt_template: states/work/collect.md

@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "id": "portable-paths-codex-cli-current-create-hsm-with-skill-1",
+  "checkpoint": "portable-paths",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "create-hsm",
+  "repetition": 1,
+  "arm": "with-skill",
+  "status": "FAIL",
+  "timestamp": "2026-10-02T18:23:10.913Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "d42859aaef8b289affbcf0c68cdec5fb24c7a844e757acd573ebc2442df56dfc",
+    "bundle_path": "results/bundles/portable-paths",
+    "version": "1.2.1"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "795b215bd2484d90e4b39311b089b3331f07cb47bc1ecad5b211196721f146e1",
+  "task_template_digest": "1640e4bd44562b6020090097e29d01c355b8aca3a79b342459efa514e7f3b746",
+  "resolved_task_digest": "b9d1913c9d635a4f4319ec1050f09b2ae1cf9ef28e195fb037ed3f60d4634720",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 1805215,
+    "output": 26360,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "requested-artifacts",
+      "status": "PASS",
+      "reason": "Exactly eleven approved source-A files exist, including nested collect/review and parent prompt, canonical bootloader pointer, context and documentation."
+    },
+    {
+      "id": "guarded-topology",
+      "status": "FAIL",
+      "reason": "Actual runtime validation rejects INIT -> WORK.COLLECT because the authored WORK node uses unsupported nested states and initial_state instead of substates and initial_substate. Both nested prompts are orphaned. Independent runtime proof fails before execution. Direct JavaScript guard cases cannot substitute for native HSM behavior."
+    },
+    {
+      "id": "diagram",
+      "status": "PASS",
+      "reason": "Diagram includes all requested states, exact DATA_READY Boolean guard, HUMAN_APPROVED completion and parent CANCEL handler."
+    },
+    {
+      "id": "red-answers",
+      "status": "PASS",
+      "reason": "Retained plan-ready.json contains all seven supplied RED answers; README also records all seven."
+    },
+    {
+      "id": "source-approval",
+      "status": "PASS",
+      "reason": "All 30 phase-one commands and 11 phase-two commands reviewed, including runtime-input file writes and task file-change events. All task edits follow approval at 2026-10-02T18:15:10.402Z within the exact eleven-file source-A manifest; comparison copies, manager and registries remain unchanged."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "PASS",
+      "reason": "One actual manager job 01a0fdcf-5327-7a08-94b7-e8ec8c92a69e reaches EXECUTING and stops there, truthfully reported as BLOCKED. Earlier failed invoke commands create no jobs. Actual job archive snapshot and inventory contents are verified at EXECUTING with eleven files; no native execution or completion falsely claimed."
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/portable-paths-codex-cli-current-create-hsm-with-skill-1.json",
+    "digest": "21c982bbd41c1a080012e5f475cd7b244a8c4297d05a7fbb0a3b547b501011bb"
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "checkpoint": "portable-hsm",
+  "started_at": "2026-10-02T20:36:46.647Z",
+  "reason": "All eleven incomplete trials ended with Codex CLI usage-limit errors. Read-only availability probe now succeeded.",
+  "selection": "All usage-interrupted cases, preserving all thirteen completed results; no behavior-based replacement or new trial.",
+  "recipe": "Same sessions, workspaces, frozen skill, runtime, specification, model, effort, sandbox, tools and original approval script. Continue interrupted turn; obtain exact-manifest approval only where not already supplied. Preserve original trial and logs; write appended phases and separate continued trial.",
+  "resume_prompt": "Continue the original task from its interruption. Retain all prior instructions, approved scope, and existing work. Do not restart the task or discard its evidence.",
+  "workers": 3,
+  "ids": [
+    {
+      "id": "portable-hsm-codex-cli-current-reference-navigation-with-skill-2",
+      "session": "01a0fe38-fdda-7af1-b3fe-f4fe9ff8f7bb",
+      "original_phases": 1,
+      "approval_already_supplied": false
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-create-hsm-no-skill-2",
+      "session": "01a0fe3a-997b-7553-9664-164c945bdac3",
+      "original_phases": 2,
+      "approval_already_supplied": true
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-create-hsm-with-skill-2",
+      "session": "01a0fe3d-dbfd-7742-a309-4a39f1f19d86",
+      "original_phases": 1,
+      "approval_already_supplied": false
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-prerequisite-failure-no-skill-3",
+      "session": "01a0fe3f-1c16-7292-8bb1-ff1d5fa8024d",
+      "original_phases": 1,
+      "approval_already_supplied": false
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-prerequisite-failure-with-skill-3",
+      "session": "01a0fe3f-2505-7c63-8618-1a667e7f885a",
+      "original_phases": 1,
+      "approval_already_supplied": false
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-update-source-no-skill-3",
+      "session": "01a0fe3f-2e41-7121-bf26-6e3bf24db85f",
+      "original_phases": 1,
+      "approval_already_supplied": false
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-update-source-with-skill-3",
+      "session": "01a0fe3f-3774-76e3-8daf-0785817ef735",
+      "original_phases": 1,
+      "approval_already_supplied": false
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-reference-navigation-no-skill-3",
+      "session": "01a0fe3f-41b2-76d0-965b-fd351ee0a728",
+      "original_phases": 1,
+      "approval_already_supplied": false
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-reference-navigation-with-skill-3",
+      "session": "01a0fe3f-4594-75d2-9e18-ff1ede27830a",
+      "original_phases": 1,
+      "approval_already_supplied": false
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-create-hsm-no-skill-3",
+      "session": "01a0fe3f-4a5b-7953-9fc6-90681896a072",
+      "original_phases": 1,
+      "approval_already_supplied": false
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-create-hsm-with-skill-3",
+      "session": "01a0fe3f-4e1a-7890-aed0-83f4f37ebbf0",
+      "original_phases": 1,
+      "approval_already_supplied": false
+    }
+  ],
+  "runtime_identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+}

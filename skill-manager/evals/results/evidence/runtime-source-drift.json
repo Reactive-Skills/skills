@@ -1,0 +1,151 @@
+{
+  "timestamp": "2026-10-02T22:44:34.323Z",
+  "status": "REPRODUCED_SOURCE_REVERSION",
+  "root": "C:/Users/brand/.codex/worktrees/skill-cli-signals-20261002",
+  "source_path": "C:/Users/brand/.codex/worktrees/skill-cli-signals-20261002/apps/axi/src/commands/emit.ts",
+  "source_sha256": "c94aedb4f6a32c7b5fada13b4536b46e64090794062059849bbdc7dd030cf6f8",
+  "source_modified": "2026-10-02T19:19:02.409Z",
+  "compiled_emit_sha256": "0037f5f82963ad4568c1d8621d10b0ac63636bc890eb2d8e56cb5502e1ff9109",
+  "compiled_unchanged": true,
+  "temp_base": "C:/Users/brand/AppData/Local/Temp/skill-parser-source-drift-J7pitm",
+  "method": "Actual frozen CLI with temporary Node load hook serving current emit.ts transpiled in memory. Two synthetic named jobs retained; shorthand BASELINE_ESTABLISHED with --payload file emits --payload and remains INIT. Original build and source unchanged.",
+  "setup_notes": [
+    "Two copied-CLI dependency failures before job creation.",
+    "First overlay launch needed Windows file URL; no job created.",
+    "Successful reproduction output quoted --payload; initial diagnostic regex expected it unquoted. Native evidence retained and independently read without repeating the signal."
+  ],
+  "calls": [
+    {
+      "args": [
+        "state",
+        "C:/Users/brand/AppData/Local/Temp/skill-parser-source-drift-J7pitm/workspace/source-a/emit-fixture",
+        "--job",
+        "baseline"
+      ],
+      "output": "state:\n  skill_id: \"C:/Users/brand/AppData/Local/Temp/skill-parser-source-drift-J7pitm/workspace/source-a/emit-fixture\"\n  current_state: INIT\n  event_id: 01a0feca-022e-703a-91ea-b4b00ddca165\n  run_id: 01a0fec9-fdd3-7bea-8c5d-fe99b72369a1\nprompt:\n  raw_prompt: Establish baseline.\n  allowed_tools: none\n  exit_conditions: \"1\"\nhelp[3]:\nRead the state prompt above and execute the instructed tasks\n  Run `reactive-skills-axi emit C:/Users/brand/AppData/Local/Temp/skill-parser-source-drift-J7pitm/workspace/source-a/emit-fixture <signal> --job baseline` to advance the state machine\n  Run `reactive-skills-axi reset C:/Users/brand/AppData/Local/Temp/skill-parser-source-drift-J7pitm/workspace/source-a/emit-fixture --job baseline` to archive this job and start fresh\n",
+      "stderr": "",
+      "exit_code": 0
+    },
+    {
+      "args": [
+        "state",
+        "C:/Users/brand/AppData/Local/Temp/skill-parser-source-drift-J7pitm/workspace/source-a/emit-fixture",
+        "--job",
+        "untouched"
+      ],
+      "output": "state:\n  skill_id: \"C:/Users/brand/AppData/Local/Temp/skill-parser-source-drift-J7pitm/workspace/source-a/emit-fixture\"\n  current_state: INIT\n  event_id: 01a0fec9-fff1-77b8-8921-8d21b38da825\n  run_id: 01a0fec9-ffcf-79aa-8857-8350497e1d60\nprompt:\n  raw_prompt: Establish baseline.\n  allowed_tools: none\n  exit_conditions: \"1\"\nhelp[3]:\nRead the state prompt above and execute the instructed tasks\n  Run `reactive-skills-axi emit C:/Users/brand/AppData/Local/Temp/skill-parser-source-drift-J7pitm/workspace/source-a/emit-fixture <signal> --job untouched` to advance the state machine\n  Run `reactive-skills-axi reset C:/Users/brand/AppData/Local/Temp/skill-parser-source-drift-J7pitm/workspace/source-a/emit-fixture --job untouched` to archive this job and start fresh\n",
+      "stderr": "",
+      "exit_code": 0
+    }
+  ],
+  "events": [
+    {
+      "id": "01a0fec9-fdfa-7091-9a58-e0f9ce00b2c6",
+      "seq": 1,
+      "ledger_seq": 1,
+      "timestamp": "2026-10-02T22:44:05.754Z",
+      "type": "SKILL_INITIALIZED",
+      "state": "INIT",
+      "event_id": "01a0fec9-fdfa-7091-9a58-e0f9ce00b2c6",
+      "occurred_at": "2026-10-02T22:44:05.754Z",
+      "event_type": "SKILL_INITIALIZED",
+      "correlation_id": "01a0fec9-fde6-70fa-9d50-6513b075297e",
+      "skill_id": "emit-fixture",
+      "run_id": "01a0fec9-fdd3-7bea-8c5d-fe99b72369a1",
+      "schema_version": "1.0.3",
+      "payload": {
+        "skill": "emit-fixture",
+        "initial_state": "INIT",
+        "active_path": [
+          "INIT"
+        ],
+        "context": {}
+      }
+    },
+    {
+      "id": "01a0fec9-fdfd-7126-be3d-2667de24c283",
+      "seq": 2,
+      "ledger_seq": 2,
+      "timestamp": "2026-10-02T22:44:05.757Z",
+      "type": "STATE_VISITED",
+      "state": "INIT",
+      "event_id": "01a0fec9-fdfd-7126-be3d-2667de24c283",
+      "occurred_at": "2026-10-02T22:44:05.757Z",
+      "event_type": "STATE_VISITED",
+      "correlation_id": "01a0fec9-fde6-70fa-9d50-6513b075297e",
+      "skill_id": "emit-fixture",
+      "run_id": "01a0fec9-fdd3-7bea-8c5d-fe99b72369a1",
+      "schema_version": "1.0.3",
+      "payload": {
+        "state": "INIT",
+        "seq": 1,
+        "context_snapshot": {}
+      }
+    },
+    {
+      "id": "01a0fec9-ffed-7ccd-a6d2-3bd1dc9bdf7c",
+      "seq": 1,
+      "ledger_seq": 3,
+      "timestamp": "2026-10-02T22:44:06.253Z",
+      "type": "SKILL_INITIALIZED",
+      "state": "INIT",
+      "event_id": "01a0fec9-ffed-7ccd-a6d2-3bd1dc9bdf7c",
+      "occurred_at": "2026-10-02T22:44:06.253Z",
+      "event_type": "SKILL_INITIALIZED",
+      "correlation_id": "01a0fec9-ffe3-7c4b-a34a-fe619eef81fa",
+      "skill_id": "emit-fixture",
+      "run_id": "01a0fec9-ffcf-79aa-8857-8350497e1d60",
+      "schema_version": "1.0.3",
+      "payload": {
+        "skill": "emit-fixture",
+        "initial_state": "INIT",
+        "active_path": [
+          "INIT"
+        ],
+        "context": {}
+      }
+    },
+    {
+      "id": "01a0fec9-fff1-77b8-8921-8d21b38da825",
+      "seq": 2,
+      "ledger_seq": 4,
+      "timestamp": "2026-10-02T22:44:06.257Z",
+      "type": "STATE_VISITED",
+      "state": "INIT",
+      "event_id": "01a0fec9-fff1-77b8-8921-8d21b38da825",
+      "occurred_at": "2026-10-02T22:44:06.257Z",
+      "event_type": "STATE_VISITED",
+      "correlation_id": "01a0fec9-ffe3-7c4b-a34a-fe619eef81fa",
+      "skill_id": "emit-fixture",
+      "run_id": "01a0fec9-ffcf-79aa-8857-8350497e1d60",
+      "schema_version": "1.0.3",
+      "payload": {
+        "state": "INIT",
+        "seq": 1,
+        "context_snapshot": {}
+      }
+    },
+    {
+      "id": "01a0feca-022e-703a-91ea-b4b00ddca165",
+      "seq": 3,
+      "ledger_seq": 5,
+      "timestamp": "2026-10-02T22:44:06.830Z",
+      "type": "SIGNAL_EMITTED",
+      "state": "INIT",
+      "source": "cli",
+      "causationId": "BASELINE_ESTABLISHED",
+      "event_id": "01a0feca-022e-703a-91ea-b4b00ddca165",
+      "occurred_at": "2026-10-02T22:44:06.830Z",
+      "event_type": "SIGNAL_EMITTED",
+      "causation_id": "BASELINE_ESTABLISHED",
+      "correlation_id": "01a0feca-021f-7d96-81e4-20fbdeb4016c",
+      "skill_id": "emit-fixture",
+      "run_id": "01a0fec9-fdd3-7bea-8c5d-fe99b72369a1",
+      "schema_version": "1.0.3",
+      "payload": {
+        "signal": "--payload",
+        "exit_code": 0
+      }
+    }
+  ]
+}

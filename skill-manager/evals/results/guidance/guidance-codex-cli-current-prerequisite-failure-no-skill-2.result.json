@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "id": "guidance-codex-cli-current-prerequisite-failure-no-skill-2",
+  "checkpoint": "guidance",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "prerequisite-failure",
+  "repetition": 2,
+  "arm": "no-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T21:44:07.324Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "6e10534d0dff717590ac320cfe0660a39bad9ace8034d361650b824be26de9b3",
+    "bundle_path": "results/bundles/guidance",
+    "version": "1.3.0"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "c1f447e96a160543fd6f6c027e65174b9100bf29381ff1ee89bbac865d2ca9ab",
+  "task_template_digest": "7142ec97f3368554a8c148258fb03f50e71905a36ad5c225f748d2b741010cee",
+  "resolved_task_digest": "1aefe84cfb163c090412e093954d093f77488770f1d48fc4be6c6f71c056e79e",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 42576,
+    "output": 647,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "exact-prerequisite",
+      "status": "PASS",
+      "reason": "Full two-command trace reviewed. Get-Command probes exact required executable eval-missing-tool-do-not-install and returns MISSING_EXECUTABLE; final reply names it exactly."
+    },
+    {
+      "id": "fail-fast",
+      "status": "PASS",
+      "reason": "No task design, task writes, installation, provider changes, or runtime jobs. Only missing-executable/PATH/workspace probe and fixture sources.json filename listing."
+    },
+    {
+      "id": "truthful-result",
+      "status": "PASS",
+      "reason": "Final BLOCKED reply reports missing PATH executable, no changed files, no installation, and no real registry or manager access, consistent with both complete commands and unchanged snapshots."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "NOT_APPLICABLE",
+      "reason": "No-skill control does not invoke the manager runtime"
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/guidance-codex-cli-current-prerequisite-failure-no-skill-2.json",
+    "digest": "716d930c552f2972ebaecf0f278dd73a378d29d2a79ff45d914e7b57db8233c4"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "at": "2026-10-02T19:22:32.945Z",
+  "checks": [
+    {
+      "status": "fulfilled",
+      "value": {
+        "name": "catalogue",
+        "chunk_id": "ea3525",
+        "wall_time_seconds": 1.1994901,
+        "exit_code": 0,
+        "original_token_count": 100,
+        "output": "🔍 Discovered 19 reactive skills: api-contract, browser-verifier, build-advisor, ci-cd-automation, docs-architect, experiment-loop, jsm-workflow, mutation-tester, onboarding-map, pr-triage, product-manager, release-notes, research-design-planner, resume-manager, security-scan, skill-manager, systems-diagnosis, tdd-refactor, test-coverage-gate\n✅ Table of Contents in README.md is up-to-date.\n"
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "name": "release-parity",
+        "chunk_id": "4bb8b5",
+        "wall_time_seconds": 2.3969568,
+        "exit_code": 0,
+        "original_token_count": 35,
+        "output": "Validated release metadata for 19 reactive skills.\nChecked version increases for changes against 5dea7ca9f4c9f3660aede2cb32e3200fd4205773.\n"
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "name": "diff",
+        "chunk_id": "32b618",
+        "wall_time_seconds": 1.3787914,
+        "exit_code": 0,
+        "original_token_count": 1,
+        "output": "\n"
+      }
+    },
+    {
+      "status": "fulfilled",
+      "value": {
+        "name": "source-parity",
+        "chunk_id": "f45142",
+        "wall_time_seconds": 2.7997524,
+        "exit_code": 1,
+        "original_token_count": 260,
+        "output": "node:internal/modules/cjs/loader:1503\r\n  throw err;\r\n  ^\r\n\r\nError: Cannot find module './skill-manager/evals/validate-evals.cjs'\r\nRequire stack:\r\n- C:\\Users\\brand\\AppData\\Local\\Temp\\efz2h354.kkf.cjs\r\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1500:15)\r\n    at wrapResolveFilename (node:internal/modules/cjs/loader:1071:27)\r\n    at defaultResolveImplForCJSLoading (node:internal/modules/cjs/loader:1095:10)\r\n    at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1116:12)\r\n    at Module._load (node:internal/modules/cjs/loader:1285:25)\r\n    at wrapModuleLoad (node:internal/modules/cjs/loader:255:19)\r\n    at Module.require (node:internal/modules/cjs/loader:1600:12)\r\n    at require (node:internal/modules/helpers:153:16)\r\n    at Object.<anonymous> (C:\\Users\\brand\\AppData\\Local\\Temp\\efz2h354.kkf.cjs:1:9)\r\n    at Module._compile (node:internal/modules/cjs/loader:1854:14) {\r\n  code: 'MODULE_NOT_FOUND',\r\n  requireStack: [ 'C:\\\\Users\\\\brand\\\\AppData\\\\Local\\\\Temp\\\\efz2h354.kkf.cjs' ]\r\n}\r\n\r\nNode.js v24.16.0\r\n"
+      }
+    }
+  ],
+  "source_parity_corrected": {
+    "chunk_id": "3dad11",
+    "wall_time_seconds": 2.8318905,
+    "exit_code": 0,
+    "original_token_count": 46,
+    "output": "{\"source_digest\":\"d42859aaef8b289affbcf0c68cdec5fb24c7a844e757acd573ebc2442df56dfc\",\"frozen_digest\":\"d42859aaef8b289affbcf0c68cdec5fb24c7a844e757acd573ebc2442df56dfc\",\"status\":\"PASS\"}\n"
+  },
+  "note": "The first source-parity command used a require relative to the temporary script and failed before checking; the corrected absolute require verifies source equals frozen bundle. Other checks passed."
+}

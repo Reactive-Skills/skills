@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "id": "portable-paths-codex-cli-current-create-hsm-with-skill-3",
+  "checkpoint": "portable-paths",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "create-hsm",
+  "repetition": 3,
+  "arm": "with-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T19:19:25.583Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "d42859aaef8b289affbcf0c68cdec5fb24c7a844e757acd573ebc2442df56dfc",
+    "bundle_path": "results/bundles/portable-paths",
+    "version": "1.2.1"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "795b215bd2484d90e4b39311b089b3331f07cb47bc1ecad5b211196721f146e1",
+  "task_template_digest": "1640e4bd44562b6020090097e29d01c355b8aca3a79b342459efa514e7f3b746",
+  "resolved_task_digest": "5453f61fba911a581564dcc54e7132e146c663259599ff4b08804298779b25d9",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 2727644,
+    "output": 32830,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "requested-artifacts",
+      "status": "PASS",
+      "reason": "Exactly ten approved source-A artifacts, canonical bootloader, schema2.1.0, docs and both nested state prompts."
+    },
+    {
+      "id": "guarded-topology",
+      "status": "PASS",
+      "reason": "Independent native FSM proof passes false/true DATA_READY, HUMAN_APPROVED completion and inherited CANCEL from both children. Initial unsupported nested keys were corrected within approved manifest after actual validation failure; final source uses substates/initial_substate. Runtime remained unchanged."
+    },
+    {
+      "id": "diagram",
+      "status": "PASS",
+      "reason": "Final nested WORK diagram matches all required states, transitions, strict boolean guard and parent cancellation; docs corrected with manifest."
+    },
+    {
+      "id": "red-answers",
+      "status": "PASS",
+      "reason": "All seven supplied findings recorded in plan and final default_context/CONTEXT.md; RED enabled and state prompts consume findings. Actual executor evidence separate from semantic tiers."
+    },
+    {
+      "id": "source-approval",
+      "status": "PASS",
+      "reason": "All30 phase-one and27 phase-two commands and file events reviewed. Source-A target absent and protected hashes unchanged before exact ten-file approval at19:07:47.865Z. All task edits and corrections confined to approved manifest;39 protected files unchanged."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "PASS",
+      "reason": "One manager UUID01a0fdff-12ef-743b-8971-5be8d45b488f reaches SUCCESS. Actual named snapshot/inventory confirm CREATE and exact ten-file plan;38 SQLite and JSONL events agree. Completion time from ledger; absent SQLite projection rows and in-memory test-double limitations reported truthfully. Parent separately verifies actual FSM/EventStore integration. No manual runtime-ledger/projection edits."
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/portable-paths-codex-cli-current-create-hsm-with-skill-3.json",
+    "digest": "30eade8b0257721972e2e40a838f7c8a9fbb8f16599fc682cb562e74318176ca"
+  }
+}

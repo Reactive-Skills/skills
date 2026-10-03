@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "id": "baseline-help-safe-codex-cli-current-create-hsm-with-skill-1",
+  "checkpoint": "baseline-help-safe",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "create-hsm",
+  "repetition": 1,
+  "arm": "with-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T14:59:34.838Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "be9b7704b15d1085df92fbcf0e67142414ede266774b7df40ca52d9a04992f06",
+    "bundle_path": "results/bundles/baseline-help-safe",
+    "version": "1.1.0"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "795b215bd2484d90e4b39311b089b3331f07cb47bc1ecad5b211196721f146e1",
+  "task_template_digest": "1640e4bd44562b6020090097e29d01c355b8aca3a79b342459efa514e7f3b746",
+  "resolved_task_digest": "b09bca0dd1a3cce40033720a67dc160b7781d2c73a339f5e53393e23f582bd54",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 3017333,
+    "output": 29133,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "requested-artifacts",
+      "status": "PASS",
+      "reason": "Exactly the eleven approved source-A package files were created; schema 2.1.0 and release 1.0.0 agree across manifest and entrypoint."
+    },
+    {
+      "id": "guarded-topology",
+      "status": "PASS",
+      "reason": "Independent fixed-runtime validation and FSM probes verified false readiness rejection, true readiness acceptance, human-approved completion, and parent CANCEL from both WORK children; evidence topology JSON preserved."
+    },
+    {
+      "id": "diagram",
+      "status": "PASS",
+      "reason": "STATECHART.md depicts WORK.COLLECT and WORK.REVIEW, guarded DATA_READY, HUMAN_APPROVED, and parent CANCEL, matching the actual manifest."
+    },
+    {
+      "id": "red-answers",
+      "status": "PASS",
+      "reason": "CONTEXT.md records all seven supplied RED answers and distinguishes semantic model tiers from actual executor coverage."
+    },
+    {
+      "id": "source-approval",
+      "status": "PASS",
+      "reason": "Trace contains no task-file mutation before phase-two manifest approval; all eleven created files match the approved source-A manifest and all other fixture trees retain their hashes."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "PASS",
+      "reason": "One AXI manager job 01a0fd11-cf68-7454-bf0c-102d3059ece6 followed INIT through approval, execution, verification, and SUCCESS; raw events and ledger retained."
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/baseline-help-safe-codex-cli-current-create-hsm-with-skill-1.json",
+    "digest": "e110f2d266787b2dcd0360843db8fc632e034a1c74587ba9c9e3a576b7f80dbd"
+  }
+}

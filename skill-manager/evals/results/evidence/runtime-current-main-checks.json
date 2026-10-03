@@ -1,0 +1,47 @@
+{
+  "recorded_at": "2026-10-02T23:13:54.889Z",
+  "baseline": {
+    "runtime": {
+      "chunk_id": "e61c6c",
+      "wall_time_seconds": 0.0000112,
+      "exit_code": 0,
+      "original_token_count": 115,
+      "output": " ✓ packages/runtime/tests/public-prose-quality-gate.test.ts (2 tests) 3ms\n ✓ packages/runtime/tests/release-tag.test.ts (10 tests) 3ms\n ✓ packages/runtime/tests/package-boundary.test.ts (1 test) 2ms\n ✓ packages/runtime/tests/bootloader.test.ts (2 tests) 3ms\n\n Test Files  39 passed (39)\n      Tests  314 passed (314)\n   Start at  18:11:12\n   Duration  110.28s (transform 1.23s, setup 0ms, collect 7.82s, tests 84.60s, environment 7ms, prepare 7.26s)\n\n"
+    },
+    "axi": {
+      "chunk_id": "299bc2",
+      "wall_time_seconds": 0.0000267,
+      "exit_code": 0,
+      "original_token_count": 769,
+      "output": " ✓ tests/commands/sync.test.ts (8 tests) 6ms\nhome output\n ✓ tests/cli.test.ts (9 tests) 14ms\n ✓ tests/commands/state.test.ts (2 tests) 492ms\n   ✓ stateCommand > returns validation error if no skill name and not in a skill directory  479ms\n ✓ tests/commands/setup.test.ts (4 tests) 249ms\n ✓ tests/commands/inspect.test.ts (4 tests) 896ms\n   ✓ inspectCommand > defaults to first discovered skill when no args  871ms\n ✓ tests/commands/home.test.ts (5 tests) 517ms\n ✓ tests/commands/emit.test.ts (27 tests) 1821ms\n   ✓ emitCommand > returns validation error when missing arguments  467ms\n ✓ tests/commands/capabilities.test.ts (2 tests) 27ms\n ✓ tests/commands/events.test.ts (5 tests) 118ms\n ✓ tests/commands/validate.test.ts (8 tests) 132ms\n ✓ tests/commands/context-route.test.ts (8 tests) 43ms\n ✓ tests/commands/view.test.ts (5 tests) 691ms\n ✓ tests/commands/invoke.test.ts (3 tests) 712ms\n ✓ tests/bootloader.test.ts (1 test) 3ms\n ✓ tests/commands/bootloader.test.ts (2 tests) 3ms\n ✓ tests/commands/dashboard.test.ts (1 test) 223ms\n ✓ tests/commands/init.test.ts (3 tests) 2226ms\n   ✓ initCommand > returns error output with VALIDATION_ERROR when name is missing  2039ms\n ✓ tests/commands/rebuild-sqlite.test.ts (4 tests) 2961ms\n   ✓ rebuildSqliteCommand > returns error when skill name is missing  2241ms\n   ✓ rebuildSqliteCommand > rebuilds SQLite from JSONL and reports event count  698ms\n ✓ tests/commands/jobs.test.ts (4 tests) 1750ms\n   ✓ AXI jobs Command Suite (Leaf 5) > jobs list renders toon table: shows all jobs with status and active marker  771ms\n   ✓ AXI jobs Command Suite (Leaf 5) > jobs switch re-mirrors root deliverables: switches active pointer and mirrors archive files  319ms\n   ✓ AXI jobs Command Suite (Leaf 5) > supports both <subcommand> <skill> and <skill> <subcommand> argument orderings  399ms\n ✓ tests/commands/job-flags.test.ts (10 tests) 2543ms\n   ✓ AXI CLI Job Flags & Fallbacks (Leaf 4) > state explicit job flag: isolates read to specified job  303ms\n   ✓ AXI CLI Job Flags & Fallbacks (Leaf 4) > reset archives active job: archives current active job without destroying historical jobs  449ms\n   ✓ AXI CLI Job Flags & Fallbacks (Leaf 4) > reset of an explicit isolated job does not change the global active pointer  379ms\n   ✓ AXI CLI Job Flags & Fallbacks (Leaf 4) > stateCommand terminal auto-rotation: auto-rotates to fresh job when active job is terminal, but preserves historical read on explicit --job  343ms\n   ✓ AXI CLI Job Flags & Fallbacks (Leaf 4) > supports --run and --run-id as synonyms for --job  331ms\n ✓ tests/commands/emit-signal-args.test.ts (9 tests) 2425ms\n   ✓ emit signal and payload arguments > emits a long signal with --payload with a file  1031ms\n   ✓ emit signal and payload arguments > emits a long signal with --payload with JSON  301ms\n\n Test Files  22 passed (22)\n      Tests  133 passed (133)\n   Start at  18:13:13\n   Duration  9.75s (transform 25.11s, setup 0ms, collect 47.84s, tests 17.87s, environment 26ms, prepare 31.06s)\n\n"
+    },
+    "test_recipe": {
+      "runtime_timeout_ms": 15000,
+      "fsmonitor": "false for test process only",
+      "repository_configuration_changed": false
+    },
+    "prior_failures": [
+      {
+        "suite": "runtime",
+        "result": "313 PASS; strict-execution 5000ms timeout"
+      },
+      {
+        "suite": "runtime",
+        "result": "Stopped owned test process after temporary fixture git add hung"
+      },
+      {
+        "suite": "runtime",
+        "result": "313 PASS; release-bump 5000ms timeout"
+      },
+      {
+        "suite": "axi",
+        "result": "132 PASS; one emit --payload= native transition failed; isolated9 and full133 subsequent PASS; original cause unproven"
+      }
+    ],
+    "docs": "PASS",
+    "prose": "PASS",
+    "build": "PASS"
+  },
+  "integration": "ONLY_NEW_TESTS_ADDED_FOR_RED_CHECK",
+  "source_changes": []
+}

@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "reviewed_at": "2026-10-02T21:22:23.161Z",
+  "correction": "Initial reviewer query used per-run seq across three runs and reported an ordering mismatch. Corrected read-only query orders the shared ledger by ledger_seq; all event IDs, run IDs, types, states and payloads match JSONL. No candidate, trial, result or runtime was modified.",
+  "events": 71,
+  "runs": [
+    "01a0fe7a-206b-7c46-8d01-71d1a4e2fc51",
+    "01a0fe7a-21d9-7fd4-84ad-f806bfc5b79a",
+    "01a0fe7a-224f-7486-928e-691772272c4e"
+  ],
+  "strict_guard_rejections": 9,
+  "parent_bubbles": [
+    {
+      "signal": "CANCEL",
+      "fromLeaf": "WORK.COLLECT",
+      "handledAt": "WORK",
+      "depth": 1
+    },
+    {
+      "signal": "CANCEL",
+      "fromLeaf": "WORK.REVIEW",
+      "handledAt": "WORK",
+      "depth": 1
+    }
+  ]
+}

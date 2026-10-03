@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "id": "portable-hsm-codex-cli-current-prerequisite-failure-with-skill-3",
+  "checkpoint": "portable-hsm",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "prerequisite-failure",
+  "repetition": 3,
+  "arm": "with-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T20:48:19.454Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "bc452f3176c6d6720e6e4735391aefaab81f27344a91c923c05f080340c9aab9",
+    "bundle_path": "results/bundles/portable-hsm",
+    "version": "1.2.2"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "c1f447e96a160543fd6f6c027e65174b9100bf29381ff1ee89bbac865d2ca9ab",
+  "task_template_digest": "7142ec97f3368554a8c148258fb03f50e71905a36ad5c225f748d2b741010cee",
+  "resolved_task_digest": "76adf0335acf38717f20c350cdcc518c4b01a726f8d10b9b966815cad0438786",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 496700,
+    "output": 6568,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "exact-prerequisite",
+      "status": "PASS",
+      "reason": "Repeated Get-Command Application lookup names exact missing executable; no installation attempted."
+    },
+    {
+      "id": "fail-fast",
+      "status": "PASS",
+      "reason": "All 21 resumed commands reviewed: runtime preparation and native evidence only; no dependent report design, task writes, or configuration changes. Original phase had no tool calls before quota interruption."
+    },
+    {
+      "id": "truthful-result",
+      "status": "PASS",
+      "reason": "BLOCKED reply identifies missing dependency and unchanged sources, accurately describes retained READY job and actual events path."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "PASS",
+      "reason": "Exactly one native manager run 01a0fe5e-e30b-7cfb-9e55-736f93a0a72a, six SQLite/JSONL-matching events, sole INIT to READY transition. No later parsing/design or fabricated success."
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/portable-hsm-codex-cli-current-prerequisite-failure-with-skill-3.json",
+    "digest": "c1ce315d607bd787a1a0d1e3118ac72815e68f7aa1039130a757626751fb40ea"
+  }
+}

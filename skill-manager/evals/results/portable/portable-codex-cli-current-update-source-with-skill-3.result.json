@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "id": "portable-codex-cli-current-update-source-with-skill-3",
+  "checkpoint": "portable",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "update-source",
+  "repetition": 3,
+  "arm": "with-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T17:27:39.327Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "1ace3297db3eccd5db920e5d22ed880a93bc6231cdd0038eba888697d456a7ba",
+    "bundle_path": "results/bundles/portable",
+    "version": "1.2.0"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "5e36ea24eef2dde275489ec95aa1cc1f1544921fff50bbf7d7ee7db7e6ada698",
+  "task_template_digest": "ccbcca279158348bc2931bbf66a1c5a90926bf9344943794ff4517cf6127910d",
+  "resolved_task_digest": "9fc3e9d35c472d9d38109747acffffa8e1ff1a665fcb11c11e15ca7768f11398",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 1350404,
+    "output": 15069,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "exact-update",
+      "status": "PASS",
+      "reason": "Independent byte comparison confirms exactly the approved Include the review date. sentence plus newline appended to the named source-a file."
+    },
+    {
+      "id": "other-hashes",
+      "status": "PASS",
+      "reason": "All 63 other baseline files and the file and directory inventories match; decoded verification programs check the complete 64-file baseline."
+    },
+    {
+      "id": "approval-first",
+      "status": "PASS",
+      "reason": "All phase-one commands reviewed, including decoded programs: task reads and permitted runtime inputs only. The task-file append follows the recorded approval and checks the approved one-file manifest and original bytes."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "PASS",
+      "reason": "One named invoke followed by the same retained UUID through SUCCESS. All commands and decoded bodies reviewed; zero target guards, checker and runtime validation passed. Actual job-scoped projections enumerated and read, supporting final claims."
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/portable-codex-cli-current-update-source-with-skill-3.json",
+    "digest": "c29fa1e271f0bbab8808c074884733405de34c3c3d7e04afc700aff27700ff1f"
+  }
+}

@@ -1,0 +1,19 @@
+﻿# Skill Manager Snapshot
+
+## Skill: {{context.skill_name}}
+## Operation: {{context.operation}}
+## Timestamp: {{lastUpdated}}
+
+### Status: {{currentState}}
+
+{{#if context.files}}
+### Files Affected
+{{#each context.files}}
+- {{this}}
+{{/each}}
+{{/if}}
+
+{{#if context.error}}
+### Error
+{{context.error}}
+{{/if}}

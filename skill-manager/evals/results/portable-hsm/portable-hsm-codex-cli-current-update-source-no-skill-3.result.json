@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "id": "portable-hsm-codex-cli-current-update-source-no-skill-3",
+  "checkpoint": "portable-hsm",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "update-source",
+  "repetition": 3,
+  "arm": "no-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T20:49:30.759Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "bc452f3176c6d6720e6e4735391aefaab81f27344a91c923c05f080340c9aab9",
+    "bundle_path": "results/bundles/portable-hsm",
+    "version": "1.2.2"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "5e36ea24eef2dde275489ec95aa1cc1f1544921fff50bbf7d7ee7db7e6ada698",
+  "task_template_digest": "ccbcca279158348bc2931bbf66a1c5a90926bf9344943794ff4517cf6127910d",
+  "resolved_task_digest": "3d27be7fcf855d86faf5e8bb4b94fca567d334291bf068f31991888b92b9d2c2",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 279385,
+    "output": 7757,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "exact-update",
+      "status": "PASS",
+      "reason": "Verified exact original 51 bytes plus Include the review date newline, now 76 bytes."
+    },
+    {
+      "id": "other-hashes",
+      "status": "PASS",
+      "reason": "All 28 other baseline files unchanged; source B, distribution, registries and nested directories preserved. Full validation code reviewed."
+    },
+    {
+      "id": "approval-first",
+      "status": "PASS",
+      "reason": "Original quota-interrupted phase had zero tools. Resumed 11-command intake read-only, exact manifest approved at 2026-10-02T20:47:19.350Z; all three postapproval commands fully reviewed, sole mutation appends approved line."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "NOT_APPLICABLE",
+      "reason": "No-skill control does not invoke the manager runtime"
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/portable-hsm-codex-cli-current-update-source-no-skill-3.json",
+    "digest": "ffdcf6a299b8fff6b1f948feec880c947c328565f4f20010a25434cc1efb3649"
+  }
+}

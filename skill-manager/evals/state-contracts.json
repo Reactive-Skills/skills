@@ -1,0 +1,659 @@
+{
+  "schema_version": 1,
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "baseline": {
+    "checkpoint": "portable-hsm",
+    "bundle_path": "results/bundles/portable-hsm",
+    "digest": "bc452f3176c6d6720e6e4735391aefaab81f27344a91c923c05f080340c9aab9"
+  },
+  "candidate": {
+    "path": "..",
+    "digest": "6e10534d0dff717590ac320cfe0660a39bad9ace8034d361650b824be26de9b3"
+  },
+  "states": [
+    {
+      "state": "PLANNING",
+      "source": "states/planning.md",
+      "baseline": {
+        "source": "states/planning.md",
+        "method": "raw-source-whitespace-words",
+        "words": 964,
+        "digest": "d861f74fdd8f67c5533a745a947c37b87ebe626052dc1754410c5969c0e7d448",
+        "rendered_words": null,
+        "host_tokens": null
+      },
+      "candidate": {
+        "source": "states/planning.md",
+        "method": "raw-source-whitespace-words",
+        "words": 605,
+        "digest": "612a263213ea97bbab83ba901c2fcc7e97f19eefc908cd626fd116ad8ba2ac5c",
+        "rendered_words": null,
+        "host_tokens": null
+      },
+      "invariants": [
+        {
+          "id": "objective",
+          "baseline_evidence": "states/planning.md:3",
+          "candidate_evidence": "states/planning.md:5",
+          "disposition": "preserved",
+          "rationale": "Retains the objective requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "consumed-context",
+          "baseline_evidence": "states/planning.md:7; states/planning.md:48; states/planning.md:58; SKILL.md:25",
+          "candidate_evidence": "states/planning.md:6",
+          "disposition": "preserved",
+          "rationale": "Retains the consumed context requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "allowed-actions",
+          "baseline_evidence": "states/planning.md:4; states/planning.md:24; SKILL.md:53",
+          "candidate_evidence": "states/planning.md:5",
+          "disposition": "preserved",
+          "rationale": "Retains the allowed actions requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "observable-exit",
+          "baseline_evidence": "states/planning.md:93; states/planning.md:101",
+          "candidate_evidence": "states/planning.md:61",
+          "disposition": "preserved",
+          "rationale": "Retains the observable exit requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "actual-signals",
+          "baseline_evidence": "states/planning.md:104",
+          "candidate_evidence": "states/planning.md:61",
+          "disposition": "preserved",
+          "rationale": "Retains the actual signals requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "approved-source-boundary",
+          "baseline_evidence": "SKILL.md:25; SKILL.md:53",
+          "candidate_evidence": "states/planning.md:8",
+          "disposition": "preserved",
+          "rationale": "Retains the approved source boundary requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "retained-manager-run",
+          "baseline_evidence": "SKILL.md:25; SKILL.md:291",
+          "candidate_evidence": "states/planning.md:7",
+          "disposition": "preserved",
+          "rationale": "Retains the retained manager run requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "scope-and-approval",
+          "baseline_evidence": "SKILL.md:53; states/approving.md",
+          "candidate_evidence": "states/planning.md:63",
+          "disposition": "preserved",
+          "rationale": "Retains the scope and approval requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "truthful-evidence",
+          "baseline_evidence": "states/planning.md:83; states/planning.md:89; SKILL.md:119",
+          "candidate_evidence": "states/planning.md:50",
+          "disposition": "preserved",
+          "rationale": "Retains the truthful evidence requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "operation-specific-manifest",
+          "baseline_evidence": "states/planning.md:37; states/planning.md:42; states/planning.md:45",
+          "candidate_evidence": "states/planning.md:54",
+          "disposition": "preserved",
+          "rationale": "Retains the operation specific manifest requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "architectural-shape-and-rationale",
+          "baseline_evidence": "states/planning.md:10; states/planning.md:16",
+          "candidate_evidence": "states/planning.md:14",
+          "disposition": "preserved",
+          "rationale": "Retains the architectural shape and rationale requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "hierarchy-and-parent-handlers",
+          "baseline_evidence": "states/planning.md:11; states/planning.md:20; states/planning.md:25",
+          "candidate_evidence": "states/planning.md:15",
+          "disposition": "preserved",
+          "rationale": "Retains the hierarchy and parent handlers requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "nested-prompt-layout",
+          "baseline_evidence": "states/planning.md:30",
+          "candidate_evidence": "states/planning.md:21",
+          "disposition": "preserved",
+          "rationale": "Retains the nested prompt layout requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "canonical-bootloader-planning",
+          "baseline_evidence": "states/planning.md:26",
+          "candidate_evidence": "states/planning.md:20",
+          "disposition": "preserved",
+          "rationale": "Retains the canonical bootloader planning requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "diagram-and-documentation-alignment",
+          "baseline_evidence": "states/planning.md:27; states/planning.md:29; states/planning.md:38",
+          "candidate_evidence": "states/planning.md:27",
+          "disposition": "clarified",
+          "rationale": "Retains document accuracy when behavior changes and makes the approved file manifest authoritative for prompt-only updates."
+        },
+        {
+          "id": "skill-type-classification",
+          "baseline_evidence": "states/planning.md:60",
+          "candidate_evidence": "states/planning.md:33",
+          "disposition": "preserved",
+          "rationale": "Retains the skill type classification requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "red-seven-answers",
+          "baseline_evidence": "states/planning.md:80; states/planning.md:96",
+          "candidate_evidence": "states/planning.md:37",
+          "disposition": "preserved",
+          "rationale": "Retains the red seven answers requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "middleware-decisions-within-scope",
+          "baseline_evidence": "states/planning.md:93; SKILL.md:53",
+          "candidate_evidence": "states/planning.md:45",
+          "disposition": "clarified",
+          "rationale": "Retains middleware assessment and seven discovery questions while limiting implementation to supported, approved requirements."
+        },
+        {
+          "id": "explicit-unresolved-decisions",
+          "baseline_evidence": "states/planning.md:22; states/planning.md:81",
+          "candidate_evidence": "states/planning.md:18",
+          "disposition": "preserved",
+          "rationale": "Retains the explicit unresolved decisions requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "no-task-writes",
+          "baseline_evidence": "states/planning.md:4; SKILL.md:53",
+          "candidate_evidence": "states/planning.md:5",
+          "disposition": "preserved",
+          "rationale": "Retains the no task writes requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "plan-ready-context",
+          "baseline_evidence": "states/planning.md:45; states/planning.md:102",
+          "candidate_evidence": "states/planning.md:62",
+          "disposition": "preserved",
+          "rationale": "Retains the plan ready context requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        }
+      ],
+      "budget": {
+        "status": "provisional",
+        "measurement": "raw-source-whitespace-words",
+        "max_words": null,
+        "evidence": []
+      }
+    },
+    {
+      "state": "EXECUTING",
+      "source": "states/executing.md",
+      "baseline": {
+        "source": "states/executing.md",
+        "method": "raw-source-whitespace-words",
+        "words": 1047,
+        "digest": "23d1c9ddf313e022dce09da7ab452b18491b42b56627385e8738dd1250aaa90b",
+        "rendered_words": null,
+        "host_tokens": null
+      },
+      "candidate": {
+        "source": "states/executing.md",
+        "method": "raw-source-whitespace-words",
+        "words": 655,
+        "digest": "ae063c4dc1c1636e2a709133be99562b7a9a916a01dbfbf97ebc2e59806ed154",
+        "rendered_words": null,
+        "host_tokens": null
+      },
+      "invariants": [
+        {
+          "id": "objective",
+          "baseline_evidence": "states/executing.md:3",
+          "candidate_evidence": "states/executing.md:5",
+          "disposition": "preserved",
+          "rationale": "Retains the objective requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "consumed-context",
+          "baseline_evidence": "states/executing.md:4; states/executing.md:8",
+          "candidate_evidence": "states/executing.md:6",
+          "disposition": "preserved",
+          "rationale": "Retains the consumed context requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "allowed-actions",
+          "baseline_evidence": "states/executing.md:13; SKILL.md:53",
+          "candidate_evidence": "states/executing.md:31",
+          "disposition": "preserved",
+          "rationale": "Retains the allowed actions requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "observable-exit",
+          "baseline_evidence": "states/executing.md:39",
+          "candidate_evidence": "states/executing.md:68",
+          "disposition": "preserved",
+          "rationale": "Retains the observable exit requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "actual-signals",
+          "baseline_evidence": "states/executing.md:45",
+          "candidate_evidence": "states/executing.md:68",
+          "disposition": "preserved",
+          "rationale": "Retains the actual signals requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "approved-source-boundary",
+          "baseline_evidence": "states/executing.md:8",
+          "candidate_evidence": "states/executing.md:9",
+          "disposition": "preserved",
+          "rationale": "Retains the approved source boundary requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "retained-manager-run",
+          "baseline_evidence": "states/executing.md:10",
+          "candidate_evidence": "states/executing.md:12",
+          "disposition": "preserved",
+          "rationale": "Retains the retained manager run requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "scope-and-approval",
+          "baseline_evidence": "states/executing.md:4; states/executing.md:68; SKILL.md:53",
+          "candidate_evidence": "states/executing.md:7",
+          "disposition": "preserved",
+          "rationale": "Retains the scope and approval requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "truthful-evidence",
+          "baseline_evidence": "states/executing.md:65; states/executing.md:94",
+          "candidate_evidence": "states/executing.md:62",
+          "disposition": "preserved",
+          "rationale": "Retains the truthful evidence requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "approved-manifest-only",
+          "baseline_evidence": "states/executing.md:4; states/executing.md:30; states/executing.md:68",
+          "candidate_evidence": "states/executing.md:5",
+          "disposition": "preserved",
+          "rationale": "Retains the approved manifest only requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "canonical-containment",
+          "baseline_evidence": "states/executing.md:9",
+          "candidate_evidence": "states/executing.md:8",
+          "disposition": "preserved",
+          "rationale": "Retains the canonical containment requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "manager-template-resolution",
+          "baseline_evidence": "states/executing.md:10",
+          "candidate_evidence": "states/executing.md:14",
+          "disposition": "preserved",
+          "rationale": "Retains the manager template resolution requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "one-run-one-transport",
+          "baseline_evidence": "states/executing.md:10",
+          "candidate_evidence": "states/executing.md:12",
+          "disposition": "preserved",
+          "rationale": "Retains the one run one transport requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "supported-nested-keys",
+          "baseline_evidence": "states/executing.md:18; states/executing.md:67",
+          "candidate_evidence": "states/executing.md:21",
+          "disposition": "preserved",
+          "rationale": "Retains the supported nested keys requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "recursive-directories",
+          "baseline_evidence": "states/executing.md:16; states/executing.md:37",
+          "candidate_evidence": "states/executing.md:19",
+          "disposition": "preserved",
+          "rationale": "Retains the recursive directories requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "canonical-single-bootloader",
+          "baseline_evidence": "states/executing.md:20; states/executing.md:55; states/verifying.md:84",
+          "candidate_evidence": "states/executing.md:25",
+          "disposition": "preserved",
+          "rationale": "Retains the canonical single bootloader requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "schema-required-fields",
+          "baseline_evidence": "states/executing.md:73",
+          "candidate_evidence": "states/executing.md:20",
+          "disposition": "preserved",
+          "rationale": "Retains the schema required fields requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "declared-context",
+          "baseline_evidence": "states/executing.md:74",
+          "candidate_evidence": "states/executing.md:39",
+          "disposition": "preserved",
+          "rationale": "Retains the declared context requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "javascript-guards",
+          "baseline_evidence": "states/executing.md:75",
+          "candidate_evidence": "states/executing.md:38",
+          "disposition": "preserved",
+          "rationale": "Retains the javascript guards requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "actual-signal-alignment",
+          "baseline_evidence": "states/executing.md:76",
+          "candidate_evidence": "states/executing.md:40",
+          "disposition": "preserved",
+          "rationale": "Retains the actual signal alignment requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "prompt-references-and-orphans",
+          "baseline_evidence": "states/executing.md:58; states/executing.md:77",
+          "candidate_evidence": "states/executing.md:41",
+          "disposition": "preserved",
+          "rationale": "Retains the prompt references and orphans requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "projection-template-contract",
+          "baseline_evidence": "states/executing.md:78",
+          "candidate_evidence": "states/executing.md:43",
+          "disposition": "preserved",
+          "rationale": "Retains the projection template contract requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "diagram-and-doc-accuracy",
+          "baseline_evidence": "states/executing.md:62; states/executing.md:87",
+          "candidate_evidence": "states/executing.md:45",
+          "disposition": "clarified",
+          "rationale": "Retains documentation and diagram accuracy without treating that requirement as permission for unapproved files."
+        },
+        {
+          "id": "portable-checker-and-runtime-validation",
+          "baseline_evidence": "states/executing.md:65",
+          "candidate_evidence": "states/executing.md:58",
+          "disposition": "preserved",
+          "rationale": "Retains the portable checker and runtime validation requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "delete-absence",
+          "baseline_evidence": "states/executing.md:70",
+          "candidate_evidence": "states/executing.md:61",
+          "disposition": "preserved",
+          "rationale": "Retains the delete absence requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "red-seven-records",
+          "baseline_evidence": "states/executing.md:94; states/planning.md:80 (existing execution count says six)",
+          "candidate_evidence": "states/executing.md:51",
+          "disposition": "replaced-with-approved-contract",
+          "rationale": "Corrects execution's six-answer wording to match planning's seven supplied RED questions."
+        },
+        {
+          "id": "declared-middleware",
+          "baseline_evidence": "states/executing.md:97; SKILL.md:53",
+          "candidate_evidence": "states/executing.md:52",
+          "disposition": "clarified",
+          "rationale": "Retains applicable hook requirements within the approved manifest and selected runtime support, preventing unconditional extra scaffolds."
+        },
+        {
+          "id": "state-local-independent-contract",
+          "baseline_evidence": "states/executing.md:57; states/executing.md:82; states/executing.md:85",
+          "candidate_evidence": "states/executing.md:47",
+          "disposition": "replaced-with-approved-contract",
+          "rationale": "Replaces universal identical checklists with objective, consumed context, actions, observable exit and actual signals while retaining essential state-local constraints."
+        },
+        {
+          "id": "measured-provisional-budgets",
+          "baseline_evidence": "states/executing.md:80 (universal 200-word hard rule replaced under PLAN-004)",
+          "candidate_evidence": "states/executing.md:64",
+          "disposition": "replaced-with-approved-contract",
+          "rationale": "Replaces the contradicted global 200-word hard cap with separate source measurements and explicitly provisional state budgets."
+        },
+        {
+          "id": "exit-code-and-executed",
+          "baseline_evidence": "states/executing.md:39; states/executing.md:42; skill.yaml: EXECUTING transition",
+          "candidate_evidence": "states/executing.md:69",
+          "disposition": "preserved",
+          "rationale": "Retains the exit code and executed requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        }
+      ],
+      "budget": {
+        "status": "provisional",
+        "measurement": "raw-source-whitespace-words",
+        "max_words": null,
+        "evidence": []
+      }
+    },
+    {
+      "state": "VERIFYING",
+      "source": "states/verifying.md",
+      "baseline": {
+        "source": "states/verifying.md",
+        "method": "raw-source-whitespace-words",
+        "words": 1169,
+        "digest": "f510a801fb251b5af19a77ea11ab97646984629cc89a14a942e1d53323658c8f",
+        "rendered_words": null,
+        "host_tokens": null
+      },
+      "candidate": {
+        "source": "states/verifying.md",
+        "method": "raw-source-whitespace-words",
+        "words": 758,
+        "digest": "39f7a6971575b19872213afd71862e2bca199a7309ded16e6fff447f2fe6fc0e",
+        "rendered_words": null,
+        "host_tokens": null
+      },
+      "invariants": [
+        {
+          "id": "objective",
+          "baseline_evidence": "states/verifying.md:3",
+          "candidate_evidence": "states/verifying.md:5",
+          "disposition": "preserved",
+          "rationale": "Retains the objective requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "consumed-context",
+          "baseline_evidence": "states/verifying.md:8; states/verifying.md:29; SKILL.md:53",
+          "candidate_evidence": "states/verifying.md:6",
+          "disposition": "preserved",
+          "rationale": "Retains the consumed context requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "allowed-actions",
+          "baseline_evidence": "states/verifying.md:9; states/verifying.md:14",
+          "candidate_evidence": "states/verifying.md:11",
+          "disposition": "preserved",
+          "rationale": "Retains the allowed actions requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "observable-exit",
+          "baseline_evidence": "states/verifying.md:98",
+          "candidate_evidence": "states/verifying.md:75",
+          "disposition": "preserved",
+          "rationale": "Retains the observable exit requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "actual-signals",
+          "baseline_evidence": "states/verifying.md:102",
+          "candidate_evidence": "states/verifying.md:75",
+          "disposition": "preserved",
+          "rationale": "Retains the actual signals requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "approved-source-boundary",
+          "baseline_evidence": "states/verifying.md:8",
+          "candidate_evidence": "states/verifying.md:7",
+          "disposition": "preserved",
+          "rationale": "Retains the approved source boundary requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "retained-manager-run",
+          "baseline_evidence": "states/verifying.md:12",
+          "candidate_evidence": "states/verifying.md:8",
+          "disposition": "preserved",
+          "rationale": "Retains the retained manager run requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "scope-and-approval",
+          "baseline_evidence": "states/verifying.md:8; SKILL.md:53",
+          "candidate_evidence": "states/verifying.md:11",
+          "disposition": "preserved",
+          "rationale": "Retains the scope and approval requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "truthful-evidence",
+          "baseline_evidence": "states/verifying.md:21; states/verifying.md:73",
+          "candidate_evidence": "states/verifying.md:64",
+          "disposition": "preserved",
+          "rationale": "Retains the truthful evidence requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "approved-task-outcomes",
+          "baseline_evidence": "states/verifying.md:29",
+          "candidate_evidence": "states/verifying.md:17",
+          "disposition": "preserved",
+          "rationale": "Retains the approved task outcomes requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "canonical-target-and-isolated-checks",
+          "baseline_evidence": "states/verifying.md:8; states/verifying.md:14",
+          "candidate_evidence": "states/verifying.md:10",
+          "disposition": "preserved",
+          "rationale": "Retains the canonical target and isolated checks requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "one-manager-run",
+          "baseline_evidence": "states/verifying.md:12",
+          "candidate_evidence": "states/verifying.md:9",
+          "disposition": "preserved",
+          "rationale": "Retains the one manager run requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "checker-errors-vs-advisories",
+          "baseline_evidence": "states/verifying.md:9",
+          "candidate_evidence": "states/verifying.md:16",
+          "disposition": "preserved",
+          "rationale": "Retains the checker errors vs advisories requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "schema-and-prompt-structure",
+          "baseline_evidence": "states/verifying.md:34",
+          "candidate_evidence": "states/verifying.md:21",
+          "disposition": "preserved",
+          "rationale": "Retains the schema and prompt structure requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "hierarchical-target-resolution",
+          "baseline_evidence": "states/verifying.md:40; states/executing.md:18",
+          "candidate_evidence": "states/verifying.md:22",
+          "disposition": "preserved",
+          "rationale": "Retains the hierarchical target resolution requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "context-vs-payload-contracts",
+          "baseline_evidence": "states/verifying.md:42; states/verifying.md:53",
+          "candidate_evidence": "states/verifying.md:25",
+          "disposition": "preserved",
+          "rationale": "Retains the context vs payload contracts requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "guard-static-review",
+          "baseline_evidence": "states/verifying.md:49",
+          "candidate_evidence": "states/verifying.md:35",
+          "disposition": "preserved",
+          "rationale": "Retains the guard static review requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "violating-and-satisfying-real-transitions",
+          "baseline_evidence": "states/verifying.md:55",
+          "candidate_evidence": "states/verifying.md:37",
+          "disposition": "preserved",
+          "rationale": "Retains the violating and satisfying real transitions requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "no-unguarded-critical-actions",
+          "baseline_evidence": "states/verifying.md:67",
+          "candidate_evidence": "states/verifying.md:44",
+          "disposition": "preserved",
+          "rationale": "Retains the no unguarded critical actions requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "signal-and-state-rejection-with-parent-fallback",
+          "baseline_evidence": "states/verifying.md:68; states/verifying.md:70; states/executing.md:18",
+          "candidate_evidence": "states/verifying.md:43",
+          "disposition": "preserved",
+          "rationale": "Retains the signal and state rejection with parent fallback requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "guard-evidence-and-coverage-limits",
+          "baseline_evidence": "states/verifying.md:69; states/verifying.md:71; states/verifying.md:73",
+          "candidate_evidence": "states/verifying.md:52",
+          "disposition": "clarified",
+          "rationale": "Retains static and real transition tests, per-guard evidence and critical-action protection while disclosing untested assumptions and unsafe or unavailable checks."
+        },
+        {
+          "id": "bootloader-exact-single-runtime-owned",
+          "baseline_evidence": "states/verifying.md:84; states/verifying.md:86",
+          "candidate_evidence": "states/verifying.md:27",
+          "disposition": "preserved",
+          "rationale": "Retains the bootloader exact single runtime owned requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "measured-provisional-budgets",
+          "baseline_evidence": "states/verifying.md:82 (universal 200-word hard rule replaced under PLAN-004)",
+          "candidate_evidence": "states/verifying.md:71",
+          "disposition": "replaced-with-approved-contract",
+          "rationale": "Replaces the contradicted global 200-word hard cap with evidence-backed state budgets; unset budgets never block acceptance."
+        },
+        {
+          "id": "declared-middleware-verification",
+          "baseline_evidence": "states/verifying.md:92",
+          "candidate_evidence": "states/verifying.md:30",
+          "disposition": "preserved",
+          "rationale": "Retains the declared middleware verification requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "runtime-projection-paths-and-contents",
+          "baseline_evidence": "states/verifying.md:16",
+          "candidate_evidence": "states/verifying.md:59",
+          "disposition": "preserved",
+          "rationale": "Retains the runtime projection paths and contents requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "ledger-time-vs-rendered-time",
+          "baseline_evidence": "states/verifying.md:24",
+          "candidate_evidence": "states/verifying.md:65",
+          "disposition": "preserved",
+          "rationale": "Retains the ledger time vs rendered time requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "truthful-runtime-coverage",
+          "baseline_evidence": "states/verifying.md:23; states/verifying.md:73",
+          "candidate_evidence": "states/verifying.md:48",
+          "disposition": "clarified",
+          "rationale": "Qualifies earlier context and manifest immutability claims; requires observed runtime evidence and preserves failure reporting for a demonstrated bypass."
+        },
+        {
+          "id": "verified-signal-and-exit-code",
+          "baseline_evidence": "states/verifying.md:98",
+          "candidate_evidence": "states/verifying.md:75",
+          "disposition": "preserved",
+          "rationale": "Retains the verified signal and exit code requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        },
+        {
+          "id": "preserved-rollback-routing",
+          "baseline_evidence": "skill.yaml: VERIFYING VERIFIED_OK/VERIFIED_FAIL transitions",
+          "candidate_evidence": "states/verifying.md:77",
+          "disposition": "preserved",
+          "rationale": "Retains the preserved rollback routing requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
+        }
+      ],
+      "budget": {
+        "status": "provisional",
+        "measurement": "raw-source-whitespace-words",
+        "max_words": null,
+        "evidence": []
+      }
+    }
+  ]
+}

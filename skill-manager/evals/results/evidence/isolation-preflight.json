@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "observed_at": "2026-10-02T08:23:29.422Z",
+  "probe": {
+    "home": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-manager-cli-pilot-oj5H6Q\\workspace\\home",
+    "registry": {
+      "sources": [
+        "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-manager-cli-pilot-oj5H6Q\\workspace\\source-a",
+        "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-manager-cli-pilot-oj5H6Q\\workspace\\source-b"
+      ]
+    },
+    "outside_write": "DENIED",
+    "error_code": "EPERM"
+  },
+  "canary_after": "UNCHANGED",
+  "inside_after": "INSIDE",
+  "probe_digest": "613192870f35fcee1ef2801b9c08d6b11ade13cc6f0c37bc07b934ffa6d62b95",
+  "host_events_digest": "67bdc1db658edbc6b48f9fa68aa516c6ec2449611ccf196ca4af404160825e7e",
+  "sandbox": "Windows unelevated workspace-write; temp exceptions disabled",
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:6e1affed36880a0c89e82211694515b5f3782e9e6ea87128f9af65b73ed75e21"
+  }
+}

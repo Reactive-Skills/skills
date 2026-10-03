@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "id": "portable-hsm-codex-cli-current-create-hsm-no-skill-2",
+  "checkpoint": "portable-hsm",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "create-hsm",
+  "repetition": 2,
+  "arm": "no-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T20:45:04.874Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "bc452f3176c6d6720e6e4735391aefaab81f27344a91c923c05f080340c9aab9",
+    "bundle_path": "results/bundles/portable-hsm",
+    "version": "1.2.2"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "795b215bd2484d90e4b39311b089b3331f07cb47bc1ecad5b211196721f146e1",
+  "task_template_digest": "1640e4bd44562b6020090097e29d01c355b8aca3a79b342459efa514e7f3b746",
+  "resolved_task_digest": "ccd81713ff29ad866eb0f00a539574e74b291e421752aa56dc1ad759e87c3190",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 1409417,
+    "output": 25876,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "requested-artifacts",
+      "status": "PASS",
+      "reason": "All ten approved source-a artifacts fully reviewed; no comparison or registry changes. Original interrupted attempt and resumed evidence retained."
+    },
+    {
+      "id": "guarded-topology",
+      "status": "PASS",
+      "reason": "Independent native FSM proof passes strict DATA_READY guard, HUMAN_APPROVED path, and parent CANCEL from both nested states. Full child trace reviewed, including decoded validation scripts and corrected modelContract.tier assertion; failed validation runs retained."
+    },
+    {
+      "id": "diagram",
+      "status": "PASS",
+      "reason": "Diagram matches supported substates/initial_substate topology and all transitions."
+    },
+    {
+      "id": "red-answers",
+      "status": "PASS",
+      "reason": "All seven supplied RED answers preserved, including actual executor coverage separate from semantic tiers."
+    },
+    {
+      "id": "source-approval",
+      "status": "PASS",
+      "reason": "All phase-one commands read-only; original phase-two writes followed retained approval at 2026-10-02T20:11:11.900Z. Resumed same session and workspace only updated approved artifacts. Full command and file-event traces reviewed."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "NOT_APPLICABLE",
+      "reason": "No-skill control does not invoke the manager runtime"
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/portable-hsm-codex-cli-current-create-hsm-no-skill-2.json",
+    "digest": "a8aaa3ba532526b8f1f0e9a77e94c1146ebee53b5a43ff5d874d82162736db93"
+  }
+}

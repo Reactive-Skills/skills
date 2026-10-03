@@ -1,0 +1,28 @@
+{
+  "status": "NOT_RUN",
+  "checkpoint": "guidance",
+  "bundle_digest": "6e10534d0dff717590ac320cfe0660a39bad9ace8034d361650b824be26de9b3",
+  "checks": [
+    {
+      "id": "duplicate-sources",
+      "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-update-source-with-skill-n1fcqv/workspace",
+      "prompt": "skill-manager/evals/results/desktop-guidance/duplicate-sources.prompt.txt",
+      "metadata": "skill-manager/evals/results/desktop-guidance/duplicate-sources.json",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "attachment-reference",
+      "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-reference-navigation-with-skill-d5v28N/workspace",
+      "prompt": "skill-manager/evals/results/desktop-guidance/attachment-reference.prompt.txt",
+      "metadata": "skill-manager/evals/results/desktop-guidance/attachment-reference.json",
+      "status": "NOT_RUN"
+    },
+    {
+      "id": "withdraw-approval",
+      "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-update-source-with-skill-IjA1u5/workspace",
+      "prompt": "skill-manager/evals/results/desktop-guidance/withdraw-approval.prompt.txt",
+      "metadata": "skill-manager/evals/results/desktop-guidance/withdraw-approval.json",
+      "status": "NOT_RUN"
+    }
+  ]
+}

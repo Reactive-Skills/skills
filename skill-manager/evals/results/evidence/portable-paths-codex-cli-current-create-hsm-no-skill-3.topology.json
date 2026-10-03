@@ -1,0 +1,1836 @@
+{
+  "trial_id": "portable-paths-codex-cli-current-create-hsm-no-skill-3",
+  "status": "PASS",
+  "runtime_validation": "validation:\n  skill: eval-report\n  status: valid\n  schema: 2.1.0\n  version: 1.0.0\n  states: \"6\"\n  transitions: \"4\"\n  errors: \"0\"\n  warnings: \"0\"\nhelp[2]:\nRun `reactive-skills-axi inspect C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-create-hsm-no-skill-vwx3el\\workspace\\source-a\\eval-report` to inspect statechart\n  Run `reactive-skills-axi state eval-report` to inspect active state\n",
+  "runtime_validation_exit": 0,
+  "runs": [
+    {
+      "scenario": "guard-and-complete",
+      "steps": [
+        {
+          "signal": "RUNTIME_READY",
+          "previous": "INIT",
+          "state": "WORK.COLLECT",
+          "transitioned": true
+        },
+        {
+          "signal": "DATA_READY",
+          "payload": {
+            "checks_passed": false
+          },
+          "previous": "WORK.COLLECT",
+          "state": "WORK.COLLECT",
+          "transitioned": false
+        },
+        {
+          "signal": "DATA_READY",
+          "payload": {
+            "checks_passed": true
+          },
+          "previous": "WORK.COLLECT",
+          "state": "WORK.REVIEW",
+          "transitioned": true
+        },
+        {
+          "signal": "HUMAN_APPROVED",
+          "previous": "WORK.REVIEW",
+          "state": "DONE",
+          "transitioned": true
+        }
+      ],
+      "events": [
+        {
+          "id": "01a0fe06-4efb-7f36-974d-7addfff8e0c1",
+          "seq": 1,
+          "timestamp": "2026-10-02T19:10:21.435Z",
+          "type": "SKILL_INITIALIZED",
+          "payload": {
+            "skill": "eval-report",
+            "initial_state": "INIT",
+            "active_path": [
+              "INIT"
+            ],
+            "context": {
+              "red_discovery": {
+                "enabled": true,
+                "status": "supplied_answers_complete",
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "sensitive_data": "no secrets or personal data",
+                  "write_approval": "explicit approval before writes",
+                  "observability": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "run_scope": {
+                "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-create-hsm-no-skill-vwx3el/workspace",
+                "registry": "sources.json",
+                "authoring_source": "source-a",
+                "comparison_sources": [
+                  "source-b",
+                  "distribution"
+                ]
+              },
+              "approved_manifest": [
+                "source-a/eval-report/skill.yaml",
+                "source-a/eval-report/SKILL.md",
+                "source-a/eval-report/README.md",
+                "source-a/eval-report/CONTEXT.md",
+                "source-a/eval-report/STATECHART.md",
+                "source-a/eval-report/states/init.md",
+                "source-a/eval-report/states/work/collect.md",
+                "source-a/eval-report/states/work/review.md",
+                "source-a/eval-report/states/done.md",
+                "source-a/eval-report/states/cancelled.md"
+              ],
+              "checks_passed": false,
+              "executor_coverage": {
+                "status": "record_actual_evidence_per_run",
+                "actual_model": "unverified",
+                "model_tiers_executed": []
+              },
+              "semantic_model_tiers": {
+                "INIT": "fast",
+                "WORK.COLLECT": "balanced",
+                "WORK.REVIEW": "reasoning",
+                "DONE": "fast",
+                "CANCELLED": "fast"
+              }
+            }
+          },
+          "state": "INIT",
+          "event_id": "01a0fe06-4efb-7f36-974d-7addfff8e0c1",
+          "occurred_at": "2026-10-02T19:10:21.435Z",
+          "event_type": "SKILL_INITIALIZED",
+          "correlation_id": "01a0fe06-4ee9-7f94-b44b-9dc7e577ce4d",
+          "run_id": "01a0fe06-4ee9-71db-8855-c6c495155cbb",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4efc-78da-98ad-6da85c9cacb1",
+          "seq": 2,
+          "timestamp": "2026-10-02T19:10:21.436Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "INIT",
+            "seq": 1,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "status": "supplied_answers_complete",
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "sensitive_data": "no secrets or personal data",
+                  "write_approval": "explicit approval before writes",
+                  "observability": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "run_scope": {
+                "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-create-hsm-no-skill-vwx3el/workspace",
+                "registry": "sources.json",
+                "authoring_source": "source-a",
+                "comparison_sources": [
+                  "source-b",
+                  "distribution"
+                ]
+              },
+              "approved_manifest": [
+                "source-a/eval-report/skill.yaml",
+                "source-a/eval-report/SKILL.md",
+                "source-a/eval-report/README.md",
+                "source-a/eval-report/CONTEXT.md",
+                "source-a/eval-report/STATECHART.md",
+                "source-a/eval-report/states/init.md",
+                "source-a/eval-report/states/work/collect.md",
+                "source-a/eval-report/states/work/review.md",
+                "source-a/eval-report/states/done.md",
+                "source-a/eval-report/states/cancelled.md"
+              ],
+              "checks_passed": false,
+              "executor_coverage": {
+                "status": "record_actual_evidence_per_run",
+                "actual_model": "unverified",
+                "model_tiers_executed": []
+              },
+              "semantic_model_tiers": {
+                "INIT": "fast",
+                "WORK.COLLECT": "balanced",
+                "WORK.REVIEW": "reasoning",
+                "DONE": "fast",
+                "CANCELLED": "fast"
+              }
+            }
+          },
+          "state": "INIT",
+          "event_id": "01a0fe06-4efc-78da-98ad-6da85c9cacb1",
+          "occurred_at": "2026-10-02T19:10:21.436Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe06-4ee9-7f94-b44b-9dc7e577ce4d",
+          "run_id": "01a0fe06-4ee9-71db-8855-c6c495155cbb",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4efd-79fc-96eb-6f29cf5cd9de",
+          "seq": 3,
+          "timestamp": "2026-10-02T19:10:21.437Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "RUNTIME_READY"
+          },
+          "state": "INIT",
+          "event_id": "01a0fe06-4efd-79fc-96eb-6f29cf5cd9de",
+          "occurred_at": "2026-10-02T19:10:21.437Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fe06-4ee9-7f94-b44b-9dc7e577ce4d",
+          "run_id": "01a0fe06-4ee9-71db-8855-c6c495155cbb",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4efe-7b8d-aab2-80e40e67721a",
+          "seq": 4,
+          "timestamp": "2026-10-02T19:10:21.438Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "true",
+            "passed": true,
+            "target": "WORK.COLLECT",
+            "handledAt": "INIT"
+          },
+          "causationId": "01a0fe06-4efd-79fc-96eb-6f29cf5cd9de",
+          "state": "INIT",
+          "event_id": "01a0fe06-4efe-7b8d-aab2-80e40e67721a",
+          "occurred_at": "2026-10-02T19:10:21.438Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fe06-4efd-79fc-96eb-6f29cf5cd9de",
+          "correlation_id": "01a0fe06-4ee9-7f94-b44b-9dc7e577ce4d",
+          "run_id": "01a0fe06-4ee9-71db-8855-c6c495155cbb",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4efe-7e96-9c12-7272049cbc60",
+          "seq": 5,
+          "timestamp": "2026-10-02T19:10:21.438Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "INIT",
+            "to": "WORK.COLLECT",
+            "signal": "RUNTIME_READY",
+            "payload": {},
+            "metrics": {
+              "transition_duration_ms": 0.227
+            }
+          },
+          "causationId": "01a0fe06-4efd-79fc-96eb-6f29cf5cd9de",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe06-4efe-7e96-9c12-7272049cbc60",
+          "occurred_at": "2026-10-02T19:10:21.438Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fe06-4efd-79fc-96eb-6f29cf5cd9de",
+          "correlation_id": "01a0fe06-4ee9-7f94-b44b-9dc7e577ce4d",
+          "run_id": "01a0fe06-4ee9-71db-8855-c6c495155cbb",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4efe-7536-9090-252108861709",
+          "seq": 6,
+          "timestamp": "2026-10-02T19:10:21.438Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK",
+            "seq": 5,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "status": "supplied_answers_complete",
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "sensitive_data": "no secrets or personal data",
+                  "write_approval": "explicit approval before writes",
+                  "observability": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "run_scope": {
+                "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-create-hsm-no-skill-vwx3el/workspace",
+                "registry": "sources.json",
+                "authoring_source": "source-a",
+                "comparison_sources": [
+                  "source-b",
+                  "distribution"
+                ]
+              },
+              "approved_manifest": [
+                "source-a/eval-report/skill.yaml",
+                "source-a/eval-report/SKILL.md",
+                "source-a/eval-report/README.md",
+                "source-a/eval-report/CONTEXT.md",
+                "source-a/eval-report/STATECHART.md",
+                "source-a/eval-report/states/init.md",
+                "source-a/eval-report/states/work/collect.md",
+                "source-a/eval-report/states/work/review.md",
+                "source-a/eval-report/states/done.md",
+                "source-a/eval-report/states/cancelled.md"
+              ],
+              "checks_passed": false,
+              "executor_coverage": {
+                "status": "record_actual_evidence_per_run",
+                "actual_model": "unverified",
+                "model_tiers_executed": []
+              },
+              "semantic_model_tiers": {
+                "INIT": "fast",
+                "WORK.COLLECT": "balanced",
+                "WORK.REVIEW": "reasoning",
+                "DONE": "fast",
+                "CANCELLED": "fast"
+              }
+            }
+          },
+          "state": "WORK",
+          "event_id": "01a0fe06-4efe-7536-9090-252108861709",
+          "occurred_at": "2026-10-02T19:10:21.438Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe06-4ee9-7f94-b44b-9dc7e577ce4d",
+          "run_id": "01a0fe06-4ee9-71db-8855-c6c495155cbb",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4efe-77f7-824c-0fa09ee72762",
+          "seq": 7,
+          "timestamp": "2026-10-02T19:10:21.438Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK.COLLECT",
+            "seq": 6,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "status": "supplied_answers_complete",
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "sensitive_data": "no secrets or personal data",
+                  "write_approval": "explicit approval before writes",
+                  "observability": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "run_scope": {
+                "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-create-hsm-no-skill-vwx3el/workspace",
+                "registry": "sources.json",
+                "authoring_source": "source-a",
+                "comparison_sources": [
+                  "source-b",
+                  "distribution"
+                ]
+              },
+              "approved_manifest": [
+                "source-a/eval-report/skill.yaml",
+                "source-a/eval-report/SKILL.md",
+                "source-a/eval-report/README.md",
+                "source-a/eval-report/CONTEXT.md",
+                "source-a/eval-report/STATECHART.md",
+                "source-a/eval-report/states/init.md",
+                "source-a/eval-report/states/work/collect.md",
+                "source-a/eval-report/states/work/review.md",
+                "source-a/eval-report/states/done.md",
+                "source-a/eval-report/states/cancelled.md"
+              ],
+              "checks_passed": false,
+              "executor_coverage": {
+                "status": "record_actual_evidence_per_run",
+                "actual_model": "unverified",
+                "model_tiers_executed": []
+              },
+              "semantic_model_tiers": {
+                "INIT": "fast",
+                "WORK.COLLECT": "balanced",
+                "WORK.REVIEW": "reasoning",
+                "DONE": "fast",
+                "CANCELLED": "fast"
+              }
+            }
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe06-4efe-77f7-824c-0fa09ee72762",
+          "occurred_at": "2026-10-02T19:10:21.438Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe06-4ee9-7f94-b44b-9dc7e577ce4d",
+          "run_id": "01a0fe06-4ee9-71db-8855-c6c495155cbb",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f05-74a0-8c6d-4514ac2b9889",
+          "seq": 8,
+          "timestamp": "2026-10-02T19:10:21.445Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "DATA_READY",
+            "checks_passed": false
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe06-4f05-74a0-8c6d-4514ac2b9889",
+          "occurred_at": "2026-10-02T19:10:21.445Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fe06-4ee9-7f94-b44b-9dc7e577ce4d",
+          "run_id": "01a0fe06-4ee9-71db-8855-c6c495155cbb",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f06-7469-8f87-e2769ad750df",
+          "seq": 9,
+          "timestamp": "2026-10-02T19:10:21.446Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "payload.checks_passed === true",
+            "passed": false,
+            "target": "WORK.REVIEW",
+            "handledAt": "WORK.COLLECT",
+            "fallbackTriggered": false
+          },
+          "causationId": "01a0fe06-4f05-74a0-8c6d-4514ac2b9889",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe06-4f06-7469-8f87-e2769ad750df",
+          "occurred_at": "2026-10-02T19:10:21.446Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fe06-4f05-74a0-8c6d-4514ac2b9889",
+          "correlation_id": "01a0fe06-4ee9-7f94-b44b-9dc7e577ce4d",
+          "run_id": "01a0fe06-4ee9-71db-8855-c6c495155cbb",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f06-7768-bf4d-84e0586a05ac",
+          "seq": 10,
+          "timestamp": "2026-10-02T19:10:21.446Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "DATA_READY",
+            "checks_passed": true
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe06-4f06-7768-bf4d-84e0586a05ac",
+          "occurred_at": "2026-10-02T19:10:21.446Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fe06-4ee9-7f94-b44b-9dc7e577ce4d",
+          "run_id": "01a0fe06-4ee9-71db-8855-c6c495155cbb",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f07-7392-8eb1-cc7b927cddd5",
+          "seq": 11,
+          "timestamp": "2026-10-02T19:10:21.447Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "payload.checks_passed === true",
+            "passed": true,
+            "target": "WORK.REVIEW",
+            "handledAt": "WORK.COLLECT",
+            "fallbackTriggered": false
+          },
+          "causationId": "01a0fe06-4f06-7768-bf4d-84e0586a05ac",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe06-4f07-7392-8eb1-cc7b927cddd5",
+          "occurred_at": "2026-10-02T19:10:21.447Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fe06-4f06-7768-bf4d-84e0586a05ac",
+          "correlation_id": "01a0fe06-4ee9-7f94-b44b-9dc7e577ce4d",
+          "run_id": "01a0fe06-4ee9-71db-8855-c6c495155cbb",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f07-7ba1-a81a-f4b3df380497",
+          "seq": 12,
+          "timestamp": "2026-10-02T19:10:21.447Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "WORK.COLLECT",
+            "to": "WORK.REVIEW",
+            "signal": "DATA_READY",
+            "payload": {
+              "checks_passed": true
+            },
+            "metrics": {
+              "transition_duration_ms": 0.793
+            }
+          },
+          "causationId": "01a0fe06-4f06-7768-bf4d-84e0586a05ac",
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe06-4f07-7ba1-a81a-f4b3df380497",
+          "occurred_at": "2026-10-02T19:10:21.447Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fe06-4f06-7768-bf4d-84e0586a05ac",
+          "correlation_id": "01a0fe06-4ee9-7f94-b44b-9dc7e577ce4d",
+          "run_id": "01a0fe06-4ee9-71db-8855-c6c495155cbb",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f07-7612-8bca-b6b9a6192904",
+          "seq": 13,
+          "timestamp": "2026-10-02T19:10:21.447Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK.REVIEW",
+            "seq": 12,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "status": "supplied_answers_complete",
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "sensitive_data": "no secrets or personal data",
+                  "write_approval": "explicit approval before writes",
+                  "observability": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "run_scope": {
+                "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-create-hsm-no-skill-vwx3el/workspace",
+                "registry": "sources.json",
+                "authoring_source": "source-a",
+                "comparison_sources": [
+                  "source-b",
+                  "distribution"
+                ]
+              },
+              "approved_manifest": [
+                "source-a/eval-report/skill.yaml",
+                "source-a/eval-report/SKILL.md",
+                "source-a/eval-report/README.md",
+                "source-a/eval-report/CONTEXT.md",
+                "source-a/eval-report/STATECHART.md",
+                "source-a/eval-report/states/init.md",
+                "source-a/eval-report/states/work/collect.md",
+                "source-a/eval-report/states/work/review.md",
+                "source-a/eval-report/states/done.md",
+                "source-a/eval-report/states/cancelled.md"
+              ],
+              "checks_passed": true,
+              "executor_coverage": {
+                "status": "record_actual_evidence_per_run",
+                "actual_model": "unverified",
+                "model_tiers_executed": []
+              },
+              "semantic_model_tiers": {
+                "INIT": "fast",
+                "WORK.COLLECT": "balanced",
+                "WORK.REVIEW": "reasoning",
+                "DONE": "fast",
+                "CANCELLED": "fast"
+              }
+            }
+          },
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe06-4f07-7612-8bca-b6b9a6192904",
+          "occurred_at": "2026-10-02T19:10:21.447Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe06-4ee9-7f94-b44b-9dc7e577ce4d",
+          "run_id": "01a0fe06-4ee9-71db-8855-c6c495155cbb",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f07-7ab4-85bf-6b0ad62b3214",
+          "seq": 14,
+          "timestamp": "2026-10-02T19:10:21.447Z",
+          "type": "HUMAN_GATE_ENTERED",
+          "payload": {
+            "state": "WORK.REVIEW",
+            "gateType": "approval",
+            "tool": "ask_question"
+          },
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe06-4f07-7ab4-85bf-6b0ad62b3214",
+          "occurred_at": "2026-10-02T19:10:21.447Z",
+          "event_type": "HUMAN_GATE_ENTERED",
+          "correlation_id": "01a0fe06-4ee9-7f94-b44b-9dc7e577ce4d",
+          "run_id": "01a0fe06-4ee9-71db-8855-c6c495155cbb",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f0c-7bd4-95aa-3fdc8f3a6432",
+          "seq": 15,
+          "timestamp": "2026-10-02T19:10:21.452Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "HUMAN_APPROVED"
+          },
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe06-4f0c-7bd4-95aa-3fdc8f3a6432",
+          "occurred_at": "2026-10-02T19:10:21.452Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fe06-4ee9-7f94-b44b-9dc7e577ce4d",
+          "run_id": "01a0fe06-4ee9-71db-8855-c6c495155cbb",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f0c-792a-bede-1ae1ed45f76e",
+          "seq": 16,
+          "timestamp": "2026-10-02T19:10:21.452Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "true",
+            "passed": true,
+            "target": "DONE",
+            "handledAt": "WORK.REVIEW"
+          },
+          "causationId": "01a0fe06-4f0c-7bd4-95aa-3fdc8f3a6432",
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe06-4f0c-792a-bede-1ae1ed45f76e",
+          "occurred_at": "2026-10-02T19:10:21.452Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fe06-4f0c-7bd4-95aa-3fdc8f3a6432",
+          "correlation_id": "01a0fe06-4ee9-7f94-b44b-9dc7e577ce4d",
+          "run_id": "01a0fe06-4ee9-71db-8855-c6c495155cbb",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f0d-7753-9cad-2e424c51e434",
+          "seq": 17,
+          "timestamp": "2026-10-02T19:10:21.453Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "WORK.REVIEW",
+            "to": "DONE",
+            "signal": "HUMAN_APPROVED",
+            "payload": {},
+            "metrics": {
+              "transition_duration_ms": 0.077
+            }
+          },
+          "causationId": "01a0fe06-4f0c-7bd4-95aa-3fdc8f3a6432",
+          "state": "DONE",
+          "event_id": "01a0fe06-4f0d-7753-9cad-2e424c51e434",
+          "occurred_at": "2026-10-02T19:10:21.453Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fe06-4f0c-7bd4-95aa-3fdc8f3a6432",
+          "correlation_id": "01a0fe06-4ee9-7f94-b44b-9dc7e577ce4d",
+          "run_id": "01a0fe06-4ee9-71db-8855-c6c495155cbb",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f0d-7e23-a607-f665da9384df",
+          "seq": 18,
+          "timestamp": "2026-10-02T19:10:21.453Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "DONE",
+            "seq": 17,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "status": "supplied_answers_complete",
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "sensitive_data": "no secrets or personal data",
+                  "write_approval": "explicit approval before writes",
+                  "observability": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "run_scope": {
+                "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-create-hsm-no-skill-vwx3el/workspace",
+                "registry": "sources.json",
+                "authoring_source": "source-a",
+                "comparison_sources": [
+                  "source-b",
+                  "distribution"
+                ]
+              },
+              "approved_manifest": [
+                "source-a/eval-report/skill.yaml",
+                "source-a/eval-report/SKILL.md",
+                "source-a/eval-report/README.md",
+                "source-a/eval-report/CONTEXT.md",
+                "source-a/eval-report/STATECHART.md",
+                "source-a/eval-report/states/init.md",
+                "source-a/eval-report/states/work/collect.md",
+                "source-a/eval-report/states/work/review.md",
+                "source-a/eval-report/states/done.md",
+                "source-a/eval-report/states/cancelled.md"
+              ],
+              "checks_passed": true,
+              "executor_coverage": {
+                "status": "record_actual_evidence_per_run",
+                "actual_model": "unverified",
+                "model_tiers_executed": []
+              },
+              "semantic_model_tiers": {
+                "INIT": "fast",
+                "WORK.COLLECT": "balanced",
+                "WORK.REVIEW": "reasoning",
+                "DONE": "fast",
+                "CANCELLED": "fast"
+              }
+            }
+          },
+          "state": "DONE",
+          "event_id": "01a0fe06-4f0d-7e23-a607-f665da9384df",
+          "occurred_at": "2026-10-02T19:10:21.453Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe06-4ee9-7f94-b44b-9dc7e577ce4d",
+          "run_id": "01a0fe06-4ee9-71db-8855-c6c495155cbb",
+          "schema_version": "1.0.3"
+        }
+      ]
+    },
+    {
+      "scenario": "cancel-collect",
+      "steps": [
+        {
+          "signal": "RUNTIME_READY",
+          "previous": "INIT",
+          "state": "WORK.COLLECT",
+          "transitioned": true
+        },
+        {
+          "signal": "CANCEL",
+          "previous": "WORK.COLLECT",
+          "state": "CANCELLED",
+          "transitioned": true
+        }
+      ],
+      "events": [
+        {
+          "id": "01a0fe06-4f21-7383-a00c-46f91ebe12a1",
+          "seq": 1,
+          "timestamp": "2026-10-02T19:10:21.473Z",
+          "type": "SKILL_INITIALIZED",
+          "payload": {
+            "skill": "eval-report",
+            "initial_state": "INIT",
+            "active_path": [
+              "INIT"
+            ],
+            "context": {
+              "red_discovery": {
+                "enabled": true,
+                "status": "supplied_answers_complete",
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "sensitive_data": "no secrets or personal data",
+                  "write_approval": "explicit approval before writes",
+                  "observability": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "run_scope": {
+                "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-create-hsm-no-skill-vwx3el/workspace",
+                "registry": "sources.json",
+                "authoring_source": "source-a",
+                "comparison_sources": [
+                  "source-b",
+                  "distribution"
+                ]
+              },
+              "approved_manifest": [
+                "source-a/eval-report/skill.yaml",
+                "source-a/eval-report/SKILL.md",
+                "source-a/eval-report/README.md",
+                "source-a/eval-report/CONTEXT.md",
+                "source-a/eval-report/STATECHART.md",
+                "source-a/eval-report/states/init.md",
+                "source-a/eval-report/states/work/collect.md",
+                "source-a/eval-report/states/work/review.md",
+                "source-a/eval-report/states/done.md",
+                "source-a/eval-report/states/cancelled.md"
+              ],
+              "checks_passed": false,
+              "executor_coverage": {
+                "status": "record_actual_evidence_per_run",
+                "actual_model": "unverified",
+                "model_tiers_executed": []
+              },
+              "semantic_model_tiers": {
+                "INIT": "fast",
+                "WORK.COLLECT": "balanced",
+                "WORK.REVIEW": "reasoning",
+                "DONE": "fast",
+                "CANCELLED": "fast"
+              }
+            }
+          },
+          "state": "INIT",
+          "event_id": "01a0fe06-4f21-7383-a00c-46f91ebe12a1",
+          "occurred_at": "2026-10-02T19:10:21.473Z",
+          "event_type": "SKILL_INITIALIZED",
+          "correlation_id": "01a0fe06-4f15-7663-97d7-c4705bffe32a",
+          "run_id": "01a0fe06-4f15-70bf-b924-97624425450d",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f21-7c39-8c0a-62c2eec254c5",
+          "seq": 2,
+          "timestamp": "2026-10-02T19:10:21.473Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "INIT",
+            "seq": 1,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "status": "supplied_answers_complete",
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "sensitive_data": "no secrets or personal data",
+                  "write_approval": "explicit approval before writes",
+                  "observability": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "run_scope": {
+                "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-create-hsm-no-skill-vwx3el/workspace",
+                "registry": "sources.json",
+                "authoring_source": "source-a",
+                "comparison_sources": [
+                  "source-b",
+                  "distribution"
+                ]
+              },
+              "approved_manifest": [
+                "source-a/eval-report/skill.yaml",
+                "source-a/eval-report/SKILL.md",
+                "source-a/eval-report/README.md",
+                "source-a/eval-report/CONTEXT.md",
+                "source-a/eval-report/STATECHART.md",
+                "source-a/eval-report/states/init.md",
+                "source-a/eval-report/states/work/collect.md",
+                "source-a/eval-report/states/work/review.md",
+                "source-a/eval-report/states/done.md",
+                "source-a/eval-report/states/cancelled.md"
+              ],
+              "checks_passed": false,
+              "executor_coverage": {
+                "status": "record_actual_evidence_per_run",
+                "actual_model": "unverified",
+                "model_tiers_executed": []
+              },
+              "semantic_model_tiers": {
+                "INIT": "fast",
+                "WORK.COLLECT": "balanced",
+                "WORK.REVIEW": "reasoning",
+                "DONE": "fast",
+                "CANCELLED": "fast"
+              }
+            }
+          },
+          "state": "INIT",
+          "event_id": "01a0fe06-4f21-7c39-8c0a-62c2eec254c5",
+          "occurred_at": "2026-10-02T19:10:21.473Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe06-4f15-7663-97d7-c4705bffe32a",
+          "run_id": "01a0fe06-4f15-70bf-b924-97624425450d",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f22-7d0d-bf4a-3b5e991842e3",
+          "seq": 3,
+          "timestamp": "2026-10-02T19:10:21.474Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "RUNTIME_READY"
+          },
+          "state": "INIT",
+          "event_id": "01a0fe06-4f22-7d0d-bf4a-3b5e991842e3",
+          "occurred_at": "2026-10-02T19:10:21.474Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fe06-4f15-7663-97d7-c4705bffe32a",
+          "run_id": "01a0fe06-4f15-70bf-b924-97624425450d",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f22-7292-8715-21398d7cbd3e",
+          "seq": 4,
+          "timestamp": "2026-10-02T19:10:21.474Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "true",
+            "passed": true,
+            "target": "WORK.COLLECT",
+            "handledAt": "INIT"
+          },
+          "causationId": "01a0fe06-4f22-7d0d-bf4a-3b5e991842e3",
+          "state": "INIT",
+          "event_id": "01a0fe06-4f22-7292-8715-21398d7cbd3e",
+          "occurred_at": "2026-10-02T19:10:21.474Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fe06-4f22-7d0d-bf4a-3b5e991842e3",
+          "correlation_id": "01a0fe06-4f15-7663-97d7-c4705bffe32a",
+          "run_id": "01a0fe06-4f15-70bf-b924-97624425450d",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f22-7f1d-82c0-cc289288710f",
+          "seq": 5,
+          "timestamp": "2026-10-02T19:10:21.474Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "INIT",
+            "to": "WORK.COLLECT",
+            "signal": "RUNTIME_READY",
+            "payload": {},
+            "metrics": {
+              "transition_duration_ms": 0.086
+            }
+          },
+          "causationId": "01a0fe06-4f22-7d0d-bf4a-3b5e991842e3",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe06-4f22-7f1d-82c0-cc289288710f",
+          "occurred_at": "2026-10-02T19:10:21.474Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fe06-4f22-7d0d-bf4a-3b5e991842e3",
+          "correlation_id": "01a0fe06-4f15-7663-97d7-c4705bffe32a",
+          "run_id": "01a0fe06-4f15-70bf-b924-97624425450d",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f22-775f-a92b-1dd49beab270",
+          "seq": 6,
+          "timestamp": "2026-10-02T19:10:21.474Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK",
+            "seq": 5,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "status": "supplied_answers_complete",
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "sensitive_data": "no secrets or personal data",
+                  "write_approval": "explicit approval before writes",
+                  "observability": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "run_scope": {
+                "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-create-hsm-no-skill-vwx3el/workspace",
+                "registry": "sources.json",
+                "authoring_source": "source-a",
+                "comparison_sources": [
+                  "source-b",
+                  "distribution"
+                ]
+              },
+              "approved_manifest": [
+                "source-a/eval-report/skill.yaml",
+                "source-a/eval-report/SKILL.md",
+                "source-a/eval-report/README.md",
+                "source-a/eval-report/CONTEXT.md",
+                "source-a/eval-report/STATECHART.md",
+                "source-a/eval-report/states/init.md",
+                "source-a/eval-report/states/work/collect.md",
+                "source-a/eval-report/states/work/review.md",
+                "source-a/eval-report/states/done.md",
+                "source-a/eval-report/states/cancelled.md"
+              ],
+              "checks_passed": false,
+              "executor_coverage": {
+                "status": "record_actual_evidence_per_run",
+                "actual_model": "unverified",
+                "model_tiers_executed": []
+              },
+              "semantic_model_tiers": {
+                "INIT": "fast",
+                "WORK.COLLECT": "balanced",
+                "WORK.REVIEW": "reasoning",
+                "DONE": "fast",
+                "CANCELLED": "fast"
+              }
+            }
+          },
+          "state": "WORK",
+          "event_id": "01a0fe06-4f22-775f-a92b-1dd49beab270",
+          "occurred_at": "2026-10-02T19:10:21.474Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe06-4f15-7663-97d7-c4705bffe32a",
+          "run_id": "01a0fe06-4f15-70bf-b924-97624425450d",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f22-7abe-a5f3-92e2316101c0",
+          "seq": 7,
+          "timestamp": "2026-10-02T19:10:21.474Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK.COLLECT",
+            "seq": 6,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "status": "supplied_answers_complete",
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "sensitive_data": "no secrets or personal data",
+                  "write_approval": "explicit approval before writes",
+                  "observability": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "run_scope": {
+                "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-create-hsm-no-skill-vwx3el/workspace",
+                "registry": "sources.json",
+                "authoring_source": "source-a",
+                "comparison_sources": [
+                  "source-b",
+                  "distribution"
+                ]
+              },
+              "approved_manifest": [
+                "source-a/eval-report/skill.yaml",
+                "source-a/eval-report/SKILL.md",
+                "source-a/eval-report/README.md",
+                "source-a/eval-report/CONTEXT.md",
+                "source-a/eval-report/STATECHART.md",
+                "source-a/eval-report/states/init.md",
+                "source-a/eval-report/states/work/collect.md",
+                "source-a/eval-report/states/work/review.md",
+                "source-a/eval-report/states/done.md",
+                "source-a/eval-report/states/cancelled.md"
+              ],
+              "checks_passed": false,
+              "executor_coverage": {
+                "status": "record_actual_evidence_per_run",
+                "actual_model": "unverified",
+                "model_tiers_executed": []
+              },
+              "semantic_model_tiers": {
+                "INIT": "fast",
+                "WORK.COLLECT": "balanced",
+                "WORK.REVIEW": "reasoning",
+                "DONE": "fast",
+                "CANCELLED": "fast"
+              }
+            }
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe06-4f22-7abe-a5f3-92e2316101c0",
+          "occurred_at": "2026-10-02T19:10:21.474Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe06-4f15-7663-97d7-c4705bffe32a",
+          "run_id": "01a0fe06-4f15-70bf-b924-97624425450d",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f2a-7f11-b443-d0d172f3ccb9",
+          "seq": 8,
+          "timestamp": "2026-10-02T19:10:21.482Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "CANCEL"
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe06-4f2a-7f11-b443-d0d172f3ccb9",
+          "occurred_at": "2026-10-02T19:10:21.482Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fe06-4f15-7663-97d7-c4705bffe32a",
+          "run_id": "01a0fe06-4f15-70bf-b924-97624425450d",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f2b-7a3c-be0f-43f0898ebade",
+          "seq": 9,
+          "timestamp": "2026-10-02T19:10:21.483Z",
+          "type": "EVENT_BUBBLED",
+          "payload": {
+            "signal": "CANCEL",
+            "fromLeaf": "WORK.COLLECT",
+            "handledAt": "WORK",
+            "depth": 1
+          },
+          "causationId": "01a0fe06-4f2a-7f11-b443-d0d172f3ccb9",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe06-4f2b-7a3c-be0f-43f0898ebade",
+          "occurred_at": "2026-10-02T19:10:21.483Z",
+          "event_type": "EVENT_BUBBLED",
+          "causation_id": "01a0fe06-4f2a-7f11-b443-d0d172f3ccb9",
+          "correlation_id": "01a0fe06-4f15-7663-97d7-c4705bffe32a",
+          "run_id": "01a0fe06-4f15-70bf-b924-97624425450d",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f2b-73cf-beb0-d0e43697c636",
+          "seq": 10,
+          "timestamp": "2026-10-02T19:10:21.483Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "true",
+            "passed": true,
+            "target": "CANCELLED",
+            "handledAt": "WORK"
+          },
+          "causationId": "01a0fe06-4f2a-7f11-b443-d0d172f3ccb9",
+          "state": "WORK",
+          "event_id": "01a0fe06-4f2b-73cf-beb0-d0e43697c636",
+          "occurred_at": "2026-10-02T19:10:21.483Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fe06-4f2a-7f11-b443-d0d172f3ccb9",
+          "correlation_id": "01a0fe06-4f15-7663-97d7-c4705bffe32a",
+          "run_id": "01a0fe06-4f15-70bf-b924-97624425450d",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f2b-73f3-86ed-62931778659e",
+          "seq": 11,
+          "timestamp": "2026-10-02T19:10:21.483Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "WORK.COLLECT",
+            "to": "CANCELLED",
+            "signal": "CANCEL",
+            "payload": {},
+            "metrics": {
+              "transition_duration_ms": 0.159
+            }
+          },
+          "causationId": "01a0fe06-4f2a-7f11-b443-d0d172f3ccb9",
+          "state": "CANCELLED",
+          "event_id": "01a0fe06-4f2b-73f3-86ed-62931778659e",
+          "occurred_at": "2026-10-02T19:10:21.483Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fe06-4f2a-7f11-b443-d0d172f3ccb9",
+          "correlation_id": "01a0fe06-4f15-7663-97d7-c4705bffe32a",
+          "run_id": "01a0fe06-4f15-70bf-b924-97624425450d",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f2b-717e-96fb-4b116aa5e68e",
+          "seq": 12,
+          "timestamp": "2026-10-02T19:10:21.483Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "CANCELLED",
+            "seq": 11,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "status": "supplied_answers_complete",
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "sensitive_data": "no secrets or personal data",
+                  "write_approval": "explicit approval before writes",
+                  "observability": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "run_scope": {
+                "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-create-hsm-no-skill-vwx3el/workspace",
+                "registry": "sources.json",
+                "authoring_source": "source-a",
+                "comparison_sources": [
+                  "source-b",
+                  "distribution"
+                ]
+              },
+              "approved_manifest": [
+                "source-a/eval-report/skill.yaml",
+                "source-a/eval-report/SKILL.md",
+                "source-a/eval-report/README.md",
+                "source-a/eval-report/CONTEXT.md",
+                "source-a/eval-report/STATECHART.md",
+                "source-a/eval-report/states/init.md",
+                "source-a/eval-report/states/work/collect.md",
+                "source-a/eval-report/states/work/review.md",
+                "source-a/eval-report/states/done.md",
+                "source-a/eval-report/states/cancelled.md"
+              ],
+              "checks_passed": false,
+              "executor_coverage": {
+                "status": "record_actual_evidence_per_run",
+                "actual_model": "unverified",
+                "model_tiers_executed": []
+              },
+              "semantic_model_tiers": {
+                "INIT": "fast",
+                "WORK.COLLECT": "balanced",
+                "WORK.REVIEW": "reasoning",
+                "DONE": "fast",
+                "CANCELLED": "fast"
+              }
+            }
+          },
+          "state": "CANCELLED",
+          "event_id": "01a0fe06-4f2b-717e-96fb-4b116aa5e68e",
+          "occurred_at": "2026-10-02T19:10:21.483Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe06-4f15-7663-97d7-c4705bffe32a",
+          "run_id": "01a0fe06-4f15-70bf-b924-97624425450d",
+          "schema_version": "1.0.3"
+        }
+      ]
+    },
+    {
+      "scenario": "cancel-review",
+      "steps": [
+        {
+          "signal": "RUNTIME_READY",
+          "previous": "INIT",
+          "state": "WORK.COLLECT",
+          "transitioned": true
+        },
+        {
+          "signal": "DATA_READY",
+          "payload": {
+            "checks_passed": true
+          },
+          "previous": "WORK.COLLECT",
+          "state": "WORK.REVIEW",
+          "transitioned": true
+        },
+        {
+          "signal": "CANCEL",
+          "previous": "WORK.REVIEW",
+          "state": "CANCELLED",
+          "transitioned": true
+        }
+      ],
+      "events": [
+        {
+          "id": "01a0fe06-4f3f-7be4-9152-f6b7cae0d5bb",
+          "seq": 1,
+          "timestamp": "2026-10-02T19:10:21.503Z",
+          "type": "SKILL_INITIALIZED",
+          "payload": {
+            "skill": "eval-report",
+            "initial_state": "INIT",
+            "active_path": [
+              "INIT"
+            ],
+            "context": {
+              "red_discovery": {
+                "enabled": true,
+                "status": "supplied_answers_complete",
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "sensitive_data": "no secrets or personal data",
+                  "write_approval": "explicit approval before writes",
+                  "observability": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "run_scope": {
+                "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-create-hsm-no-skill-vwx3el/workspace",
+                "registry": "sources.json",
+                "authoring_source": "source-a",
+                "comparison_sources": [
+                  "source-b",
+                  "distribution"
+                ]
+              },
+              "approved_manifest": [
+                "source-a/eval-report/skill.yaml",
+                "source-a/eval-report/SKILL.md",
+                "source-a/eval-report/README.md",
+                "source-a/eval-report/CONTEXT.md",
+                "source-a/eval-report/STATECHART.md",
+                "source-a/eval-report/states/init.md",
+                "source-a/eval-report/states/work/collect.md",
+                "source-a/eval-report/states/work/review.md",
+                "source-a/eval-report/states/done.md",
+                "source-a/eval-report/states/cancelled.md"
+              ],
+              "checks_passed": false,
+              "executor_coverage": {
+                "status": "record_actual_evidence_per_run",
+                "actual_model": "unverified",
+                "model_tiers_executed": []
+              },
+              "semantic_model_tiers": {
+                "INIT": "fast",
+                "WORK.COLLECT": "balanced",
+                "WORK.REVIEW": "reasoning",
+                "DONE": "fast",
+                "CANCELLED": "fast"
+              }
+            }
+          },
+          "state": "INIT",
+          "event_id": "01a0fe06-4f3f-7be4-9152-f6b7cae0d5bb",
+          "occurred_at": "2026-10-02T19:10:21.503Z",
+          "event_type": "SKILL_INITIALIZED",
+          "correlation_id": "01a0fe06-4f34-7844-803a-74a7c1bca2c9",
+          "run_id": "01a0fe06-4f34-7b63-9b17-17e9d769e962",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f3f-76a6-afe6-9359753d4668",
+          "seq": 2,
+          "timestamp": "2026-10-02T19:10:21.503Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "INIT",
+            "seq": 1,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "status": "supplied_answers_complete",
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "sensitive_data": "no secrets or personal data",
+                  "write_approval": "explicit approval before writes",
+                  "observability": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "run_scope": {
+                "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-create-hsm-no-skill-vwx3el/workspace",
+                "registry": "sources.json",
+                "authoring_source": "source-a",
+                "comparison_sources": [
+                  "source-b",
+                  "distribution"
+                ]
+              },
+              "approved_manifest": [
+                "source-a/eval-report/skill.yaml",
+                "source-a/eval-report/SKILL.md",
+                "source-a/eval-report/README.md",
+                "source-a/eval-report/CONTEXT.md",
+                "source-a/eval-report/STATECHART.md",
+                "source-a/eval-report/states/init.md",
+                "source-a/eval-report/states/work/collect.md",
+                "source-a/eval-report/states/work/review.md",
+                "source-a/eval-report/states/done.md",
+                "source-a/eval-report/states/cancelled.md"
+              ],
+              "checks_passed": false,
+              "executor_coverage": {
+                "status": "record_actual_evidence_per_run",
+                "actual_model": "unverified",
+                "model_tiers_executed": []
+              },
+              "semantic_model_tiers": {
+                "INIT": "fast",
+                "WORK.COLLECT": "balanced",
+                "WORK.REVIEW": "reasoning",
+                "DONE": "fast",
+                "CANCELLED": "fast"
+              }
+            }
+          },
+          "state": "INIT",
+          "event_id": "01a0fe06-4f3f-76a6-afe6-9359753d4668",
+          "occurred_at": "2026-10-02T19:10:21.503Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe06-4f34-7844-803a-74a7c1bca2c9",
+          "run_id": "01a0fe06-4f34-7b63-9b17-17e9d769e962",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f40-70b6-9e9a-32d562a474f4",
+          "seq": 3,
+          "timestamp": "2026-10-02T19:10:21.504Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "RUNTIME_READY"
+          },
+          "state": "INIT",
+          "event_id": "01a0fe06-4f40-70b6-9e9a-32d562a474f4",
+          "occurred_at": "2026-10-02T19:10:21.504Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fe06-4f34-7844-803a-74a7c1bca2c9",
+          "run_id": "01a0fe06-4f34-7b63-9b17-17e9d769e962",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f40-727c-8cd6-b5b1596ff177",
+          "seq": 4,
+          "timestamp": "2026-10-02T19:10:21.504Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "true",
+            "passed": true,
+            "target": "WORK.COLLECT",
+            "handledAt": "INIT"
+          },
+          "causationId": "01a0fe06-4f40-70b6-9e9a-32d562a474f4",
+          "state": "INIT",
+          "event_id": "01a0fe06-4f40-727c-8cd6-b5b1596ff177",
+          "occurred_at": "2026-10-02T19:10:21.504Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fe06-4f40-70b6-9e9a-32d562a474f4",
+          "correlation_id": "01a0fe06-4f34-7844-803a-74a7c1bca2c9",
+          "run_id": "01a0fe06-4f34-7b63-9b17-17e9d769e962",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f40-73cc-a089-83ee2c8c2249",
+          "seq": 5,
+          "timestamp": "2026-10-02T19:10:21.504Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "INIT",
+            "to": "WORK.COLLECT",
+            "signal": "RUNTIME_READY",
+            "payload": {},
+            "metrics": {
+              "transition_duration_ms": 0.173
+            }
+          },
+          "causationId": "01a0fe06-4f40-70b6-9e9a-32d562a474f4",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe06-4f40-73cc-a089-83ee2c8c2249",
+          "occurred_at": "2026-10-02T19:10:21.504Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fe06-4f40-70b6-9e9a-32d562a474f4",
+          "correlation_id": "01a0fe06-4f34-7844-803a-74a7c1bca2c9",
+          "run_id": "01a0fe06-4f34-7b63-9b17-17e9d769e962",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f40-7252-b58c-9a4625e762d8",
+          "seq": 6,
+          "timestamp": "2026-10-02T19:10:21.504Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK",
+            "seq": 5,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "status": "supplied_answers_complete",
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "sensitive_data": "no secrets or personal data",
+                  "write_approval": "explicit approval before writes",
+                  "observability": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "run_scope": {
+                "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-create-hsm-no-skill-vwx3el/workspace",
+                "registry": "sources.json",
+                "authoring_source": "source-a",
+                "comparison_sources": [
+                  "source-b",
+                  "distribution"
+                ]
+              },
+              "approved_manifest": [
+                "source-a/eval-report/skill.yaml",
+                "source-a/eval-report/SKILL.md",
+                "source-a/eval-report/README.md",
+                "source-a/eval-report/CONTEXT.md",
+                "source-a/eval-report/STATECHART.md",
+                "source-a/eval-report/states/init.md",
+                "source-a/eval-report/states/work/collect.md",
+                "source-a/eval-report/states/work/review.md",
+                "source-a/eval-report/states/done.md",
+                "source-a/eval-report/states/cancelled.md"
+              ],
+              "checks_passed": false,
+              "executor_coverage": {
+                "status": "record_actual_evidence_per_run",
+                "actual_model": "unverified",
+                "model_tiers_executed": []
+              },
+              "semantic_model_tiers": {
+                "INIT": "fast",
+                "WORK.COLLECT": "balanced",
+                "WORK.REVIEW": "reasoning",
+                "DONE": "fast",
+                "CANCELLED": "fast"
+              }
+            }
+          },
+          "state": "WORK",
+          "event_id": "01a0fe06-4f40-7252-b58c-9a4625e762d8",
+          "occurred_at": "2026-10-02T19:10:21.504Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe06-4f34-7844-803a-74a7c1bca2c9",
+          "run_id": "01a0fe06-4f34-7b63-9b17-17e9d769e962",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f40-7b4c-a20b-641bc172ea0f",
+          "seq": 7,
+          "timestamp": "2026-10-02T19:10:21.504Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK.COLLECT",
+            "seq": 6,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "status": "supplied_answers_complete",
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "sensitive_data": "no secrets or personal data",
+                  "write_approval": "explicit approval before writes",
+                  "observability": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "run_scope": {
+                "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-create-hsm-no-skill-vwx3el/workspace",
+                "registry": "sources.json",
+                "authoring_source": "source-a",
+                "comparison_sources": [
+                  "source-b",
+                  "distribution"
+                ]
+              },
+              "approved_manifest": [
+                "source-a/eval-report/skill.yaml",
+                "source-a/eval-report/SKILL.md",
+                "source-a/eval-report/README.md",
+                "source-a/eval-report/CONTEXT.md",
+                "source-a/eval-report/STATECHART.md",
+                "source-a/eval-report/states/init.md",
+                "source-a/eval-report/states/work/collect.md",
+                "source-a/eval-report/states/work/review.md",
+                "source-a/eval-report/states/done.md",
+                "source-a/eval-report/states/cancelled.md"
+              ],
+              "checks_passed": false,
+              "executor_coverage": {
+                "status": "record_actual_evidence_per_run",
+                "actual_model": "unverified",
+                "model_tiers_executed": []
+              },
+              "semantic_model_tiers": {
+                "INIT": "fast",
+                "WORK.COLLECT": "balanced",
+                "WORK.REVIEW": "reasoning",
+                "DONE": "fast",
+                "CANCELLED": "fast"
+              }
+            }
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe06-4f40-7b4c-a20b-641bc172ea0f",
+          "occurred_at": "2026-10-02T19:10:21.504Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe06-4f34-7844-803a-74a7c1bca2c9",
+          "run_id": "01a0fe06-4f34-7b63-9b17-17e9d769e962",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f4a-7a87-b8ea-b4b81f301ff1",
+          "seq": 8,
+          "timestamp": "2026-10-02T19:10:21.514Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "DATA_READY",
+            "checks_passed": true
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe06-4f4a-7a87-b8ea-b4b81f301ff1",
+          "occurred_at": "2026-10-02T19:10:21.514Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fe06-4f34-7844-803a-74a7c1bca2c9",
+          "run_id": "01a0fe06-4f34-7b63-9b17-17e9d769e962",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f4b-70c2-b25b-95289457b817",
+          "seq": 9,
+          "timestamp": "2026-10-02T19:10:21.515Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "payload.checks_passed === true",
+            "passed": true,
+            "target": "WORK.REVIEW",
+            "handledAt": "WORK.COLLECT",
+            "fallbackTriggered": false
+          },
+          "causationId": "01a0fe06-4f4a-7a87-b8ea-b4b81f301ff1",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe06-4f4b-70c2-b25b-95289457b817",
+          "occurred_at": "2026-10-02T19:10:21.515Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fe06-4f4a-7a87-b8ea-b4b81f301ff1",
+          "correlation_id": "01a0fe06-4f34-7844-803a-74a7c1bca2c9",
+          "run_id": "01a0fe06-4f34-7b63-9b17-17e9d769e962",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f4b-74bb-b216-7f0cc04230d3",
+          "seq": 10,
+          "timestamp": "2026-10-02T19:10:21.515Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "WORK.COLLECT",
+            "to": "WORK.REVIEW",
+            "signal": "DATA_READY",
+            "payload": {
+              "checks_passed": true
+            },
+            "metrics": {
+              "transition_duration_ms": 0.997
+            }
+          },
+          "causationId": "01a0fe06-4f4a-7a87-b8ea-b4b81f301ff1",
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe06-4f4b-74bb-b216-7f0cc04230d3",
+          "occurred_at": "2026-10-02T19:10:21.515Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fe06-4f4a-7a87-b8ea-b4b81f301ff1",
+          "correlation_id": "01a0fe06-4f34-7844-803a-74a7c1bca2c9",
+          "run_id": "01a0fe06-4f34-7b63-9b17-17e9d769e962",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f4b-7c80-9c73-ab2a69ce33ca",
+          "seq": 11,
+          "timestamp": "2026-10-02T19:10:21.515Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK.REVIEW",
+            "seq": 10,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "status": "supplied_answers_complete",
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "sensitive_data": "no secrets or personal data",
+                  "write_approval": "explicit approval before writes",
+                  "observability": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "run_scope": {
+                "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-create-hsm-no-skill-vwx3el/workspace",
+                "registry": "sources.json",
+                "authoring_source": "source-a",
+                "comparison_sources": [
+                  "source-b",
+                  "distribution"
+                ]
+              },
+              "approved_manifest": [
+                "source-a/eval-report/skill.yaml",
+                "source-a/eval-report/SKILL.md",
+                "source-a/eval-report/README.md",
+                "source-a/eval-report/CONTEXT.md",
+                "source-a/eval-report/STATECHART.md",
+                "source-a/eval-report/states/init.md",
+                "source-a/eval-report/states/work/collect.md",
+                "source-a/eval-report/states/work/review.md",
+                "source-a/eval-report/states/done.md",
+                "source-a/eval-report/states/cancelled.md"
+              ],
+              "checks_passed": true,
+              "executor_coverage": {
+                "status": "record_actual_evidence_per_run",
+                "actual_model": "unverified",
+                "model_tiers_executed": []
+              },
+              "semantic_model_tiers": {
+                "INIT": "fast",
+                "WORK.COLLECT": "balanced",
+                "WORK.REVIEW": "reasoning",
+                "DONE": "fast",
+                "CANCELLED": "fast"
+              }
+            }
+          },
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe06-4f4b-7c80-9c73-ab2a69ce33ca",
+          "occurred_at": "2026-10-02T19:10:21.515Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe06-4f34-7844-803a-74a7c1bca2c9",
+          "run_id": "01a0fe06-4f34-7b63-9b17-17e9d769e962",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f4b-7af7-b203-aa7dee8ccdd1",
+          "seq": 12,
+          "timestamp": "2026-10-02T19:10:21.515Z",
+          "type": "HUMAN_GATE_ENTERED",
+          "payload": {
+            "state": "WORK.REVIEW",
+            "gateType": "approval",
+            "tool": "ask_question"
+          },
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe06-4f4b-7af7-b203-aa7dee8ccdd1",
+          "occurred_at": "2026-10-02T19:10:21.515Z",
+          "event_type": "HUMAN_GATE_ENTERED",
+          "correlation_id": "01a0fe06-4f34-7844-803a-74a7c1bca2c9",
+          "run_id": "01a0fe06-4f34-7b63-9b17-17e9d769e962",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f52-759d-9822-3e3d6aee3500",
+          "seq": 13,
+          "timestamp": "2026-10-02T19:10:21.522Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "CANCEL"
+          },
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe06-4f52-759d-9822-3e3d6aee3500",
+          "occurred_at": "2026-10-02T19:10:21.522Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fe06-4f34-7844-803a-74a7c1bca2c9",
+          "run_id": "01a0fe06-4f34-7b63-9b17-17e9d769e962",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f52-75d3-bafa-fc33c6ec072e",
+          "seq": 14,
+          "timestamp": "2026-10-02T19:10:21.522Z",
+          "type": "EVENT_BUBBLED",
+          "payload": {
+            "signal": "CANCEL",
+            "fromLeaf": "WORK.REVIEW",
+            "handledAt": "WORK",
+            "depth": 1
+          },
+          "causationId": "01a0fe06-4f52-759d-9822-3e3d6aee3500",
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe06-4f52-75d3-bafa-fc33c6ec072e",
+          "occurred_at": "2026-10-02T19:10:21.522Z",
+          "event_type": "EVENT_BUBBLED",
+          "causation_id": "01a0fe06-4f52-759d-9822-3e3d6aee3500",
+          "correlation_id": "01a0fe06-4f34-7844-803a-74a7c1bca2c9",
+          "run_id": "01a0fe06-4f34-7b63-9b17-17e9d769e962",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f52-7a7e-a5e8-f330fed354cc",
+          "seq": 15,
+          "timestamp": "2026-10-02T19:10:21.522Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "true",
+            "passed": true,
+            "target": "CANCELLED",
+            "handledAt": "WORK"
+          },
+          "causationId": "01a0fe06-4f52-759d-9822-3e3d6aee3500",
+          "state": "WORK",
+          "event_id": "01a0fe06-4f52-7a7e-a5e8-f330fed354cc",
+          "occurred_at": "2026-10-02T19:10:21.522Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fe06-4f52-759d-9822-3e3d6aee3500",
+          "correlation_id": "01a0fe06-4f34-7844-803a-74a7c1bca2c9",
+          "run_id": "01a0fe06-4f34-7b63-9b17-17e9d769e962",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f52-727b-a290-8761a1c72786",
+          "seq": 16,
+          "timestamp": "2026-10-02T19:10:21.522Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "WORK.REVIEW",
+            "to": "CANCELLED",
+            "signal": "CANCEL",
+            "payload": {},
+            "metrics": {
+              "transition_duration_ms": 0.106
+            }
+          },
+          "causationId": "01a0fe06-4f52-759d-9822-3e3d6aee3500",
+          "state": "CANCELLED",
+          "event_id": "01a0fe06-4f52-727b-a290-8761a1c72786",
+          "occurred_at": "2026-10-02T19:10:21.522Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fe06-4f52-759d-9822-3e3d6aee3500",
+          "correlation_id": "01a0fe06-4f34-7844-803a-74a7c1bca2c9",
+          "run_id": "01a0fe06-4f34-7b63-9b17-17e9d769e962",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe06-4f52-7e23-a81f-b879efe9f343",
+          "seq": 17,
+          "timestamp": "2026-10-02T19:10:21.522Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "CANCELLED",
+            "seq": 16,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "status": "supplied_answers_complete",
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "sensitive_data": "no secrets or personal data",
+                  "write_approval": "explicit approval before writes",
+                  "observability": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "run_scope": {
+                "workspace": "C:/Users/brand/AppData/Local/Temp/skill-eval-create-hsm-no-skill-vwx3el/workspace",
+                "registry": "sources.json",
+                "authoring_source": "source-a",
+                "comparison_sources": [
+                  "source-b",
+                  "distribution"
+                ]
+              },
+              "approved_manifest": [
+                "source-a/eval-report/skill.yaml",
+                "source-a/eval-report/SKILL.md",
+                "source-a/eval-report/README.md",
+                "source-a/eval-report/CONTEXT.md",
+                "source-a/eval-report/STATECHART.md",
+                "source-a/eval-report/states/init.md",
+                "source-a/eval-report/states/work/collect.md",
+                "source-a/eval-report/states/work/review.md",
+                "source-a/eval-report/states/done.md",
+                "source-a/eval-report/states/cancelled.md"
+              ],
+              "checks_passed": true,
+              "executor_coverage": {
+                "status": "record_actual_evidence_per_run",
+                "actual_model": "unverified",
+                "model_tiers_executed": []
+              },
+              "semantic_model_tiers": {
+                "INIT": "fast",
+                "WORK.COLLECT": "balanced",
+                "WORK.REVIEW": "reasoning",
+                "DONE": "fast",
+                "CANCELLED": "fast"
+              }
+            }
+          },
+          "state": "CANCELLED",
+          "event_id": "01a0fe06-4f52-7e23-a81f-b879efe9f343",
+          "occurred_at": "2026-10-02T19:10:21.522Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe06-4f34-7844-803a-74a7c1bca2c9",
+          "run_id": "01a0fe06-4f34-7b63-9b17-17e9d769e962",
+          "schema_version": "1.0.3"
+        }
+      ]
+    }
+  ]
+}

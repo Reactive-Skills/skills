@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "recorded_at": "2026-10-02T22:59:19.024Z",
+  "checkpoint": "guidance",
+  "skill_version": "1.3.0",
+  "skill_digest": "6e10534d0dff717590ac320cfe0660a39bad9ace8034d361650b824be26de9b3",
+  "coverage": {
+    "status": "PASS",
+    "exit_code": 0,
+    "complete": true,
+    "missing": [],
+    "critical_failures": [],
+    "completed": 24,
+    "passed": 24,
+    "failed": 0
+  },
+  "baseline_help_safe": {
+    "status": "PASS",
+    "exit_code": 0,
+    "failures": [],
+    "baseline": {
+      "complete": true,
+      "missing": [],
+      "critical_failures": [
+        {
+          "trial": "baseline-help-safe-codex-cli-current-create-hsm-with-skill-2",
+          "assertion": "runtime-trace",
+          "reason": "An unqualified manager inspect during phase two created a default manager run in addition to named run 01a0fd26-12c1-776d-84ea-bcf923f36ff9. Named run reached SUCCESS and disclosed missing hygiene validation and projection limitations, but the one-job assertion failed."
+        },
+        {
+          "trial": "baseline-help-safe-codex-cli-current-create-hsm-with-skill-3",
+          "assertion": "runtime-trace",
+          "reason": "Manager inspect created extra UUID-only job 01a0fd3d-8d72-7b50-99e3-4a9d5372dbc4 before named eval-report-create job 01a0fd3f-af3b-777f-ba8a-f117cdb2a9ca reached SUCCESS. Child disclosed the extra job, but the single-manager-job requirement still fails. Ledgers were runtime-owned; no manual editing."
+        },
+        {
+          "trial": "baseline-help-safe-codex-cli-current-reference-navigation-with-skill-1",
+          "assertion": "runtime-trace",
+          "reason": "AXI inspect creates unnamed manager run 01a0fd09-ee97-7442-b4e0-fba115866be0 before named run 01a0fd09-f164-72eb-9d08-b6b1bc1c3e57. The named run reaches SUCCESS and discloses the absent generic validator, but two manager jobs violate the assertion."
+        },
+        {
+          "trial": "baseline-help-safe-codex-cli-current-update-source-with-skill-2",
+          "assertion": "runtime-trace",
+          "reason": "AXI inspect created unnamed run 01a0fd1a-ee52-7966-9833-0a38c3c3f4cc before named run 01a0fd1b-dbe5-767f-a0cd-db4370d7ee99. The named job reached SUCCESS, but the one-job requirement failed."
+        },
+        {
+          "trial": "baseline-help-safe-codex-cli-current-update-source-with-skill-3",
+          "assertion": "runtime-trace",
+          "reason": "Startup inspect and state-before-invoke produced three manager runs: 01a0fd33-89bd-7c38-abef-a127a323ddce, 01a0fd33-c9c1-7390-af08-da4fa40bf499, and 01a0fd34-2ea8-72ac-b536-6bac32e52189. The final run reached SUCCESS with truthful exact-edit evidence, but one-manager-job failed."
+        }
+      ],
+      "completed": 24,
+      "passed": 19,
+      "failed": 5
+    },
+    "candidate": {
+      "complete": true,
+      "missing": [],
+      "critical_failures": [],
+      "completed": 24,
+      "passed": 24,
+      "failed": 0
+    }
+  },
+  "portable_hsm": {
+    "status": "PASS",
+    "exit_code": 0,
+    "failures": [],
+    "baseline": {
+      "complete": true,
+      "missing": [],
+      "critical_failures": [],
+      "completed": 24,
+      "passed": 24,
+      "failed": 0
+    },
+    "candidate": {
+      "complete": true,
+      "missing": [],
+      "critical_failures": [],
+      "completed": 24,
+      "passed": 24,
+      "failed": 0
+    }
+  },
+  "limits": "Single Codex CLI gpt-6.1-sol/xhigh profile; observed passes, no causal quality or token-savings claim. Desktop supplemental checks NOT_RUN."
+}

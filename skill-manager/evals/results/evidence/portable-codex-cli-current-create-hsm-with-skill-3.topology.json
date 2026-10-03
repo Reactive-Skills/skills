@@ -1,0 +1,984 @@
+{
+  "trial_id": "portable-codex-cli-current-create-hsm-with-skill-3",
+  "status": "PASS",
+  "runtime_validation": "validation:\n  skill: eval-report\n  status: valid\n  schema: 2.1.0\n  version: 1.0.0\n  states: \"6\"\n  transitions: \"4\"\n  errors: \"0\"\n  warnings: \"0\"\nhelp[2]:\nRun `reactive-skills-axi inspect C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-create-hsm-with-skill-3Iim8P\\workspace\\source-a\\eval-report` to inspect statechart\n  Run `reactive-skills-axi state eval-report` to inspect active state\n",
+  "runtime_validation_exit": 0,
+  "runs": [
+    {
+      "scenario": "guard-and-complete",
+      "steps": [
+        {
+          "signal": "RUNTIME_READY",
+          "previous": "INIT",
+          "state": "WORK.COLLECT",
+          "transitioned": true
+        },
+        {
+          "signal": "DATA_READY",
+          "payload": {
+            "checks_passed": false
+          },
+          "previous": "WORK.COLLECT",
+          "state": "WORK.COLLECT",
+          "transitioned": false
+        },
+        {
+          "signal": "DATA_READY",
+          "payload": {
+            "checks_passed": true
+          },
+          "previous": "WORK.COLLECT",
+          "state": "WORK.REVIEW",
+          "transitioned": true
+        },
+        {
+          "signal": "HUMAN_APPROVED",
+          "previous": "WORK.REVIEW",
+          "state": "DONE",
+          "transitioned": true
+        }
+      ],
+      "events": [
+        {
+          "id": "01a0fdbb-1391-773b-895e-121c4dff7eb7",
+          "seq": 1,
+          "timestamp": "2026-10-02T17:48:11.025Z",
+          "type": "SKILL_INITIALIZED",
+          "payload": {
+            "skill": "eval-report",
+            "initial_state": "INIT",
+            "active_path": [
+              "INIT"
+            ],
+            "context": {}
+          },
+          "state": "INIT",
+          "event_id": "01a0fdbb-1391-773b-895e-121c4dff7eb7",
+          "occurred_at": "2026-10-02T17:48:11.025Z",
+          "event_type": "SKILL_INITIALIZED",
+          "correlation_id": "01a0fdbb-137a-7ad8-b829-b81504f3abc9",
+          "run_id": "01a0fdbb-137a-7a5c-a9d1-1bc288f83266",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-1391-70a1-8383-ef90d976abc1",
+          "seq": 2,
+          "timestamp": "2026-10-02T17:48:11.025Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "INIT",
+            "seq": 1,
+            "context_snapshot": {}
+          },
+          "state": "INIT",
+          "event_id": "01a0fdbb-1391-70a1-8383-ef90d976abc1",
+          "occurred_at": "2026-10-02T17:48:11.025Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fdbb-137a-7ad8-b829-b81504f3abc9",
+          "run_id": "01a0fdbb-137a-7a5c-a9d1-1bc288f83266",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-1394-7bea-a166-039cb6b53d43",
+          "seq": 3,
+          "timestamp": "2026-10-02T17:48:11.028Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "RUNTIME_READY"
+          },
+          "state": "INIT",
+          "event_id": "01a0fdbb-1394-7bea-a166-039cb6b53d43",
+          "occurred_at": "2026-10-02T17:48:11.028Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fdbb-137a-7ad8-b829-b81504f3abc9",
+          "run_id": "01a0fdbb-137a-7a5c-a9d1-1bc288f83266",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-1395-7dec-906a-ec86e8927ee9",
+          "seq": 4,
+          "timestamp": "2026-10-02T17:48:11.029Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "true",
+            "passed": true,
+            "target": "WORK.COLLECT",
+            "handledAt": "INIT"
+          },
+          "causationId": "01a0fdbb-1394-7bea-a166-039cb6b53d43",
+          "state": "INIT",
+          "event_id": "01a0fdbb-1395-7dec-906a-ec86e8927ee9",
+          "occurred_at": "2026-10-02T17:48:11.029Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fdbb-1394-7bea-a166-039cb6b53d43",
+          "correlation_id": "01a0fdbb-137a-7ad8-b829-b81504f3abc9",
+          "run_id": "01a0fdbb-137a-7a5c-a9d1-1bc288f83266",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-1395-7698-a925-85d7157496e6",
+          "seq": 5,
+          "timestamp": "2026-10-02T17:48:11.029Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "INIT",
+            "to": "WORK.COLLECT",
+            "signal": "RUNTIME_READY",
+            "payload": {},
+            "metrics": {
+              "transition_duration_ms": 0.389
+            }
+          },
+          "causationId": "01a0fdbb-1394-7bea-a166-039cb6b53d43",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fdbb-1395-7698-a925-85d7157496e6",
+          "occurred_at": "2026-10-02T17:48:11.029Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fdbb-1394-7bea-a166-039cb6b53d43",
+          "correlation_id": "01a0fdbb-137a-7ad8-b829-b81504f3abc9",
+          "run_id": "01a0fdbb-137a-7a5c-a9d1-1bc288f83266",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-1395-712c-bdad-ca7c17428580",
+          "seq": 6,
+          "timestamp": "2026-10-02T17:48:11.029Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK",
+            "seq": 5,
+            "context_snapshot": {}
+          },
+          "state": "WORK",
+          "event_id": "01a0fdbb-1395-712c-bdad-ca7c17428580",
+          "occurred_at": "2026-10-02T17:48:11.029Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fdbb-137a-7ad8-b829-b81504f3abc9",
+          "run_id": "01a0fdbb-137a-7a5c-a9d1-1bc288f83266",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-1395-734f-a77e-1ecc96bf7d46",
+          "seq": 7,
+          "timestamp": "2026-10-02T17:48:11.029Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK.COLLECT",
+            "seq": 6,
+            "context_snapshot": {}
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fdbb-1395-734f-a77e-1ecc96bf7d46",
+          "occurred_at": "2026-10-02T17:48:11.029Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fdbb-137a-7ad8-b829-b81504f3abc9",
+          "run_id": "01a0fdbb-137a-7a5c-a9d1-1bc288f83266",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13a0-76c1-ac54-e709633671f4",
+          "seq": 8,
+          "timestamp": "2026-10-02T17:48:11.040Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "DATA_READY",
+            "checks_passed": false
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fdbb-13a0-76c1-ac54-e709633671f4",
+          "occurred_at": "2026-10-02T17:48:11.040Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fdbb-137a-7ad8-b829-b81504f3abc9",
+          "run_id": "01a0fdbb-137a-7a5c-a9d1-1bc288f83266",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13a1-7b75-9516-0cfa1ceac99d",
+          "seq": 9,
+          "timestamp": "2026-10-02T17:48:11.041Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "payload.checks_passed === true",
+            "passed": false,
+            "target": "WORK.REVIEW",
+            "handledAt": "WORK.COLLECT",
+            "fallbackTriggered": false
+          },
+          "causationId": "01a0fdbb-13a0-76c1-ac54-e709633671f4",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fdbb-13a1-7b75-9516-0cfa1ceac99d",
+          "occurred_at": "2026-10-02T17:48:11.041Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fdbb-13a0-76c1-ac54-e709633671f4",
+          "correlation_id": "01a0fdbb-137a-7ad8-b829-b81504f3abc9",
+          "run_id": "01a0fdbb-137a-7a5c-a9d1-1bc288f83266",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13a1-76ce-8c71-8e822d4a7e8c",
+          "seq": 10,
+          "timestamp": "2026-10-02T17:48:11.041Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "DATA_READY",
+            "checks_passed": true
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fdbb-13a1-76ce-8c71-8e822d4a7e8c",
+          "occurred_at": "2026-10-02T17:48:11.041Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fdbb-137a-7ad8-b829-b81504f3abc9",
+          "run_id": "01a0fdbb-137a-7a5c-a9d1-1bc288f83266",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13a1-7459-8067-f343dd4df34e",
+          "seq": 11,
+          "timestamp": "2026-10-02T17:48:11.041Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "payload.checks_passed === true",
+            "passed": true,
+            "target": "WORK.REVIEW",
+            "handledAt": "WORK.COLLECT",
+            "fallbackTriggered": false
+          },
+          "causationId": "01a0fdbb-13a1-76ce-8c71-8e822d4a7e8c",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fdbb-13a1-7459-8067-f343dd4df34e",
+          "occurred_at": "2026-10-02T17:48:11.041Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fdbb-13a1-76ce-8c71-8e822d4a7e8c",
+          "correlation_id": "01a0fdbb-137a-7ad8-b829-b81504f3abc9",
+          "run_id": "01a0fdbb-137a-7a5c-a9d1-1bc288f83266",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13a2-7d17-ab65-9c0fc67e3a35",
+          "seq": 12,
+          "timestamp": "2026-10-02T17:48:11.042Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "WORK.COLLECT",
+            "to": "WORK.REVIEW",
+            "signal": "DATA_READY",
+            "payload": {
+              "checks_passed": true
+            },
+            "metrics": {
+              "transition_duration_ms": 0.846
+            }
+          },
+          "causationId": "01a0fdbb-13a1-76ce-8c71-8e822d4a7e8c",
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fdbb-13a2-7d17-ab65-9c0fc67e3a35",
+          "occurred_at": "2026-10-02T17:48:11.042Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fdbb-13a1-76ce-8c71-8e822d4a7e8c",
+          "correlation_id": "01a0fdbb-137a-7ad8-b829-b81504f3abc9",
+          "run_id": "01a0fdbb-137a-7a5c-a9d1-1bc288f83266",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13a2-7b2c-ab42-7c9056341b9f",
+          "seq": 13,
+          "timestamp": "2026-10-02T17:48:11.042Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK.REVIEW",
+            "seq": 12,
+            "context_snapshot": {}
+          },
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fdbb-13a2-7b2c-ab42-7c9056341b9f",
+          "occurred_at": "2026-10-02T17:48:11.042Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fdbb-137a-7ad8-b829-b81504f3abc9",
+          "run_id": "01a0fdbb-137a-7a5c-a9d1-1bc288f83266",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13a9-792a-ac72-283b54da3472",
+          "seq": 14,
+          "timestamp": "2026-10-02T17:48:11.049Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "HUMAN_APPROVED"
+          },
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fdbb-13a9-792a-ac72-283b54da3472",
+          "occurred_at": "2026-10-02T17:48:11.049Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fdbb-137a-7ad8-b829-b81504f3abc9",
+          "run_id": "01a0fdbb-137a-7a5c-a9d1-1bc288f83266",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13a9-72e9-9c4f-69c2d28e3484",
+          "seq": 15,
+          "timestamp": "2026-10-02T17:48:11.049Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "true",
+            "passed": true,
+            "target": "DONE",
+            "handledAt": "WORK.REVIEW"
+          },
+          "causationId": "01a0fdbb-13a9-792a-ac72-283b54da3472",
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fdbb-13a9-72e9-9c4f-69c2d28e3484",
+          "occurred_at": "2026-10-02T17:48:11.049Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fdbb-13a9-792a-ac72-283b54da3472",
+          "correlation_id": "01a0fdbb-137a-7ad8-b829-b81504f3abc9",
+          "run_id": "01a0fdbb-137a-7a5c-a9d1-1bc288f83266",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13a9-7005-9317-62407a22e9a7",
+          "seq": 16,
+          "timestamp": "2026-10-02T17:48:11.049Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "WORK.REVIEW",
+            "to": "DONE",
+            "signal": "HUMAN_APPROVED",
+            "payload": {},
+            "metrics": {
+              "transition_duration_ms": 0.142
+            }
+          },
+          "causationId": "01a0fdbb-13a9-792a-ac72-283b54da3472",
+          "state": "DONE",
+          "event_id": "01a0fdbb-13a9-7005-9317-62407a22e9a7",
+          "occurred_at": "2026-10-02T17:48:11.049Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fdbb-13a9-792a-ac72-283b54da3472",
+          "correlation_id": "01a0fdbb-137a-7ad8-b829-b81504f3abc9",
+          "run_id": "01a0fdbb-137a-7a5c-a9d1-1bc288f83266",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13a9-74aa-84c8-74fb4b6c5cac",
+          "seq": 17,
+          "timestamp": "2026-10-02T17:48:11.049Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "DONE",
+            "seq": 16,
+            "context_snapshot": {}
+          },
+          "state": "DONE",
+          "event_id": "01a0fdbb-13a9-74aa-84c8-74fb4b6c5cac",
+          "occurred_at": "2026-10-02T17:48:11.049Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fdbb-137a-7ad8-b829-b81504f3abc9",
+          "run_id": "01a0fdbb-137a-7a5c-a9d1-1bc288f83266",
+          "schema_version": "1.0.3"
+        }
+      ]
+    },
+    {
+      "scenario": "cancel-collect",
+      "steps": [
+        {
+          "signal": "RUNTIME_READY",
+          "previous": "INIT",
+          "state": "WORK.COLLECT",
+          "transitioned": true
+        },
+        {
+          "signal": "CANCEL",
+          "previous": "WORK.COLLECT",
+          "state": "CANCELLED",
+          "transitioned": true
+        }
+      ],
+      "events": [
+        {
+          "id": "01a0fdbb-13bd-7787-8a55-8b7ad93310c6",
+          "seq": 1,
+          "timestamp": "2026-10-02T17:48:11.070Z",
+          "type": "SKILL_INITIALIZED",
+          "payload": {
+            "skill": "eval-report",
+            "initial_state": "INIT",
+            "active_path": [
+              "INIT"
+            ],
+            "context": {}
+          },
+          "state": "INIT",
+          "event_id": "01a0fdbb-13bd-7787-8a55-8b7ad93310c6",
+          "occurred_at": "2026-10-02T17:48:11.070Z",
+          "event_type": "SKILL_INITIALIZED",
+          "correlation_id": "01a0fdbb-13b1-7454-bed9-91556acd71bb",
+          "run_id": "01a0fdbb-13b1-75f4-b970-4d95ffc29249",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13be-7a4c-a11c-51314ab5996c",
+          "seq": 2,
+          "timestamp": "2026-10-02T17:48:11.070Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "INIT",
+            "seq": 1,
+            "context_snapshot": {}
+          },
+          "state": "INIT",
+          "event_id": "01a0fdbb-13be-7a4c-a11c-51314ab5996c",
+          "occurred_at": "2026-10-02T17:48:11.070Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fdbb-13b1-7454-bed9-91556acd71bb",
+          "run_id": "01a0fdbb-13b1-75f4-b970-4d95ffc29249",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13bf-7b66-9ecd-89bf35b095bd",
+          "seq": 3,
+          "timestamp": "2026-10-02T17:48:11.071Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "RUNTIME_READY"
+          },
+          "state": "INIT",
+          "event_id": "01a0fdbb-13bf-7b66-9ecd-89bf35b095bd",
+          "occurred_at": "2026-10-02T17:48:11.071Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fdbb-13b1-7454-bed9-91556acd71bb",
+          "run_id": "01a0fdbb-13b1-75f4-b970-4d95ffc29249",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13bf-7c54-82b4-8063ee3aebc6",
+          "seq": 4,
+          "timestamp": "2026-10-02T17:48:11.071Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "true",
+            "passed": true,
+            "target": "WORK.COLLECT",
+            "handledAt": "INIT"
+          },
+          "causationId": "01a0fdbb-13bf-7b66-9ecd-89bf35b095bd",
+          "state": "INIT",
+          "event_id": "01a0fdbb-13bf-7c54-82b4-8063ee3aebc6",
+          "occurred_at": "2026-10-02T17:48:11.071Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fdbb-13bf-7b66-9ecd-89bf35b095bd",
+          "correlation_id": "01a0fdbb-13b1-7454-bed9-91556acd71bb",
+          "run_id": "01a0fdbb-13b1-75f4-b970-4d95ffc29249",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13bf-7910-a040-6df8e506d72f",
+          "seq": 5,
+          "timestamp": "2026-10-02T17:48:11.071Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "INIT",
+            "to": "WORK.COLLECT",
+            "signal": "RUNTIME_READY",
+            "payload": {},
+            "metrics": {
+              "transition_duration_ms": 0.118
+            }
+          },
+          "causationId": "01a0fdbb-13bf-7b66-9ecd-89bf35b095bd",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fdbb-13bf-7910-a040-6df8e506d72f",
+          "occurred_at": "2026-10-02T17:48:11.071Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fdbb-13bf-7b66-9ecd-89bf35b095bd",
+          "correlation_id": "01a0fdbb-13b1-7454-bed9-91556acd71bb",
+          "run_id": "01a0fdbb-13b1-75f4-b970-4d95ffc29249",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13bf-7cea-afd8-b57f6ac4d6af",
+          "seq": 6,
+          "timestamp": "2026-10-02T17:48:11.071Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK",
+            "seq": 5,
+            "context_snapshot": {}
+          },
+          "state": "WORK",
+          "event_id": "01a0fdbb-13bf-7cea-afd8-b57f6ac4d6af",
+          "occurred_at": "2026-10-02T17:48:11.071Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fdbb-13b1-7454-bed9-91556acd71bb",
+          "run_id": "01a0fdbb-13b1-75f4-b970-4d95ffc29249",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13bf-722b-b6d2-661c8b2f62d8",
+          "seq": 7,
+          "timestamp": "2026-10-02T17:48:11.071Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK.COLLECT",
+            "seq": 6,
+            "context_snapshot": {}
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fdbb-13bf-722b-b6d2-661c8b2f62d8",
+          "occurred_at": "2026-10-02T17:48:11.071Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fdbb-13b1-7454-bed9-91556acd71bb",
+          "run_id": "01a0fdbb-13b1-75f4-b970-4d95ffc29249",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13c7-7a24-9493-9362670a1c25",
+          "seq": 8,
+          "timestamp": "2026-10-02T17:48:11.079Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "CANCEL"
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fdbb-13c7-7a24-9493-9362670a1c25",
+          "occurred_at": "2026-10-02T17:48:11.079Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fdbb-13b1-7454-bed9-91556acd71bb",
+          "run_id": "01a0fdbb-13b1-75f4-b970-4d95ffc29249",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13c7-745b-be97-ba7d784632e6",
+          "seq": 9,
+          "timestamp": "2026-10-02T17:48:11.079Z",
+          "type": "EVENT_BUBBLED",
+          "payload": {
+            "signal": "CANCEL",
+            "fromLeaf": "WORK.COLLECT",
+            "handledAt": "WORK",
+            "depth": 1
+          },
+          "causationId": "01a0fdbb-13c7-7a24-9493-9362670a1c25",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fdbb-13c7-745b-be97-ba7d784632e6",
+          "occurred_at": "2026-10-02T17:48:11.079Z",
+          "event_type": "EVENT_BUBBLED",
+          "causation_id": "01a0fdbb-13c7-7a24-9493-9362670a1c25",
+          "correlation_id": "01a0fdbb-13b1-7454-bed9-91556acd71bb",
+          "run_id": "01a0fdbb-13b1-75f4-b970-4d95ffc29249",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13c7-7d8b-840e-e9f9f30ee2ec",
+          "seq": 10,
+          "timestamp": "2026-10-02T17:48:11.079Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "true",
+            "passed": true,
+            "target": "CANCELLED",
+            "handledAt": "WORK"
+          },
+          "causationId": "01a0fdbb-13c7-7a24-9493-9362670a1c25",
+          "state": "WORK",
+          "event_id": "01a0fdbb-13c7-7d8b-840e-e9f9f30ee2ec",
+          "occurred_at": "2026-10-02T17:48:11.079Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fdbb-13c7-7a24-9493-9362670a1c25",
+          "correlation_id": "01a0fdbb-13b1-7454-bed9-91556acd71bb",
+          "run_id": "01a0fdbb-13b1-75f4-b970-4d95ffc29249",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13c7-7f1c-9ccd-7e016a555596",
+          "seq": 11,
+          "timestamp": "2026-10-02T17:48:11.079Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "WORK.COLLECT",
+            "to": "CANCELLED",
+            "signal": "CANCEL",
+            "payload": {},
+            "metrics": {
+              "transition_duration_ms": 0.159
+            }
+          },
+          "causationId": "01a0fdbb-13c7-7a24-9493-9362670a1c25",
+          "state": "CANCELLED",
+          "event_id": "01a0fdbb-13c7-7f1c-9ccd-7e016a555596",
+          "occurred_at": "2026-10-02T17:48:11.079Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fdbb-13c7-7a24-9493-9362670a1c25",
+          "correlation_id": "01a0fdbb-13b1-7454-bed9-91556acd71bb",
+          "run_id": "01a0fdbb-13b1-75f4-b970-4d95ffc29249",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13c7-73a7-b0cb-6dec6ed6a343",
+          "seq": 12,
+          "timestamp": "2026-10-02T17:48:11.079Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "CANCELLED",
+            "seq": 11,
+            "context_snapshot": {}
+          },
+          "state": "CANCELLED",
+          "event_id": "01a0fdbb-13c7-73a7-b0cb-6dec6ed6a343",
+          "occurred_at": "2026-10-02T17:48:11.079Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fdbb-13b1-7454-bed9-91556acd71bb",
+          "run_id": "01a0fdbb-13b1-75f4-b970-4d95ffc29249",
+          "schema_version": "1.0.3"
+        }
+      ]
+    },
+    {
+      "scenario": "cancel-review",
+      "steps": [
+        {
+          "signal": "RUNTIME_READY",
+          "previous": "INIT",
+          "state": "WORK.COLLECT",
+          "transitioned": true
+        },
+        {
+          "signal": "DATA_READY",
+          "payload": {
+            "checks_passed": true
+          },
+          "previous": "WORK.COLLECT",
+          "state": "WORK.REVIEW",
+          "transitioned": true
+        },
+        {
+          "signal": "CANCEL",
+          "previous": "WORK.REVIEW",
+          "state": "CANCELLED",
+          "transitioned": true
+        }
+      ],
+      "events": [
+        {
+          "id": "01a0fdbb-13de-7a7f-bd01-da3f95d35b37",
+          "seq": 1,
+          "timestamp": "2026-10-02T17:48:11.102Z",
+          "type": "SKILL_INITIALIZED",
+          "payload": {
+            "skill": "eval-report",
+            "initial_state": "INIT",
+            "active_path": [
+              "INIT"
+            ],
+            "context": {}
+          },
+          "state": "INIT",
+          "event_id": "01a0fdbb-13de-7a7f-bd01-da3f95d35b37",
+          "occurred_at": "2026-10-02T17:48:11.103Z",
+          "event_type": "SKILL_INITIALIZED",
+          "correlation_id": "01a0fdbb-13d1-7223-830b-5fafa7a98064",
+          "run_id": "01a0fdbb-13d1-7d6c-90c6-4e3e1d358d15",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13df-712a-ba24-142f8b6b218a",
+          "seq": 2,
+          "timestamp": "2026-10-02T17:48:11.103Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "INIT",
+            "seq": 1,
+            "context_snapshot": {}
+          },
+          "state": "INIT",
+          "event_id": "01a0fdbb-13df-712a-ba24-142f8b6b218a",
+          "occurred_at": "2026-10-02T17:48:11.103Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fdbb-13d1-7223-830b-5fafa7a98064",
+          "run_id": "01a0fdbb-13d1-7d6c-90c6-4e3e1d358d15",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13e0-727c-8fed-a0a3899ab64b",
+          "seq": 3,
+          "timestamp": "2026-10-02T17:48:11.104Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "RUNTIME_READY"
+          },
+          "state": "INIT",
+          "event_id": "01a0fdbb-13e0-727c-8fed-a0a3899ab64b",
+          "occurred_at": "2026-10-02T17:48:11.104Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fdbb-13d1-7223-830b-5fafa7a98064",
+          "run_id": "01a0fdbb-13d1-7d6c-90c6-4e3e1d358d15",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13e0-7eb6-b40f-8adf37b5de12",
+          "seq": 4,
+          "timestamp": "2026-10-02T17:48:11.104Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "true",
+            "passed": true,
+            "target": "WORK.COLLECT",
+            "handledAt": "INIT"
+          },
+          "causationId": "01a0fdbb-13e0-727c-8fed-a0a3899ab64b",
+          "state": "INIT",
+          "event_id": "01a0fdbb-13e0-7eb6-b40f-8adf37b5de12",
+          "occurred_at": "2026-10-02T17:48:11.104Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fdbb-13e0-727c-8fed-a0a3899ab64b",
+          "correlation_id": "01a0fdbb-13d1-7223-830b-5fafa7a98064",
+          "run_id": "01a0fdbb-13d1-7d6c-90c6-4e3e1d358d15",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13e0-7132-b208-9d31ae3d3889",
+          "seq": 5,
+          "timestamp": "2026-10-02T17:48:11.104Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "INIT",
+            "to": "WORK.COLLECT",
+            "signal": "RUNTIME_READY",
+            "payload": {},
+            "metrics": {
+              "transition_duration_ms": 0.094
+            }
+          },
+          "causationId": "01a0fdbb-13e0-727c-8fed-a0a3899ab64b",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fdbb-13e0-7132-b208-9d31ae3d3889",
+          "occurred_at": "2026-10-02T17:48:11.104Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fdbb-13e0-727c-8fed-a0a3899ab64b",
+          "correlation_id": "01a0fdbb-13d1-7223-830b-5fafa7a98064",
+          "run_id": "01a0fdbb-13d1-7d6c-90c6-4e3e1d358d15",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13e0-7ec9-8e1a-8c38f2f182da",
+          "seq": 6,
+          "timestamp": "2026-10-02T17:48:11.104Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK",
+            "seq": 5,
+            "context_snapshot": {}
+          },
+          "state": "WORK",
+          "event_id": "01a0fdbb-13e0-7ec9-8e1a-8c38f2f182da",
+          "occurred_at": "2026-10-02T17:48:11.104Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fdbb-13d1-7223-830b-5fafa7a98064",
+          "run_id": "01a0fdbb-13d1-7d6c-90c6-4e3e1d358d15",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13e0-7f7c-abe7-1001c8d10ef2",
+          "seq": 7,
+          "timestamp": "2026-10-02T17:48:11.104Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK.COLLECT",
+            "seq": 6,
+            "context_snapshot": {}
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fdbb-13e0-7f7c-abe7-1001c8d10ef2",
+          "occurred_at": "2026-10-02T17:48:11.104Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fdbb-13d1-7223-830b-5fafa7a98064",
+          "run_id": "01a0fdbb-13d1-7d6c-90c6-4e3e1d358d15",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13e8-7b42-a616-7169859ad481",
+          "seq": 8,
+          "timestamp": "2026-10-02T17:48:11.112Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "DATA_READY",
+            "checks_passed": true
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fdbb-13e8-7b42-a616-7169859ad481",
+          "occurred_at": "2026-10-02T17:48:11.112Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fdbb-13d1-7223-830b-5fafa7a98064",
+          "run_id": "01a0fdbb-13d1-7d6c-90c6-4e3e1d358d15",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13e9-7c12-b693-816c5d8ed17d",
+          "seq": 9,
+          "timestamp": "2026-10-02T17:48:11.113Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "payload.checks_passed === true",
+            "passed": true,
+            "target": "WORK.REVIEW",
+            "handledAt": "WORK.COLLECT",
+            "fallbackTriggered": false
+          },
+          "causationId": "01a0fdbb-13e8-7b42-a616-7169859ad481",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fdbb-13e9-7c12-b693-816c5d8ed17d",
+          "occurred_at": "2026-10-02T17:48:11.113Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fdbb-13e8-7b42-a616-7169859ad481",
+          "correlation_id": "01a0fdbb-13d1-7223-830b-5fafa7a98064",
+          "run_id": "01a0fdbb-13d1-7d6c-90c6-4e3e1d358d15",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13e9-7e1c-882f-b70d4c65fe2c",
+          "seq": 10,
+          "timestamp": "2026-10-02T17:48:11.113Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "WORK.COLLECT",
+            "to": "WORK.REVIEW",
+            "signal": "DATA_READY",
+            "payload": {
+              "checks_passed": true
+            },
+            "metrics": {
+              "transition_duration_ms": 1.002
+            }
+          },
+          "causationId": "01a0fdbb-13e8-7b42-a616-7169859ad481",
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fdbb-13e9-7e1c-882f-b70d4c65fe2c",
+          "occurred_at": "2026-10-02T17:48:11.113Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fdbb-13e8-7b42-a616-7169859ad481",
+          "correlation_id": "01a0fdbb-13d1-7223-830b-5fafa7a98064",
+          "run_id": "01a0fdbb-13d1-7d6c-90c6-4e3e1d358d15",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13e9-78ba-9516-3952d13998c3",
+          "seq": 11,
+          "timestamp": "2026-10-02T17:48:11.113Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK.REVIEW",
+            "seq": 10,
+            "context_snapshot": {}
+          },
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fdbb-13e9-78ba-9516-3952d13998c3",
+          "occurred_at": "2026-10-02T17:48:11.113Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fdbb-13d1-7223-830b-5fafa7a98064",
+          "run_id": "01a0fdbb-13d1-7d6c-90c6-4e3e1d358d15",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13f0-78f7-9d68-428820de45f5",
+          "seq": 12,
+          "timestamp": "2026-10-02T17:48:11.120Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "CANCEL"
+          },
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fdbb-13f0-78f7-9d68-428820de45f5",
+          "occurred_at": "2026-10-02T17:48:11.120Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fdbb-13d1-7223-830b-5fafa7a98064",
+          "run_id": "01a0fdbb-13d1-7d6c-90c6-4e3e1d358d15",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13f0-725f-a6e6-2f8326c4676a",
+          "seq": 13,
+          "timestamp": "2026-10-02T17:48:11.120Z",
+          "type": "EVENT_BUBBLED",
+          "payload": {
+            "signal": "CANCEL",
+            "fromLeaf": "WORK.REVIEW",
+            "handledAt": "WORK",
+            "depth": 1
+          },
+          "causationId": "01a0fdbb-13f0-78f7-9d68-428820de45f5",
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fdbb-13f0-725f-a6e6-2f8326c4676a",
+          "occurred_at": "2026-10-02T17:48:11.120Z",
+          "event_type": "EVENT_BUBBLED",
+          "causation_id": "01a0fdbb-13f0-78f7-9d68-428820de45f5",
+          "correlation_id": "01a0fdbb-13d1-7223-830b-5fafa7a98064",
+          "run_id": "01a0fdbb-13d1-7d6c-90c6-4e3e1d358d15",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13f0-7386-8bc6-ed30135add35",
+          "seq": 14,
+          "timestamp": "2026-10-02T17:48:11.120Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "true",
+            "passed": true,
+            "target": "CANCELLED",
+            "handledAt": "WORK"
+          },
+          "causationId": "01a0fdbb-13f0-78f7-9d68-428820de45f5",
+          "state": "WORK",
+          "event_id": "01a0fdbb-13f0-7386-8bc6-ed30135add35",
+          "occurred_at": "2026-10-02T17:48:11.120Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fdbb-13f0-78f7-9d68-428820de45f5",
+          "correlation_id": "01a0fdbb-13d1-7223-830b-5fafa7a98064",
+          "run_id": "01a0fdbb-13d1-7d6c-90c6-4e3e1d358d15",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13f0-71db-bc2d-dd9f128f16bf",
+          "seq": 15,
+          "timestamp": "2026-10-02T17:48:11.120Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "WORK.REVIEW",
+            "to": "CANCELLED",
+            "signal": "CANCEL",
+            "payload": {},
+            "metrics": {
+              "transition_duration_ms": 0.165
+            }
+          },
+          "causationId": "01a0fdbb-13f0-78f7-9d68-428820de45f5",
+          "state": "CANCELLED",
+          "event_id": "01a0fdbb-13f0-71db-bc2d-dd9f128f16bf",
+          "occurred_at": "2026-10-02T17:48:11.120Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fdbb-13f0-78f7-9d68-428820de45f5",
+          "correlation_id": "01a0fdbb-13d1-7223-830b-5fafa7a98064",
+          "run_id": "01a0fdbb-13d1-7d6c-90c6-4e3e1d358d15",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fdbb-13f0-7f15-acf2-adb0c6f47a33",
+          "seq": 16,
+          "timestamp": "2026-10-02T17:48:11.120Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "CANCELLED",
+            "seq": 15,
+            "context_snapshot": {}
+          },
+          "state": "CANCELLED",
+          "event_id": "01a0fdbb-13f0-7f15-acf2-adb0c6f47a33",
+          "occurred_at": "2026-10-02T17:48:11.120Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fdbb-13d1-7223-830b-5fafa7a98064",
+          "run_id": "01a0fdbb-13d1-7d6c-90c6-4e3e1d358d15",
+          "schema_version": "1.0.3"
+        }
+      ]
+    }
+  ]
+}
