@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "skillId": "onboarding-map",
   "channel": "stable",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "type": "reactive",
   "reactiveSchemaVersion": "2.0.0"
 }

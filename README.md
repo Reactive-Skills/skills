@@ -54,7 +54,7 @@ Each skill's own `README.md` documents its workflow, inputs, and deliverables, a
 | [`experiment-loop`](experiment-loop/) | `v1.0.0` | `v2.1.0` | Run bounded, evidence-backed improvement experiments with fixed evaluators, repeated baselines, protected confirmation, budgets, and recovery. |
 | [`jsm-workflow`](jsm-workflow/) | `v1.2.1` | `v2.1.0` | Reactive SDLC coordinator taking software changes from intake to final context sync, implementing the JS Mastery Engineering Workflow (https://jsmastery.com/skills). |
 | [`mutation-tester`](mutation-tester/) | `v1.0.0` | `v2.2.0` | Technology-agnostic mutation testing reactive skill powered by high-performance Go CLI engine. |
-| [`onboarding-map`](onboarding-map/) | `v1.0.2` | `v2.0.0` | Codebase onboarding workflow: intake role and scope, scan architecture and ownership, map modules and dependencies, design a personalized learning path, review with stakeholders, and approve completion. |
+| [`onboarding-map`](onboarding-map/) | `v1.0.3` | `v2.0.0` | Codebase onboarding workflow: intake role and scope, scan architecture and ownership, map modules and dependencies, design a personalized learning path, review with stakeholders, and approve completion. |
 | [`pep8-review`](pep8-review/) | `v1.0.0` | `v2.1.0` | Reactive Python style review using PEP 8, project-specific style rules, and relevant companion conventions for docstrings and type annotations. |
 | [`pr-triage`](pr-triage/) | `v1.0.1` | `v2.0.0` | Pull request triage workflow that collects PR metadata, classifies risk and ownership, assesses readiness, routes work, and pauses at a human disposition gate. |
 | [`product-manager`](product-manager/) | `v1.0.2` | `v2.1.0` | Event-driven product management and opportunity realization engine. Orchestrates opportunity discovery & worthwhileness research (new green-field projects vs existing product feature enhancements), strategic goal alignment, SMART requirement scoping, Eisenhower matrix prioritization, and lean vertical slice architecture. |
@@ -64,7 +64,7 @@ Each skill's own `README.md` documents its workflow, inputs, and deliverables, a
 | [`security-scan`](security-scan/) | `v1.0.0` | `v2.0.0` | Pre-commit secret and credential scanner with remediation checklist — scans staged changes for API keys, tokens, private keys, hardcoded credentials, insecure defaults |
 | [`skill-manager`](skill-manager/) | `v1.3.0` | `v2.1.0` | Full CRUD lifecycle management for reactive skills - CREATE UPDATE DELETE MIGRATE_LEGACY and MIGRATE_REACTIVE with pre-COMMIT approval best-effort rollback and manifest snapshot projection |
 | [`systems-diagnosis`](systems-diagnosis/) | `v1.0.0` | `v2.1.0` | Diagnose recurring or surprising behavior in a system, explain it through observed patterns and structure, and develop a testable intervention. |
-| [`tdd-refactor`](tdd-refactor/) | `v2.0.3` | `v2.1.0` | Hierarchical TDD & Refactoring state machine with nested micro-cycles, regression detection, event bubbling, and live projections |
+| [`tdd-refactor`](tdd-refactor/) | `v2.0.4` | `v2.1.0` | Hierarchical TDD & Refactoring state machine with nested micro-cycles, regression detection, event bubbling, and live projections |
 | [`test-coverage-gate`](test-coverage-gate/) | `v1.0.0` | `v2.0.0` | Test coverage quality gate that establishes a clean baseline, measures statement, branch, function, and line coverage, analyzes gaps, and blocks release below explicit thresholds. |
 
 <!-- TOC_END -->
