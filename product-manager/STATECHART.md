@@ -21,7 +21,7 @@ stateDiagram-v2
     RESEARCH_DISCOVERY --> VALIDATE_WORTHWHILENESS: DISCOVERY_COMPLETED
     RESEARCH_DISCOVERY --> SELECT_OPPORTUNITY_TYPE: PIVOT_INTAKE
 
-    VALIDATE_WORTHWHILENESS --> ALIGN_GOALS: WORTHWHILE_CONFIRMED
+    VALIDATE_WORTHWHILENESS --> ALIGN_GOALS: WORTHWHILE_CONFIRMED (script predicate)
     VALIDATE_WORTHWHILENESS --> REVIEW_GATE: WORTHWHILE_DOUBTFUL
 
     ALIGN_GOALS --> GATHER_TEST_REQUIREMENTS: GOALS_ALIGNED
@@ -39,7 +39,7 @@ stateDiagram-v2
     VERTICAL_SLICING --> REVIEW_GATE: SLICES_DECOMPOSED
     VERTICAL_SLICING --> EISENHOWER_PRIORITIZATION: REVISE_PRIORITIES
 
-    REVIEW_GATE --> PROJECTING: USER_APPROVED
+    REVIEW_GATE --> PROJECTING: USER_APPROVED (script predicate)
     REVIEW_GATE --> VERTICAL_SLICING: REVISE_SLICES
     REVIEW_GATE --> EISENHOWER_PRIORITIZATION: REVISE_PRIORITIES
     REVIEW_GATE --> ERROR: ABORT
@@ -49,6 +49,9 @@ stateDiagram-v2
     SUCCESS --> [*]
     ERROR --> [*]
 ```
+
+During `PROJECTING`, the runtime provides template data through `context`, plus `lastUpdated` for the projection timestamp.
+Templates read product fields from `context.*` and render text or structured records according to the context shape.
 
 ---
 
@@ -63,7 +66,7 @@ stateDiagram-v2
 | `SELECT_OPPORTUNITY_TYPE` | `OPPORTUNITY_SELECTED` | `RESEARCH_DISCOVERY` | `context.opportunity_type != null` | Opportunity mode chosen |
 | `RESEARCH_DISCOVERY` | `DISCOVERY_COMPLETED` | `VALIDATE_WORTHWHILENESS` | — | Market/user evidence gathered |
 | `RESEARCH_DISCOVERY` | `PIVOT_INTAKE` | `SELECT_OPPORTUNITY_TYPE` | — | Re-evaluate product classification |
-| `VALIDATE_WORTHWHILENESS` | `WORTHWHILE_CONFIRMED` | `ALIGN_GOALS` | — | Opportunity passes 4-axis test |
+| `VALIDATE_WORTHWHILENESS` | `WORTHWHILE_CONFIRMED` | `ALIGN_GOALS` | Score >= 3; no catastrophic blocker; all axis scores present | Opportunity passes structural checks |
 | `VALIDATE_WORTHWHILENESS` | `WORTHWHILE_DOUBTFUL` | `REVIEW_GATE` | — | Low viability triggers human gate |
 | `ALIGN_GOALS` | `GOALS_ALIGNED` | `GATHER_TEST_REQUIREMENTS` | — | Goals, OKRs & anti-goals defined |
 | `ALIGN_GOALS` | `REALIGN_RESEARCH` | `RESEARCH_DISCOVERY` | — | Strategic misalignment triggers research revisit |
@@ -75,10 +78,13 @@ stateDiagram-v2
 | `EISENHOWER_PRIORITIZATION` | `REVISE_SCOPE` | `FORMULATE_SMART` | — | Scope adjustments requested |
 | `VERTICAL_SLICING` | `SLICES_DECOMPOSED` | `REVIEW_GATE` | — | Vertical slices & MVP boundary defined |
 | `VERTICAL_SLICING` | `REVISE_PRIORITIES` | `EISENHOWER_PRIORITIZATION` | — | Slice dependencies force reprioritization |
-| `REVIEW_GATE` | `USER_APPROVED` | `PROJECTING` | — | Human approves specification |
+| `REVIEW_GATE` | `USER_APPROVED` | `PROJECTING` | Score >= 3; goals and slices present; MVP slice IDs non-empty | Human approves structurally complete specification |
 | `REVIEW_GATE` | `REVISE_SLICES` | `VERTICAL_SLICING` | — | Human requests slice redesign |
 | `REVIEW_GATE` | `REVISE_PRIORITIES` | `EISENHOWER_PRIORITIZATION` | — | Human requests priority reshuffle |
 | `REVIEW_GATE` | `ABORT` | `ERROR` | — | Human cancels opportunity |
 | `PROJECTING` | `PROJECTED` | `SUCCESS` | — | Specs and inventory written to disk |
 | `SUCCESS` | — | `[*]` | — | Terminal success state |
 | `ERROR` | — | `[*]` | — | Terminal error state |
+
+The exact predicates on `WORTHWHILE_CONFIRMED` and `USER_APPROVED` use AXI's script adapter.
+Their existing confidence thresholds, fallback targets, and destinations remain unchanged.

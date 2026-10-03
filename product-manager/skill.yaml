@@ -1,5 +1,5 @@
 schema_version: 2.1.0
-version: 1.0.1
+version: 1.0.2
 name: product-manager
 description: >-
   Event-driven product management and opportunity realization engine. Orchestrates
@@ -113,6 +113,7 @@ states:
         target: ALIGN_GOALS
         judgment:
           type: predicate
+          adapter_hint: script
           criterion: "Number(payload.worthwhileness_score) >= 3 && payload.catastrophic_blocker !== true && payload.axis_scores != null && payload.axis_scores.desirability != null && payload.axis_scores.feasibility != null && payload.axis_scores.viability != null && payload.axis_scores.timing != null"
           min_confidence: 0.85
           fallback_adapter: script
@@ -207,6 +208,7 @@ states:
         target: PROJECTING
         judgment:
           type: predicate
+          adapter_hint: script
           criterion: "Number(context.worthwhileness_score) >= 3 && Array.isArray(context.strategic_goals) && Array.isArray(context.vertical_slices) && context.vertical_slices.length > 0 && Array.isArray(context.mvp_slice_ids) && context.mvp_slice_ids.length > 0"
           min_confidence: 0.85
           fallback_adapter: script
