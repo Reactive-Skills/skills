@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "id": "portable-hsm-codex-cli-current-create-hsm-with-skill-3",
+  "checkpoint": "portable-hsm",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "create-hsm",
+  "repetition": 3,
+  "arm": "with-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T21:21:10.098Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "bc452f3176c6d6720e6e4735391aefaab81f27344a91c923c05f080340c9aab9",
+    "bundle_path": "results/bundles/portable-hsm",
+    "version": "1.2.2"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "795b215bd2484d90e4b39311b089b3331f07cb47bc1ecad5b211196721f146e1",
+  "task_template_digest": "1640e4bd44562b6020090097e29d01c355b8aca3a79b342459efa514e7f3b746",
+  "resolved_task_digest": "5d0156d204e01b80ce7e24c800fadf6d7fe3054133dd41c207198c69839e823f",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 2923684,
+    "output": 34257,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "requested-artifacts",
+      "status": "PASS",
+      "reason": "All eleven approved files fully reviewed, including optional WORK parent prompt. Final hashes match reviewed artifacts. Exact bootloader, schema 2.1.0, nested references and supported manifest fields verified."
+    },
+    {
+      "id": "guarded-topology",
+      "status": "PASS",
+      "reason": "Independent native FSMEngine proof passed violating and satisfying guards, approved completion and parent CANCEL from both WORK children. Child's actual native three-run ledger matches SQLite/JSONL, including nine strict guard rejections and valid parent handling."
+    },
+    {
+      "id": "diagram",
+      "status": "PASS",
+      "reason": "Reviewed diagram contains all six states and four declared transitions, correct strict guard and WORK parent cancellation."
+    },
+    {
+      "id": "red-answers",
+      "status": "PASS",
+      "reason": "All seven RED answers recorded with RED enabled. Observed Codex/Node runtime coverage is separate from declared model tiers; untested domain content and distinct models are explicitly disclosed."
+    },
+    {
+      "id": "source-approval",
+      "status": "PASS",
+      "reason": "Full original and resumed action trace reviewed: zero-tool quota interruption, read-only intake, approval at 2026-10-02T21:08:40.917Z, then eleven-file creation and an in-scope CONTEXT coverage amendment. Protected sources, distribution, frozen bundle and synthetic registries unchanged. Intake also read generic real-home guide files; write isolation and registry isolation do not imply universal read isolation."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "PASS",
+      "reason": "One manager UUID 01a0fe6e-c407-78b3-ba41-0a44c851c53a retained through SUCCESS. Thirty-nine canonical SQLite events match JSONL. Actual named-job snapshot and inventory independently read, reporting eval-report CREATE SUCCESS with eleven files. Runtime-owned native target verification jobs remained isolated; no fabricated ledger/projection content or unsupported database-output claim."
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/portable-hsm-codex-cli-current-create-hsm-with-skill-3.json",
+    "digest": "d10551e4d9febf5ecadeaf0141a94489ad691e2b38cfbaf033ac212ee5217eb1"
+  }
+}

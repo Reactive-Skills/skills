@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "id": "baseline-codex-cli-current-create-hsm-with-skill-3",
+  "checkpoint": "baseline",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "create-hsm",
+  "repetition": 3,
+  "arm": "with-skill",
+  "status": "FAIL",
+  "timestamp": "2026-10-02T09:14:44.987Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:6e1affed36880a0c89e82211694515b5f3782e9e6ea87128f9af65b73ed75e21"
+  },
+  "skill": {
+    "digest": "be9b7704b15d1085df92fbcf0e67142414ede266774b7df40ca52d9a04992f06",
+    "bundle_path": "results/bundles/baseline",
+    "version": "1.1.0"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "795b215bd2484d90e4b39311b089b3331f07cb47bc1ecad5b211196721f146e1",
+  "task_template_digest": "1640e4bd44562b6020090097e29d01c355b8aca3a79b342459efa514e7f3b746",
+  "resolved_task_digest": "89a5dc1d6fb28629be9a945025b9858f71aa0c8d2f5dff40fd6a2d2d06c05481",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 2391639,
+    "output": 25500,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "requested-artifacts",
+      "status": "PASS",
+      "reason": "All ten approved files exist with required root documents, bootloader pointer, and nested child prompt paths. Their existence does not establish a valid manifest."
+    },
+    {
+      "id": "guarded-topology",
+      "status": "FAIL",
+      "reason": "Independent runtime validation exits 1: INIT/RUNTIME_READY targets unknown WORK.COLLECT, with both child prompts orphaned. WORK incorrectly uses states and initial_state instead of the supported substates and initial_substate. Guard and cancellation execution cannot pass this malformed topology."
+    },
+    {
+      "id": "diagram",
+      "status": "PASS",
+      "reason": "The diagram contains every requested state, edge, guard, and parent CANCEL handler. The separate topology assertion fails because the manifest does not encode that diagram correctly."
+    },
+    {
+      "id": "red-answers",
+      "status": "PASS",
+      "reason": "PLAN_READY records all seven supplied RED answers, including observed executor coverage separately from semantic tiers."
+    },
+    {
+      "id": "source-approval",
+      "status": "PASS",
+      "reason": "No preapproval task changes or creation commands in the first-phase trace. Approval at 2026-10-02T09:03:01.632Z preceded exactly ten source-A file additions; other task files unchanged."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "FAIL",
+      "reason": "Manager ledger contains two runs, 01a0fbd3-dfa4-7162-9d72-a444ea50e320 and 01a0fbd5-2fca-7b7a-a12d-a9338fe73add, violating the one-job requirement. Named run ends ERROR. Final output blames the supplied runtime, while independent validation identifies incorrect authored hierarchy keys."
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/baseline-codex-cli-current-create-hsm-with-skill-3.json",
+    "digest": "5459f76fe7690544b3fd9f2c3135e0595d83259c598ba0ee16e193fc1ff0fc50"
+  }
+}

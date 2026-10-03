@@ -1,0 +1,256 @@
+{
+  "schema_version": 1,
+  "plan": "PLAN-004",
+  "checkpoint": "portable-hsm",
+  "digest": "bc452f3176c6d6720e6e4735391aefaab81f27344a91c923c05f080340c9aab9",
+  "source_measurements": [
+    {
+      "state": "planning",
+      "words": 964,
+      "digest": "d861f74fdd8f67c5533a745a947c37b87ebe626052dc1754410c5969c0e7d448"
+    },
+    {
+      "state": "executing",
+      "words": 1047,
+      "digest": "23d1c9ddf313e022dce09da7ab452b18491b42b56627385e8738dd1250aaa90b"
+    },
+    {
+      "state": "verifying",
+      "words": 1169,
+      "digest": "f510a801fb251b5af19a77ea11ab97646984629cc89a14a942e1d53323658c8f"
+    }
+  ],
+  "required_invariants": {
+    "PLANNING": {
+      "objective": "states/planning.md:3",
+      "consumed-context": "states/planning.md:7; states/planning.md:48; states/planning.md:58; SKILL.md:25",
+      "allowed-actions": "states/planning.md:4; states/planning.md:24; SKILL.md:53",
+      "observable-exit": "states/planning.md:93; states/planning.md:101",
+      "actual-signals": "states/planning.md:104",
+      "approved-source-boundary": "SKILL.md:25; SKILL.md:53",
+      "retained-manager-run": "SKILL.md:25; SKILL.md:291",
+      "scope-and-approval": "SKILL.md:53; states/approving.md",
+      "truthful-evidence": "states/planning.md:83; states/planning.md:89; SKILL.md:119",
+      "operation-specific-manifest": "states/planning.md:37; states/planning.md:42; states/planning.md:45",
+      "architectural-shape-and-rationale": "states/planning.md:10; states/planning.md:16",
+      "hierarchy-and-parent-handlers": "states/planning.md:11; states/planning.md:20; states/planning.md:25",
+      "nested-prompt-layout": "states/planning.md:30",
+      "canonical-bootloader-planning": "states/planning.md:26",
+      "diagram-and-documentation-alignment": "states/planning.md:27; states/planning.md:29; states/planning.md:38",
+      "skill-type-classification": "states/planning.md:60",
+      "red-seven-answers": "states/planning.md:80; states/planning.md:96",
+      "middleware-decisions-within-scope": "states/planning.md:93; SKILL.md:53",
+      "explicit-unresolved-decisions": "states/planning.md:22; states/planning.md:81",
+      "no-task-writes": "states/planning.md:4; SKILL.md:53",
+      "plan-ready-context": "states/planning.md:45; states/planning.md:102"
+    },
+    "EXECUTING": {
+      "objective": "states/executing.md:3",
+      "consumed-context": "states/executing.md:4; states/executing.md:8",
+      "allowed-actions": "states/executing.md:13; SKILL.md:53",
+      "observable-exit": "states/executing.md:39",
+      "actual-signals": "states/executing.md:45",
+      "approved-source-boundary": "states/executing.md:8",
+      "retained-manager-run": "states/executing.md:10",
+      "scope-and-approval": "states/executing.md:4; states/executing.md:68; SKILL.md:53",
+      "truthful-evidence": "states/executing.md:65; states/executing.md:94",
+      "approved-manifest-only": "states/executing.md:4; states/executing.md:30; states/executing.md:68",
+      "canonical-containment": "states/executing.md:9",
+      "manager-template-resolution": "states/executing.md:10",
+      "one-run-one-transport": "states/executing.md:10",
+      "supported-nested-keys": "states/executing.md:18; states/executing.md:67",
+      "recursive-directories": "states/executing.md:16; states/executing.md:37",
+      "canonical-single-bootloader": "states/executing.md:20; states/executing.md:55; states/verifying.md:84",
+      "schema-required-fields": "states/executing.md:73",
+      "declared-context": "states/executing.md:74",
+      "javascript-guards": "states/executing.md:75",
+      "actual-signal-alignment": "states/executing.md:76",
+      "prompt-references-and-orphans": "states/executing.md:58; states/executing.md:77",
+      "projection-template-contract": "states/executing.md:78",
+      "diagram-and-doc-accuracy": "states/executing.md:62; states/executing.md:87",
+      "portable-checker-and-runtime-validation": "states/executing.md:65",
+      "delete-absence": "states/executing.md:70",
+      "red-seven-records": "states/executing.md:94; states/planning.md:80 (existing execution count says six)",
+      "declared-middleware": "states/executing.md:97; SKILL.md:53",
+      "state-local-independent-contract": "states/executing.md:57; states/executing.md:82; states/executing.md:85",
+      "measured-provisional-budgets": "states/executing.md:80 (universal 200-word hard rule replaced under PLAN-004)",
+      "exit-code-and-executed": "states/executing.md:39; states/executing.md:42; skill.yaml: EXECUTING transition"
+    },
+    "VERIFYING": {
+      "objective": "states/verifying.md:3",
+      "consumed-context": "states/verifying.md:8; states/verifying.md:29; SKILL.md:53",
+      "allowed-actions": "states/verifying.md:9; states/verifying.md:14",
+      "observable-exit": "states/verifying.md:98",
+      "actual-signals": "states/verifying.md:102",
+      "approved-source-boundary": "states/verifying.md:8",
+      "retained-manager-run": "states/verifying.md:12",
+      "scope-and-approval": "states/verifying.md:8; SKILL.md:53",
+      "truthful-evidence": "states/verifying.md:21; states/verifying.md:73",
+      "approved-task-outcomes": "states/verifying.md:29",
+      "canonical-target-and-isolated-checks": "states/verifying.md:8; states/verifying.md:14",
+      "one-manager-run": "states/verifying.md:12",
+      "checker-errors-vs-advisories": "states/verifying.md:9",
+      "schema-and-prompt-structure": "states/verifying.md:34",
+      "hierarchical-target-resolution": "states/verifying.md:40; states/executing.md:18",
+      "context-vs-payload-contracts": "states/verifying.md:42; states/verifying.md:53",
+      "guard-static-review": "states/verifying.md:49",
+      "violating-and-satisfying-real-transitions": "states/verifying.md:55",
+      "no-unguarded-critical-actions": "states/verifying.md:67",
+      "signal-and-state-rejection-with-parent-fallback": "states/verifying.md:68; states/verifying.md:70; states/executing.md:18",
+      "guard-evidence-and-coverage-limits": "states/verifying.md:69; states/verifying.md:71; states/verifying.md:73",
+      "bootloader-exact-single-runtime-owned": "states/verifying.md:84; states/verifying.md:86",
+      "measured-provisional-budgets": "states/verifying.md:82 (universal 200-word hard rule replaced under PLAN-004)",
+      "declared-middleware-verification": "states/verifying.md:92",
+      "runtime-projection-paths-and-contents": "states/verifying.md:16",
+      "ledger-time-vs-rendered-time": "states/verifying.md:24",
+      "truthful-runtime-coverage": "states/verifying.md:23; states/verifying.md:73",
+      "verified-signal-and-exit-code": "states/verifying.md:98",
+      "preserved-rollback-routing": "skill.yaml: VERIFYING VERIFIED_OK/VERIFIED_FAIL transitions"
+    }
+  },
+  "approved_changes": [
+    "State-purpose guidance replaces generic identical checklists.",
+    "Seven RED answers replace contradictory execution six-answer wording.",
+    "Measured provisional state budgets replace universal 200-word acceptance.",
+    "Preserve source/approval boundaries, state topology, guards, signals, runtime ownership and rollback."
+  ],
+  "recorded_at": "2026-10-02T21:23:34.038Z",
+  "authored_files": [
+    {
+      "path": "CONTEXT.md",
+      "digest": "ed51cf2f4a1bade12f6fb604eff0e4c5f63a52eac3129be6cd6dfebe6d0ed862"
+    },
+    {
+      "path": "README.md",
+      "digest": "e7e9de98947023d41aa52f419535ff437aad3494e9ff1d2c2950736dbc081093"
+    },
+    {
+      "path": "SKILL.md",
+      "digest": "8dada777dc65227e94a751ad85d377e7018a24ff4ea3d12b9d21a21404b4282e"
+    },
+    {
+      "path": "STATECHART.md",
+      "digest": "ee4d38a3877efadb9c35772986f9bcda78477cbfa85437173589b01001540b84"
+    },
+    {
+      "path": "guards/.gitkeep",
+      "digest": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "scripts/authoring-quality.cjs",
+      "digest": "a1b85f84e531f9533336b232db46beaed3312e3df8932a84d24adfe459b05d5f"
+    },
+    {
+      "path": "skill.yaml",
+      "digest": "ad8ca32e3b9afa1a2d0370c0e538dbfda7b439f54e07f14372291a84bd5be9f4"
+    },
+    {
+      "path": "states/approving.md",
+      "digest": "1feff8c34acc9edc3fa62925ac2af4e41d69c784863ce6f30ab9e77ae484a9f1"
+    },
+    {
+      "path": "states/approving_migrate.md",
+      "digest": "a67db384b7bb34d4c7408e603215c40114789b83a74ae23e2133604cd38eb15e"
+    },
+    {
+      "path": "states/backing_up_migrate.md",
+      "digest": "7e90a30ceebac3420a9ef1a3f3ca82d7472d05618225453474d60a41f944aea1"
+    },
+    {
+      "path": "states/detecting.md",
+      "digest": "984697b90e4a4e524c66aafb0a3eb7461e39b37096c4e7265bac718ddd0df817"
+    },
+    {
+      "path": "states/error.md",
+      "digest": "e157aca3ae0419b0ae239a8bbdbaac33affc3f6534d0c8f28b92073dd5f4c74d"
+    },
+    {
+      "path": "states/executing.md",
+      "digest": "23d1c9ddf313e022dce09da7ab452b18491b42b56627385e8738dd1250aaa90b"
+    },
+    {
+      "path": "states/executing_migrate.md",
+      "digest": "62b40850bc2b3861e4113af1d0ddb18c8bcb0389148aa2c928c8b2860e8ff4f3"
+    },
+    {
+      "path": "states/grilling_migrate.md",
+      "digest": "b863618017fc8dc204bca96ee9a91a14c64a0943dbf19ee2d1585192e3b463e6"
+    },
+    {
+      "path": "states/inferring_legacy.md",
+      "digest": "9a232b3604201df0fe49e1496da38d39c30cbccae8b29a63535869534a40c760"
+    },
+    {
+      "path": "states/init.md",
+      "digest": "fb7a03c2d9f38eb29a68f6dc31322e38584625377cb49a5f5c000f4de3425d54"
+    },
+    {
+      "path": "states/inspecting_reactive.md",
+      "digest": "0fc75a84ed7d40641794ced2fc25134900b76d5e423a6a2e4583e1fe9f7cc16f"
+    },
+    {
+      "path": "states/parsing.md",
+      "digest": "d2edfb7e633454fe4d87beda4856e892881b56990ce77e0ce8f1a0b30eca051e"
+    },
+    {
+      "path": "states/planning.md",
+      "digest": "d861f74fdd8f67c5533a745a947c37b87ebe626052dc1754410c5969c0e7d448"
+    },
+    {
+      "path": "states/planning_migrate.md",
+      "digest": "c6d6a28b6b874c0180b9069c90a14651f6c7f727cb9d6d067bf82d8c0e2b0ccf"
+    },
+    {
+      "path": "states/projecting.md",
+      "digest": "f38b8fd5efcbf0a1c006d489e7e95330cbc284fdbd4f7489b64de0ae140a4a4e"
+    },
+    {
+      "path": "states/ready.md",
+      "digest": "409599961f9e3aa9ca1f2d19343047e3ade6855a0f1c1fb469d5a80caf85a370"
+    },
+    {
+      "path": "states/restoring_migrate.md",
+      "digest": "8689c66439ffb6ea21bf143c403f8f58cf921db468006424548a3954a5924f73"
+    },
+    {
+      "path": "states/rolling_back.md",
+      "digest": "eedd8f2c98b9cf6b4d82f4da66f7e48aca690cf1649b4caafee1f01a08ab3cc0"
+    },
+    {
+      "path": "states/setup_runtime.md",
+      "digest": "6f7553deca0a0ab5bbf370e461615d3d94e1cdc9062f9997d3b8c44deed03b60"
+    },
+    {
+      "path": "states/success.md",
+      "digest": "a07d8114089bfd2c5f23c59dd3120aedc4b107b88bed8aa7785b655f8116a0ca"
+    },
+    {
+      "path": "states/verifying.md",
+      "digest": "f510a801fb251b5af19a77ea11ab97646984629cc89a14a942e1d53323658c8f"
+    },
+    {
+      "path": "states/verifying_migrate.md",
+      "digest": "0810b5adf1429fa2e0fbeabe354b762d1e51277c4ca928bddef43e9996bfb5cc"
+    },
+    {
+      "path": "templates/bypass_detected.md.hbs",
+      "digest": "4c737a56a5928838c9e1db58672ab65a1204d7ce9f646015ac9cceeda4777124"
+    },
+    {
+      "path": "templates/init_state.md.hbs",
+      "digest": "cc383f39d412aa8deca0c93a2e282814ea854a9549445214325e0f547912e8bf"
+    },
+    {
+      "path": "templates/inventory.json.hbs",
+      "digest": "cc99ad5f56023bc3ab9e58c5c93c1c8c48d06b3ad6b41ab1e6c38ae2db4b1849"
+    },
+    {
+      "path": "templates/manifest_snapshot.md.hbs",
+      "digest": "e2715d8a8967f29d38d06abce706a331995e1f410ada7a68e360c305aa7615bf"
+    },
+    {
+      "path": "templates/reactive_bootloader.md.hbs",
+      "digest": "61c7675e55a1272f415710cdc6c721126d1cfbe6a1ed28ed28999dec53e77810"
+    }
+  ]
+}

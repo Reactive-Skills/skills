@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "observed_at": "2026-10-02T19:35:20.025Z",
+  "checkpoint": "portable-hsm",
+  "release": "1.2.2",
+  "prior_digest": "d42859aaef8b289affbcf0c68cdec5fb24c7a844e757acd573ebc2442df56dfc",
+  "digest": "bc452f3176c6d6720e6e4735391aefaab81f27344a91c923c05f080340c9aab9",
+  "changed_authored_files": [
+    "README.md",
+    "STATECHART.md",
+    "skill.yaml",
+    "states/executing.md"
+  ],
+  "unchanged_authored_files": 30,
+  "release_parity": "PASS",
+  "diagram": "UNCHANGED",
+  "schema_topology_guards_tools_models_capabilities": "UNCHANGED",
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "approval": "User explicitly approved PLAN-006 after completed portable-paths comparison"
+}

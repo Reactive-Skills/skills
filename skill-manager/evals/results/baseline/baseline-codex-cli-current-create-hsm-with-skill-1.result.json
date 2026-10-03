@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "id": "baseline-codex-cli-current-create-hsm-with-skill-1",
+  "checkpoint": "baseline",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "create-hsm",
+  "repetition": 1,
+  "arm": "with-skill",
+  "status": "FAIL",
+  "timestamp": "2026-10-02T08:47:49.504Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:6e1affed36880a0c89e82211694515b5f3782e9e6ea87128f9af65b73ed75e21"
+  },
+  "skill": {
+    "digest": "be9b7704b15d1085df92fbcf0e67142414ede266774b7df40ca52d9a04992f06",
+    "bundle_path": "results/bundles/baseline",
+    "version": "1.1.0"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "795b215bd2484d90e4b39311b089b3331f07cb47bc1ecad5b211196721f146e1",
+  "task_template_digest": "1640e4bd44562b6020090097e29d01c355b8aca3a79b342459efa514e7f3b746",
+  "resolved_task_digest": "54b2210b0f2309ddf38f30b0dbf935a1c114297ad2e5a9b054fb9062bf75729c",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 2468710,
+    "output": 26909,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "requested-artifacts",
+      "status": "PASS",
+      "reason": "All ten approved files exist, including required root documents, canonical bootloader pointer, and both nested child prompts. Schema is 2.1.0."
+    },
+    {
+      "id": "guarded-topology",
+      "status": "PASS",
+      "reason": "Independent validation and three isolated FSMEngine runs passed: false DATA_READY remains COLLECT, true reaches REVIEW, HUMAN_APPROVED reaches DONE, and parent CANCEL reaches CANCELLED from each child. Full events retained in the bound topology proof."
+    },
+    {
+      "id": "diagram",
+      "status": "PASS",
+      "reason": "Reviewed STATECHART.md includes INIT, nested WORK.COLLECT/WORK.REVIEW, DONE, CANCELLED, exact guarded DATA_READY, HUMAN_APPROVED, and parent WORK cancellation."
+    },
+    {
+      "id": "red-answers",
+      "status": "PASS",
+      "reason": "PLAN_READY plan.red_phase_findings records all seven supplied answers; CONTEXT.md and default_context preserve them."
+    },
+    {
+      "id": "source-approval",
+      "status": "PASS",
+      "reason": "No preapproval changes; operator approved the exact ten-file manifest at 2026-10-02T08:33:05.507Z. Independent hashes show only those source-A files added, with comparison copies unchanged."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "FAIL",
+      "reason": "Manager ledger contains unnamed run 01a0fbbb-b6f0-7de2-98e6-7b4a765fe65d and named run 01a0fbbc-2b50-783d-b990-e13817bf1e1e. Named AXI run reaches SUCCESS with truthful guarded-topology evidence, but the extra manager run violates the one-job assertion."
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/baseline-codex-cli-current-create-hsm-with-skill-1.json",
+    "digest": "0ebde0f7a97039b4ee1fe19efa07041adf291262604e31da616e734e5ce24c08"
+  }
+}

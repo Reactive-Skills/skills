@@ -1,0 +1,1343 @@
+{
+  "trial_id": "portable-hsm-codex-cli-current-create-hsm-no-skill-3",
+  "status": "PASS",
+  "runtime_validation": "validation:\n  skill: eval-report\n  status: valid\n  schema: 2.1.0\n  version: 1.0.0\n  states: \"6\"\n  transitions: \"4\"\n  errors: \"0\"\n  warnings: \"0\"\nhelp[2]:\nRun `reactive-skills-axi inspect C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-create-hsm-no-skill-mU4llv\\workspace\\source-a\\eval-report` to inspect statechart\n  Run `reactive-skills-axi state eval-report` to inspect active state\n",
+  "runtime_validation_exit": 0,
+  "runs": [
+    {
+      "scenario": "guard-and-complete",
+      "steps": [
+        {
+          "signal": "RUNTIME_READY",
+          "previous": "INIT",
+          "state": "WORK.COLLECT",
+          "transitioned": true
+        },
+        {
+          "signal": "DATA_READY",
+          "payload": {
+            "checks_passed": false
+          },
+          "previous": "WORK.COLLECT",
+          "state": "WORK.COLLECT",
+          "transitioned": false
+        },
+        {
+          "signal": "DATA_READY",
+          "payload": {
+            "checks_passed": true
+          },
+          "previous": "WORK.COLLECT",
+          "state": "WORK.REVIEW",
+          "transitioned": true
+        },
+        {
+          "signal": "HUMAN_APPROVED",
+          "previous": "WORK.REVIEW",
+          "state": "DONE",
+          "transitioned": true
+        }
+      ],
+      "events": [
+        {
+          "id": "01a0fe75-c512-7946-9881-8a480f350828",
+          "seq": 1,
+          "timestamp": "2026-10-02T21:12:06.162Z",
+          "type": "SKILL_INITIALIZED",
+          "payload": {
+            "skill": "eval-report",
+            "initial_state": "INIT",
+            "active_path": [
+              "INIT"
+            ],
+            "context": {
+              "red_discovery": {
+                "enabled": true,
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "data_policy": "no secrets or personal data",
+                  "writes": "explicit approval before writes",
+                  "audit": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "selected_runtime": null,
+              "input_manifest": [],
+              "checks_passed": false,
+              "report": null,
+              "executor_coverage": [],
+              "write_approval": null
+            }
+          },
+          "state": "INIT",
+          "event_id": "01a0fe75-c512-7946-9881-8a480f350828",
+          "occurred_at": "2026-10-02T21:12:06.162Z",
+          "event_type": "SKILL_INITIALIZED",
+          "correlation_id": "01a0fe75-c502-7a74-b575-d2bac57f4bac",
+          "run_id": "01a0fe75-c502-701d-ae71-25878eab29d9",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c512-7dd5-b6db-c9fbd6199ec5",
+          "seq": 2,
+          "timestamp": "2026-10-02T21:12:06.162Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "INIT",
+            "seq": 1,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "data_policy": "no secrets or personal data",
+                  "writes": "explicit approval before writes",
+                  "audit": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "selected_runtime": null,
+              "input_manifest": [],
+              "checks_passed": false,
+              "report": null,
+              "executor_coverage": [],
+              "write_approval": null
+            }
+          },
+          "state": "INIT",
+          "event_id": "01a0fe75-c512-7dd5-b6db-c9fbd6199ec5",
+          "occurred_at": "2026-10-02T21:12:06.162Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe75-c502-7a74-b575-d2bac57f4bac",
+          "run_id": "01a0fe75-c502-701d-ae71-25878eab29d9",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c514-7435-9622-5f30470925a3",
+          "seq": 3,
+          "timestamp": "2026-10-02T21:12:06.164Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "RUNTIME_READY"
+          },
+          "state": "INIT",
+          "event_id": "01a0fe75-c514-7435-9622-5f30470925a3",
+          "occurred_at": "2026-10-02T21:12:06.164Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fe75-c502-7a74-b575-d2bac57f4bac",
+          "run_id": "01a0fe75-c502-701d-ae71-25878eab29d9",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c514-7411-9f9f-7caf0ad7a198",
+          "seq": 4,
+          "timestamp": "2026-10-02T21:12:06.164Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "true",
+            "passed": true,
+            "target": "WORK.COLLECT",
+            "handledAt": "INIT"
+          },
+          "causationId": "01a0fe75-c514-7435-9622-5f30470925a3",
+          "state": "INIT",
+          "event_id": "01a0fe75-c514-7411-9f9f-7caf0ad7a198",
+          "occurred_at": "2026-10-02T21:12:06.164Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fe75-c514-7435-9622-5f30470925a3",
+          "correlation_id": "01a0fe75-c502-7a74-b575-d2bac57f4bac",
+          "run_id": "01a0fe75-c502-701d-ae71-25878eab29d9",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c514-7f03-8367-146a752b8603",
+          "seq": 5,
+          "timestamp": "2026-10-02T21:12:06.164Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "INIT",
+            "to": "WORK.COLLECT",
+            "signal": "RUNTIME_READY",
+            "payload": {},
+            "metrics": {
+              "transition_duration_ms": 0.23
+            }
+          },
+          "causationId": "01a0fe75-c514-7435-9622-5f30470925a3",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe75-c514-7f03-8367-146a752b8603",
+          "occurred_at": "2026-10-02T21:12:06.164Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fe75-c514-7435-9622-5f30470925a3",
+          "correlation_id": "01a0fe75-c502-7a74-b575-d2bac57f4bac",
+          "run_id": "01a0fe75-c502-701d-ae71-25878eab29d9",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c514-7f41-9d6f-afaae4adef84",
+          "seq": 6,
+          "timestamp": "2026-10-02T21:12:06.164Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK",
+            "seq": 5,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "data_policy": "no secrets or personal data",
+                  "writes": "explicit approval before writes",
+                  "audit": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "selected_runtime": null,
+              "input_manifest": [],
+              "checks_passed": false,
+              "report": null,
+              "executor_coverage": [],
+              "write_approval": null
+            }
+          },
+          "state": "WORK",
+          "event_id": "01a0fe75-c514-7f41-9d6f-afaae4adef84",
+          "occurred_at": "2026-10-02T21:12:06.164Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe75-c502-7a74-b575-d2bac57f4bac",
+          "run_id": "01a0fe75-c502-701d-ae71-25878eab29d9",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c514-7564-b4fd-7797957dc716",
+          "seq": 7,
+          "timestamp": "2026-10-02T21:12:06.164Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK.COLLECT",
+            "seq": 6,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "data_policy": "no secrets or personal data",
+                  "writes": "explicit approval before writes",
+                  "audit": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "selected_runtime": null,
+              "input_manifest": [],
+              "checks_passed": false,
+              "report": null,
+              "executor_coverage": [],
+              "write_approval": null
+            }
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe75-c514-7564-b4fd-7797957dc716",
+          "occurred_at": "2026-10-02T21:12:06.164Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe75-c502-7a74-b575-d2bac57f4bac",
+          "run_id": "01a0fe75-c502-701d-ae71-25878eab29d9",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c51c-7bb3-9c48-cc82683c5123",
+          "seq": 8,
+          "timestamp": "2026-10-02T21:12:06.172Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "DATA_READY",
+            "checks_passed": false
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe75-c51c-7bb3-9c48-cc82683c5123",
+          "occurred_at": "2026-10-02T21:12:06.172Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fe75-c502-7a74-b575-d2bac57f4bac",
+          "run_id": "01a0fe75-c502-701d-ae71-25878eab29d9",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c51d-7e5d-93ff-d99988fa375c",
+          "seq": 9,
+          "timestamp": "2026-10-02T21:12:06.174Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "payload.checks_passed === true",
+            "passed": false,
+            "target": "WORK.REVIEW",
+            "handledAt": "WORK.COLLECT",
+            "fallbackTriggered": false
+          },
+          "causationId": "01a0fe75-c51c-7bb3-9c48-cc82683c5123",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe75-c51d-7e5d-93ff-d99988fa375c",
+          "occurred_at": "2026-10-02T21:12:06.174Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fe75-c51c-7bb3-9c48-cc82683c5123",
+          "correlation_id": "01a0fe75-c502-7a74-b575-d2bac57f4bac",
+          "run_id": "01a0fe75-c502-701d-ae71-25878eab29d9",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c51e-7f0d-aa9f-dec3a80c148e",
+          "seq": 10,
+          "timestamp": "2026-10-02T21:12:06.174Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "DATA_READY",
+            "checks_passed": true
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe75-c51e-7f0d-aa9f-dec3a80c148e",
+          "occurred_at": "2026-10-02T21:12:06.174Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fe75-c502-7a74-b575-d2bac57f4bac",
+          "run_id": "01a0fe75-c502-701d-ae71-25878eab29d9",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c51e-73f7-a96a-01b8b859a405",
+          "seq": 11,
+          "timestamp": "2026-10-02T21:12:06.174Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "payload.checks_passed === true",
+            "passed": true,
+            "target": "WORK.REVIEW",
+            "handledAt": "WORK.COLLECT",
+            "fallbackTriggered": false
+          },
+          "causationId": "01a0fe75-c51e-7f0d-aa9f-dec3a80c148e",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe75-c51e-73f7-a96a-01b8b859a405",
+          "occurred_at": "2026-10-02T21:12:06.174Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fe75-c51e-7f0d-aa9f-dec3a80c148e",
+          "correlation_id": "01a0fe75-c502-7a74-b575-d2bac57f4bac",
+          "run_id": "01a0fe75-c502-701d-ae71-25878eab29d9",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c51e-70f0-b82d-bfef472bc29a",
+          "seq": 12,
+          "timestamp": "2026-10-02T21:12:06.174Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "WORK.COLLECT",
+            "to": "WORK.REVIEW",
+            "signal": "DATA_READY",
+            "payload": {
+              "checks_passed": true
+            },
+            "metrics": {
+              "transition_duration_ms": 0.69
+            }
+          },
+          "causationId": "01a0fe75-c51e-7f0d-aa9f-dec3a80c148e",
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe75-c51e-70f0-b82d-bfef472bc29a",
+          "occurred_at": "2026-10-02T21:12:06.174Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fe75-c51e-7f0d-aa9f-dec3a80c148e",
+          "correlation_id": "01a0fe75-c502-7a74-b575-d2bac57f4bac",
+          "run_id": "01a0fe75-c502-701d-ae71-25878eab29d9",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c51e-7ac6-907d-3a7e7bae266d",
+          "seq": 13,
+          "timestamp": "2026-10-02T21:12:06.174Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK.REVIEW",
+            "seq": 12,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "data_policy": "no secrets or personal data",
+                  "writes": "explicit approval before writes",
+                  "audit": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "selected_runtime": null,
+              "input_manifest": [],
+              "checks_passed": true,
+              "report": null,
+              "executor_coverage": [],
+              "write_approval": null
+            }
+          },
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe75-c51e-7ac6-907d-3a7e7bae266d",
+          "occurred_at": "2026-10-02T21:12:06.174Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe75-c502-7a74-b575-d2bac57f4bac",
+          "run_id": "01a0fe75-c502-701d-ae71-25878eab29d9",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c51e-78b3-b2b9-4d2ce9aea1c8",
+          "seq": 14,
+          "timestamp": "2026-10-02T21:12:06.174Z",
+          "type": "HUMAN_GATE_ENTERED",
+          "payload": {
+            "state": "WORK.REVIEW",
+            "gateType": "approval",
+            "tool": "ask_question"
+          },
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe75-c51e-78b3-b2b9-4d2ce9aea1c8",
+          "occurred_at": "2026-10-02T21:12:06.174Z",
+          "event_type": "HUMAN_GATE_ENTERED",
+          "correlation_id": "01a0fe75-c502-7a74-b575-d2bac57f4bac",
+          "run_id": "01a0fe75-c502-701d-ae71-25878eab29d9",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c523-71f8-ab95-523fccac4021",
+          "seq": 15,
+          "timestamp": "2026-10-02T21:12:06.179Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "HUMAN_APPROVED"
+          },
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe75-c523-71f8-ab95-523fccac4021",
+          "occurred_at": "2026-10-02T21:12:06.179Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fe75-c502-7a74-b575-d2bac57f4bac",
+          "run_id": "01a0fe75-c502-701d-ae71-25878eab29d9",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c523-7923-90c9-3b12edb04dba",
+          "seq": 16,
+          "timestamp": "2026-10-02T21:12:06.179Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "true",
+            "passed": true,
+            "target": "DONE",
+            "handledAt": "WORK.REVIEW"
+          },
+          "causationId": "01a0fe75-c523-71f8-ab95-523fccac4021",
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe75-c523-7923-90c9-3b12edb04dba",
+          "occurred_at": "2026-10-02T21:12:06.179Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fe75-c523-71f8-ab95-523fccac4021",
+          "correlation_id": "01a0fe75-c502-7a74-b575-d2bac57f4bac",
+          "run_id": "01a0fe75-c502-701d-ae71-25878eab29d9",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c523-7002-bce9-e5cb6fd4e509",
+          "seq": 17,
+          "timestamp": "2026-10-02T21:12:06.179Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "WORK.REVIEW",
+            "to": "DONE",
+            "signal": "HUMAN_APPROVED",
+            "payload": {},
+            "metrics": {
+              "transition_duration_ms": 0.08
+            }
+          },
+          "causationId": "01a0fe75-c523-71f8-ab95-523fccac4021",
+          "state": "DONE",
+          "event_id": "01a0fe75-c523-7002-bce9-e5cb6fd4e509",
+          "occurred_at": "2026-10-02T21:12:06.179Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fe75-c523-71f8-ab95-523fccac4021",
+          "correlation_id": "01a0fe75-c502-7a74-b575-d2bac57f4bac",
+          "run_id": "01a0fe75-c502-701d-ae71-25878eab29d9",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c523-7102-8a67-948dcef61ca2",
+          "seq": 18,
+          "timestamp": "2026-10-02T21:12:06.179Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "DONE",
+            "seq": 17,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "data_policy": "no secrets or personal data",
+                  "writes": "explicit approval before writes",
+                  "audit": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "selected_runtime": null,
+              "input_manifest": [],
+              "checks_passed": true,
+              "report": null,
+              "executor_coverage": [],
+              "write_approval": null
+            }
+          },
+          "state": "DONE",
+          "event_id": "01a0fe75-c523-7102-8a67-948dcef61ca2",
+          "occurred_at": "2026-10-02T21:12:06.179Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe75-c502-7a74-b575-d2bac57f4bac",
+          "run_id": "01a0fe75-c502-701d-ae71-25878eab29d9",
+          "schema_version": "1.0.3"
+        }
+      ]
+    },
+    {
+      "scenario": "cancel-collect",
+      "steps": [
+        {
+          "signal": "RUNTIME_READY",
+          "previous": "INIT",
+          "state": "WORK.COLLECT",
+          "transitioned": true
+        },
+        {
+          "signal": "CANCEL",
+          "previous": "WORK.COLLECT",
+          "state": "CANCELLED",
+          "transitioned": true
+        }
+      ],
+      "events": [
+        {
+          "id": "01a0fe75-c534-713c-8a66-b663b6579370",
+          "seq": 1,
+          "timestamp": "2026-10-02T21:12:06.196Z",
+          "type": "SKILL_INITIALIZED",
+          "payload": {
+            "skill": "eval-report",
+            "initial_state": "INIT",
+            "active_path": [
+              "INIT"
+            ],
+            "context": {
+              "red_discovery": {
+                "enabled": true,
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "data_policy": "no secrets or personal data",
+                  "writes": "explicit approval before writes",
+                  "audit": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "selected_runtime": null,
+              "input_manifest": [],
+              "checks_passed": false,
+              "report": null,
+              "executor_coverage": [],
+              "write_approval": null
+            }
+          },
+          "state": "INIT",
+          "event_id": "01a0fe75-c534-713c-8a66-b663b6579370",
+          "occurred_at": "2026-10-02T21:12:06.196Z",
+          "event_type": "SKILL_INITIALIZED",
+          "correlation_id": "01a0fe75-c52b-7521-819b-1a386f7373fd",
+          "run_id": "01a0fe75-c52b-7df5-b7d8-d72a38e8bb42",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c534-704e-8f11-ff73d3ff6e16",
+          "seq": 2,
+          "timestamp": "2026-10-02T21:12:06.196Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "INIT",
+            "seq": 1,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "data_policy": "no secrets or personal data",
+                  "writes": "explicit approval before writes",
+                  "audit": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "selected_runtime": null,
+              "input_manifest": [],
+              "checks_passed": false,
+              "report": null,
+              "executor_coverage": [],
+              "write_approval": null
+            }
+          },
+          "state": "INIT",
+          "event_id": "01a0fe75-c534-704e-8f11-ff73d3ff6e16",
+          "occurred_at": "2026-10-02T21:12:06.196Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe75-c52b-7521-819b-1a386f7373fd",
+          "run_id": "01a0fe75-c52b-7df5-b7d8-d72a38e8bb42",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c535-7671-9c28-4d7c910456b5",
+          "seq": 3,
+          "timestamp": "2026-10-02T21:12:06.197Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "RUNTIME_READY"
+          },
+          "state": "INIT",
+          "event_id": "01a0fe75-c535-7671-9c28-4d7c910456b5",
+          "occurred_at": "2026-10-02T21:12:06.197Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fe75-c52b-7521-819b-1a386f7373fd",
+          "run_id": "01a0fe75-c52b-7df5-b7d8-d72a38e8bb42",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c535-77a9-aaf3-fe6bf893f642",
+          "seq": 4,
+          "timestamp": "2026-10-02T21:12:06.197Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "true",
+            "passed": true,
+            "target": "WORK.COLLECT",
+            "handledAt": "INIT"
+          },
+          "causationId": "01a0fe75-c535-7671-9c28-4d7c910456b5",
+          "state": "INIT",
+          "event_id": "01a0fe75-c535-77a9-aaf3-fe6bf893f642",
+          "occurred_at": "2026-10-02T21:12:06.197Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fe75-c535-7671-9c28-4d7c910456b5",
+          "correlation_id": "01a0fe75-c52b-7521-819b-1a386f7373fd",
+          "run_id": "01a0fe75-c52b-7df5-b7d8-d72a38e8bb42",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c535-71b7-8e81-509fce44fc1f",
+          "seq": 5,
+          "timestamp": "2026-10-02T21:12:06.197Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "INIT",
+            "to": "WORK.COLLECT",
+            "signal": "RUNTIME_READY",
+            "payload": {},
+            "metrics": {
+              "transition_duration_ms": 0.063
+            }
+          },
+          "causationId": "01a0fe75-c535-7671-9c28-4d7c910456b5",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe75-c535-71b7-8e81-509fce44fc1f",
+          "occurred_at": "2026-10-02T21:12:06.197Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fe75-c535-7671-9c28-4d7c910456b5",
+          "correlation_id": "01a0fe75-c52b-7521-819b-1a386f7373fd",
+          "run_id": "01a0fe75-c52b-7df5-b7d8-d72a38e8bb42",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c535-7409-ba20-09ab3470ddb0",
+          "seq": 6,
+          "timestamp": "2026-10-02T21:12:06.197Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK",
+            "seq": 5,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "data_policy": "no secrets or personal data",
+                  "writes": "explicit approval before writes",
+                  "audit": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "selected_runtime": null,
+              "input_manifest": [],
+              "checks_passed": false,
+              "report": null,
+              "executor_coverage": [],
+              "write_approval": null
+            }
+          },
+          "state": "WORK",
+          "event_id": "01a0fe75-c535-7409-ba20-09ab3470ddb0",
+          "occurred_at": "2026-10-02T21:12:06.197Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe75-c52b-7521-819b-1a386f7373fd",
+          "run_id": "01a0fe75-c52b-7df5-b7d8-d72a38e8bb42",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c535-7f3c-b4fa-db9ea62e396a",
+          "seq": 7,
+          "timestamp": "2026-10-02T21:12:06.197Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK.COLLECT",
+            "seq": 6,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "data_policy": "no secrets or personal data",
+                  "writes": "explicit approval before writes",
+                  "audit": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "selected_runtime": null,
+              "input_manifest": [],
+              "checks_passed": false,
+              "report": null,
+              "executor_coverage": [],
+              "write_approval": null
+            }
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe75-c535-7f3c-b4fa-db9ea62e396a",
+          "occurred_at": "2026-10-02T21:12:06.197Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe75-c52b-7521-819b-1a386f7373fd",
+          "run_id": "01a0fe75-c52b-7df5-b7d8-d72a38e8bb42",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c53d-7fb6-b4d1-7e7dac1775cb",
+          "seq": 8,
+          "timestamp": "2026-10-02T21:12:06.205Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "CANCEL"
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe75-c53d-7fb6-b4d1-7e7dac1775cb",
+          "occurred_at": "2026-10-02T21:12:06.205Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fe75-c52b-7521-819b-1a386f7373fd",
+          "run_id": "01a0fe75-c52b-7df5-b7d8-d72a38e8bb42",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c53d-745f-b40b-741c5c164032",
+          "seq": 9,
+          "timestamp": "2026-10-02T21:12:06.205Z",
+          "type": "EVENT_BUBBLED",
+          "payload": {
+            "signal": "CANCEL",
+            "fromLeaf": "WORK.COLLECT",
+            "handledAt": "WORK",
+            "depth": 1
+          },
+          "causationId": "01a0fe75-c53d-7fb6-b4d1-7e7dac1775cb",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe75-c53d-745f-b40b-741c5c164032",
+          "occurred_at": "2026-10-02T21:12:06.205Z",
+          "event_type": "EVENT_BUBBLED",
+          "causation_id": "01a0fe75-c53d-7fb6-b4d1-7e7dac1775cb",
+          "correlation_id": "01a0fe75-c52b-7521-819b-1a386f7373fd",
+          "run_id": "01a0fe75-c52b-7df5-b7d8-d72a38e8bb42",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c53d-7e05-94d1-d72d7a6ba494",
+          "seq": 10,
+          "timestamp": "2026-10-02T21:12:06.205Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "true",
+            "passed": true,
+            "target": "CANCELLED",
+            "handledAt": "WORK"
+          },
+          "causationId": "01a0fe75-c53d-7fb6-b4d1-7e7dac1775cb",
+          "state": "WORK",
+          "event_id": "01a0fe75-c53d-7e05-94d1-d72d7a6ba494",
+          "occurred_at": "2026-10-02T21:12:06.205Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fe75-c53d-7fb6-b4d1-7e7dac1775cb",
+          "correlation_id": "01a0fe75-c52b-7521-819b-1a386f7373fd",
+          "run_id": "01a0fe75-c52b-7df5-b7d8-d72a38e8bb42",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c53d-7c3c-9864-1fc00d002a79",
+          "seq": 11,
+          "timestamp": "2026-10-02T21:12:06.205Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "WORK.COLLECT",
+            "to": "CANCELLED",
+            "signal": "CANCEL",
+            "payload": {},
+            "metrics": {
+              "transition_duration_ms": 0.163
+            }
+          },
+          "causationId": "01a0fe75-c53d-7fb6-b4d1-7e7dac1775cb",
+          "state": "CANCELLED",
+          "event_id": "01a0fe75-c53d-7c3c-9864-1fc00d002a79",
+          "occurred_at": "2026-10-02T21:12:06.205Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fe75-c53d-7fb6-b4d1-7e7dac1775cb",
+          "correlation_id": "01a0fe75-c52b-7521-819b-1a386f7373fd",
+          "run_id": "01a0fe75-c52b-7df5-b7d8-d72a38e8bb42",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c53d-790b-bd8e-bf36edb2583b",
+          "seq": 12,
+          "timestamp": "2026-10-02T21:12:06.205Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "CANCELLED",
+            "seq": 11,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "data_policy": "no secrets or personal data",
+                  "writes": "explicit approval before writes",
+                  "audit": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "selected_runtime": null,
+              "input_manifest": [],
+              "checks_passed": false,
+              "report": null,
+              "executor_coverage": [],
+              "write_approval": null
+            }
+          },
+          "state": "CANCELLED",
+          "event_id": "01a0fe75-c53d-790b-bd8e-bf36edb2583b",
+          "occurred_at": "2026-10-02T21:12:06.205Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe75-c52b-7521-819b-1a386f7373fd",
+          "run_id": "01a0fe75-c52b-7df5-b7d8-d72a38e8bb42",
+          "schema_version": "1.0.3"
+        }
+      ]
+    },
+    {
+      "scenario": "cancel-review",
+      "steps": [
+        {
+          "signal": "RUNTIME_READY",
+          "previous": "INIT",
+          "state": "WORK.COLLECT",
+          "transitioned": true
+        },
+        {
+          "signal": "DATA_READY",
+          "payload": {
+            "checks_passed": true
+          },
+          "previous": "WORK.COLLECT",
+          "state": "WORK.REVIEW",
+          "transitioned": true
+        },
+        {
+          "signal": "CANCEL",
+          "previous": "WORK.REVIEW",
+          "state": "CANCELLED",
+          "transitioned": true
+        }
+      ],
+      "events": [
+        {
+          "id": "01a0fe75-c54e-7161-ae0c-89c7a089faa2",
+          "seq": 1,
+          "timestamp": "2026-10-02T21:12:06.222Z",
+          "type": "SKILL_INITIALIZED",
+          "payload": {
+            "skill": "eval-report",
+            "initial_state": "INIT",
+            "active_path": [
+              "INIT"
+            ],
+            "context": {
+              "red_discovery": {
+                "enabled": true,
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "data_policy": "no secrets or personal data",
+                  "writes": "explicit approval before writes",
+                  "audit": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "selected_runtime": null,
+              "input_manifest": [],
+              "checks_passed": false,
+              "report": null,
+              "executor_coverage": [],
+              "write_approval": null
+            }
+          },
+          "state": "INIT",
+          "event_id": "01a0fe75-c54e-7161-ae0c-89c7a089faa2",
+          "occurred_at": "2026-10-02T21:12:06.222Z",
+          "event_type": "SKILL_INITIALIZED",
+          "correlation_id": "01a0fe75-c544-7a79-83c8-a3d812fd9e17",
+          "run_id": "01a0fe75-c544-77c1-b534-bd37fce20c0c",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c54e-79a6-98d0-eb9617fda5e9",
+          "seq": 2,
+          "timestamp": "2026-10-02T21:12:06.222Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "INIT",
+            "seq": 1,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "data_policy": "no secrets or personal data",
+                  "writes": "explicit approval before writes",
+                  "audit": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "selected_runtime": null,
+              "input_manifest": [],
+              "checks_passed": false,
+              "report": null,
+              "executor_coverage": [],
+              "write_approval": null
+            }
+          },
+          "state": "INIT",
+          "event_id": "01a0fe75-c54e-79a6-98d0-eb9617fda5e9",
+          "occurred_at": "2026-10-02T21:12:06.222Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe75-c544-7a79-83c8-a3d812fd9e17",
+          "run_id": "01a0fe75-c544-77c1-b534-bd37fce20c0c",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c54f-7ba1-86ff-d3d63d74b443",
+          "seq": 3,
+          "timestamp": "2026-10-02T21:12:06.223Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "RUNTIME_READY"
+          },
+          "state": "INIT",
+          "event_id": "01a0fe75-c54f-7ba1-86ff-d3d63d74b443",
+          "occurred_at": "2026-10-02T21:12:06.223Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fe75-c544-7a79-83c8-a3d812fd9e17",
+          "run_id": "01a0fe75-c544-77c1-b534-bd37fce20c0c",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c54f-7ab5-9cec-b70cd0e7d2e9",
+          "seq": 4,
+          "timestamp": "2026-10-02T21:12:06.223Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "true",
+            "passed": true,
+            "target": "WORK.COLLECT",
+            "handledAt": "INIT"
+          },
+          "causationId": "01a0fe75-c54f-7ba1-86ff-d3d63d74b443",
+          "state": "INIT",
+          "event_id": "01a0fe75-c54f-7ab5-9cec-b70cd0e7d2e9",
+          "occurred_at": "2026-10-02T21:12:06.223Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fe75-c54f-7ba1-86ff-d3d63d74b443",
+          "correlation_id": "01a0fe75-c544-7a79-83c8-a3d812fd9e17",
+          "run_id": "01a0fe75-c544-77c1-b534-bd37fce20c0c",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c54f-70de-8302-b63045a0578a",
+          "seq": 5,
+          "timestamp": "2026-10-02T21:12:06.223Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "INIT",
+            "to": "WORK.COLLECT",
+            "signal": "RUNTIME_READY",
+            "payload": {},
+            "metrics": {
+              "transition_duration_ms": 0.064
+            }
+          },
+          "causationId": "01a0fe75-c54f-7ba1-86ff-d3d63d74b443",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe75-c54f-70de-8302-b63045a0578a",
+          "occurred_at": "2026-10-02T21:12:06.223Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fe75-c54f-7ba1-86ff-d3d63d74b443",
+          "correlation_id": "01a0fe75-c544-7a79-83c8-a3d812fd9e17",
+          "run_id": "01a0fe75-c544-77c1-b534-bd37fce20c0c",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c54f-7625-bccc-32693c71241a",
+          "seq": 6,
+          "timestamp": "2026-10-02T21:12:06.223Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK",
+            "seq": 5,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "data_policy": "no secrets or personal data",
+                  "writes": "explicit approval before writes",
+                  "audit": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "selected_runtime": null,
+              "input_manifest": [],
+              "checks_passed": false,
+              "report": null,
+              "executor_coverage": [],
+              "write_approval": null
+            }
+          },
+          "state": "WORK",
+          "event_id": "01a0fe75-c54f-7625-bccc-32693c71241a",
+          "occurred_at": "2026-10-02T21:12:06.223Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe75-c544-7a79-83c8-a3d812fd9e17",
+          "run_id": "01a0fe75-c544-77c1-b534-bd37fce20c0c",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c54f-70fe-abf2-222e3b1c0cc8",
+          "seq": 7,
+          "timestamp": "2026-10-02T21:12:06.223Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK.COLLECT",
+            "seq": 6,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "data_policy": "no secrets or personal data",
+                  "writes": "explicit approval before writes",
+                  "audit": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "selected_runtime": null,
+              "input_manifest": [],
+              "checks_passed": false,
+              "report": null,
+              "executor_coverage": [],
+              "write_approval": null
+            }
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe75-c54f-70fe-abf2-222e3b1c0cc8",
+          "occurred_at": "2026-10-02T21:12:06.223Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe75-c544-7a79-83c8-a3d812fd9e17",
+          "run_id": "01a0fe75-c544-77c1-b534-bd37fce20c0c",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c555-79df-a951-d9b51dedc3b6",
+          "seq": 8,
+          "timestamp": "2026-10-02T21:12:06.229Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "DATA_READY",
+            "checks_passed": true
+          },
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe75-c555-79df-a951-d9b51dedc3b6",
+          "occurred_at": "2026-10-02T21:12:06.229Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fe75-c544-7a79-83c8-a3d812fd9e17",
+          "run_id": "01a0fe75-c544-77c1-b534-bd37fce20c0c",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c556-77ce-9c41-74db77f73a21",
+          "seq": 9,
+          "timestamp": "2026-10-02T21:12:06.230Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "payload.checks_passed === true",
+            "passed": true,
+            "target": "WORK.REVIEW",
+            "handledAt": "WORK.COLLECT",
+            "fallbackTriggered": false
+          },
+          "causationId": "01a0fe75-c555-79df-a951-d9b51dedc3b6",
+          "state": "WORK.COLLECT",
+          "event_id": "01a0fe75-c556-77ce-9c41-74db77f73a21",
+          "occurred_at": "2026-10-02T21:12:06.230Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fe75-c555-79df-a951-d9b51dedc3b6",
+          "correlation_id": "01a0fe75-c544-7a79-83c8-a3d812fd9e17",
+          "run_id": "01a0fe75-c544-77c1-b534-bd37fce20c0c",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c556-7865-81ff-108f3ae01bc9",
+          "seq": 10,
+          "timestamp": "2026-10-02T21:12:06.230Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "WORK.COLLECT",
+            "to": "WORK.REVIEW",
+            "signal": "DATA_READY",
+            "payload": {
+              "checks_passed": true
+            },
+            "metrics": {
+              "transition_duration_ms": 0.852
+            }
+          },
+          "causationId": "01a0fe75-c555-79df-a951-d9b51dedc3b6",
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe75-c556-7865-81ff-108f3ae01bc9",
+          "occurred_at": "2026-10-02T21:12:06.230Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fe75-c555-79df-a951-d9b51dedc3b6",
+          "correlation_id": "01a0fe75-c544-7a79-83c8-a3d812fd9e17",
+          "run_id": "01a0fe75-c544-77c1-b534-bd37fce20c0c",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c556-7665-8fee-5f915aaa2d69",
+          "seq": 11,
+          "timestamp": "2026-10-02T21:12:06.230Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "WORK.REVIEW",
+            "seq": 10,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "data_policy": "no secrets or personal data",
+                  "writes": "explicit approval before writes",
+                  "audit": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "selected_runtime": null,
+              "input_manifest": [],
+              "checks_passed": true,
+              "report": null,
+              "executor_coverage": [],
+              "write_approval": null
+            }
+          },
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe75-c556-7665-8fee-5f915aaa2d69",
+          "occurred_at": "2026-10-02T21:12:06.230Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe75-c544-7a79-83c8-a3d812fd9e17",
+          "run_id": "01a0fe75-c544-77c1-b534-bd37fce20c0c",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c556-73e8-bc51-c30ec28f4caf",
+          "seq": 12,
+          "timestamp": "2026-10-02T21:12:06.230Z",
+          "type": "HUMAN_GATE_ENTERED",
+          "payload": {
+            "state": "WORK.REVIEW",
+            "gateType": "approval",
+            "tool": "ask_question"
+          },
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe75-c556-73e8-bc51-c30ec28f4caf",
+          "occurred_at": "2026-10-02T21:12:06.230Z",
+          "event_type": "HUMAN_GATE_ENTERED",
+          "correlation_id": "01a0fe75-c544-7a79-83c8-a3d812fd9e17",
+          "run_id": "01a0fe75-c544-77c1-b534-bd37fce20c0c",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c55e-7d7d-8f26-e28cd7fc7e89",
+          "seq": 13,
+          "timestamp": "2026-10-02T21:12:06.238Z",
+          "type": "SIGNAL_EMITTED",
+          "payload": {
+            "signal": "CANCEL"
+          },
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe75-c55e-7d7d-8f26-e28cd7fc7e89",
+          "occurred_at": "2026-10-02T21:12:06.238Z",
+          "event_type": "SIGNAL_EMITTED",
+          "correlation_id": "01a0fe75-c544-7a79-83c8-a3d812fd9e17",
+          "run_id": "01a0fe75-c544-77c1-b534-bd37fce20c0c",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c55e-7094-bd91-0fa0dfb02231",
+          "seq": 14,
+          "timestamp": "2026-10-02T21:12:06.238Z",
+          "type": "EVENT_BUBBLED",
+          "payload": {
+            "signal": "CANCEL",
+            "fromLeaf": "WORK.REVIEW",
+            "handledAt": "WORK",
+            "depth": 1
+          },
+          "causationId": "01a0fe75-c55e-7d7d-8f26-e28cd7fc7e89",
+          "state": "WORK.REVIEW",
+          "event_id": "01a0fe75-c55e-7094-bd91-0fa0dfb02231",
+          "occurred_at": "2026-10-02T21:12:06.238Z",
+          "event_type": "EVENT_BUBBLED",
+          "causation_id": "01a0fe75-c55e-7d7d-8f26-e28cd7fc7e89",
+          "correlation_id": "01a0fe75-c544-7a79-83c8-a3d812fd9e17",
+          "run_id": "01a0fe75-c544-77c1-b534-bd37fce20c0c",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c55e-78e4-b05f-2380bcd5f517",
+          "seq": 15,
+          "timestamp": "2026-10-02T21:12:06.238Z",
+          "type": "GUARD_EVALUATED",
+          "payload": {
+            "guard": "true",
+            "passed": true,
+            "target": "CANCELLED",
+            "handledAt": "WORK"
+          },
+          "causationId": "01a0fe75-c55e-7d7d-8f26-e28cd7fc7e89",
+          "state": "WORK",
+          "event_id": "01a0fe75-c55e-78e4-b05f-2380bcd5f517",
+          "occurred_at": "2026-10-02T21:12:06.238Z",
+          "event_type": "GUARD_EVALUATED",
+          "causation_id": "01a0fe75-c55e-7d7d-8f26-e28cd7fc7e89",
+          "correlation_id": "01a0fe75-c544-7a79-83c8-a3d812fd9e17",
+          "run_id": "01a0fe75-c544-77c1-b534-bd37fce20c0c",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c55e-7e04-a158-a70e2314e245",
+          "seq": 16,
+          "timestamp": "2026-10-02T21:12:06.238Z",
+          "type": "STATE_TRANSITION",
+          "payload": {
+            "from": "WORK.REVIEW",
+            "to": "CANCELLED",
+            "signal": "CANCEL",
+            "payload": {},
+            "metrics": {
+              "transition_duration_ms": 0.072
+            }
+          },
+          "causationId": "01a0fe75-c55e-7d7d-8f26-e28cd7fc7e89",
+          "state": "CANCELLED",
+          "event_id": "01a0fe75-c55e-7e04-a158-a70e2314e245",
+          "occurred_at": "2026-10-02T21:12:06.238Z",
+          "event_type": "STATE_TRANSITION",
+          "causation_id": "01a0fe75-c55e-7d7d-8f26-e28cd7fc7e89",
+          "correlation_id": "01a0fe75-c544-7a79-83c8-a3d812fd9e17",
+          "run_id": "01a0fe75-c544-77c1-b534-bd37fce20c0c",
+          "schema_version": "1.0.3"
+        },
+        {
+          "id": "01a0fe75-c55e-7ef7-99cb-0c13a3ae81ce",
+          "seq": 17,
+          "timestamp": "2026-10-02T21:12:06.238Z",
+          "type": "STATE_VISITED",
+          "payload": {
+            "state": "CANCELLED",
+            "seq": 16,
+            "context_snapshot": {
+              "red_discovery": {
+                "enabled": true,
+                "answers": {
+                  "domain": "aggregate reports",
+                  "unavailable_dependencies": "fail fast",
+                  "data_policy": "no secrets or personal data",
+                  "writes": "explicit approval before writes",
+                  "audit": "record state transitions",
+                  "isolation": "each run is isolated",
+                  "coverage": "record actual executor coverage separately from semantic model tiers"
+                }
+              },
+              "selected_runtime": null,
+              "input_manifest": [],
+              "checks_passed": true,
+              "report": null,
+              "executor_coverage": [],
+              "write_approval": null
+            }
+          },
+          "state": "CANCELLED",
+          "event_id": "01a0fe75-c55e-7ef7-99cb-0c13a3ae81ce",
+          "occurred_at": "2026-10-02T21:12:06.238Z",
+          "event_type": "STATE_VISITED",
+          "correlation_id": "01a0fe75-c544-7a79-83c8-a3d812fd9e17",
+          "run_id": "01a0fe75-c544-77c1-b534-bd37fce20c0c",
+          "schema_version": "1.0.3"
+        }
+      ]
+    }
+  ]
+}

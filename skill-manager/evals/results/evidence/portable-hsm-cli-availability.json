@@ -1,0 +1,15 @@
+{
+  "checked_at": "2026-10-02T20:35:50.435Z",
+  "kind": "availability probe only, excluded from behavior matrix",
+  "exit_code": 0,
+  "reply": {
+    "status": "COMPLETE",
+    "files_to_write": [],
+    "summary": "CLI execution available",
+    "findings": []
+  },
+  "session": "01a0fe54-727e-7553-9293-df8d0d45155c",
+  "log": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-availability-xdgO9F\\phase-1.jsonl",
+  "errors": [],
+  "workspace_unchanged": true
+}

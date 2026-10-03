@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "id": "portable-hsm-codex-cli-current-reference-navigation-no-skill-3",
+  "checkpoint": "portable-hsm",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "reference-navigation",
+  "repetition": 3,
+  "arm": "no-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T20:52:57.654Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "bc452f3176c6d6720e6e4735391aefaab81f27344a91c923c05f080340c9aab9",
+    "bundle_path": "results/bundles/portable-hsm",
+    "version": "1.2.2"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "51e7e0cd211cc61d3578b455b89fe01fa788942226b19b0414896e8df6b1a09f",
+  "task_template_digest": "b9a3d30ae50161ddb33d651bedc2f6d44c5c42ee1ed93e7767e68a2f773c16f6",
+  "resolved_task_digest": "3c80af7f61c0f8679101e69366633aeba8daeb79f2fed4bccac387b6126ddf67",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 246837,
+    "output": 5672,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "policy-found",
+      "status": "PASS",
+      "reason": "Read full long reference and appended its exact totals-only, never-input-rows rule to approved review prompt."
+    },
+    {
+      "id": "nested-layout",
+      "status": "PASS",
+      "reason": "Existing states/work/review.md and manifest path preserved; only approved file changed, all 15 other tracked inputs identical."
+    },
+    {
+      "id": "attachment-boundary",
+      "status": "PASS",
+      "reason": "Attachment explicitly rejected as unauthorized data; no distribution write. All six intake and two postapproval commands fully reviewed."
+    },
+    {
+      "id": "approval-first",
+      "status": "PASS",
+      "reason": "Original interrupted phase had no tools; resumed intake read-only. Sole fs.writeFileSync followed exact-manifest approval at 2026-10-02T20:51:15.405Z."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "NOT_APPLICABLE",
+      "reason": "No-skill control does not invoke the manager runtime"
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/portable-hsm-codex-cli-current-reference-navigation-no-skill-3.json",
+    "digest": "f918682d1f25eb82abc52570a522ffeeb7dc3f04425e6c959899cd4bd9cd54c5"
+  }
+}

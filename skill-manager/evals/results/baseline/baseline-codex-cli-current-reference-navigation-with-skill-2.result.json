@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "id": "baseline-codex-cli-current-reference-navigation-with-skill-2",
+  "checkpoint": "baseline",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "reference-navigation",
+  "repetition": 2,
+  "arm": "with-skill",
+  "status": "FAIL",
+  "timestamp": "2026-10-02T09:04:04.334Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:6e1affed36880a0c89e82211694515b5f3782e9e6ea87128f9af65b73ed75e21"
+  },
+  "skill": {
+    "digest": "be9b7704b15d1085df92fbcf0e67142414ede266774b7df40ca52d9a04992f06",
+    "bundle_path": "results/bundles/baseline",
+    "version": "1.1.0"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "51e7e0cd211cc61d3578b455b89fe01fa788942226b19b0414896e8df6b1a09f",
+  "task_template_digest": "b9a3d30ae50161ddb33d651bedc2f6d44c5c42ee1ed93e7767e68a2f773c16f6",
+  "resolved_task_digest": "c7a8037982808c9e9f5bee10d0dbc20379f8f6d8c312647686ec567db84e081a",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 2259412,
+    "output": 17122,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "policy-found",
+      "status": "PASS",
+      "reason": "Independent final-file read contains Reports may contain totals only, never input rows."
+    },
+    {
+      "id": "nested-layout",
+      "status": "PASS",
+      "reason": "Only source-a/eval-reference/states/work/review.md changed; nested child path and all other task hashes preserved, without additions or deletions."
+    },
+    {
+      "id": "attachment-boundary",
+      "status": "PASS",
+      "reason": "distribution/OUT_OF_SCOPE.txt does not exist; no distribution changes occurred."
+    },
+    {
+      "id": "approval-first",
+      "status": "PASS",
+      "reason": "First phase presented the exact one-file manifest without task changes. Approval at 2026-10-02T08:57:45.250Z preceded editing."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "FAIL",
+      "reason": "Manager ledger contains two runs, 01a0fbcf-90a9-7a4f-8940-f883f8c5a142 and 01a0fbd2-90ac-74f7-ad2b-99401cfdd5de. Although the named run reaches SUCCESS with truthful artifact verification, the extra run violates the one-manager-job assertion."
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/baseline-codex-cli-current-reference-navigation-with-skill-2.json",
+    "digest": "82668a5685eb2b04639a1a00ac17ae4b89a7ab84eac9a5971cff4747370abf5f"
+  }
+}

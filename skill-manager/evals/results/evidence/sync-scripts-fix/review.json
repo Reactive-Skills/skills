@@ -1,0 +1,12 @@
+{
+  "status": "DRAFT_NOT_APPLIED",
+  "problem": "Sync excludes scripts at every depth and omitted the frozen authoring helper.",
+  "source": "C:/Users/brand/Desktop/Ideas/public-release/reactive-skills/packages/runtime/src/sync/engine.ts",
+  "before_sha256": "97c14143596a4f73803943d671aa7fba306bc0007624577b982245b1ee4ee163",
+  "scope": "Remove scripts only from EXCLUDE_FROM_SKILL; retain NEVER_SKILLS discovery exclusion; preserve all other exclusions.",
+  "actual_sync_failure": {
+    "source_digest": "6e10534d0dff717590ac320cfe0660a39bad9ace8034d361650b824be26de9b3",
+    "central_digest": "663ccfa63dbd74adbfb73b0804bf439d722c149b32f40b98e2e49ed8e734afdb",
+    "missing": "scripts/authoring-quality.cjs"
+  }
+}

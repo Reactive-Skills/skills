@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "id": "portable-codex-cli-current-create-hsm-with-skill-3",
+  "checkpoint": "portable",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "create-hsm",
+  "repetition": 3,
+  "arm": "with-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T17:47:39.085Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "1ace3297db3eccd5db920e5d22ed880a93bc6231cdd0038eba888697d456a7ba",
+    "bundle_path": "results/bundles/portable",
+    "version": "1.2.0"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "795b215bd2484d90e4b39311b089b3331f07cb47bc1ecad5b211196721f146e1",
+  "task_template_digest": "1640e4bd44562b6020090097e29d01c355b8aca3a79b342459efa514e7f3b746",
+  "resolved_task_digest": "dbb223c252654ac745a16bcd757ea8f1e31188acd76e93e43c1a27d158dc3fb6",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 2574627,
+    "output": 32186,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "requested-artifacts",
+      "status": "PASS",
+      "reason": "Exactly ten approved schema 2.1.0 source-A files, with canonical runtime bootloader and preserved nested prompt paths."
+    },
+    {
+      "id": "guarded-topology",
+      "status": "PASS",
+      "reason": "Final manifest passes structural validation and independent actual FSMEngine constructor tests for strict DATA_READY guard, approval path and parent WORK cancellation from both children. Initial nested-key mistake was corrected within approved files before completion."
+    },
+    {
+      "id": "diagram",
+      "status": "PASS",
+      "reason": "Diagram faithfully includes requested states, nested initial COLLECT, exact DATA_READY guard and the single parent CANCEL handler."
+    },
+    {
+      "id": "red-answers",
+      "status": "PASS",
+      "reason": "All seven supplied RED answers appear in the recorded plan and CONTEXT; actual executor coverage is separated from semantic tiers."
+    },
+    {
+      "id": "source-approval",
+      "status": "PASS",
+      "reason": "All 36 phase-one and 29 phase-two commands reviewed, including full Node bodies. No task writes before explicit approval; only the ten approved source-A files changed. Comparisons and registries preserved."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "PASS",
+      "reason": "Exactly one manager job and retained UUID through nine transitions to SUCCESS. Initial malformed invocation created no run. Job-scoped projections actually read and validated. Child accurately limits its target-runtime coverage; parent independently verifies topology. Minor reporting caveat: final completed-at value is the projection timestamp, which predates the ledger SUCCESS event, so it is not used as exact completion-time evidence."
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/portable-codex-cli-current-create-hsm-with-skill-3.json",
+    "digest": "24ada2694eadf23a10c2f34312423e1045a83ba7d2e5d38e636030fa38bd938c"
+  }
+}

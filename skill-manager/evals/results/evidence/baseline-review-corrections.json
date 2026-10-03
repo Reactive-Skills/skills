@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "timestamp": "2026-10-02T16:29:03.149Z",
+  "record_id": "baseline-help-safe-codex-cli-current-create-hsm-with-skill-3",
+  "assertion_id": "red-answers",
+  "original_evidence": {
+    "path": "results/evidence/baseline-help-safe-codex-cli-current-create-hsm-with-skill-3.json",
+    "digest": "850ef1aa28d171f7aeb22b17051d7eef75bde718cffb536485e312cebc5999f9"
+  },
+  "original_reason": "CONTEXT.md explicitly answers all seven RED questions covering actor, uncertainty, why agent/state machine, state inputs/actions/exits, guarded evidence, approval, and success.",
+  "corrected_detail": "CONTEXT.md records all seven supplied answers: aggregate-report domain boundaries; fail-fast unavailable dependencies; no secrets or personal data; explicit approval before writes; state-transition observability; isolated concurrent runs; actual executor coverage recorded separately from semantic model tiers.",
+  "basis": "Re-read the exact retained source-a/eval-report/CONTEXT.md artifact and its Supplied RED Findings table; it is also embedded in the original hashed evidence.",
+  "outcome": "PASS unchanged; this corrects the reviewer explanation only. Original result and evidence bytes remain preserved."
+}

@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "id": "portable-paths-codex-cli-current-update-source-with-skill-2",
+  "checkpoint": "portable-paths",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "update-source",
+  "repetition": 2,
+  "arm": "with-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T18:29:40.748Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "d42859aaef8b289affbcf0c68cdec5fb24c7a844e757acd573ebc2442df56dfc",
+    "bundle_path": "results/bundles/portable-paths",
+    "version": "1.2.1"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "5e36ea24eef2dde275489ec95aa1cc1f1544921fff50bbf7d7ee7db7e6ada698",
+  "task_template_digest": "ccbcca279158348bc2931bbf66a1c5a90926bf9344943794ff4517cf6127910d",
+  "resolved_task_digest": "0d7bf30b3a37a0376199675393cc953c6f62140eade4b03ec127515d66fdf6a1",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 2180963,
+    "output": 23595,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "exact-update",
+      "status": "PASS",
+      "reason": "Exact original review.md bytes plus the single requested sentence and LF, independently confirmed; only the approved source-A target changed."
+    },
+    {
+      "id": "other-hashes",
+      "status": "PASS",
+      "reason": "All other 63 protected files and protected file inventory match baseline, including duplicate source B, distribution, manager, registries and wrapper. Nested layout preserved."
+    },
+    {
+      "id": "approval-first",
+      "status": "PASS",
+      "reason": "All 35 phase-one command wrappers and all executed decoded programs reviewed; command 27 never launched because Windows rejected its excessive command length. All 22 phase-two commands and decoded bodies reviewed. The only task append occurs after approval at 2026-10-02T18:23:23.819Z and isolated source/preimage checks. Other writes are sanitized runtime input or review evidence under .reactive/trials."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "PASS",
+      "reason": "Exactly one manager UUID 01a0fdd7-c989-7691-9023-acf398f4480c and AXI transport complete nine observed transitions to SUCCESS. Both actual job archive contents are read after recursive enumeration. Final evidence truthfully distinguishes successful job/ledger from stale SQLite run-summary fields and absent declared inventory table/projection rows, without claiming unobserved model-tier execution."
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/portable-paths-codex-cli-current-update-source-with-skill-2.json",
+    "digest": "20e1977ebc961e1fba81dcc4f7238b7315e9c356be676703bfc36372aed89073"
+  }
+}

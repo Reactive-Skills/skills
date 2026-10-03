@@ -43,6 +43,15 @@ jobs:
       - name: Run Reactive Skill Validation
         run: node scripts/validate-skills.js
 
+      - name: Test skill-manager evaluation evidence
+        run: node --test skill-manager/tests/evals.test.cjs skill-manager/tests/run-cli.test.cjs
+
+      - name: Test portable authoring checks
+        run: node --test skill-manager/tests/authoring-quality.test.cjs
+
+      - name: Validate offline evaluation records
+        run: node skill-manager/evals/validate-evals.cjs --mode structure --json
+
       - name: Verify Table of Contents
         run: node scripts/update-toc.js --check
 

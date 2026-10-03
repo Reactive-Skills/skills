@@ -1,0 +1,111 @@
+{
+  "timestamp": "2026-10-02T22:39:41.075Z",
+  "status": "PASS",
+  "source_digest": "6e10534d0dff717590ac320cfe0660a39bad9ace8034d361650b824be26de9b3",
+  "authored_files": [
+    "CONTEXT.md",
+    "README.md",
+    "SKILL.md",
+    "STATECHART.md",
+    "guards/.gitkeep",
+    "scripts/authoring-quality.cjs",
+    "skill.yaml",
+    "states/approving.md",
+    "states/approving_migrate.md",
+    "states/backing_up_migrate.md",
+    "states/detecting.md",
+    "states/error.md",
+    "states/executing.md",
+    "states/executing_migrate.md",
+    "states/grilling_migrate.md",
+    "states/inferring_legacy.md",
+    "states/init.md",
+    "states/inspecting_reactive.md",
+    "states/parsing.md",
+    "states/planning.md",
+    "states/planning_migrate.md",
+    "states/projecting.md",
+    "states/ready.md",
+    "states/restoring_migrate.md",
+    "states/rolling_back.md",
+    "states/setup_runtime.md",
+    "states/success.md",
+    "states/verifying.md",
+    "states/verifying_migrate.md",
+    "templates/bypass_detected.md.hbs",
+    "templates/init_state.md.hbs",
+    "templates/inventory.json.hbs",
+    "templates/manifest_snapshot.md.hbs",
+    "templates/reactive_bootloader.md.hbs"
+  ],
+  "runtime_identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01",
+  "checks": [
+    {
+      "name": "offline-tests",
+      "cmd": "rtk node --test skill-manager/tests/evals.test.cjs skill-manager/tests/authoring-quality.test.cjs skill-manager/tests/run-cli.test.cjs",
+      "result": {
+        "chunk_id": "3a2b81",
+        "wall_time_seconds": 0.0000088,
+        "exit_code": 0,
+        "original_token_count": 1042,
+        "output": "✔ nested state references resolve from manifest root and containing document (71.5293ms)\n✔ broken inline, reference-style, and manifest targets report exact lines (47.4445ms)\n✔ examples, placeholders, URLs, comments, and fragments do not become file errors (27.0466ms)\n✔ Windows separators, spaces, fragments, parentheses, and code link labels resolve (28.2394ms)\n✔ incomplete Markdown and spaced Handlebars examples do not invent missing files (26.9703ms)\n✔ image badges also check their outer file link (24.5316ms)\n✔ external dependencies are advisory and never read (29.6296ms)\n✔ escaping directory links stay advisory without scanning outside content (26.0325ms)\n✔ missing inputs and non-file prompt targets are definite errors (23.4363ms)\n✔ long supporting documents need working contents or section navigation (63.6265ms)\n✔ body measurement excludes frontmatter and state words are measurements only (44.4579ms)\n✔ nonliteral manifest values defer to the actual runtime without schema parsing (23.2115ms)\n✔ standalone package works from unrelated CWD with identical export/CLI results and no side effects (421.1014ms)\n✔ registry defaults to manager only, opt-in preserves errors, and missing helper is explicit (388.099ms)\n✔ checked-in structure passes without implying live coverage (53.1859ms)\n✔ CLI preserves missing-coverage exit code 2 (6713.5685ms)\n✔ scenario seeds preserve comparison copies, nested paths, and the long-reference challenge (0.749ms)\n✔ actual token measurements require matching evidence (876.2376ms)\n✔ complete paired evidence passes coverage and comparable candidates (1233.2733ms)\n✔ FAIL is completed evidence, while critical regression blocks comparison (1429.6963ms)\n✔ NOT_RUN stays incomplete and cannot claim successful assertions (1105.2912ms)\n✔ rejects duplicate repetition (520.2223ms)\n✔ rejects unknown scenario (472.2666ms)\n✔ rejects fixture digest mismatch (497.6965ms)\n✔ rejects task digest mismatch (508.1254ms)\n✔ rejects specification digest mismatch (542.4224ms)\n✔ rejects bundle mutation (502.4737ms)\n✔ rejects evidence traversal (514.6473ms)\n✔ rejects evidence digest mismatch (543.5614ms)\n✔ rejects missing observations (616.0019ms)\n✔ rejects changed task text (588.3874ms)\n✔ rejects unknown executor (530.8498ms)\n✔ rejects unverified isolation (494.2031ms)\n✔ rejects skipped critical assertion (536.7427ms)\n✔ rejects false pass (525.4521ms)\n✔ rejects estimated tokens (534.5325ms)\n✔ rejects word counts labeled as tokens (586.9051ms)\n✔ rejects different tools between arms (560.8171ms)\n✔ rejects missing host metadata source (568.7ms)\n✔ rejects missing actual judgment model (497.4348ms)\n✔ missing repetition and missing checkpoint cannot pass (832.7287ms)\n✔ changed runtime or tools invalidate comparison (1076.2909ms)\n✔ digest is ordered, sensitive to authored bytes, and excludes results/tests (114.2372ms)\n✔ bundle digest rejects directory junction escapes (12.2724ms)\n✔ validation does not mutate records, specifications, or evidence files (598.6211ms)\n✔ state contract measures both real sources without claiming rendered words or tokens (154.2281ms)\n✔ state contract rejects missing state (106.0407ms)\n✔ state contract rejects null state record (91.3585ms)\n✔ state contract rejects null invariant record (95.2041ms)\n✔ state contract rejects non-array budget evidence (118.6914ms)\n✔ state contract rejects duplicate state (114.517ms)\n✔ state contract rejects missing invariant (104.3059ms)\n✔ state contract rejects duplicate invariant (116.5935ms)\n✔ state contract rejects missing invariant evidence (109.9483ms)\n✔ state contract rejects unreviewed disposition (110.4965ms)\n✔ state contract rejects missing measurement source (98.2153ms)\n✔ state contract rejects incorrect source count (112.4962ms)\n✔ state contract rejects incorrect source digest (127.6428ms)\n✔ state contract rejects raw words mislabeled rendered (127.5281ms)\n✔ state contract rejects word counts masquerading as host tokens (117.1944ms)\n✔ state contract rejects provisional budget made a hard bound (106.7476ms)\n✔ state contract rejects unlabeled budget (137.9688ms)\n✔ state contract rejects unsupported established budget (123.1437ms)\n✔ state contract rejects different evaluation specification (104.0982ms)\n✔ state contract rejects different candidate bundle (100.6389ms)\n✔ state contract rejects escaping baseline path (62.5387ms)\n✔ established state budget requires retained untampered evidence and operating conditions (247.2677ms)\n✔ state contract detects source drift independently of the recorded bundle identity (129.7948ms)\n✔ seed file resolution rejects traversal and absolute paths (2.3522ms)\n✔ approval permits only the requested update in the selected source (0.5142ms)\n✔ approval rejects unrelated creation, flattened prompts, and writes for a missing prerequisite (0.5049ms)\n✔ creation permits a parent prompt without flattening required child prompts (0.2671ms)\n✔ file comparison catches additions, deletions, and changed content (0.8231ms)\n✔ resumed cumulative token totals do not count earlier turns twice (0.2459ms)\n✔ new and resumed CLI sessions retain model, isolation, and explicit home overrides (0.4117ms)\nℹ tests 75\nℹ suites 0\nℹ pass 75\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 27111.1744\n"
+      }
+    },
+    {
+      "name": "toc",
+      "cmd": "rtk node scripts/update-toc.js --check",
+      "result": {
+        "chunk_id": "fdae08",
+        "wall_time_seconds": 1.3174894,
+        "exit_code": 0,
+        "original_token_count": 100,
+        "output": "🔍 Discovered 19 reactive skills: api-contract, browser-verifier, build-advisor, ci-cd-automation, docs-architect, experiment-loop, jsm-workflow, mutation-tester, onboarding-map, pr-triage, product-manager, release-notes, research-design-planner, resume-manager, security-scan, skill-manager, systems-diagnosis, tdd-refactor, test-coverage-gate\n✅ Table of Contents in README.md is up-to-date.\n"
+      }
+    },
+    {
+      "name": "release",
+      "cmd": "rtk node scripts/validate-skill-releases.js --base-ref 5dea7ca9f4c9f3660aede2cb32e3200fd4205773",
+      "result": {
+        "chunk_id": "ccd8cc",
+        "wall_time_seconds": 2.5127804,
+        "exit_code": 0,
+        "original_token_count": 35,
+        "output": "Validated release metadata for 19 reactive skills.\nChecked version increases for changes against 5dea7ca9f4c9f3660aede2cb32e3200fd4205773.\n"
+      }
+    },
+    {
+      "name": "registry",
+      "cmd": "rtk node scripts/validate-skills.js skill-manager --no-runtime",
+      "result": {
+        "chunk_id": "cce6ed",
+        "wall_time_seconds": 1.2689944,
+        "exit_code": 0,
+        "original_token_count": 168,
+        "output": "⚡ Reactive Skills Validator\nScanning directory: C:\\Users\\brand\\Desktop\\Ideas\\public-release\\skills\n\nFound 1 reactive skill(s) to validate: skill-manager\n\n• Checking [skill-manager]... ✅ VALID\n  └─ Schema: v2.1.0 | Version: v1.3.0 | States: 22 | Transitions: 38\n  ⚠️  Warning: EXTERNAL_DEPENDENCY README.md:7: Outside-package dependency: C:/Users/brand/Desktop/Ideas/public-release/skills/LICENSE; its contents were not checked.\n  ⚠️  Warning: EXTERNAL_DEPENDENCY README.md:261: Outside-package dependency: C:/Users/brand/Desktop/Ideas/public-release/skills/LICENSE; its contents were not checked.\n\n🎉 All 1 reactive skill(s) successfully validated!\n"
+      }
+    },
+    {
+      "name": "runtime",
+      "cmd": "rtk reactive-skills-axi validate 'C:/Users/brand/Desktop/Ideas/public-release/skills/skill-manager'",
+      "result": {
+        "chunk_id": "e71b38",
+        "wall_time_seconds": 1.8267452,
+        "exit_code": 0,
+        "original_token_count": 139,
+        "output": "validation:\n  skill: skill-manager\n  status: valid\n  schema: 2.1.0\n  version: 1.3.0\n  states: \"22\"\n  transitions: \"38\"\n  errors: \"0\"\n  warnings: \"1\"\nwarnings[1]:\n  State \"READY\" transition on \"USER_INVOKED\" uses context.* in an intake-like state; if the value is supplied by this signal, prefer payload.* so the guard does not depend on stale context\nhelp[2]:\nRun `reactive-skills-axi inspect C:\\Users\\brand\\Desktop\\Ideas\\public-release\\skills\\skill-manager` to inspect statechart\n  Run `reactive-skills-axi state skill-manager` to inspect active state\n"
+      }
+    },
+    {
+      "name": "diff",
+      "cmd": "rtk git diff --check",
+      "result": {
+        "chunk_id": "639d86",
+        "wall_time_seconds": 1.2286794,
+        "exit_code": 0,
+        "original_token_count": 1,
+        "output": "\n"
+      }
+    }
+  ],
+  "scope": "Final static checks for unchanged frozen guidance candidate. Live matrix and comparisons remain separate gates."
+}

@@ -1,0 +1,54 @@
+{
+  "status": "PASS",
+  "recorded_at": "2026-10-02T21:25:06.060Z",
+  "baseline": "bc452f3176c6d6720e6e4735391aefaab81f27344a91c923c05f080340c9aab9",
+  "candidate": "6e10534d0dff717590ac320cfe0660a39bad9ace8034d361650b824be26de9b3",
+  "changed_authored_files": [
+    "CONTEXT.md",
+    "README.md",
+    "SKILL.md",
+    "STATECHART.md",
+    "skill.yaml",
+    "states/executing.md",
+    "states/planning.md",
+    "states/verifying.md"
+  ],
+  "unchanged_authored_files": 26,
+  "unchanged": [
+    "statechart Mermaid diagram",
+    "schema",
+    "all transitions and guards",
+    "runtime requirements",
+    "tools and models",
+    "canonical bootloader pointer",
+    "runtime build",
+    "scenario specification"
+  ],
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "offline_tests": 75,
+  "reviewed_invariants": 80,
+  "source_measurements": [
+    {
+      "state": "PLANNING",
+      "baseline": 964,
+      "candidate": 605,
+      "budget": "provisional"
+    },
+    {
+      "state": "EXECUTING",
+      "baseline": 1047,
+      "candidate": 655,
+      "budget": "provisional"
+    },
+    {
+      "state": "VERIFYING",
+      "baseline": 1169,
+      "candidate": 758,
+      "budget": "provisional"
+    }
+  ]
+}

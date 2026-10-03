@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "id": "guidance-codex-cli-current-prerequisite-failure-with-skill-2",
+  "checkpoint": "guidance",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "prerequisite-failure",
+  "repetition": 2,
+  "arm": "with-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T21:48:05.837Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "6e10534d0dff717590ac320cfe0660a39bad9ace8034d361650b824be26de9b3",
+    "bundle_path": "results/bundles/guidance",
+    "version": "1.3.0"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "c1f447e96a160543fd6f6c027e65174b9100bf29381ff1ee89bbac865d2ca9ab",
+  "task_template_digest": "7142ec97f3368554a8c148258fb03f50e71905a36ad5c225f748d2b741010cee",
+  "resolved_task_digest": "d9eb0298deff5a828ca84bd9a5a4414aaaaccb2eedcd893813b43e4be2cd9443",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 408626,
+    "output": 6272,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "exact-prerequisite",
+      "status": "PASS",
+      "reason": "All 17 full commands reviewed, no encoded scripts. Exact Get-Command lookup names eval-missing-tool-do-not-install; final BLOCKED reply reports its absence from PATH."
+    },
+    {
+      "id": "fail-fast",
+      "status": "PASS",
+      "reason": "No report design, task writes, installations, provider changes, or sync. Only fixture/runtime reads and native requested manager evidence. Initial --% invocation failed MODULE_NOT_FOUND before runtime creation. Task snapshots unchanged."
+    },
+    {
+      "id": "truthful-result",
+      "status": "PASS",
+      "reason": "Final reply explicitly BLOCKED, no task completion or verification claim. Actual native archive says READY, empty task-file list; exact prerequisite absence is retained in context."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "PASS",
+      "reason": "One native UUID 01a0fe95-8630-709e-b1ec-a7837e222560, one AXI transport. Independent SQLite/JSONL checks match all six events. Only INIT to READY compatibility handshake; no VERIFIED_OK, report execution, or SUCCESS. Native filesystem evidence matches final reply."
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/guidance-codex-cli-current-prerequisite-failure-with-skill-2.json",
+    "digest": "2f4bad43ce30cdae7dc0b1095c3d3c66ea5c8508155f8714a2eefe27dcb0c6ba"
+  }
+}

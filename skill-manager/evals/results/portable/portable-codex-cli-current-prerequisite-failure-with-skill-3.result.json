@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "id": "portable-codex-cli-current-prerequisite-failure-with-skill-3",
+  "checkpoint": "portable",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "prerequisite-failure",
+  "repetition": 3,
+  "arm": "with-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T17:18:28.497Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "1ace3297db3eccd5db920e5d22ed880a93bc6231cdd0038eba888697d456a7ba",
+    "bundle_path": "results/bundles/portable",
+    "version": "1.2.0"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "c1f447e96a160543fd6f6c027e65174b9100bf29381ff1ee89bbac865d2ca9ab",
+  "task_template_digest": "7142ec97f3368554a8c148258fb03f50e71905a36ad5c225f748d2b741010cee",
+  "resolved_task_digest": "6caf354e37f9bcb2dcf8f9b1c0ba1b2e6b50dcd43b62d9b702f0a1604dee0c20",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 405802,
+    "output": 6571,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "exact-prerequisite",
+      "status": "PASS",
+      "reason": "The first command probed and explicitly reported eval-missing-tool-do-not-install missing; final BLOCKED identifies that exact executable."
+    },
+    {
+      "id": "fail-fast",
+      "status": "PASS",
+      "reason": "Reviewed all 21 command bodies. Only prerequisite, registry, runtime metadata and evidence operations occurred. No report design, task writes, installation, configuration or sync occurred."
+    },
+    {
+      "id": "truthful-result",
+      "status": "PASS",
+      "reason": "Final reports blocked dependent work, empty task-file manifest, unchanged sources and only runtime prerequisite evidence. It claims no report completion or tier-specific model testing."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "PASS",
+      "reason": "Exactly one named job 01a0fd9e-9b1c-7579-b06d-1fcca06c1336 records INIT to READY for the compatible runtime and persists the task prerequisite blocker. The run never claims VERIFIED_OK or SUCCESS; the same AXI transport and UUID are retained."
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/portable-codex-cli-current-prerequisite-failure-with-skill-3.json",
+    "digest": "a62b09fe9bd5dde0a30c840120aebf1d545810286f8296d9b906ca74126586f5"
+  }
+}

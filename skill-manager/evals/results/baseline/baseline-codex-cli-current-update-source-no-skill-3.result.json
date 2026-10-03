@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "id": "baseline-codex-cli-current-update-source-no-skill-3",
+  "checkpoint": "baseline",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "update-source",
+  "repetition": 3,
+  "arm": "no-skill",
+  "status": "NOT_RUN",
+  "timestamp": "2026-10-02T09:28:22.074Z",
+  "reason": "Not launched: collection stopped after init --help created unapproved files in two creation trials. PLAN-005 creation-help fix and fresh comparable baseline await user approval.",
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "5e36ea24eef2dde275489ec95aa1cc1f1544921fff50bbf7d7ee7db7e6ada698",
+  "task_template_digest": "ccbcca279158348bc2931bbf66a1c5a90926bf9344943794ff4517cf6127910d",
+  "executor": null,
+  "runtime": null,
+  "tokens": null,
+  "assertions": [
+    {
+      "id": "exact-update",
+      "status": "NOT_RUN",
+      "reason": "Not launched: collection stopped after init --help created unapproved files in two creation trials. PLAN-005 creation-help fix and fresh comparable baseline await user approval."
+    },
+    {
+      "id": "other-hashes",
+      "status": "NOT_RUN",
+      "reason": "Not launched: collection stopped after init --help created unapproved files in two creation trials. PLAN-005 creation-help fix and fresh comparable baseline await user approval."
+    },
+    {
+      "id": "approval-first",
+      "status": "NOT_RUN",
+      "reason": "Not launched: collection stopped after init --help created unapproved files in two creation trials. PLAN-005 creation-help fix and fresh comparable baseline await user approval."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "NOT_APPLICABLE",
+      "reason": "No-skill control does not invoke the manager runtime"
+    }
+  ]
+}

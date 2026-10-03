@@ -1,0 +1,382 @@
+{
+  "observed_at": "2026-10-02T20:35:27.705Z",
+  "checkpoint": "portable-hsm",
+  "status": "INCOMPLETE_USAGE_LIMIT",
+  "completed_reviewed": 13,
+  "passed": 13,
+  "interrupted_count": 11,
+  "interrupted": [
+    {
+      "id": "portable-hsm-codex-cli-current-create-hsm-no-skill-2",
+      "trial_path": "results/portable-hsm/portable-hsm-codex-cli-current-create-hsm-no-skill-2.trial.json",
+      "trial_digest": "31b2b0a03e47ee041e4f66886251d5725dcc7730920eeec4e30040aec8a1a3b3",
+      "session": "01a0fe3a-997b-7553-9664-164c945bdac3",
+      "workspace": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-create-hsm-no-skill-jdqavn\\workspace",
+      "approval": {
+        "approved": true,
+        "files": [
+          "source-a/eval-report/skill.yaml",
+          "source-a/eval-report/SKILL.md",
+          "source-a/eval-report/README.md",
+          "source-a/eval-report/CONTEXT.md",
+          "source-a/eval-report/STATECHART.md",
+          "source-a/eval-report/states/init.md",
+          "source-a/eval-report/states/work/collect.md",
+          "source-a/eval-report/states/work/review.md",
+          "source-a/eval-report/states/done.md",
+          "source-a/eval-report/states/cancelled.md"
+        ],
+        "reason": "Exact scenario manifest approved after presentation",
+        "timestamp": "2026-10-02T20:11:11.900Z",
+        "before": {
+          "source-a/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "source-b/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "distribution/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "sources.json": "7e415deab6537410efc00ecbe44f46e465cdb899e2fd68a03a09060ac757c634"
+        },
+        "prompt": "Approved only these workspace-relative task files: [\"source-a/eval-report/skill.yaml\",\"source-a/eval-report/SKILL.md\",\"source-a/eval-report/README.md\",\"source-a/eval-report/CONTEXT.md\",\"source-a/eval-report/STATECHART.md\",\"source-a/eval-report/states/init.md\",\"source-a/eval-report/states/work/collect.md\",\"source-a/eval-report/states/work/review.md\",\"source-a/eval-report/states/done.md\",\"source-a/eval-report/states/cancelled.md\"].\nUse these seven supplied RED answers when requested: domain is aggregate reports; unavailable dependencies fail fast; no secrets or personal data; explicit approval before writes; record state transitions; each run is isolated; record actual executor coverage separately from semantic model tiers. Select the specified nested topology. After inspecting the proposed manifest, the operator approves only the scenario's declared source-A files. Refuse extra writes, installations, configuration changes, and distribution changes. The operator sends approval only after a manifest is presented.\nDo not change other task files or distributions, install tools, configure providers, or sync. Runtime-owned ledger/projection writes inside this workspace remain allowed. Continue the requested operation and verify the observable results."
+      },
+      "changes": [
+        "source-a/eval-report/CONTEXT.md",
+        "source-a/eval-report/README.md",
+        "source-a/eval-report/SKILL.md",
+        "source-a/eval-report/STATECHART.md",
+        "source-a/eval-report/skill.yaml",
+        "source-a/eval-report/states/cancelled.md",
+        "source-a/eval-report/states/done.md",
+        "source-a/eval-report/states/init.md",
+        "source-a/eval-report/states/work/collect.md",
+        "source-a/eval-report/states/work/review.md"
+      ],
+      "phases": [
+        {
+          "number": 1,
+          "exit_code": 0,
+          "log": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-create-hsm-no-skill-jdqavn\\phase-1.jsonl",
+          "log_digest": "5b1a91714d29ee8241e747105cc7d8c2773236c6c1258162bcde8348f024afcf",
+          "commands": 21,
+          "errors": []
+        },
+        {
+          "number": 2,
+          "exit_code": 1,
+          "log": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-create-hsm-no-skill-jdqavn\\phase-2.jsonl",
+          "log_digest": "2e99ba868b5721517809d5f41428c98d978d8cbb6ff57e944cbf546a3f7fe193",
+          "commands": 2,
+          "errors": [
+            {
+              "type": "error",
+              "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+            },
+            {
+              "type": "turn.failed",
+              "error": {
+                "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-create-hsm-no-skill-3",
+      "trial_path": "results/portable-hsm/portable-hsm-codex-cli-current-create-hsm-no-skill-3.trial.json",
+      "trial_digest": "c568ce472d995dd13e53557df1328b17dbdea70cc11edb5882e4f32ddfdf94a1",
+      "session": "01a0fe3f-4a5b-7953-9fc6-90681896a072",
+      "workspace": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-create-hsm-no-skill-mU4llv\\workspace",
+      "approval": null,
+      "changes": [],
+      "phases": [
+        {
+          "number": 1,
+          "exit_code": 1,
+          "log": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-create-hsm-no-skill-mU4llv\\phase-1.jsonl",
+          "log_digest": "800aaea4c0500e76638357634f17d91acf40c347c047d6fad9200bbc6248d818",
+          "commands": 0,
+          "errors": [
+            {
+              "type": "error",
+              "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+            },
+            {
+              "type": "turn.failed",
+              "error": {
+                "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-create-hsm-with-skill-2",
+      "trial_path": "results/portable-hsm/portable-hsm-codex-cli-current-create-hsm-with-skill-2.trial.json",
+      "trial_digest": "196a77a25f04dbe1a5e5c2344b04f33158d1c9c2b7c27b53fd7d5bd4a29dc9a1",
+      "session": "01a0fe3d-dbfd-7742-a309-4a39f1f19d86",
+      "workspace": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-create-hsm-with-skill-TH4OnB\\workspace",
+      "approval": null,
+      "changes": [],
+      "phases": [
+        {
+          "number": 1,
+          "exit_code": 1,
+          "log": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-create-hsm-with-skill-TH4OnB\\phase-1.jsonl",
+          "log_digest": "2c6bea7e96f00fb15687647024d1097ce757efa737f408775fb028a4c5b88d2b",
+          "commands": 10,
+          "errors": [
+            {
+              "type": "error",
+              "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+            },
+            {
+              "type": "turn.failed",
+              "error": {
+                "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-create-hsm-with-skill-3",
+      "trial_path": "results/portable-hsm/portable-hsm-codex-cli-current-create-hsm-with-skill-3.trial.json",
+      "trial_digest": "2ad7db086cea17adf9d58dc6bef8f0a64b2b2d210716058a635fea52bf7a8065",
+      "session": "01a0fe3f-4e1a-7890-aed0-83f4f37ebbf0",
+      "workspace": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-create-hsm-with-skill-mMpray\\workspace",
+      "approval": null,
+      "changes": [],
+      "phases": [
+        {
+          "number": 1,
+          "exit_code": 1,
+          "log": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-create-hsm-with-skill-mMpray\\phase-1.jsonl",
+          "log_digest": "96229494f1e073788fd683d01d8f96be09c8c7903a773746ff7b234c6faa7812",
+          "commands": 0,
+          "errors": [
+            {
+              "type": "error",
+              "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+            },
+            {
+              "type": "turn.failed",
+              "error": {
+                "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-prerequisite-failure-no-skill-3",
+      "trial_path": "results/portable-hsm/portable-hsm-codex-cli-current-prerequisite-failure-no-skill-3.trial.json",
+      "trial_digest": "64bd052a1f1cd88682de26bca0768e0a616b7bd5cc8282a8f07beb70c098ff77",
+      "session": "01a0fe3f-1c16-7292-8bb1-ff1d5fa8024d",
+      "workspace": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-prerequisite-failure-no-skill-hAsJPJ\\workspace",
+      "approval": null,
+      "changes": [],
+      "phases": [
+        {
+          "number": 1,
+          "exit_code": 1,
+          "log": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-prerequisite-failure-no-skill-hAsJPJ\\phase-1.jsonl",
+          "log_digest": "c6d18c36a870dee98129ee2e502c4fb01cbca9e66ef2f6f5e97c3f6e7aa22b58",
+          "commands": 0,
+          "errors": [
+            {
+              "type": "error",
+              "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+            },
+            {
+              "type": "turn.failed",
+              "error": {
+                "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-prerequisite-failure-with-skill-3",
+      "trial_path": "results/portable-hsm/portable-hsm-codex-cli-current-prerequisite-failure-with-skill-3.trial.json",
+      "trial_digest": "fc0b4bec6903776bf4d8b6db6096031653aea991281433c81d2aa9171713921d",
+      "session": "01a0fe3f-2505-7c63-8618-1a667e7f885a",
+      "workspace": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-prerequisite-failure-with-skill-yYMliz\\workspace",
+      "approval": null,
+      "changes": [],
+      "phases": [
+        {
+          "number": 1,
+          "exit_code": 1,
+          "log": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-prerequisite-failure-with-skill-yYMliz\\phase-1.jsonl",
+          "log_digest": "00d08b5bd290b0c8f6101ac95ca757974ce84c7140a01cb861a2f8ea4c18f659",
+          "commands": 0,
+          "errors": [
+            {
+              "type": "error",
+              "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+            },
+            {
+              "type": "turn.failed",
+              "error": {
+                "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-reference-navigation-no-skill-3",
+      "trial_path": "results/portable-hsm/portable-hsm-codex-cli-current-reference-navigation-no-skill-3.trial.json",
+      "trial_digest": "b9c184c00bfedaa2657f01e75f148caeaea01a89479dc213075f7b3053c2f18c",
+      "session": "01a0fe3f-41b2-76d0-965b-fd351ee0a728",
+      "workspace": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-reference-navigation-no-skill-saL9m8\\workspace",
+      "approval": null,
+      "changes": [],
+      "phases": [
+        {
+          "number": 1,
+          "exit_code": 1,
+          "log": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-reference-navigation-no-skill-saL9m8\\phase-1.jsonl",
+          "log_digest": "3619fc0f8d0cbd321eff96db68ea2064a6f0aaa516f7bf31af67b3a4eb7fc434",
+          "commands": 0,
+          "errors": [
+            {
+              "type": "error",
+              "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+            },
+            {
+              "type": "turn.failed",
+              "error": {
+                "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-reference-navigation-with-skill-2",
+      "trial_path": "results/portable-hsm/portable-hsm-codex-cli-current-reference-navigation-with-skill-2.trial.json",
+      "trial_digest": "d1b72afbfead2b9b1a173b8109351d0eda1cc15b1dfc6ab66f404fce2e3096eb",
+      "session": "01a0fe38-fdda-7af1-b3fe-f4fe9ff8f7bb",
+      "workspace": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-reference-navigation-with-skill-v7gYQG\\workspace",
+      "approval": null,
+      "changes": [],
+      "phases": [
+        {
+          "number": 1,
+          "exit_code": 1,
+          "log": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-reference-navigation-with-skill-v7gYQG\\phase-1.jsonl",
+          "log_digest": "858b949fa1c11e80b29e28be0a6f80f2cd5b43b88e577b70dc8de7d79fc749a0",
+          "commands": 43,
+          "errors": [
+            {
+              "type": "error",
+              "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+            },
+            {
+              "type": "turn.failed",
+              "error": {
+                "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-reference-navigation-with-skill-3",
+      "trial_path": "results/portable-hsm/portable-hsm-codex-cli-current-reference-navigation-with-skill-3.trial.json",
+      "trial_digest": "0c5fec74aea9bf9d58a29aa52e8bc711e608c4ba53a686ab5bca3f5049a58bfd",
+      "session": "01a0fe3f-4594-75d2-9e18-ff1ede27830a",
+      "workspace": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-reference-navigation-with-skill-RazIE0\\workspace",
+      "approval": null,
+      "changes": [],
+      "phases": [
+        {
+          "number": 1,
+          "exit_code": 1,
+          "log": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-reference-navigation-with-skill-RazIE0\\phase-1.jsonl",
+          "log_digest": "2119ef7822ffb9df3515167d4b2d76716032dcad2afd13d2f7c221e8f0d36288",
+          "commands": 0,
+          "errors": [
+            {
+              "type": "error",
+              "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+            },
+            {
+              "type": "turn.failed",
+              "error": {
+                "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-update-source-no-skill-3",
+      "trial_path": "results/portable-hsm/portable-hsm-codex-cli-current-update-source-no-skill-3.trial.json",
+      "trial_digest": "846e0944a081cf6d770a7ce1ba31c4a04b1e79a3c3e0c7ff15ada6fa58dfcb02",
+      "session": "01a0fe3f-2e41-7121-bf26-6e3bf24db85f",
+      "workspace": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-update-source-no-skill-0jZYPG\\workspace",
+      "approval": null,
+      "changes": [],
+      "phases": [
+        {
+          "number": 1,
+          "exit_code": 1,
+          "log": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-update-source-no-skill-0jZYPG\\phase-1.jsonl",
+          "log_digest": "8fdac2f75929da109c87becbc453a547748eaaceb57e5e3277dd8905e581105f",
+          "commands": 0,
+          "errors": [
+            {
+              "type": "error",
+              "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+            },
+            {
+              "type": "turn.failed",
+              "error": {
+                "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "portable-hsm-codex-cli-current-update-source-with-skill-3",
+      "trial_path": "results/portable-hsm/portable-hsm-codex-cli-current-update-source-with-skill-3.trial.json",
+      "trial_digest": "f3456e1fb9c874982317b7d65f51436a14e741a716fd726feb0bbae452c88c89",
+      "session": "01a0fe3f-3774-76e3-8daf-0785817ef735",
+      "workspace": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-update-source-with-skill-jsujzp\\workspace",
+      "approval": null,
+      "changes": [],
+      "phases": [
+        {
+          "number": 1,
+          "exit_code": 1,
+          "log": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-eval-update-source-with-skill-jsujzp\\phase-1.jsonl",
+          "log_digest": "daa6d1d7417b0be0a6e836ddf1fb7b60f57996b86d4d6d27adf0501dd3890c08",
+          "commands": 0,
+          "errors": [
+            {
+              "type": "error",
+              "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+            },
+            {
+              "type": "turn.failed",
+              "error": {
+                "message": "You’ve hit your usage limit. Visit https://chatgpt.com/codex/settings/usage to purchase more credits or try again at Oct 7th, 2026 3:54 PM."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

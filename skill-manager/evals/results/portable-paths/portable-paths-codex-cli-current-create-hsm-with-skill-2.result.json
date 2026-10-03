@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "id": "portable-paths-codex-cli-current-create-hsm-with-skill-2",
+  "checkpoint": "portable-paths",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "create-hsm",
+  "repetition": 2,
+  "arm": "with-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T18:47:54.053Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:13311a43e5a7bbd4fb3d3c916d2253c95345e39fd459ce20e2cdb26afcbdda01"
+  },
+  "skill": {
+    "digest": "d42859aaef8b289affbcf0c68cdec5fb24c7a844e757acd573ebc2442df56dfc",
+    "bundle_path": "results/bundles/portable-paths",
+    "version": "1.2.1"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "795b215bd2484d90e4b39311b089b3331f07cb47bc1ecad5b211196721f146e1",
+  "task_template_digest": "1640e4bd44562b6020090097e29d01c355b8aca3a79b342459efa514e7f3b746",
+  "resolved_task_digest": "5b8374d7539a8d34294bfdf4c7f513079e1a5a65f3681f5e965fe87e59bb8f94",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 3100235,
+    "output": 29577,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "requested-artifacts",
+      "status": "PASS",
+      "reason": "Exactly ten approved source-A artifacts with schema 2.1.0 and nested prompts, canonical bootloader, context, README and diagram."
+    },
+    {
+      "id": "guarded-topology",
+      "status": "PASS",
+      "reason": "Independent actual FSM proof verifies supported substates/initial_substate, false DATA_READY rejection, true acceptance, human-approved completion and parent CANCEL bubbling from both children."
+    },
+    {
+      "id": "diagram",
+      "status": "PASS",
+      "reason": "Nested WORK diagram and documented transitions match manifest, including strict boolean DATA_READY guard and inherited cancellation."
+    },
+    {
+      "id": "red-answers",
+      "status": "PASS",
+      "reason": "Seven supplied findings persisted in default_context and CONTEXT.md, consumed by INIT with RED enabled; executor evidence distinct from semantic tiers."
+    },
+    {
+      "id": "source-approval",
+      "status": "PASS",
+      "reason": "All 32 phase-one and 18 phase-two commands plus file-change events reviewed. Task writes follow exact ten-file approval at 18:37:11.613Z. Forty protected fixture files remain unchanged."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "PASS",
+      "reason": "One manager UUID 01a0fde4-468e-762b-b645-536b4643026a follows all nine transitions to SUCCESS. Actual named archive contains SUCCESS snapshot and matching ten-file inventory, corrected through runtime contextUpdates only. Completion time comes from ledger; SQLite and JSONL agree. Guard-evaluator-only child coverage and absent SQLite skill_inventory table reported honestly; parent separately supplies native topology proof."
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/portable-paths-codex-cli-current-create-hsm-with-skill-2.json",
+    "digest": "260c730fef1d10430cbbef72dcdde6911473054372544701fd4ad1e75d84fd36"
+  }
+}

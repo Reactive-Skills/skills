@@ -1,0 +1,8 @@
+{
+  "trial_id": "portable-paths-codex-cli-current-create-hsm-with-skill-1",
+  "status": "FAIL",
+  "runtime_validation": "validation:\n  skill: eval-report\n  status: invalid\n  schema: 2.1.0\n  version: 1.0.0\n  states: \"4\"\n  transitions: \"2\"\n  errors: \"1\"\n  warnings: \"2\"\nerrors[1]:\n  State \"INIT\" transition on signal \"RUNTIME_READY\" targets unknown state \"WORK.COLLECT\"\nwarnings[2]:\n  Orphan prompt template detected: \"states/work/collect.md\" is not referenced in skill.yaml\n  Orphan prompt template detected: \"states/work/review.md\" is not referenced in skill.yaml\nhelp[1]:\nFix the validation errors listed above in skill.yaml or prompt templates\n",
+  "runtime_validation_exit": 1,
+  "runs": [],
+  "error": "validation:\n  skill: eval-report\n  status: invalid\n  schema: 2.1.0\n  version: 1.0.0\n  states: \"4\"\n  transitions: \"2\"\n  errors: \"1\"\n  warnings: \"2\"\nerrors[1]:\n  State \"INIT\" transition on signal \"RUNTIME_READY\" targets unknown state \"WORK.COLLECT\"\nwarnings[2]:\n  Orphan prompt template detected: \"states/work/collect.md\" is not referenced in skill.yaml\n  Orphan prompt template detected: \"states/work/review.md\" is not referenced in skill.yaml\nhelp[1]:\nFix the validation errors listed above in skill.yaml or prompt templates\n\n\n1 !== 0\n"
+}

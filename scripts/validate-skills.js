@@ -200,7 +200,7 @@ function discoverSkills(targetSkill) {
   return skills;
 }
 
-function validateSkill(skill, runRuntimeCheck) {
+function validateSkill(skill, runRuntimeCheck, authoringQuality = false) {
   const errors = [];
   const warnings = [];
 
@@ -360,6 +360,19 @@ function validateSkill(skill, runRuntimeCheck) {
     warnings.push('README.md does not exist in skill directory (recommended for catalog navigation and human readability)');
   }
 
+  // Reuse the distributed checker; keep registry structural checks above unchanged.
+  if (skill.name === 'skill-manager' || authoringQuality) {
+    try {
+      const { checkAuthoringQuality } = require('../skill-manager/scripts/authoring-quality.cjs');
+      const quality = checkAuthoringQuality(skill.dir);
+      const format = finding => `${finding.code} ${finding.path}:${finding.line}: ${finding.message}`;
+      errors.push(...quality.errors.map(format));
+      warnings.push(...quality.warnings.map(format));
+    } catch (error) {
+      errors.push(`skill-manager authoring checker is missing or unreadable: ${error.message}`);
+    }
+  }
+
   // 6. Run runtime inspection via @reactive-skills/axi inspect if enabled
   if (runRuntimeCheck && errors.length === 0) {
     try {
@@ -401,6 +414,7 @@ function validateSkill(skill, runRuntimeCheck) {
 function main() {
   const args = process.argv.slice(2);
   const skipRuntime = args.includes('--no-runtime');
+  const authoringQuality = args.includes('--authoring-quality');
   const targetSkill = args.find((a) => !a.startsWith('--'));
 
   if (args.includes('--help') || args.includes('-h')) {
@@ -408,6 +422,7 @@ function main() {
   node scripts/validate-skills.js               Validate all reactive skills in the repository
   node scripts/validate-skills.js <skill-name>  Validate a specific skill
   node scripts/validate-skills.js --no-runtime  Skip @reactive-skills/axi inspect check
+  node scripts/validate-skills.js --authoring-quality  Check authoring references for all selected skills (default: skill-manager only)
 `);
     process.exit(0);
   }
@@ -432,7 +447,7 @@ function main() {
 
   for (const skill of skills) {
     process.stdout.write(`• Checking [${skill.name}]... `);
-    const result = validateSkill(skill, !skipRuntime);
+    const result = validateSkill(skill, !skipRuntime, authoringQuality);
 
     if (result.valid) {
       console.log('✅ VALID');

@@ -1,0 +1,41 @@
+{
+  "status": "REPRODUCED",
+  "workspace": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-inspect-repro-SHyQXd",
+  "frozen_digest": "be9b7704b15d1085df92fbcf0e67142414ede266774b7df40ca52d9a04992f06",
+  "preflight": {
+    "args": [
+      "preflight",
+      "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-inspect-repro-SHyQXd\\manager",
+      "--json"
+    ],
+    "exit_code": 0,
+    "output": "{\n  \"runtime\": {\n    \"runtime_version\": \"0.16.0\",\n    \"transport\": \"axi\",\n    \"launcher\": \"direct\",\n    \"scope\": \"local\",\n    \"capabilities\": [\n      \"context.preparation\",\n      \"context.routing\",\n      \"judgment\",\n      \"judgment.adapter_evidence\",\n      \"judgment.script\",\n      \"runtime.bootloader\",\n      \"runtime.preflight\",\n      \"runtime.transport_handshake\"\n    ]\n  },\n  \"results\": [\n    {\n      \"skill\": \"skill-manager\",\n      \"path\": \"C:\\\\Users\\\\brand\\\\AppData\\\\Local\\\\Temp\\\\skill-inspect-repro-SHyQXd\\\\manager\",\n      \"status\": \"compatible\",\n      \"runtime_version\": \"0.16.0\",\n      \"requirements\": {\n        \"compatible\": true,\n        \"runtime_version\": \"0.16.0\",\n        \"required_capabilities\": [],\n        \"missing_capabilities\": [],\n        \"errors\": []\n      },\n      \"errors\": []\n    }\n  ]\n}\n"
+  },
+  "preflight_runs": [],
+  "inspection": {
+    "args": [
+      "inspect",
+      "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-inspect-repro-SHyQXd\\manager"
+    ],
+    "exit_code": 0,
+    "output": "skill:\n  name: skill-manager\n  version: 2.1.0\n  description: Full CRUD lifecycle management for reactive skills - CREATE UPDATE DELETE MIGRATE_LEGACY and MIGRATE_REACTIVE with pre-COMMIT approval best-effort rollback and manifest snapshot projection\n  initial_state: INIT\n  state_count: \"22\"\n  transition_count: \"38\"\nstates[22]{name,description}:\n  INIT,\"Bootloader: Verify reactive runtime environment\"\n  SETUP_RUNTIME,Auto-configure harness MCP server\n  READY,\"\"\n  PARSING,\"\"\n  DETECTING,\"\"\n  PLANNING,\"\"\n  APPROVING,\"\"\n  EXECUTING,\"\"\n  VERIFYING,\"\"\n  ROLLING_BACK,\"\"\n  BACKING_UP_MIGRATE,\"\"\n  INFERRING_LEGACY,\"\"\n  GRILLING_MIGRATE,\"\"\n  INSPECTING_REACTIVE,\"\"\n  PLANNING_MIGRATE,\"\"\n  APPROVING_MIGRATE,\"\"\n  EXECUTING_MIGRATE,\"\"\n  VERIFYING_MIGRATE,\"\"\n  RESTORING_MIGRATE,\"\"\n  PROJECTING,\"\"\n  SUCCESS,\"\"\n  ERROR,\"\"\ntransitions[38]{from_state,signal,target,guard}:\n  INIT,RUNTIME_READY,READY,\"\"\n  INIT,SETUP_REQUIRED,SETUP_RUNTIME,\"\"\n  SETUP_RUNTIME,SETUP_COMPLETE,READY,payload.exit_code == 0\n  SETUP_RUNTIME,SETUP_FAILED,ERROR,payload.exit_code != 0\n  READY,USER_INVOKED,PARSING,context.skill_name != null\n  PARSING,PARSED,DETECTING,\"[\\\"CREATE\\\",\\\"UPDATE\\\",\\\"DELETE\\\",\\\"MIGRATE_LEGACY\\\",\\\"MIGRATE_REACTIVE\\\"].includes(context.operation)\"\n  PARSING,ERROR,ERROR,\"![\\\"CREATE\\\",\\\"UPDATE\\\",\\\"DELETE\\\",\\\"MIGRATE_LEGACY\\\",\\\"MIGRATE_REACTIVE\\\"].includes(context.operation)\"\n  DETECTING,NOT_EXISTS_CREATE,PLANNING,\"context.operation === \\\"CREATE\\\"\"\n  DETECTING,EXISTS_CREATE,ERROR,\"context.operation === \\\"CREATE\\\"\"\n  DETECTING,EXISTS_UPDATE_DELETE,PLANNING,\"[\\\"UPDATE\\\",\\\"DELETE\\\"].includes(context.operation)\"\n  DETECTING,NOT_EXISTS_UPDATE_DELETE,ERROR,\"[\\\"UPDATE\\\",\\\"DELETE\\\"].includes(context.operation)\"\n  DETECTING,IS_LEGACY,BACKING_UP_MIGRATE,\"context.operation === \\\"MIGRATE_LEGACY\\\"\"\n  DETECTING,IS_NOT_LEGACY,ERROR,\"context.operation === \\\"MIGRATE_LEGACY\\\"\"\n  DETECTING,IS_V1_REACTIVE,BACKING_UP_MIGRATE,\"context.operation === \\\"MIGRATE_REACTIVE\\\"\"\n  DETECTING,NOT_V1_REACTIVE,ERROR,\"context.operation === \\\"MIGRATE_REACTIVE\\\"\"\n  PLANNING,PLAN_READY,APPROVING,\"\"\n  APPROVING,USER_APPROVED,EXECUTING,\"\"\n  APPROVING,USER_REJECTED,ERROR,\"\"\n  EXECUTING,EXECUTED,VERIFYING,\"\"\n  VERIFYING,VERIFIED_OK,PROJECTING,payload.exit_code == 0\n  VERIFYING,VERIFIED_FAIL,ROLLING_BACK,payload.exit_code != 0\n  ROLLING_BACK,ROLLED_BACK,ERROR,\"\"\n  ROLLING_BACK,ROLLBACK_FAILED,ERROR,\"\"\n  BACKING_UP_MIGRATE,BACKED_UP_LEGACY,INFERRING_LEGACY,\"context.operation === \\\"MIGRATE_LEGACY\\\"\"\n  BACKING_UP_MIGRATE,BACKED_UP_REACTIVE,INSPECTING_REACTIVE,\"context.operation === \\\"MIGRATE_REACTIVE\\\"\"\n  INFERRING_LEGACY,INFERRED,PLANNING_MIGRATE,payload.confidence >= 0.5\n  INFERRING_LEGACY,LOW_CONFIDENCE,GRILLING_MIGRATE,payload.confidence < 0.5\n  GRILLING_MIGRATE,GRILL_COMPLETE,PLANNING_MIGRATE,\"\"\n  INSPECTING_REACTIVE,INSPECTED,PLANNING_MIGRATE,\"\"\n  PLANNING_MIGRATE,PLAN_READY,APPROVING_MIGRATE,\"\"\n  APPROVING_MIGRATE,USER_APPROVED,EXECUTING_MIGRATE,\"\"\n  APPROVING_MIGRATE,USER_REJECTED,RESTORING_MIGRATE,\"\"\n  EXECUTING_MIGRATE,EXECUTED,VERIFYING_MIGRATE,\"\"\n  VERIFYING_MIGRATE,VERIFIED_OK,PROJECTING,payload.exit_code == 0\n  VERIFYING_MIGRATE,VERIFIED_FAIL,RESTORING_MIGRATE,payload.exit_code != 0\n  RESTORING_MIGRATE,RESTORED,ERROR,\"\"\n  RESTORING_MIGRATE,RESTORE_FAILED,ERROR,\"\"\n  PROJECTING,PROJECTED,SUCCESS,\"\"\nhelp[3]:\nRun `reactive-skills-axi events` to tail the event ledger for this skill\n  Run `reactive-skills-axi inspect skills/skill-manager` to re-view the statechart\n  Edit skill.yaml to add states or modify transitions\n"
+  },
+  "inspection_runs": [
+    "01a0fbd1-f02b-785d-84b6-07f224b16d4b"
+  ],
+  "invoke": {
+    "args": [
+      "invoke",
+      "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-inspect-repro-SHyQXd\\manager",
+      "--job",
+      "named-eval"
+    ],
+    "exit_code": 0,
+    "output": "invoke:\n  skill_id: \"C:\\\\Users\\\\brand\\\\AppData\\\\Local\\\\Temp\\\\skill-inspect-repro-SHyQXd\\\\manager\"\n  current_state: INIT\n  run_id: 01a0fbd1-f1fb-7c5b-9e77-f1abc168c5fc\n  event_id: 01a0fbd1-f228-77dd-8999-f7205c521348\nprompt:\n  raw_prompt: \"---\\r\\nname: skill-manager\\r\\ndescription: Bootloader - Verify reactive runtime\\r\\ntype: reactive\\r\\n---\\r\\n\\r\\n# skill-manager - INIT\\r\\n\\r\\nVerify access to the reactive runtime.\\r\\n\\r\\n## Instructions\\r\\n1. Check `reactive_capabilities` when the MCP tool is available.\\r\\n2. Otherwise check `reactive-skills-axi capabilities --json`, then `npx -y @reactive-skills/axi capabilities --json`.\\r\\n3. Select the compatible local MCP or AXI runtime, keep the same `--job <job-id>` for named or parallel work, and persist the selection for this run.\\r\\n4. If runtime access works, emit `RUNTIME_READY` with transport, launcher, versions, compatibility, and capabilities.\\r\\n5. If no compatible runtime works, emit `SETUP_REQUIRED`.\\r\\n\"\n  allowed_tools: none\n  exit_conditions: \"2\"\nhelp[4]:\nRead the state prompt above and execute the instructed tasks\n  Run `reactive-skills-axi emit C:\\Users\\brand\\AppData\\Local\\Temp\\skill-inspect-repro-SHyQXd\\manager <signal> --job 01a0fbd1-f1fb-7c5b-9e77-f1abc168c5fc` to advance to the next state\n  Run `reactive-skills-axi state C:\\Users\\brand\\AppData\\Local\\Temp\\skill-inspect-repro-SHyQXd\\manager --job 01a0fbd1-f1fb-7c5b-9e77-f1abc168c5fc` to re-read the active state prompt\n  Run `reactive-skills-axi reset C:\\Users\\brand\\AppData\\Local\\Temp\\skill-inspect-repro-SHyQXd\\manager` to clear this run and start fresh\n"
+  },
+  "final_runs": [
+    "01a0fbd1-f02b-785d-84b6-07f224b16d4b",
+    "01a0fbd1-f1fb-7c5b-9e77-f1abc168c5fc"
+  ],
+  "conclusion": "preflight checks compatibility without a manager job; AXI inspect initializes an unnamed job and does not support job selection. Invoking a named job afterward yields two manager runs."
+}

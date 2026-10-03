@@ -1,0 +1,24 @@
+{
+  "status": "REPRODUCED",
+  "workspace": "C:\\Users\\brand\\AppData\\Local\\Temp\\skill-init-help-repro-ASYJ0H",
+  "command": [
+    "node",
+    "C:/Users/brand/.codex/worktrees/skill-cli-signals-20261002/apps/axi/dist/cli/index.js",
+    "init",
+    "--help"
+  ],
+  "expected": "Help text and no created files",
+  "exit_code": 0,
+  "output": "ok: created skill --help at skills/--help/\nhelp[3]:\nRun `reactive-skills-axi inspect skills/--help` to see the statechart\n  Run `reactive-skills-axi events` to watch the event ledger\n  Edit skills/--help/skill.yaml to customize the state machine\n",
+  "created_files": [
+    "skills/--help/skill-release.json",
+    "skills/--help/SKILL.md",
+    "skills/--help/skill.yaml",
+    "skills/--help/STATECHART.md",
+    "skills/--help/states/bypass_detected.md",
+    "skills/--help/states/done.md",
+    "skills/--help/states/init.md",
+    "skills/--help/states/setup_mcp.md",
+    "skills/--help/states/start.md"
+  ]
+}

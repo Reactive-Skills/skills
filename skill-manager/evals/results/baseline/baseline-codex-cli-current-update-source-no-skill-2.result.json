@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "id": "baseline-codex-cli-current-update-source-no-skill-2",
+  "checkpoint": "baseline",
+  "profile_id": "codex-cli-current",
+  "scenario_id": "update-source",
+  "repetition": 2,
+  "arm": "no-skill",
+  "status": "PASS",
+  "timestamp": "2026-10-02T08:44:50.188Z",
+  "executor": {
+    "model": "gpt-6.1-sol",
+    "reasoning_effort": "xhigh",
+    "harness": "Codex CLI",
+    "version": "0.159.3",
+    "platform": "Windows PowerShell"
+  },
+  "runtime": {
+    "version": "0.16.0",
+    "identity": "sha256:6e1affed36880a0c89e82211694515b5f3782e9e6ea87128f9af65b73ed75e21"
+  },
+  "skill": {
+    "digest": "be9b7704b15d1085df92fbcf0e67142414ede266774b7df40ca52d9a04992f06",
+    "bundle_path": "results/bundles/baseline",
+    "version": "1.1.0"
+  },
+  "spec_digest": "dc56986db7e5c1af0fdc1a4626e8e279b99e150e65f086ffddded2bb08234fcc",
+  "fixture_digest": "5e36ea24eef2dde275489ec95aa1cc1f1544921fff50bbf7d7ee7db7e6ada698",
+  "task_template_digest": "ccbcca279158348bc2931bbf66a1c5a90926bf9344943794ff4517cf6127910d",
+  "resolved_task_digest": "b6f841cbb55b2fc6611b301f09cef99dd646441eb1f95059118dc3af7964f593",
+  "tools": [
+    {
+      "name": "Node.js",
+      "version": "24.16.0",
+      "available": true
+    },
+    {
+      "name": "rtk",
+      "version": "0.48.0",
+      "available": true
+    },
+    {
+      "name": "Reactive Skills AXI",
+      "version": "0.16.0",
+      "available": true
+    },
+    {
+      "name": "eval-missing-tool-do-not-install",
+      "version": "absent",
+      "available": false
+    }
+  ],
+  "approval_decisions": [
+    "Seven supplied RED answers",
+    "Select requested nested topology",
+    "Approve declared source-A manifest after presentation",
+    "Refuse unrelated writes and installations"
+  ],
+  "tokens": {
+    "input": 240278,
+    "output": 8124,
+    "measurement": "host",
+    "source": "Final cumulative Codex CLI turn.completed usage for the single trial session"
+  },
+  "judgment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "Independent observable assertions and byte/chronology checks; no semantic judgment provider used"
+  },
+  "assertions": [
+    {
+      "id": "exact-update",
+      "status": "PASS",
+      "reason": "Independent byte comparison equals the seed content plus exactly Include the review date. and one LF."
+    },
+    {
+      "id": "other-hashes",
+      "status": "PASS",
+      "reason": "Independent hashes show only the approved source-A review prompt changed. Source B, distribution, and registry unchanged, with no task additions or deletions."
+    },
+    {
+      "id": "approval-first",
+      "status": "PASS",
+      "reason": "Phase 1 presented the one-file manifest with no task changes. Operator approval at 2026-10-02T08:42:00.727Z preceded the phase 2 edit."
+    },
+    {
+      "id": "runtime-trace",
+      "status": "NOT_APPLICABLE",
+      "reason": "No-skill control does not invoke the manager runtime"
+    }
+  ],
+  "evidence": {
+    "path": "results/evidence/baseline-codex-cli-current-update-source-no-skill-2.json",
+    "digest": "0fd006ff12d1c7c1c26b786202f098b6bd42b1e8b97e9f4f77e1ca514eaba20a"
+  }
+}

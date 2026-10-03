@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "scenario_id": "create-hsm",
+  "files": {
+    "sources.json": "{\n  \"sources\": [\n    \"{{WORKSPACE}}/source-a\",\n    \"{{WORKSPACE}}/source-b\"\n  ]\n}\n",
+    "source-a/.gitkeep": "",
+    "source-b/.gitkeep": "",
+    "distribution/.gitkeep": ""
+  },
+  "materialization": "Replace {{WORKSPACE}} only in sources.json. Preserve all other file bytes. The operator creates an isolated registry/home and verifies it before the executor starts."
+}

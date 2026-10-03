@@ -1,0 +1,2 @@
+# Preserve evaluated skill and evidence bytes across platforms.
+skill-manager/** -text

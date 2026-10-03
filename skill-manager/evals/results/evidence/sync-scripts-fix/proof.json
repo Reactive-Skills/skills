@@ -1,0 +1,26 @@
+{
+  "status": "PASS",
+  "meaning": "Current compiled sync reproduces omitted bundled scripts; one-line draft passes physical/link distribution, discovery exclusion, nested dependency exclusion, idempotency and helper updates.",
+  "workspace": "C:\\Users\\brand\\AppData\\Local\\Temp\\sync-scripts-proof-cRLCKz",
+  "results": [
+    {
+      "label": "current",
+      "helpers_present": [
+        false,
+        false,
+        false
+      ],
+      "errors": []
+    },
+    {
+      "label": "candidate",
+      "helpers_present": [
+        true,
+        true,
+        true
+      ],
+      "errors": [],
+      "idempotency_and_updated_helper": "PASS"
+    }
+  ]
+}
