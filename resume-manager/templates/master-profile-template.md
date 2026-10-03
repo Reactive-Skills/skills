@@ -37,9 +37,9 @@ A high-level summary of career scope, domain expertise, and core strengths acros
 ### [Company Name] | [Location / Remote Status]
 **[Job Title]** | *[Month YYYY – Present / Month YYYY]*
 - **Mission / Scope:** 1-sentence summary of the business domain, team size, and core objectives.
-- **Top Accomplishments (Google XYZ formula):**
-  - Accomplished [X], as measured by [Y], by doing [Z].
-  - Accomplished [X], as measured by [Y], by doing [Z].
+- **Top Accomplishments (verb-first Google XYZ):**
+  - [Verb] [result X with metric Y] by [method Z].
+  - [Verb] [result X with metric Y] by [method Z].
 - **Core Technologies Used:** [List of tools/languages]
 - **Architectural & Operational Complexity:** [Detailed notes on technical or operational hurdles overcome]
 

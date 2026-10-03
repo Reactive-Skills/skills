@@ -94,7 +94,7 @@ Triggered when providing a Job Description (JD) to tailor a full application pac
 
 ### 2. Maintenance Mode (`MAINTAIN`)
 Triggered when adding a new achievement, promotion, or skill:
-- Formulates bullet points using the Google XYZ pattern (*Accomplished [X], measured by [Y], by doing [Z]*).
+- Formulates verb-first Google XYZ bullet points (*[Verb] [result with metric] by [method]*).
 - Synchronizes updates across active profile tracks.
 
 ### 3. Bootstrap Mode (`BOOTSTRAP`)
@@ -261,7 +261,8 @@ resume-manager/
 │   └── professional-voice-standards.md
 ├── guards/                 # Deterministic transition guards
 ├── states/                 # 20 isolated state prompts (*.md)
-└── templates/              # Snapshot & inventory templates (*.hbs)
+├── tests/                  # DOCX exporter layout tests
+└── templates/              # Resume layout, master profile, snapshot & inventory templates
 ```
 
 ---

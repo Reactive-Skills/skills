@@ -9,7 +9,11 @@ You are drafting the candidate's single-column ATS-compliant resume (`resume.md`
   - Plain text contact info in first paragraph of body flow (zero icons/emojis, never in header/footer XML).
   - Standard headings: `Professional Experience`, `Technical Skills` (or `Core Competencies`), `Education & Certifications`, `Projects`.
   - Strict uniform date syntax: `Month YYYY – Present` or `Month YYYY – Month YYYY`.
-  - Universal metric standard: every bullet point must satisfy Google XYZ syntax (*Accomplished [X], measured by [Y], by doing [Z]*).
+  - Universal metric standard: every bullet point carries Google XYZ content (result X, metric Y, method Z) rendered verb-first per `CONTEXT.md` ("Cut client onboarding from 3-5 days to under 5 minutes by building a React/TypeScript operations console").
+  - Never open a bullet with "Accomplished" and never write "as measured by". No opening verb starts more than two bullets in one resume.
+  - State an estimate once with `~` ("~40%"). Never stack hedges ("up to approximately").
+  - Attribute work to the employer where it was done. Personal or open-source work goes under `Open Source` or `Projects`, never under an employer entry.
+  - Follow the markdown layout in `templates/resume-template.md` so the exporter can right-align dates and locations without tables.
   - Title Mirroring: headline mirrors or standardizes the target job title.
 - Overqualification & Down-Leveling Calibration (when `overqualified_risk == true`):
   - Apply grounded language mappings from `calibrate_framing.md`.
@@ -45,7 +49,8 @@ You are drafting the candidate's single-column ATS-compliant resume (`resume.md`
 ## Atomic Verification Checklist
 - [CRUCIAL] Single-column linear layout strictly enforced.
 - [CRUCIAL] Zero em dashes anywhere in cover letter.
-- [CRUCIAL] Every resume bullet point adheres to Google XYZ metric syntax.
+- [CRUCIAL] Every resume bullet is verb-first Google XYZ: result, metric, and method, with no "Accomplished" opener or "as measured by" clause.
+- [CRUCIAL] Every bullet sits under the employer or project where the work was actually done.
 - [CRUCIAL] Contact info in primary body text without emojis or header XML.
 - [CRUCIAL] Every dated role from the master profile has been compared with the tailored resume timeline.
 - [CRUCIAL] No unexplained employment gaps remain before export.

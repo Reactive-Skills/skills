@@ -23,7 +23,7 @@ import shutil
 import time
 from pathlib import Path
 
-def add_hyperlink(paragraph, url: str, text: str, color: str = "004B87", underline: bool = True):
+def add_hyperlink(paragraph, url: str, text: str, color: str = "000000", underline: bool = True):
     """Add a real clickable hyperlink to a python-docx paragraph."""
     try:
         import docx
@@ -97,14 +97,56 @@ def append_formatted_text(paragraph, text_str: str):
     if pos < len(text_str):
         paragraph.add_run(text_str[pos:])
 
+# Resume layout constants. Text is black; rules are neutral gray.
+TEXT_RGB = (0, 0, 0)
+RULE_HEX = "999999"
+PAGE_WIDTH_IN = 8.5
+SIDE_MARGIN_IN = 0.5
+SPLIT_SEPARATOR = " | "
+LINK_TOKEN = re.compile(r"\[[^\]]+\]\([^)]+\)")
+CONTACT_HINT = re.compile(r"@|https?://|\(\d{3}\)|\d{3}[-.\s]\d{3}[-.\s]\d{4}|linkedin|github")
+
+
+def strip_emphasis(text: str) -> str:
+    """Remove a single wrapping bold or italic marker pair from a whole segment."""
+    for marker in ("***", "**", "__", "*", "_"):
+        if len(text) > 2 * len(marker) and text.startswith(marker) and text.endswith(marker):
+            return text[len(marker):-len(marker)].strip()
+    return text
+
+
+def split_right(text: str):
+    """Split 'Left | Right' on the last separator so the right part can be tab-aligned."""
+    if SPLIT_SEPARATOR not in text:
+        return text, None
+    left, right = text.rsplit(SPLIT_SEPARATOR, 1)
+    return left.strip(), right.strip()
+
+
+def is_contact_line(text: str) -> bool:
+    return bool(CONTACT_HINT.search(text.lower())) or (SPLIT_SEPARATOR in text and not text.endswith("."))
+
+
 def convert_md_to_docx(md_path: Path, docx_path: Path):
-    """Convert markdown resume to styled DOCX using python-docx."""
+    """Convert markdown resume to styled DOCX using python-docx.
+
+    Resume layout contract (see templates/resume-template.md):
+      # Name                                  -> large centered name (first H1 only)
+      **Headline** or a later # Headline      -> small centered subtitle
+      contact lines before the first ##       -> small centered contact block
+      ## Section                              -> uppercase heading with a gray rule
+      ### Company | Mon YYYY – Present        -> bold left, bold dates right-aligned by tab stop
+      *Title* | City, ST (line after ###)     -> italic left, italic location right-aligned
+      - bullet                                -> compact hanging-indent bullet
+    No tables, text boxes, headers, or footers are emitted.
+    """
     try:
         import docx
         from docx.shared import Inches, Pt, RGBColor
-        from docx.enum.text import WD_ALIGN_PARAGRAPH
+        from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_TAB_ALIGNMENT
         from docx.oxml import OxmlElement
         from docx.oxml.ns import qn
+        from docx.text.run import Run
     except ImportError:
         print("[!] python-docx is not installed. Trying pandoc fallback...", file=sys.stderr)
         cmd = ["pandoc", str(md_path), "-o", str(docx_path)]
@@ -112,114 +154,147 @@ def convert_md_to_docx(md_path: Path, docx_path: Path):
         return
 
     doc = docx.Document()
-
-    # Set 0.5 inch margins for standard single-page/two-page resume layout
     for section in doc.sections:
-        section.top_margin = Inches(0.5)
+        section.top_margin = Inches(0.4)
         section.bottom_margin = Inches(0.5)
-        section.left_margin = Inches(0.5)
-        section.right_margin = Inches(0.5)
+        section.left_margin = Inches(SIDE_MARGIN_IN)
+        section.right_margin = Inches(SIDE_MARGIN_IN)
+    right_tab = Inches(PAGE_WIDTH_IN - 2 * SIDE_MARGIN_IN)
 
-    # Set Base Style
     normal_style = doc.styles['Normal']
     normal_style.font.name = 'Calibri'
     normal_style.font.size = Pt(10)
-    normal_style.font.color.rgb = RGBColor(33, 33, 33)
-
-    content = md_path.read_text(encoding='utf-8')
-    lines = content.splitlines()
+    normal_style.font.color.rgb = RGBColor(*TEXT_RGB)
 
     is_cover_letter = "cover" in md_path.stem.lower()
+    lines = md_path.read_text(encoding='utf-8').splitlines()
+
+    def paragraph(alignment=None, before=0, after=0, line_spacing=None):
+        p = doc.add_paragraph()
+        if alignment is not None:
+            p.alignment = alignment
+        p.paragraph_format.space_before = Pt(before)
+        p.paragraph_format.space_after = Pt(after)
+        if line_spacing:
+            p.paragraph_format.line_spacing = line_spacing
+        return p
+
+    def add_text(p, text, size=None, bold=False, italic=False, bold_links=True):
+        """Append inline markdown, then apply uniform styling to the new runs, including hyperlink runs."""
+        before = len(p._p)
+        append_formatted_text(p, text)
+        for el in list(p._p)[before:]:
+            is_link = el.tag == qn('w:hyperlink')
+            run_elements = [el] if el.tag == qn('w:r') else list(el.iter(qn('w:r')))
+            for r_el in run_elements:
+                run = Run(r_el, p)
+                if size:
+                    run.font.size = Pt(size)
+                if bold and (bold_links or not is_link):
+                    run.font.bold = True
+                if italic:
+                    run.font.italic = True
+
+    def split_line(text, size, bold=False, italic=False, before=0, after=0):
+        left, right = split_right(text)
+        p = paragraph(before=before, after=after)
+        p.paragraph_format.tab_stops.add_tab_stop(right_tab, WD_TAB_ALIGNMENT.RIGHT)
+        p.paragraph_format.keep_with_next = True
+        left = strip_emphasis(left)
+        # A visible URL beside a label stays regular weight; a link that is the whole label stays bold.
+        bold_links = not LINK_TOKEN.sub("", left).strip()
+        add_text(p, left, size=size, bold=bold, italic=italic, bold_links=bold_links)
+        if right is not None:
+            add_text(p, "\t" + strip_emphasis(right), size=size, bold=bold, italic=italic)
+        return p
+
+    def heading_rule(p):
+        pBdr = OxmlElement('w:pBdr')
+        bottom = OxmlElement('w:bottom')
+        bottom.set(qn('w:val'), 'single')
+        bottom.set(qn('w:sz'), '6')
+        bottom.set(qn('w:space'), '1')
+        bottom.set(qn('w:color'), RULE_HEX)
+        pBdr.append(bottom)
+        p._p.get_or_add_pPr().append(pBdr)
+
+    seen_name = False
     in_header = True
+    after_h3 = False
 
     for line in lines:
         line_str = line.strip()
-        if not line_str:
+        if not line_str or line_str == "---" or line_str.startswith("```"):
             continue
+        is_bullet = line_str.startswith(("- ", "* "))
 
-        # Skip top-level horizontal rules or markdown codeblocks
-        if line_str == "---" or line_str.startswith("```"):
-            continue
-
-        # Header 1: Candidate Name
         if line_str.startswith("# "):
-            name = line_str[2:].strip()
-            p = doc.add_paragraph()
-            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-            run = p.add_run(name)
-            run.font.size = Pt(18 if not is_cover_letter else 16)
-            run.font.bold = True
-            run.font.color.rgb = RGBColor(16, 44, 87)
-            p.paragraph_format.space_before = Pt(0)
-            p.paragraph_format.space_after = Pt(2)
+            text = line_str[2:].strip()
+            if not seen_name:
+                seen_name = True
+                p = paragraph(WD_ALIGN_PARAGRAPH.CENTER)
+                add_text(p, text, size=16 if is_cover_letter else 24)
+            elif not is_cover_letter:
+                p = paragraph(WD_ALIGN_PARAGRAPH.CENTER, after=2)
+                add_text(p, text, size=10.5, bold=True)
+            else:
+                p = paragraph(before=8, after=4)
+                add_text(p, text, size=12, bold=True)
+            after_h3 = False
             continue
 
-        # Header 2: Major Section Heading (e.g. ## Professional Summary)
         if line_str.startswith("## "):
-            section_title = line_str[3:].strip().upper()
-            p = doc.add_paragraph()
-            run = p.add_run(section_title)
-            run.font.size = Pt(11)
-            run.font.bold = True
-            run.font.color.rgb = RGBColor(16, 44, 87)
-            p.paragraph_format.space_before = Pt(8)
-            p.paragraph_format.space_after = Pt(2)
-
-            # Add bottom border under section heading
-            pBdr = OxmlElement('w:pBdr')
-            bottom = OxmlElement('w:bottom')
-            bottom.set(qn('w:val'), 'single')
-            bottom.set(qn('w:sz'), '6')
-            bottom.set(qn('w:space'), '1')
-            bottom.set(qn('w:color'), 'B0C4DE')
-            pBdr.append(bottom)
-            p._p.get_or_add_pPr().append(pBdr)
+            p = paragraph(before=8, after=3)
+            p.paragraph_format.keep_with_next = True
+            add_text(p, line_str[3:].strip().upper(), size=11, bold=True)
+            heading_rule(p)
             in_header = False
+            after_h3 = False
             continue
 
-        # Header 3: Role / Company Title (### Title | Company)
         if line_str.startswith("### "):
-            role_info = line_str[4:].strip()
-            p = doc.add_paragraph()
-            run = p.add_run(role_info)
-            run.font.size = Pt(10.5)
-            run.font.bold = True
-            run.font.color.rgb = RGBColor(30, 30, 30)
-            p.paragraph_format.space_before = Pt(4)
-            p.paragraph_format.space_after = Pt(1)
+            split_line(line_str[4:].strip(), size=10.5, bold=True, before=5)
+            after_h3 = True
             continue
 
-        # Bullet items
-        if line_str.startswith("- ") or line_str.startswith("* "):
-            bullet_text = line_str[2:].strip()
+        if after_h3 and not is_bullet:
+            split_line(line_str, size=10.5, italic=True)
+            after_h3 = False
+            continue
+        after_h3 = False
+
+        if is_bullet:
             p = doc.add_paragraph(style='List Bullet')
-            p.paragraph_format.space_before = Pt(1)
-            p.paragraph_format.space_after = Pt(2)
-            p.paragraph_format.line_spacing = 1.08
-            append_formatted_text(p, bullet_text)
+            fmt = p.paragraph_format
+            fmt.left_indent = Inches(0.17)
+            fmt.first_line_indent = Inches(-0.13)
+            fmt.space_before = Pt(0)
+            fmt.space_after = Pt(1)
+            fmt.line_spacing = 1.0
+            add_text(p, line_str[2:].strip())
             continue
 
-        # Regular paragraph (contact info, role metadata, summaries, cover letter paragraphs)
-        p = doc.add_paragraph()
-        if in_header and not is_cover_letter:
-            p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-            p.paragraph_format.space_before = Pt(0)
-            p.paragraph_format.space_after = Pt(4)
-        elif is_cover_letter:
+        if is_cover_letter:
             if in_header:
-                p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-                p.paragraph_format.space_before = Pt(0)
-                p.paragraph_format.space_after = Pt(8)
+                p = paragraph(WD_ALIGN_PARAGRAPH.CENTER, after=8)
                 in_header = False
             else:
-                p.paragraph_format.space_before = Pt(0)
-                p.paragraph_format.space_after = Pt(8)
-                p.paragraph_format.line_spacing = 1.15
-        else:
-            p.paragraph_format.space_before = Pt(1)
-            p.paragraph_format.space_after = Pt(3)
+                p = paragraph(after=8, line_spacing=1.15)
+            add_text(p, line_str)
+            continue
 
-        append_formatted_text(p, line_str)
+        if in_header and line_str.startswith(("**", "__")) and strip_emphasis(line_str) != line_str:
+            p = paragraph(WD_ALIGN_PARAGRAPH.CENTER, after=1)
+            add_text(p, strip_emphasis(line_str), size=10.5)
+            continue
+
+        if in_header and is_contact_line(line_str):
+            p = paragraph(WD_ALIGN_PARAGRAPH.CENTER, after=1)
+            add_text(p, line_str, size=9.5)
+            continue
+
+        p = paragraph(after=1)
+        add_text(p, line_str)
 
     doc.save(str(docx_path))
     print(f"[✓] Generated DOCX: {docx_path}")
@@ -262,17 +337,19 @@ def convert_md_to_pdf_browser(md_path: Path, pdf_path: Path, css_path: Path = No
         html_body = tmp_html.read_text(encoding='utf-8')
         tmp_html.unlink(missing_ok=True)
 
-    css_content = """
-    @page { size: letter; margin: 0.45in 0.5in; }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; font-size: 10pt; line-height: 1.35; color: #1a1a1a; margin: 0; padding: 0; }
-    h1 { font-size: 18pt; text-align: center; margin: 0 0 4px 0; color: #0f2c59; font-weight: 700; }
-    h2 { font-size: 11pt; text-transform: uppercase; border-bottom: 1px solid #b0c4de; padding-bottom: 2px; margin: 10px 0 4px 0; color: #0f2c59; font-weight: 700; letter-spacing: 0.5px; }
-    h3 { font-size: 10pt; margin: 6px 0 2px 0; color: #222; font-weight: 600; }
-    p { margin: 2px 0; }
-    ul { margin: 2px 0 6px 18px; padding: 0; }
-    li { margin-bottom: 2px; }
-    strong { font-weight: 600; color: #111; }
-    hr { border: none; border-top: 1px solid #e0e0e0; margin: 6px 0; }
+    if css_path and Path(css_path).exists():
+        css_content = Path(css_path).read_text(encoding='utf-8')
+    else:
+        css_content = """
+    @page { size: letter; margin: 0.4in 0.5in; }
+    body { font-family: Calibri, Carlito, Arial, sans-serif; font-size: 10pt; line-height: 1.3; color: #000; margin: 0; padding: 0; }
+    h1 { font-size: 24pt; font-weight: 400; text-align: center; margin: 0; color: #000; }
+    h2 { font-size: 11pt; text-transform: uppercase; border-bottom: 1px solid #999; padding-bottom: 2px; margin: 10px 0 4px 0; color: #000; font-weight: 700; }
+    h3 { font-size: 10.5pt; margin: 6px 0 0 0; color: #000; font-weight: 700; }
+    p { margin: 1px 0; }
+    ul { margin: 1px 0 4px 0.17in; padding: 0; }
+    li { margin-bottom: 1px; }
+    a { color: #000; }
     """
 
     full_html = f"""<!DOCTYPE html>

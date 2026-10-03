@@ -83,7 +83,7 @@ Triggered when the user provides a Job Description (JD) or asks to tailor materi
 ### 2. Maintenance Mode (`MAINTAIN`)
 Triggered when the user wants to add an accomplishment, promotion, or new skill:
 1. Loads target profile record.
-2. Prompts for the achievement using the Google XYZ formula (*Accomplished [X], measured by [Y], by doing [Z]*).
+2. Prompts for the achievement using Google XYZ content (result, metric, method) and records it verb-first (*[Verb] [result with metric] by [method]*).
 3. Updates experience entries and synchronizes skill taxonomies.
 
 ### 3. Bootstrap Mode (`BOOTSTRAP`)
@@ -124,6 +124,8 @@ For customized applications:
 - `guards/voice_standards_audit.yaml` — Jev predicate gate auditing cover letter drafts for AI clichés and corporate slop.
 - `guards/accomplishment_xyz_audit.yaml` — Jev predicate gate validating Google XYZ metric syntax.
 - `guards/mode_selection.yaml` — Jev choice contract for classifying user intent into operational modes.
+- `templates/resume-template.md` — Markdown layout contract the exporter renders (right-aligned dates via tab stops, no tables).
+- `tests/test_convert_resume.py` — DOCX layout regression tests (`python -m unittest discover -s resume-manager/tests`).
 - `assets/convert_resume.py` — Multi-tier DOCX/PDF export script (Word COM -> Headless Edge -> Pandoc).
 - `assets/msedge-print.ps1` — Edge headless PDF generation helper.
 - `assets/resume_style.css` — Typographic print stylesheet.
