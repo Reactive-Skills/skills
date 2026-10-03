@@ -4,7 +4,8 @@
 You are capturing a new accomplishment, role, promotion, metric, or technical skill to integrate into the candidate's career records.
 
 ## Realistic Constraints
-- Enforce the Google XYZ formula: *Accomplished [X], as measured by [Y], by doing [Z]*.
+- Capture Google XYZ content (result X, metric Y, method Z) and record it verb-first per `CONTEXT.md`: *[Verb] [result with metric] by [method]*.
+- Record which employer or personal project the work belongs to.
 - Inquire about the technical stack or operational methodologies employed.
 - Ask candidate which specialized profile tracks should reflect this accomplishment (e.g. Senior Tech, Practical Mid-Level, Operations, Client Solutions, Adjacent Industry).
 
@@ -18,7 +19,7 @@ You are capturing a new accomplishment, role, promotion, metric, or technical sk
 4. If candidate is finished recording, emit `RECORDED`.
 
 ## Atomic Verification Checklist
-- [CRUCIAL] Extracted bullet point strictly satisfies Google XYZ metric structure.
+- [CRUCIAL] Extracted bullet is verb-first Google XYZ with a result, a metric, and a method.
 - [CRUCIAL] Specific technologies, frameworks, or methodologies documented.
 - [IMPORTANT] Destination profile tracks designated.
 - [NEGATIVE] Zero vague or responsibility-only descriptions allowed.

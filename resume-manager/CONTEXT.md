@@ -43,5 +43,9 @@ Low-confidence or weak classifications require human review before tailoring wor
 Empirical ATS optimization standard where resumes containing between 25 and 35 exact-match keywords from the target job posting achieve peak search ranking without tripping automated AI spam/keyword-stuffing penalties.
 
 ### Google XYZ Formula
-The standardized metric syntax required for every resume bullet:
-*Accomplished [X], as measured by [Y], by doing [Z]*. Action-only bullets without quantifiable outcomes are strictly prohibited.
+The content standard for every resume bullet: a result [X], a quantified measurement [Y], and the method [Z].
+XYZ is a content check, not literal wording.
+Render bullets verb-first: *[Strong past-tense verb] [result with metric] by [method]*.
+Example: "Cut client onboarding from 3-5 days to under 5 minutes by building a React/TypeScript operations console and .NET Core API."
+Never open with "Accomplished", never write "as measured by", and never use a measurement that restates the action ("as measured by team size mentored").
+Action-only bullets without quantifiable outcomes are strictly prohibited.
