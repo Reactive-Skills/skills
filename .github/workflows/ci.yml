@@ -52,6 +52,9 @@ jobs:
       - name: Validate offline evaluation records
         run: node skill-manager/evals/validate-evals.cjs --mode structure --json
 
+      - name: Test Table of Contents generator
+        run: node --test scripts/update-toc.test.js
+
       - name: Verify Table of Contents
         run: node scripts/update-toc.js --check
 

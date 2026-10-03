@@ -173,7 +173,10 @@ function main() {
   console.log(`🔍 Discovered ${skills.length} reactive skills: ${skills.map(s => s.name).join(', ')}`);
 
   const generatedTable = generateMarkdownTable(skills);
-  const readmeContent = fs.readFileSync(README_PATH, 'utf8');
+  // Compare in LF and write back in the checkout's own line endings (CRLF under core.autocrlf).
+  const rawReadme = fs.readFileSync(README_PATH, 'utf8');
+  const eol = rawReadme.includes('\r\n') ? '\r\n' : '\n';
+  const readmeContent = rawReadme.replace(/\r\n/g, '\n');
 
   const startIndex = readmeContent.indexOf(TOC_START_MARKER);
   const endIndex = readmeContent.indexOf(TOC_END_MARKER);
@@ -196,7 +199,7 @@ function main() {
     return;
   }
 
-  fs.writeFileSync(README_PATH, updatedReadme, 'utf8');
+  fs.writeFileSync(README_PATH, updatedReadme.replace(/\n/g, eol), 'utf8');
   console.log('✅ Successfully updated README.md Table of Contents!');
 }
 
