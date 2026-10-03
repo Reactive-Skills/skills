@@ -1,6 +1,6 @@
 schema_version: "2.0.0"
 name: onboarding-map
-version: 1.0.2
+version: 1.0.3
 description: >-
   Codebase onboarding workflow: intake role and scope, scan architecture and
   ownership, map modules and dependencies, design a personalized learning path,
