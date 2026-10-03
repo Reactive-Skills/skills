@@ -1,6 +1,6 @@
 schema_version: "2.0.0"
 name: "docs-architect"
-version: "1.0.0"
+version: "1.0.1"
 description: "Documentation architecture workflow that discovers source truth, designs information architecture, authors living documentation, embeds diagrams, validates links, and gates publication."
 initial_state: "INTAKE"
 
@@ -154,6 +154,7 @@ states:
         guard: "event.payload.validation_exit_code === 0"
         judgment:
           type: predicate
+          adapter_hint: script
           criterion: "payload.validation_exit_code === 0 && Array.isArray(payload.validation_checks) && payload.validation_checks.length > 0 && payload.validation_checks.every(check => check && check.passed === true)"
           min_confidence: 0.9
           fallback_adapter: script
