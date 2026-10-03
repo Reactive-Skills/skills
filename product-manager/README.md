@@ -16,6 +16,11 @@ Most software projects suffer from two opposing extremes:
 
 ---
 
+## Predicate routing
+
+Exact structural checks use AXI's script adapter explicitly.
+Semantic judgments continue through the configured decision backend.
+
 ## Core Capabilities
 
 - **Dual Intake Modes**:
@@ -95,3 +100,5 @@ Use the `reactive_state` and `reactive_emit_signal` tools to step through each p
 - `.docs/product-manager/<product_name>-spec.md`: The Lean Product Charter, alignment goals, SMART requirements, and vertical slices breakdown.
 - `.docs/product-manager/<product_name>-eisenhower.md`: Complete Eisenhower matrix with decision rationales and cuts log.
 - `.docs/product-manager/inventory.json`: Catalog record indexed by product name.
+
+Projection templates read product fields from `context.*`, handle goals, requirements, priority entries, and slice fields as text or structured values, and use the runtime's `lastUpdated` value for timestamps.

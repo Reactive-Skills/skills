@@ -13,3 +13,9 @@ sash-*
 *.scorecard.*
 sync_output.txt
 .kilo/
+__pycache__/
+*.pyc
+
+# Local agent planning and delivery evidence
+plans/
+.workflow/

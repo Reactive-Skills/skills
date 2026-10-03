@@ -12,6 +12,9 @@ Documentation architecture workflow for turning repository evidence into living,
 - Link, traceability, and readability validation
 - Human publication gate with revision and rejection paths
 
+Exact validation predicates select AXI's script adapter explicitly.
+Semantic judgments continue through the configured decision backend.
+
 ## Invoke
 
 ```bash

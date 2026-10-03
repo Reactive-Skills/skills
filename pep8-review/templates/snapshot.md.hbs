@@ -1,0 +1,22 @@
+# PEP 8 Review Snapshot
+
+Outcome: {{context.outcome}}
+Scope: {{context.review_scope}}
+Project: {{context.project_root}}
+Rules consulted:
+
+{{#each context.style_sources}}
+- {{this}}
+{{/each}}
+
+Summary: {{context.review_summary}}
+Finding count: {{context.finding_count}}
+
+{{#each context.findings}}
+### {{this.file}}:{{this.line}} - {{this.rule}}
+
+{{this.explanation}}
+
+Suggested correction: {{this.suggestion}}
+{{/each}}
+

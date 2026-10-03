@@ -1,0 +1,30 @@
+---
+name: {{skill_name}}
+description: Bootloader - Verify reactive runtime
+type: reactive
+---
+
+# {{skill_name}} - INIT
+
+Verify access to the reactive runtime.
+
+## Instructions
+1. Check reactive_capabilities when the MCP tool is available.
+2. Otherwise check reactive-skills-axi capabilities --json, then npx -y @reactive-skills/axi capabilities --json.
+3. Select the compatible local MCP or AXI runtime, keep the same --job <job-id> for named or parallel work, and persist the selection for this run.
+4. If runtime access works, emit RUNTIME_READY with transport, launcher, versions, compatibility, and capabilities.
+5. If no compatible runtime works, emit SETUP_REQUIRED.
+
+## Anti-Shortcut Gate
+- Confirm runtime compatibility before INTAKE.
+- Persist the selected runtime and keep the same job id.
+- Do not start review in INIT.
+
+## Signals
+Emit: RUNTIME_READY when the runtime is compatible.
+Emit: SETUP_REQUIRED when no compatible runtime is available.
+Emit: BYPASS_DETECTED only when the runtime detects a contract bypass.
+
+## Context Variables Set
+- payload.compatible: true means the selected runtime is available.
+- context.runtime: selected transport, launcher, versions, compatibility, and capabilities.

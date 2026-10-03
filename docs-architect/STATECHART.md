@@ -15,7 +15,7 @@ stateDiagram-v2
     AUTHOR --> ERROR: AUTHORING_FAILED (draft path missing)
     DIAGRAM --> VALIDATE: DIAGRAMS_EMBEDDED (diagram inventory present)
     DIAGRAM --> ERROR: DIAGRAM_FAILED (diagram inventory empty)
-    VALIDATE --> REVIEW: VALIDATION_PASSED (exit_code == 0)
+    VALIDATE --> REVIEW: VALIDATION_PASSED (exit code zero; checks pass, script predicate)
     VALIDATE --> ERROR: VALIDATION_FAILED (exit_code != 0)
     REVIEW --> SUCCESS: USER_APPROVED (approved == true)
     REVIEW --> AUTHOR: USER_REQUEST_REVISIONS (revisions_requested == true)
@@ -41,10 +41,12 @@ stateDiagram-v2
 | `AUTHOR` | `AUTHORING_FAILED` | `ERROR` | draft path is missing |
 | `DIAGRAM` | `DIAGRAMS_EMBEDDED` | `VALIDATE` | diagram inventory is non-empty |
 | `DIAGRAM` | `DIAGRAM_FAILED` | `ERROR` | diagram inventory is empty |
-| `VALIDATE` | `VALIDATION_PASSED` | `REVIEW` | `payload.validation_exit_code === 0` |
+| `VALIDATE` | `VALIDATION_PASSED` | `REVIEW` | Exit code is zero; validation checks are non-empty and all pass (script predicate) |
 | `VALIDATE` | `VALIDATION_FAILED` | `ERROR` | validation exit code is non-zero |
 | `REVIEW` | `USER_APPROVED` | `SUCCESS` | `payload.approved === true` |
 | `REVIEW` | `USER_REQUEST_REVISIONS` | `AUTHOR` | `payload.revisions_requested === true` |
 | `REVIEW` | `USER_REJECTED` | `BLOCKED` | `payload.rejected === true` |
 
 `SUCCESS`, `BLOCKED`, and `ERROR` are terminal states.
+
+The exact validation predicate uses AXI's script adapter; the existing review target and error fallback remain unchanged.

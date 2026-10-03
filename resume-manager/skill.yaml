@@ -1,5 +1,5 @@
 schema_version: 2.1.0
-version: 2.3.0
+version: 2.3.1
 name: resume-manager
 description: >-
   Consolidated reactive career management engine. Orchestrates master profile bootstrapping,

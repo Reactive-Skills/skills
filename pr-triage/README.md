@@ -11,6 +11,9 @@ Auditable pull request triage for review queues and release readiness.
 - Human approve, rework, and block gate
 - Reproducible Markdown and JSON projections
 
+Exact completeness predicates select AXI's script adapter explicitly.
+Semantic judgments continue through the configured decision backend.
+
 ## Invoke
 
 ```bash

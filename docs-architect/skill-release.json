@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "skillId": "docs-architect",
   "channel": "stable",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "reactive",
   "reactiveSchemaVersion": "2.0.0"
 }

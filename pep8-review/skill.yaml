@@ -1,0 +1,94 @@
+schema_version: 2.1.0
+name: pep8-review
+version: 1.0.0
+description: >-
+  Reactive Python style review using PEP 8, project-specific style rules, and
+  relevant companion conventions for docstrings and type annotations.
+initial_state: INIT
+context_keys:
+  - runtime
+  - review_input
+  - review_subject
+  - project_root
+  - changed_files
+  - review_scope
+  - python_version
+  - project_rules
+  - style_sources
+  - findings
+  - finding_count
+  - review_summary
+  - outcome
+  - error_reason
+  - bypass_reason
+default_context:
+  project_root: null
+  review_scope: null
+  style_sources: []
+  findings: []
+  finding_count: 0
+  review_summary: null
+  outcome: null
+states:
+  INIT:
+    description: Verify reactive runtime access
+    prompt_template: states/init.md
+    transitions:
+      RUNTIME_READY:
+        target: INTAKE
+        guard: payload.compatible === true
+      SETUP_REQUIRED:
+        target: ERROR
+      BYPASS_DETECTED:
+        target: BYPASS_DETECTED
+  INTAKE:
+    description: Collect review input and scope
+    prompt_template: states/intake.md
+    transitions:
+      INPUT_READY:
+        target: DISCOVER_RULES
+        guard: "payload.review_input != null && ['changed_lines', 'full_files'].includes(payload.review_scope)"
+      BYPASS_DETECTED:
+        target: BYPASS_DETECTED
+  DISCOVER_RULES:
+    description: Read project style rules and settings
+    prompt_template: states/discover_rules.md
+    tools:
+      - list_dir
+      - view_file
+      - grep_search
+    transitions:
+      RULES_READY:
+        target: REVIEW
+        guard: "Array.isArray(payload.style_sources) && payload.style_sources.length > 0 && payload.project_rules != null"
+      BYPASS_DETECTED:
+        target: BYPASS_DETECTED
+  REVIEW:
+    description: Check Python changes against applicable style rules
+    prompt_template: states/review.md
+    tools:
+      - view_file
+      - find_by_name
+      - grep_search
+    transitions:
+      REVIEW_COMPLETE:
+        target: REPORT
+        guard: "Array.isArray(payload.findings) && payload.finding_count === payload.findings.length && payload.outcome === (payload.findings.length === 0 ? 'no_findings' : 'findings') && payload.findings.every(item => item && item.file && Number.isInteger(item.line) && item.rule && item.explanation && item.suggestion)"
+      BYPASS_DETECTED:
+        target: BYPASS_DETECTED
+  REPORT:
+    description: Deliver the completed style review
+    prompt_template: states/report.md
+  BYPASS_DETECTED:
+    description: Recover from work outside the signal contract
+    prompt_template: states/bypass_detected.md
+  ERROR:
+    description: Explain why the review could not start
+    prompt_template: states/error.md
+deliverable_projections:
+  - template: templates/snapshot.md.hbs
+    output: .docs/pep8-review/latest-review.md
+  - template: templates/inventory.json.hbs
+    output: .docs/pep8-review/latest-inventory.json
+    table: pep8_review_inventory
+

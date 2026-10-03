@@ -1,35 +1,50 @@
-# Lean Product Specification: {{product_name}}
+# Lean Product Specification: {{context.product_name}}
 
-**Opportunity Type**: {{opportunity_type}}  
-**Worthwhileness Score**: {{worthwhileness_score}} / 5.0  
-**Generated At**: {{timestamp}}  
+**Opportunity Type**: {{context.opportunity_type}}  
+**Worthwhileness Score**: {{context.worthwhileness_score}} / 5.0  
+**Generated At**: {{formatDate lastUpdated}}  
 
 ---
 
 ## 1. Executive Summary & Problem Space
 
 ### Problem Statement
-{{problem_statement}}
+{{context.problem_statement}}
 
 ### Target Persona / ICP
-{{target_persona}}
+{{context.target_persona}}
 
 ---
 
 ## 2. Strategic Alignment & Anti-Goals
 
 ### Strategic Goals & OKRs
-{{#if strategic_goals}}
-{{#each strategic_goals}}
-- **{{objective}}**: Target: `{{target_metric}}` (Timeframe: {{timeframe}})
+{{#if context.strategic_goals}}
+{{#each context.strategic_goals}}
+- {{#if objective}}**{{objective}}**{{else}}{{this}}{{/if}}
+  {{#if north_star_metric}}
+  - **North Star Metric**: `{{{north_star_metric}}}`
+  {{/if}}
+  {{#if target_metric}}
+  - **Target**: `{{{target_metric}}}`
+  {{/if}}
+  {{#if timeframe}}
+  - **Timeframe**: {{timeframe}}
+  {{/if}}
+  {{#if key_results}}
+  - **Key Results**:
+    {{#each key_results}}
+    - {{this}}
+    {{/each}}
+  {{/if}}
 {{/each}}
 {{else}}
 - *No strategic goals recorded.*
 {{/if}}
 
 ### Explicit Anti-Goals ("What We Are NOT Doing")
-{{#if anti_goals}}
-{{#each anti_goals}}
+{{#if context.anti_goals}}
+{{#each context.anti_goals}}
 - 🛑 {{this}}
 {{/each}}
 {{else}}
@@ -40,11 +55,15 @@
 
 ## 3. SMART Requirements
 
-{{#if smart_requirements}}
+{{#if context.smart_requirements}}
 | ID | Requirement Title | Specific Behavior | Measurable (Acceptance Test) | Relevant Goal | Sequence |
 |---|---|---|---|---|---|
-{{#each smart_requirements}}
-| `{{id}}` | **{{title}}** | {{specific}} | `{{measurable}}` | {{relevant_goal}} | {{time_sequence}} |
+{{#each context.smart_requirements}}
+{{#if id}}
+| `{{{id}}}` | **{{title}}** | {{specific}} | `{{{measurable}}}` | {{relevant_goal}} | {{time_sequence}} |
+{{else}}
+| - | **Requirement** | {{this}} | Not specified | Not specified | Not specified |
+{{/if}}
 {{/each}}
 {{else}}
 *No SMART requirements recorded.*
@@ -54,20 +73,34 @@
 
 ## 4. Vertical Slice Architecture
 
-{{#if vertical_slices}}
-{{#each vertical_slices}}
-### Slice `{{id}}`: {{title}}
+{{#if context.vertical_slices}}
+{{#each context.vertical_slices}}
+### Slice `{{{id}}}`: {{title}}
 - **User Value**: {{user_value}}
 - **Scope**:
-  - *In Scope*: {{in_scope}}
-  - *Out of Scope*: {{out_of_scope}}
-- **Layer Touchpoints**: {{layer_touchpoints}}
-- **Dependencies**: {{#if dependencies}}{{dependencies}}{{else}}None (Foundation){{/if}}
+  - *In Scope*:
+{{#each in_scope}}
+    - {{this}}
+{{else}}
+    - {{#if in_scope}}{{in_scope}}{{else}}None recorded.{{/if}}
+{{/each}}
+  - *Out of Scope*:
+{{#each out_of_scope}}
+    - {{this}}
+{{else}}
+    - {{#if out_of_scope}}{{out_of_scope}}{{else}}None recorded.{{/if}}
+{{/each}}
+- **Layer Touchpoints**: {{#each layer_touchpoints}}{{#if @index}}, {{/if}}{{this}}{{else}}{{#if layer_touchpoints}}{{layer_touchpoints}}{{else}}None recorded.{{/if}}{{/each}}
+- **Dependencies**: {{#each dependencies}}{{#if @index}}, {{/if}}{{this}}{{else}}{{#if dependencies}}{{dependencies}}{{else}}None (Foundation){{/if}}{{/each}}
 - **Acceptance Criteria**:
   ```gherkin
-  {{acceptance_criteria}}
+  {{#each acceptance_criteria}}
+  {{this}}
+  {{else}}
+  {{#if acceptance_criteria}}{{acceptance_criteria}}{{else}}No acceptance criteria recorded.{{/if}}
+  {{/each}}
   ```
-- **Verification Script**: `{{verification_script}}`
+- **Verification Script**: `{{{verification_script}}}`
 
 ---
 {{/each}}
@@ -77,5 +110,5 @@
 
 ## 5. MVP Boundary & Delivery Roadmap
 
-- **Approved MVP Slices**: `{{mvp_slice_ids}}`
+- **Approved MVP Slices**: {{#each context.mvp_slice_ids}}{{#if @index}}, {{/if}}`{{{this}}}`{{else}}{{#if context.mvp_slice_ids}}{{context.mvp_slice_ids}}{{else}}None recorded.{{/if}}{{/each}}
 - **Post-MVP Increments**: Slices scheduled for subsequent iterations once MVP validation metrics are reached.
