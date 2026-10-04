@@ -1,6 +1,6 @@
 schema_version: 2.1.0
 name: jsm-workflow
-version: 1.2.1
+version: 1.3.0
 description: Reactive SDLC coordinator taking software changes from intake to final context sync, implementing the JS Mastery Engineering Workflow (https://jsmastery.com/skills).
 initial_state: INIT
 strict_execution: true
@@ -167,6 +167,7 @@ states:
         transitions:
           USER_APPROVED:
             target: ACTIVE.DEVELOP
+            guardFunction: guards/dod-structure.cjs
           USER_REVISION_REQUESTED:
             target: ACTIVE.DOD_APPROVAL
           USER_REJECTED:
@@ -184,6 +185,7 @@ states:
         transitions:
           USER_APPROVED:
             target: ACTIVE.AUDIT
+            guardFunction: guards/dod-structure.cjs
           USER_REVISION_REQUESTED:
             target: ACTIVE.DOD_AMENDMENT
           USER_REJECTED:
@@ -249,6 +251,8 @@ states:
         transitions:
           BUG_FIXED:
             target: ACTIVE.VERIFY
+            # Three repair attempts per failure: the attempt must follow the stored one for the same failure_id, or restart at 1.
+            guard: "((prev, next) => Boolean(next) && typeof next.failure_id === 'string' && next.failure_id.trim().length > 0 && typeof next.failure_evidence === 'string' && next.failure_evidence.trim().length > 0 && next.attempt === (prev && prev.failure_id === next.failure_id ? Number(prev.attempt) || 0 : 0) + 1 && next.attempt <= 3)(context.debug_record, payload.contextUpdates && payload.contextUpdates.debug_record)"
           DESIGN_FLAW:
             target: ACTIVE.ARCHITECT
           DEBUG_BLOCKED:
@@ -259,6 +263,8 @@ states:
         transitions:
           REVIEW_PASSED:
             target: ACTIVE.DOCUMENT
+            # Only the signal's own record counts, so a stale review from an earlier pass cannot satisfy a new one.
+            guard: "(reviewer => Boolean(reviewer) && reviewer.isolation === 'fresh_context' && typeof reviewer.agent === 'string' && reviewer.agent.trim().length > 0)(((payload.contextUpdates && payload.contextUpdates.review_record) || {}).reviewer)"
           REVIEW_FINDINGS:
             target: ACTIVE.DEVELOP
           REVIEW_DEFERRED:

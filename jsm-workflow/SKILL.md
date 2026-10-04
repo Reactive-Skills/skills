@@ -52,6 +52,7 @@ The DoD names the outcome, deliverables and locations, setup and use, observable
 Scope and architecture recommendations appear in the same approval card.
 After approval, exact checks run deterministically and Jev judges semantic criteria at a 0.85 probability pass threshold.
 The runtime scores a Jev probability `p` as confidence `|2p - 1|`, so the judgment declares `min_confidence: 0.70`, which is exactly `p >= 0.85`.
+Both approval gates refuse `USER_APPROVED` unless the DoD has an outcome and every criterion has a unique ID, question, expected result, `exact` or `semantic` check type, and evidence method.
 The completion guard checks the `dod_record` carried by `DOD_AUDIT_PASSED`, or the stored record when the signal omits it.
 The workflow repairs failed criteria and reruns affected checks.
 The workflow requests approval again only for a focused DoD diff after an accepted outcome or load-bearing decision changes.
@@ -64,6 +65,9 @@ Every state prompt follows prompt quality rules from the prompt standards.
 Each prompt states grounded context, objective, deliverables, constraints, uncertainty handling, and the final task.
 Each state includes an atomic gate so the agent can objectively decide whether to emit the next signal.
 Each phase writes a structured record into context before emitting a success, deferred, or blocked signal.
+DEBUG gets three repair attempts per failure; `BUG_FIXED` needs `debug_record.failure_id`, `failure_evidence`, and an `attempt` that counts up from 1.
+`REVIEW_PASSED` needs `review_record.reviewer` with `isolation: "fresh_context"` and a named agent.
+These guards read records the agent reports, so they catch honest mistakes rather than enforce against a dishonest agent.
 The projection contract in `skill.yaml` uses those records to produce run artifacts under `.docs/jsm-workflow/<run_id>/`.
 
 ## Projected Artifacts

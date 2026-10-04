@@ -26,7 +26,7 @@ Do not begin implementation before approval.
 ## Atomic Gate
 
 - Outcome, deliverables, locations, setup, and use are explicit.
-- Each check has an ID, one observable assertion, a yes/no question, and an evidence method.
+- Each check has a unique ID, one observable assertion, a yes/no question, an expected result, an `exact` or `semantic` check type, and an evidence method.
 - Compound checks are split into separate item IDs before approval.
 - Assumptions, gotchas, exclusions, decisions, and external actions are listed.
 - Only blocking user-owned choices remain open.
@@ -34,6 +34,7 @@ Do not begin implementation before approval.
 
 ## Signals
 
-Emit USER_APPROVED after approval.
+Emit USER_APPROVED after approval with the full `dod_record`.
+The runtime refuses it unless `outcome` is set and every criterion has `id`, `question`, `expected_result`, `check_type`, and `evidence_method`.
 Emit USER_REVISION_REQUESTED with grouped feedback.
 Emit USER_REJECTED when the user stops the run.
