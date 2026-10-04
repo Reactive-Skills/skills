@@ -15,10 +15,15 @@ thresholds:
 
 failure_behavior: fail_closed
 
+# The runtime enforces the skill.yaml MATERIALS_DRAFTED judgment, not this file.
+# That judgment asks the inverse (clean) question, so passing requires P(clean) >= 0.80,
+# which matches the accept threshold above (< 0.20 violation).
+# Runtime predicate confidence is abs(P - 0.5) * 2, so P(clean) >= 0.80 maps to min_confidence 0.6.
+# The escalate band has no runtime equivalent; anything below accept returns to DRAFTING.
 snap_on:
   judgment:
     type: predicate
-    criterion: "Does the drafted application cover letter violate professional voice standards by containing AI clichés, generic buzzwords, or sycophantic openings?"
-    min_confidence: 0.70
+    criterion: "Does the drafted application cover letter adhere to professional voice standards and remain free of AI clichés, generic buzzwords, or sycophantic corporate openings?"
+    min_confidence: 0.60
     fallback_adapter: script
     fallback_target: DRAFTING

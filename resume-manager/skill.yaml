@@ -1,5 +1,5 @@
 schema_version: 2.1.0
-version: 2.4.0
+version: 2.4.1
 name: resume-manager
 description: >-
   Consolidated reactive career management engine. Orchestrates master profile bootstrapping,
@@ -293,7 +293,9 @@ states:
         judgment:
           type: predicate
           criterion: "Does the drafted application cover letter adhere to professional voice standards and remain free of AI clichés, generic buzzwords, or sycophantic corporate openings?"
-          min_confidence: 0.7
+          # Mirrors guards/voice_standards_audit.yaml accept (< 0.20 violation, so P(clean) >= 0.80).
+          # Runtime predicate confidence is abs(P - 0.5) * 2, so P(clean) >= 0.80 maps to 0.6.
+          min_confidence: 0.6
           fallback_adapter: script
           fallback_target: DRAFTING
 
