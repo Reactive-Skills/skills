@@ -57,11 +57,23 @@ Senior software engineer building data platforms with C#/.NET and TypeScript.
 """
 
 
-def build(md_text: str) -> docx.document.Document:
+COVER_LETTER_MD = """Jane Q. Doe
+Chicago, IL | jane@example.com | (555) 555-0100 | linkedin.com/in/jane
+
+October 3, 2026
+
+Hiring Team
+Acme Corp
+
+I build data platforms with C#/.NET and own them in production.
+"""
+
+
+def build(md_text: str, stem: str = "resume") -> docx.document.Document:
     tmp = Path(tempfile.mkdtemp())
-    md_path = tmp / "resume.md"
+    md_path = tmp / f"{stem}.md"
     md_path.write_text(md_text, encoding="utf-8")
-    out = tmp / "resume.docx"
+    out = tmp / f"{stem}.docx"
     convert_resume.convert_md_to_docx(md_path, out)
     return docx.Document(str(out))
 
@@ -131,6 +143,21 @@ class ConvertResumeLayoutTest(unittest.TestCase):
             for r in p.runs:
                 color = r.font.color.rgb if r.font.color and r.font.color.type else None
                 self.assertIn(str(color) if color else None, (None, "000000"), p.text)
+
+    def test_cover_letter_contact_line_is_centered_with_name(self):
+        doc = build(COVER_LETTER_MD, stem="cover_letter")
+        self.assertEqual(find(doc, "Jane Q. Doe").alignment, WD_ALIGN_PARAGRAPH.CENTER)
+        self.assertEqual(find(doc, "jane@example.com").alignment, WD_ALIGN_PARAGRAPH.CENTER)
+
+    def test_cover_letter_body_after_letterhead_is_left_aligned(self):
+        doc = build(COVER_LETTER_MD, stem="cover_letter")
+        for text in ("October 3, 2026", "Hiring Team", "I build data platforms"):
+            self.assertNotEqual(find(doc, text).alignment, WD_ALIGN_PARAGRAPH.CENTER, text)
+
+    def test_cover_letter_consecutive_lines_stay_in_one_block(self):
+        doc = build(COVER_LETTER_MD, stem="cover_letter")
+        block = find(doc, "Hiring Team")
+        self.assertEqual(block.text, "Hiring Team\nAcme Corp")
 
     def test_bullets_use_compact_indent(self):
         p = find(build(RESUME_MD), "Cut onboarding")

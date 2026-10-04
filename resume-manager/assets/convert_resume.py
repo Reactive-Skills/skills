@@ -221,11 +221,17 @@ def convert_md_to_docx(md_path: Path, docx_path: Path):
     seen_name = False
     in_header = True
     after_h3 = False
+    prev_blank = True
+    letter_block = None
 
     for line in lines:
         line_str = line.strip()
-        if not line_str or line_str == "---" or line_str.startswith("```"):
+        if not line_str:
+            prev_blank = True
             continue
+        if line_str == "---" or line_str.startswith("```"):
+            continue
+        was_blank, prev_blank = prev_blank, False
         is_bullet = line_str.startswith(("- ", "* "))
 
         if line_str.startswith("# "):
@@ -275,11 +281,18 @@ def convert_md_to_docx(md_path: Path, docx_path: Path):
             continue
 
         if is_cover_letter:
-            if in_header:
-                p = paragraph(WD_ALIGN_PARAGRAPH.CENTER, after=8)
-                in_header = False
+            # Letterhead: the name line plus the contact lines directly under it, all centered.
+            if in_header and (not seen_name or is_contact_line(line_str)):
+                seen_name = True
+                p = paragraph(WD_ALIGN_PARAGRAPH.CENTER, after=1)
+            elif letter_block is not None and not was_blank:
+                # Consecutive lines (recipient block, sign-off) stay in one paragraph.
+                letter_block.add_run().add_break()
+                p = letter_block
             else:
-                p = paragraph(after=8, line_spacing=1.15)
+                p = paragraph(before=7 if in_header else 0, after=8, line_spacing=1.15)
+                letter_block = p
+                in_header = False
             add_text(p, line_str)
             continue
 
