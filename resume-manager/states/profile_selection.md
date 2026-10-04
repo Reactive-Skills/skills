@@ -22,17 +22,14 @@ Both evaluations can execute in a single forward pass via `guards/profile_evalua
    - Operations Manager, Program Manager, Business Process -> `operations_management`
    - Solutions Architect, TAM, Customer Engineering -> `solutions_client_facing`
    - Healthcare, Manufacturing, Government, Logistics, Non-Tech Sector -> `adjacent_industry`
-7. **Route weak or uncertain fits first:**
-   - If `role_fit` is `weak_fit` or `other`, or `role_fit_confidence` is below 0.8, emit `FIT_REVIEW_REQUIRED` with payload `{ selected_profile, overqualified_risk, role_fit, role_fit_confidence, role_fit_reasons, role_fit_gaps }` and stop.
-8. **Evaluate Overqualification & Flight-Risk Flags:**
+7. **Evaluate Overqualification & Flight-Risk Flags:**
    - Does the candidate have 10-15+ years of senior/staff/principal background, while the role is mid-level, non-technical, or in a traditional non-software industry?
-   - If YES:
-     - Set `overqualified_risk = true`.
-     - Prepare to down-level technical jargon, modulate seniority signals, and construct an authentic anti-flight risk intent narrative.
-     - Emit `CALIBRATION_REQUIRED` with payload `{ selected_profile, overqualified_risk: true, reason, role_fit, role_fit_confidence, role_fit_reasons, role_fit_gaps }`.
-   - If NO:
-     - Set `overqualified_risk = false`.
-     - Emit `STANDARD_MATCH` with payload `{ selected_profile, overqualified_risk: false, role_fit, role_fit_confidence, role_fit_reasons, role_fit_gaps }`.
+   - If YES, set `overqualified_risk = true` and prepare to down-level technical jargon, modulate seniority signals, and construct an authentic anti-flight risk intent narrative.
+   - If NO, set `overqualified_risk = false`.
+8. **Route the result:**
+   - If `role_fit` is `weak_fit` or `other`, or `role_fit_confidence` is below 0.8, emit `FIT_REVIEW_REQUIRED` with payload `{ selected_profile, overqualified_risk, role_fit, role_fit_confidence, role_fit_reasons, role_fit_gaps }`. If the user approves the fit, `FIT_REVIEW` still calibrates framing when `overqualified_risk` is `true`.
+   - Otherwise, if `overqualified_risk` is `true`, emit `CALIBRATION_REQUIRED` with payload `{ selected_profile, overqualified_risk: true, reason, role_fit, role_fit_confidence, role_fit_reasons, role_fit_gaps }`.
+   - Otherwise, emit `STANDARD_MATCH` with payload `{ selected_profile, overqualified_risk: false, role_fit, role_fit_confidence, role_fit_reasons, role_fit_gaps }`.
 
 Include `role_fit`, `role_fit_confidence`, `role_fit_reasons`, and `role_fit_gaps` in every branch payload.
 

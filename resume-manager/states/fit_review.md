@@ -12,6 +12,7 @@ Review a weak or low-confidence job fit before spending effort on tailoring mate
 - `context.role_fit_confidence`
 - `context.role_fit_reasons`
 - `context.role_fit_gaps`
+- `context.overqualified_risk`
 - `context.active_profile_id`
 
 ## Instructions
@@ -22,7 +23,9 @@ Review a weak or low-confidence job fit before spending effort on tailoring mate
 
 ## Signals
 
-Emit `FIT_APPROVED` with `{"approved": true}` to continue to gap analysis.
+If the user proceeds and `context.overqualified_risk` is not `true`, emit `FIT_APPROVED` with `{"approved": true}` to continue to gap analysis.
+
+If the user proceeds and `context.overqualified_risk` is `true`, emit `FIT_APPROVED_CALIBRATE` with `{"approved": true}` to calibrate framing before gap analysis.
 
 Emit `FIT_REEVALUATE` with `{"reevaluate": true}` to return to profile selection.
 
