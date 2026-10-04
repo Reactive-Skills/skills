@@ -56,7 +56,8 @@ stateDiagram-v2
     PROFILE_SELECTION --> FIT_REVIEW: judgment fallback [P(picked) < 0.8]
 
     state "FIT_REVIEW" as FIT_REVIEW
-    FIT_REVIEW --> GAP_ANALYSIS: FIT_APPROVED
+    FIT_REVIEW --> GAP_ANALYSIS: FIT_APPROVED [overqualified_risk != true]
+    FIT_REVIEW --> CALIBRATE_FRAMING: FIT_APPROVED_CALIBRATE [overqualified_risk == true]
     FIT_REVIEW --> PROFILE_SELECTION: FIT_REEVALUATE
     FIT_REVIEW --> SELECT_MODE: FIT_REJECTED
 

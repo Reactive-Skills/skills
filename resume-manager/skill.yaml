@@ -1,5 +1,5 @@
 schema_version: 2.1.0
-version: 2.5.0
+version: 2.5.1
 name: resume-manager
 description: >-
   Consolidated reactive career management engine. Orchestrates master profile bootstrapping,
@@ -245,7 +245,10 @@ states:
     transitions:
       FIT_APPROVED:
         target: GAP_ANALYSIS
-        guard: event.payload.approved === true
+        guard: "event.payload.approved === true && context.overqualified_risk !== true"
+      FIT_APPROVED_CALIBRATE:
+        target: CALIBRATE_FRAMING
+        guard: "event.payload.approved === true && context.overqualified_risk === true"
       FIT_REEVALUATE:
         target: PROFILE_SELECTION
         guard: event.payload.reevaluate === true
