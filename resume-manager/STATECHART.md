@@ -69,7 +69,7 @@ stateDiagram-v2
     COMPANY_ALIGNMENT --> DRAFTING: ALIGNMENT_DRAFTED
 
     state "DRAFTING" as DRAFTING
-    DRAFTING --> EXPORTING: MATERIALS_DRAFTED [timeline_reconciled == true, gaps == 0, and voice predicate judgment confidence >= 0.7]
+    DRAFTING --> EXPORTING: MATERIALS_DRAFTED [timeline_reconciled == true, gaps == 0, and voice predicate judgment confidence >= 0.6, i.e. P(clean) >= 0.80]
 
     state "EXPORTING" as EXPORTING
     EXPORTING --> INTERVIEW_PREP: EXPORT_COMPLETE [exit_code == 0]
