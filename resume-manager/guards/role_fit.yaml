@@ -36,6 +36,6 @@ snap_on:
       - conditional_fit
       - weak_fit
       - other
-    min_confidence: 0.8
+    min_probability: 0.8
     fallback_adapter: script
     fallback_target: FIT_REVIEW

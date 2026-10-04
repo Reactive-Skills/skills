@@ -1,5 +1,5 @@
 schema_version: 2.1.0
-version: 2.4.1
+version: 2.5.0
 name: resume-manager
 description: >-
   Consolidated reactive career management engine. Orchestrates master profile bootstrapping,
@@ -7,6 +7,10 @@ description: >-
   Practical Mid-Level, Operations Management, Client Solutions, and Adjacent Industry),
   and job application tailoring with automated overqualification and anti-flight risk calibration.
 initial_state: INIT
+runtime_requirements:
+  min_runtime_version: 0.17.0
+  required_capabilities:
+    - judgment.probability_thresholds
 
 context_keys:
   - mode
@@ -146,7 +150,7 @@ states:
         judgment:
           type: predicate
           criterion: "Is the achievement bullet verb-first Google XYZ, opening with a strong verb other than Accomplished, with a quantified measurement [Y] and a specific method [Z]?"
-          min_confidence: 0.85
+          min_probability: 0.85
           fallback_adapter: script
           fallback_target: RECORD_ACCOMPLISHMENT
       RECORD_MORE:
@@ -208,7 +212,7 @@ states:
           type: categorical
           criterion: "Classify candidate role fit as strong_fit, conditional_fit, or weak_fit based on verified experience against job requirements."
           options: ["strong_fit", "conditional_fit", "weak_fit", "other"]
-          min_confidence: 0.8
+          min_probability: 0.8
           fallback_adapter: script
           fallback_target: FIT_REVIEW
       STANDARD_MATCH:
@@ -218,7 +222,7 @@ states:
           type: categorical
           criterion: "Classify candidate role fit as strong_fit, conditional_fit, or weak_fit based on verified experience against job requirements."
           options: ["strong_fit", "conditional_fit", "weak_fit", "other"]
-          min_confidence: 0.8
+          min_probability: 0.8
           fallback_adapter: script
           fallback_target: FIT_REVIEW
 
@@ -293,9 +297,7 @@ states:
         judgment:
           type: predicate
           criterion: "Does the drafted application cover letter adhere to professional voice standards and remain free of AI clichés, generic buzzwords, or sycophantic corporate openings?"
-          # Mirrors guards/voice_standards_audit.yaml accept (< 0.20 violation, so P(clean) >= 0.80).
-          # Runtime predicate confidence is abs(P - 0.5) * 2, so P(clean) >= 0.80 maps to 0.6.
-          min_confidence: 0.6
+          min_probability: 0.8
           fallback_adapter: script
           fallback_target: DRAFTING
 

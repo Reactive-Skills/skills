@@ -7,10 +7,10 @@ state:
 question: |
   Does `state.bullet_text` satisfy verb-first Google XYZ by opening with a strong past-tense verb other than "Accomplished", stating the result [X] with a quantified measurement [Y], and naming the specific engineering or operational method [Z], without an "as measured by" clause?
 
+# No escalate band: anything below accept returns to RECORD_ACCOMPLISHMENT.
 thresholds:
   accept: ">= 0.85"
-  reject: "< 0.35"
-  escalate: "0.35 – 0.85"
+  reject: "< 0.85"
 
 failure_behavior: fail_closed
 
@@ -18,6 +18,6 @@ snap_on:
   judgment:
     type: predicate
     criterion: "Is the achievement bullet verb-first Google XYZ, opening with a strong verb other than Accomplished, with a quantified measurement [Y] and a specific method [Z]?"
-    min_confidence: 0.85
+    min_probability: 0.85
     fallback_adapter: script
     fallback_target: RECORD_ACCOMPLISHMENT
