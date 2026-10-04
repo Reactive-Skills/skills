@@ -207,7 +207,7 @@ states:
     transitions:
       CALIBRATION_REQUIRED:
         target: CALIBRATE_FRAMING
-        guard: payload.overqualified_risk == true
+        guard: "payload.overqualified_risk == true && ['strong_fit', 'conditional_fit'].includes(payload.role_fit)"
         judgment:
           type: categorical
           criterion: "Classify candidate role fit as strong_fit, conditional_fit, or weak_fit based on verified experience against job requirements."
@@ -217,7 +217,7 @@ states:
           fallback_target: FIT_REVIEW
       STANDARD_MATCH:
         target: GAP_ANALYSIS
-        guard: payload.overqualified_risk != true
+        guard: "payload.overqualified_risk != true && ['strong_fit', 'conditional_fit'].includes(payload.role_fit)"
         judgment:
           type: categorical
           criterion: "Classify candidate role fit as strong_fit, conditional_fit, or weak_fit based on verified experience against job requirements."
@@ -225,6 +225,9 @@ states:
           min_probability: 0.8
           fallback_adapter: script
           fallback_target: FIT_REVIEW
+      FIT_REVIEW_REQUIRED:
+        target: FIT_REVIEW
+        guard: "typeof payload.role_fit === 'string' && payload.role_fit.length > 0"
 
   FIT_REVIEW:
     description: "Human review of weak or low-confidence role fit before application work continues"
