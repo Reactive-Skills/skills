@@ -20,8 +20,8 @@ If implementation owes an unrecorded decision, the developer may architect first
 It builds from the scope, design, and context rather than from invention.
 It verifies behavior in the running product or service.
 It writes tests for durable behavior that callers rely on.
-It debugs failures by reproducing them, finding root causes, and handing regression tests to test.
-It reviews the diff with fresh eyes on a different model before merge.
+It debugs failures by reproducing them, finding root causes, and handing regression tests to test, with three repair attempts per failure before the run blocks.
+It reviews the diff in a fresh context that never saw the build work, on a different model when available, before merge.
 It documents the change from evidence.
 It syncs durable context, scope status, and decision status from repo evidence.
 
@@ -31,6 +31,7 @@ Scope, workflow tier, architecture, UI direction, and optional documentation rec
 After approval, exact checks run deterministically and Jev judges semantic criteria at a 0.85 probability pass threshold.
 The runtime scores a Jev probability `p` as confidence `|2p - 1|`, so the judgment declares `min_confidence: 0.70`, which is exactly `p >= 0.85`.
 Each semantic check includes a focused question tied to one criterion ID; a failed judgment records unsupported assertions and routes those items to repair and re-verification.
+Both approval gates refuse a DoD that lacks an outcome or has a criterion without a unique ID, question, expected result, check type, or evidence method.
 The lifecycle reaches COMPLETE only when all approved criteria pass with evidence.
 Unmet work ends in BLOCKED.
 

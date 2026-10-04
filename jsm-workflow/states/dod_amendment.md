@@ -33,3 +33,5 @@ On stop, record the affected work as blocked.
 ## Signals
 
 Emit USER_APPROVED, USER_REVISION_REQUESTED, or USER_REJECTED.
+USER_APPROVED applies the same structural DoD check as the approval gate.
+Send the full versioned `dod_record`, including unchanged criteria, because `contextUpdates` replaces the whole record.

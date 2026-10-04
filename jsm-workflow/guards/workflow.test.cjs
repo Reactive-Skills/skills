@@ -73,10 +73,24 @@ async function signal(engine, name, payload, state) {
 }
 
 const criteria = status => [
-  { id: 'C1', question: 'Does the site build?', check_type: 'exact', status, evidence: status === 'passed' ? 'pnpm build exited 0' : '' },
-  { id: 'C2', question: 'Does the page match the design?', check_type: 'semantic', status: 'passed', evidence: 'Preview screenshots' },
+  { id: 'C1', question: 'Does the site build?', expected_result: 'Build exits 0', check_type: 'exact', evidence_method: 'pnpm build exit code', status, evidence: status === 'passed' ? 'pnpm build exited 0' : '' },
+  { id: 'C2', question: 'Does the page match the design?', expected_result: 'Matches', check_type: 'semantic', evidence_method: 'Preview screenshots', status: 'passed', evidence: 'Preview screenshots' },
 ];
 const dodRecord = (status, extra = {}) => ({ status: 'approved', outcome: 'Redesigned site on a verified preview', criteria: criteria(status), ...extra });
+const brokenCriterion = patch => {
+  const record = dodRecord('pending');
+  Object.assign(record.criteria[0], patch);
+  return record;
+};
+const malformedDods = [
+  ['blank outcome', dodRecord('pending', { outcome: ' ' })],
+  ['no criteria', dodRecord('pending', { criteria: [] })],
+  ['blank expected result', brokenCriterion({ expected_result: '' })],
+  ['missing evidence method', brokenCriterion({ evidence_method: undefined })],
+  ['unknown check type', brokenCriterion({ check_type: 'vibes' })],
+  ['duplicate id', brokenCriterion({ id: 'C2' })],
+];
+const debugRecord = (failure_id, attempt, extra = {}) => ({ failure_id, attempt, failure_evidence: 'pnpm build: error TS2304', ...extra });
 
 async function toPhase(engine, phase) {
   const steps = [
@@ -101,6 +115,13 @@ async function toDodAudit(engine) {
   await toPhase(engine, 'ACTIVE.DEVELOP');
   await signal(engine, 'BUILD_SKIPPED', {}, 'ACTIVE.DOD_AUDIT');
 }
+
+async function toDebug(engine) {
+  await toPhase(engine, 'ACTIVE.VERIFY');
+  await signal(engine, 'VERIFY_FAILED', {}, 'ACTIVE.DEBUG');
+}
+
+const fix = (engine, record, state) => signal(engine, 'BUG_FIXED', { contextUpdates: { debug_record: record } }, state);
 
 for (const phase of ['ACTIVE.DEVELOP', 'ACTIVE.REVIEW']) {
   test(`DOD_CHANGE_REQUESTED bubbles from ${phase} to the DoD amendment gate`, async t => {
@@ -165,4 +186,107 @@ test('DOD_AUDIT_PASSED without a dod_record still checks the stored record', asy
   await toDodAudit(engine);
   const result = await signal(engine, 'DOD_AUDIT_PASSED', {}, 'ACTIVE.DOD_AUDIT');
   assert.equal(result.transitioned, false);
+});
+
+test('BUG_FIXED allows three repair attempts per failure, then refuses the fourth', async t => {
+  const engine = await fixture(t);
+  await toDebug(engine);
+  for (const attempt of [1, 2, 3]) {
+    await fix(engine, debugRecord('F1', attempt), 'ACTIVE.VERIFY');
+    await signal(engine, 'VERIFY_FAILED', {}, 'ACTIVE.DEBUG');
+  }
+
+  const refused = await fix(engine, debugRecord('F1', 4), 'ACTIVE.DEBUG');
+  assert.equal(refused.transitioned, false);
+  await signal(engine, 'DEBUG_BLOCKED', {}, 'BLOCKED');
+});
+
+test('BUG_FIXED refuses a missing record, skipped attempts, and blank failure evidence', async t => {
+  const engine = await fixture(t);
+  await toDebug(engine);
+  const refusals = [
+    ['no record', {}],
+    ['skipped attempt', { contextUpdates: { debug_record: debugRecord('F1', 2) } }],
+    ['blank evidence', { contextUpdates: { debug_record: debugRecord('F1', 1, { failure_evidence: ' ' }) } }],
+    ['blank failure id', { contextUpdates: { debug_record: debugRecord('', 1) } }],
+  ];
+  for (const [label, payload] of refusals) {
+    assert.equal((await signal(engine, 'BUG_FIXED', payload, 'ACTIVE.DEBUG')).transitioned, false, label);
+  }
+});
+
+test('BUG_FIXED starts a new failure at attempt 1', async t => {
+  const engine = await fixture(t);
+  await toDebug(engine);
+  await fix(engine, debugRecord('F1', 1), 'ACTIVE.VERIFY');
+  await signal(engine, 'VERIFY_FAILED', {}, 'ACTIVE.DEBUG');
+
+  assert.equal((await fix(engine, debugRecord('F2', 2), 'ACTIVE.DEBUG')).transitioned, false);
+  await fix(engine, debugRecord('F2', 1), 'ACTIVE.VERIFY');
+});
+
+test('DoD approval refuses a structurally incomplete DoD', async t => {
+  const engine = await fixture(t);
+  await toPhase(engine, 'ACTIVE.DOD_APPROVAL');
+  assert.equal((await signal(engine, 'USER_APPROVED', {}, 'ACTIVE.DOD_APPROVAL')).transitioned, false, 'no record');
+  for (const [label, record] of malformedDods) {
+    const refused = await signal(engine, 'USER_APPROVED', { contextUpdates: { dod_record: record } }, 'ACTIVE.DOD_APPROVAL');
+    assert.equal(refused.transitioned, false, label);
+  }
+
+  await signal(engine, 'USER_APPROVED', { contextUpdates: { dod_record: dodRecord('pending') } }, 'ACTIVE.DEVELOP');
+});
+
+test('DoD amendment refuses a structurally incomplete DoD and accepts a valid stored record', async t => {
+  const engine = await fixture(t);
+  await toPhase(engine, 'ACTIVE.DEVELOP');
+  await signal(engine, 'DOD_CHANGE_REQUESTED', {
+    contextUpdates: { dod_record: dodRecord('pending', { revision_reason: 'Scope grew' }) },
+  }, 'ACTIVE.DOD_AMENDMENT');
+  for (const [label, record] of malformedDods) {
+    const refused = await signal(engine, 'USER_APPROVED', { contextUpdates: { dod_record: record } }, 'ACTIVE.DOD_AMENDMENT');
+    assert.equal(refused.transitioned, false, label);
+  }
+
+  await signal(engine, 'USER_APPROVED', {}, 'ACTIVE.AUDIT');
+});
+
+test('REVIEW_PASSED requires the signal to record a fresh-context reviewer', async t => {
+  const engine = await fixture(t);
+  await toPhase(engine, 'ACTIVE.REVIEW');
+  const review = reviewer => ({ contextUpdates: { review_record: { result: 'passed', findings: [], reviewer } } });
+  const refusals = [
+    ['no reviewer', review(undefined)],
+    ['shared context', review({ isolation: 'same_context', agent: 'builder' })],
+    ['unnamed agent', review({ isolation: 'fresh_context', agent: ' ' })],
+    ['missing agent', review({ isolation: 'fresh_context' })],
+  ];
+  for (const [label, payload] of refusals) {
+    assert.equal((await signal(engine, 'REVIEW_PASSED', payload, 'ACTIVE.REVIEW')).transitioned, false, label);
+  }
+
+  await signal(engine, 'REVIEW_PASSED', review({ isolation: 'fresh_context', agent: 'code-reviewer subagent' }), 'ACTIVE.DOCUMENT');
+});
+
+test('DoD amendment refuses a malformed stored record until the signal carries a valid one', async t => {
+  const engine = await fixture(t);
+  await toPhase(engine, 'ACTIVE.DEVELOP');
+  await signal(engine, 'DOD_CHANGE_REQUESTED', {
+    contextUpdates: { dod_record: brokenCriterion({ expected_result: '' }) },
+  }, 'ACTIVE.DOD_AMENDMENT');
+
+  assert.equal((await signal(engine, 'USER_APPROVED', {}, 'ACTIVE.DOD_AMENDMENT')).transitioned, false);
+  await signal(engine, 'USER_APPROVED', { contextUpdates: { dod_record: dodRecord('pending') } }, 'ACTIVE.AUDIT');
+});
+
+test('REVIEW_PASSED ignores a reviewer stored by an earlier review pass', async t => {
+  const engine = await fixture(t);
+  await toPhase(engine, 'ACTIVE.REVIEW');
+  const reviewer = { isolation: 'fresh_context', agent: 'code-reviewer subagent' };
+  await signal(engine, 'REVIEW_FINDINGS', { contextUpdates: { review_record: { result: 'findings', reviewer } } }, 'ACTIVE.DEVELOP');
+  for (const [name, state] of [['BUILD_READY', 'ACTIVE.VERIFY'], ['VERIFY_PASSED', 'ACTIVE.TEST'], ['TEST_PASSED', 'ACTIVE.REVIEW']]) {
+    await signal(engine, name, {}, state);
+  }
+
+  assert.equal((await signal(engine, 'REVIEW_PASSED', {}, 'ACTIVE.REVIEW')).transitioned, false);
 });
