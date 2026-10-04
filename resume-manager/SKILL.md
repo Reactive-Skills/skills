@@ -66,7 +66,7 @@ Fresh installs write the master profile and tracks only under the resolved paths
 Triggered when the user provides a Job Description (JD) or asks to tailor materials for a specific opportunity:
 1. **Ingest JD:** Extract company, job title, responsibilities, industry, and detected leveling.
 2. **Profile Selection & Role Fit Judgment:** Matches the JD to the best profile archetype (`guards/profile_track_selection.yaml`) and classifies fit as `strong_fit`, `conditional_fit`, or `weak_fit` via calibrated decider contract (`guards/role_fit.yaml`).
-   If fit is weak or uncertain (confidence < 0.8), automatically routes via snap-on adapter to `FIT_REVIEW` for a human gate.
+   Weak, unclassified, or low-confidence fits route to `FIT_REVIEW` for a human gate; transition guards let only `strong_fit` and `conditional_fit` continue, and the Jev judgment falls back to `FIT_REVIEW` when the picked label's probability is below 0.8.
    Evaluates overqualification and flight risk via predicate contract (`guards/overqualification_risk.yaml`).
    All three evaluations can execute in parallel in a single forward pass via `guards/profile_evaluation_questionnaire.yaml`.
 3. **Framing & Anti-Flight Risk Calibration:**

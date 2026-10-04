@@ -6,24 +6,19 @@ state:
   voice_register: "`context.voice_register`"
 
 question: |
-  Does `state.cover_letter_text` contain AI writing clichés (such as "I am writing to express my enthusiastic interest", "testament to", "delve", "leverage", "synergy"), corporate buzzword slop, or ungrounded flattery violating `state.voice_register` standards?
+  Does `state.cover_letter_text` adhere to `state.voice_register` professional voice standards and remain free of AI writing clichés (such as "I am writing to express my enthusiastic interest", "testament to", "delve", "leverage", "synergy"), corporate buzzword slop, and ungrounded flattery?
 
+# P is P(clean). No escalate band: anything below accept returns to DRAFTING.
 thresholds:
-  reject: ">= 0.60"
-  accept: "< 0.20"
-  escalate: "0.20 – 0.60"
+  accept: ">= 0.80"
+  reject: "< 0.80"
 
 failure_behavior: fail_closed
 
-# The runtime enforces the skill.yaml MATERIALS_DRAFTED judgment, not this file.
-# That judgment asks the inverse (clean) question, so passing requires P(clean) >= 0.80,
-# which matches the accept threshold above (< 0.20 violation).
-# Runtime predicate confidence is abs(P - 0.5) * 2, so P(clean) >= 0.80 maps to min_confidence 0.6.
-# The escalate band has no runtime equivalent; anything below accept returns to DRAFTING.
 snap_on:
   judgment:
     type: predicate
     criterion: "Does the drafted application cover letter adhere to professional voice standards and remain free of AI clichés, generic buzzwords, or sycophantic corporate openings?"
-    min_confidence: 0.60
+    min_probability: 0.8
     fallback_adapter: script
     fallback_target: DRAFTING

@@ -1,5 +1,5 @@
 schema_version: 2.1.0
-version: 2.4.1
+version: 2.5.1
 name: resume-manager
 description: >-
   Consolidated reactive career management engine. Orchestrates master profile bootstrapping,
@@ -7,6 +7,10 @@ description: >-
   Practical Mid-Level, Operations Management, Client Solutions, and Adjacent Industry),
   and job application tailoring with automated overqualification and anti-flight risk calibration.
 initial_state: INIT
+runtime_requirements:
+  min_runtime_version: 0.17.0
+  required_capabilities:
+    - judgment.probability_thresholds
 
 context_keys:
   - mode
@@ -146,7 +150,7 @@ states:
         judgment:
           type: predicate
           criterion: "Is the achievement bullet verb-first Google XYZ, opening with a strong verb other than Accomplished, with a quantified measurement [Y] and a specific method [Z]?"
-          min_confidence: 0.85
+          min_probability: 0.85
           fallback_adapter: script
           fallback_target: RECORD_ACCOMPLISHMENT
       RECORD_MORE:
@@ -203,24 +207,27 @@ states:
     transitions:
       CALIBRATION_REQUIRED:
         target: CALIBRATE_FRAMING
-        guard: payload.overqualified_risk == true
+        guard: "payload.overqualified_risk == true && ['strong_fit', 'conditional_fit'].includes(payload.role_fit)"
         judgment:
           type: categorical
           criterion: "Classify candidate role fit as strong_fit, conditional_fit, or weak_fit based on verified experience against job requirements."
           options: ["strong_fit", "conditional_fit", "weak_fit", "other"]
-          min_confidence: 0.8
+          min_probability: 0.8
           fallback_adapter: script
           fallback_target: FIT_REVIEW
       STANDARD_MATCH:
         target: GAP_ANALYSIS
-        guard: payload.overqualified_risk != true
+        guard: "payload.overqualified_risk != true && ['strong_fit', 'conditional_fit'].includes(payload.role_fit)"
         judgment:
           type: categorical
           criterion: "Classify candidate role fit as strong_fit, conditional_fit, or weak_fit based on verified experience against job requirements."
           options: ["strong_fit", "conditional_fit", "weak_fit", "other"]
-          min_confidence: 0.8
+          min_probability: 0.8
           fallback_adapter: script
           fallback_target: FIT_REVIEW
+      FIT_REVIEW_REQUIRED:
+        target: FIT_REVIEW
+        guard: "typeof payload.role_fit === 'string' && payload.role_fit.length > 0"
 
   FIT_REVIEW:
     description: "Human review of weak or low-confidence role fit before application work continues"
@@ -238,7 +245,10 @@ states:
     transitions:
       FIT_APPROVED:
         target: GAP_ANALYSIS
-        guard: event.payload.approved === true
+        guard: "event.payload.approved === true && context.overqualified_risk !== true"
+      FIT_APPROVED_CALIBRATE:
+        target: CALIBRATE_FRAMING
+        guard: "event.payload.approved === true && context.overqualified_risk === true"
       FIT_REEVALUATE:
         target: PROFILE_SELECTION
         guard: event.payload.reevaluate === true
@@ -293,9 +303,7 @@ states:
         judgment:
           type: predicate
           criterion: "Does the drafted application cover letter adhere to professional voice standards and remain free of AI clichés, generic buzzwords, or sycophantic corporate openings?"
-          # Mirrors guards/voice_standards_audit.yaml accept (< 0.20 violation, so P(clean) >= 0.80).
-          # Runtime predicate confidence is abs(P - 0.5) * 2, so P(clean) >= 0.80 maps to 0.6.
-          min_confidence: 0.6
+          min_probability: 0.8
           fallback_adapter: script
           fallback_target: DRAFTING
 

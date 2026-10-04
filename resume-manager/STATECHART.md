@@ -34,7 +34,7 @@ stateDiagram-v2
     INSPECT_PROFILE --> PROFILE_BOOTSTRAP: NO_PROFILE_FOUND
 
     state "RECORD_ACCOMPLISHMENT" as RECORD_ACCOMPLISHMENT
-    RECORD_ACCOMPLISHMENT --> PERSIST_PROFILE: RECORDED [XYZ predicate judgment >= 0.85]
+    RECORD_ACCOMPLISHMENT --> PERSIST_PROFILE: RECORDED [XYZ predicate judgment P >= 0.85]
     RECORD_ACCOMPLISHMENT --> RECORD_ACCOMPLISHMENT: RECORD_MORE
 
     state "PERSIST_PROFILE" as PERSIST_PROFILE
@@ -50,12 +50,14 @@ stateDiagram-v2
     INGEST_JD --> PROFILE_SELECTION: JD_INGESTED [company_name != null]
 
     state "PROFILE_SELECTION" as PROFILE_SELECTION
-    PROFILE_SELECTION --> CALIBRATE_FRAMING: CALIBRATION_REQUIRED [overqualified_risk == true and judgment accepted]
-    PROFILE_SELECTION --> GAP_ANALYSIS: STANDARD_MATCH [overqualified_risk != true and judgment accepted]
-    PROFILE_SELECTION --> FIT_REVIEW: FIT_REVIEW_REQUIRED [role_fit == weak_fit or role_fit_confidence < 0.8 or judgment rejected]
+    PROFILE_SELECTION --> CALIBRATE_FRAMING: CALIBRATION_REQUIRED [role_fit in strong_fit, conditional_fit and overqualified_risk == true and judgment P(picked) >= 0.8]
+    PROFILE_SELECTION --> GAP_ANALYSIS: STANDARD_MATCH [role_fit in strong_fit, conditional_fit and overqualified_risk != true and judgment P(picked) >= 0.8]
+    PROFILE_SELECTION --> FIT_REVIEW: FIT_REVIEW_REQUIRED [role_fit == weak_fit or other, or role_fit_confidence < 0.8]
+    PROFILE_SELECTION --> FIT_REVIEW: judgment fallback [P(picked) < 0.8]
 
     state "FIT_REVIEW" as FIT_REVIEW
-    FIT_REVIEW --> GAP_ANALYSIS: FIT_APPROVED
+    FIT_REVIEW --> GAP_ANALYSIS: FIT_APPROVED [overqualified_risk != true]
+    FIT_REVIEW --> CALIBRATE_FRAMING: FIT_APPROVED_CALIBRATE [overqualified_risk == true]
     FIT_REVIEW --> PROFILE_SELECTION: FIT_REEVALUATE
     FIT_REVIEW --> SELECT_MODE: FIT_REJECTED
 
@@ -69,7 +71,7 @@ stateDiagram-v2
     COMPANY_ALIGNMENT --> DRAFTING: ALIGNMENT_DRAFTED
 
     state "DRAFTING" as DRAFTING
-    DRAFTING --> EXPORTING: MATERIALS_DRAFTED [timeline_reconciled == true, gaps == 0, and voice predicate judgment confidence >= 0.6, i.e. P(clean) >= 0.80]
+    DRAFTING --> EXPORTING: MATERIALS_DRAFTED [timeline_reconciled == true, gaps == 0, and voice predicate judgment P(clean) >= 0.80]
 
     state "EXPORTING" as EXPORTING
     EXPORTING --> INTERVIEW_PREP: EXPORT_COMPLETE [exit_code == 0]

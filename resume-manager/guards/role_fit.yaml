@@ -20,10 +20,14 @@ options:
   - weak_fit
   - other
 
+# P is the picked label's probability.
+# The runtime accepts any label in `options` at P >= 0.8, including weak_fit.
+# skill.yaml enforces the reject band with transition guards: CALIBRATION_REQUIRED and STANDARD_MATCH
+# require payload.role_fit in strong_fit or conditional_fit, and weak_fit or other go through FIT_REVIEW_REQUIRED.
 thresholds:
-  accept: "confidence >= 0.8 AND picked in ['strong_fit', 'conditional_fit']"
+  accept: "P(picked) >= 0.8 AND picked in ['strong_fit', 'conditional_fit']"
   reject: "picked == 'weak_fit'"
-  escalate: "confidence < 0.8 OR picked == 'other'"
+  escalate: "P(picked) < 0.8 OR picked == 'other'"
 
 failure_behavior: fail_closed
 
@@ -36,6 +40,6 @@ snap_on:
       - conditional_fit
       - weak_fit
       - other
-    min_confidence: 0.8
+    min_probability: 0.8
     fallback_adapter: script
     fallback_target: FIT_REVIEW

@@ -4,7 +4,9 @@
 Select the appropriate profile archetype for the target job, evaluate role fit, and assess whether the candidate is at risk of being perceived as overqualified, intimidating, or flighty.
 
 Classify role fit as `strong_fit`, `conditional_fit`, or `weak_fit` using calibrated evidence from the JD and verified candidate profile via the `guards/role_fit.yaml` judgment contract.
-Confidence values below 0.8, weak fits, or unclassified roles automatically route via the snap-on adapter to `FIT_REVIEW`.
+Only `strong_fit` and `conditional_fit` may continue to tailoring; their transition guards refuse any other `role_fit`.
+Weak, unclassified, or low-confidence fits go to `FIT_REVIEW` through `FIT_REVIEW_REQUIRED`.
+The Jev judgment also falls back to `FIT_REVIEW` when the picked label's probability is below 0.8.
 Overqualification risk is governed by the `guards/overqualification_risk.yaml` predicate contract.
 Both evaluations can execute in a single forward pass via `guards/profile_evaluation_questionnaire.yaml`.
 
@@ -22,15 +24,14 @@ Both evaluations can execute in a single forward pass via `guards/profile_evalua
    - Healthcare, Manufacturing, Government, Logistics, Non-Tech Sector -> `adjacent_industry`
 7. **Evaluate Overqualification & Flight-Risk Flags:**
    - Does the candidate have 10-15+ years of senior/staff/principal background, while the role is mid-level, non-technical, or in a traditional non-software industry?
-   - If YES:
-     - Set `overqualified_risk = true`.
-     - Prepare to down-level technical jargon, modulate seniority signals, and construct an authentic anti-flight risk intent narrative.
-     - Emit `CALIBRATION_REQUIRED` with payload `{ selected_profile, overqualified_risk: true, reason, role_fit, role_fit_confidence, role_fit_reasons, role_fit_gaps }`.
-   - If NO:
-     - Set `overqualified_risk = false`.
-     - Emit `STANDARD_MATCH` with payload `{ selected_profile, overqualified_risk: false, role_fit, role_fit_confidence, role_fit_reasons, role_fit_gaps }`.
+   - If YES, set `overqualified_risk = true` and prepare to down-level technical jargon, modulate seniority signals, and construct an authentic anti-flight risk intent narrative.
+   - If NO, set `overqualified_risk = false`.
+8. **Route the result:**
+   - If `role_fit` is `weak_fit` or `other`, or `role_fit_confidence` is below 0.8, emit `FIT_REVIEW_REQUIRED` with payload `{ selected_profile, overqualified_risk, role_fit, role_fit_confidence, role_fit_reasons, role_fit_gaps }`. If the user approves the fit, `FIT_REVIEW` still calibrates framing when `overqualified_risk` is `true`.
+   - Otherwise, if `overqualified_risk` is `true`, emit `CALIBRATION_REQUIRED` with payload `{ selected_profile, overqualified_risk: true, reason, role_fit, role_fit_confidence, role_fit_reasons, role_fit_gaps }`.
+   - Otherwise, emit `STANDARD_MATCH` with payload `{ selected_profile, overqualified_risk: false, role_fit, role_fit_confidence, role_fit_reasons, role_fit_gaps }`.
 
-Include `role_fit`, `role_fit_confidence`, `role_fit_reasons`, and `role_fit_gaps` in both branch payloads.
+Include `role_fit`, `role_fit_confidence`, `role_fit_reasons`, and `role_fit_gaps` in every branch payload.
 
 The fit classification must distinguish transferable strengths from missing or unverified requirements.
 
@@ -41,6 +42,6 @@ The fit classification must distinguish transferable strengths from missing or u
 - [ ] Correct branch signal emitted.
 
 ## Signal
-Emit: `CALIBRATION_REQUIRED` (overqualified_risk == true) or `STANDARD_MATCH` (overqualified_risk != true).
+Emit: `FIT_REVIEW_REQUIRED` (role_fit is weak_fit or other, or role_fit_confidence < 0.8), `CALIBRATION_REQUIRED` (strong or conditional fit and overqualified_risk == true), or `STANDARD_MATCH` (strong or conditional fit and overqualified_risk != true).
 
-The judgment contract routes weak or low-confidence fits to `FIT_REVIEW`.
+The Jev judgment on `CALIBRATION_REQUIRED` and `STANDARD_MATCH` falls back to `FIT_REVIEW` when the picked label's probability is below 0.8.
