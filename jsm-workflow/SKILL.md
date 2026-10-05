@@ -51,7 +51,7 @@ The workflow drafts one DoD after scope, design, and context discovery, then wai
 The DoD names the outcome, deliverables and locations, setup and use, observable checks with evidence methods, assumptions, gotchas, exclusions, approved decisions, and planned external actions.
 Scope and architecture recommendations appear in the same approval card.
 After approval, exact checks run deterministically and Jev judges semantic criteria at a 0.85 probability pass threshold.
-The runtime scores a Jev probability `p` as confidence `|2p - 1|`, so the judgment declares `min_confidence: 0.70`, which is exactly `p >= 0.85`.
+`skill.yaml` declares `min_probability: 0.85` on that judgment, which needs runtime 0.17.0 or later with the `judgment.probability_thresholds` capability.
 Both approval gates refuse `USER_APPROVED` unless the DoD has an outcome and every criterion has a unique ID, question, expected result, `exact` or `semantic` check type, and evidence method.
 The completion guard checks the `dod_record` carried by `DOD_AUDIT_PASSED`, or the stored record when the signal omits it.
 The workflow repairs failed criteria and reruns affected checks.
@@ -67,8 +67,9 @@ Each state includes an atomic gate so the agent can objectively decide whether t
 Each phase writes a structured record into context before emitting a success, deferred, or blocked signal.
 DEBUG gets three repair attempts per failure; `BUG_FIXED` needs `debug_record.failure_id`, `failure_evidence`, and an `attempt` that counts up from 1.
 `REVIEW_PASSED` needs `review_record.reviewer` with `isolation: "fresh_context"` and a named agent.
+Every INTAKE exit, `DOD_CHANGE_REQUESTED`, and `DECISION_REOPENED` need a non-blank `run_id`.
 These guards read records the agent reports, so they catch honest mistakes rather than enforce against a dishonest agent.
-The projection contract in `skill.yaml` uses those records to produce run artifacts under `.docs/jsm-workflow/<run_id>/`.
+The `deliverable_projections` in `skill.yaml` render those records into run artifacts under `.docs/jsm-workflow/<run_id>/` at each phase's milestone signals, each job's copy under `jobs/<job>/` there, and the active job's copy at the top of that directory.
 
 ## Projected Artifacts
 

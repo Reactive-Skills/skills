@@ -4,7 +4,7 @@
 `DECISION_REOPENED` bubbles to `ACTIVE.ARCHITECT`.
 `DOD_CHANGE_REQUESTED` bubbles to `ACTIVE.DOD_AMENDMENT`.
 An approved amendment refreshes project context before implementation resumes.
-The `DOD_CHECK_SUBMITTED` probability labels map to `min_confidence: 0.70`, because the runtime scores a Jev probability `p` as confidence `|2p - 1|`.
+The `DOD_CHECK_SUBMITTED` probability labels map to `min_probability: 0.85`.
 
 ```mermaid
 stateDiagram-v2
@@ -14,11 +14,11 @@ stateDiagram-v2
 
     state ACTIVE {
         [*] --> INTAKE
-        INTAKE --> SCOPE : WORK_REQUEST_READY
-        INTAKE --> DOD_APPROVAL : BUG_FIX_REQUESTED
-        INTAKE --> AUDIT : AUDIT_REQUESTED
-        INTAKE --> DOD_APPROVAL : DIRECT_BUILD_REQUESTED
-        INTAKE --> BLOCKED : INTAKE_BLOCKED
+        INTAKE --> SCOPE : WORK_REQUEST_READY [run_id set]
+        INTAKE --> DOD_APPROVAL : BUG_FIX_REQUESTED [run_id set]
+        INTAKE --> AUDIT : AUDIT_REQUESTED [run_id set]
+        INTAKE --> DOD_APPROVAL : DIRECT_BUILD_REQUESTED [run_id set]
+        INTAKE --> BLOCKED : INTAKE_BLOCKED [run_id set]
         SCOPE --> ARCHITECT : SCOPE_READY
         SCOPE --> DOD_APPROVAL : SCOPE_ONLY
         SCOPE --> BLOCKED : SCOPE_BLOCKED
@@ -64,8 +64,8 @@ stateDiagram-v2
         SYNC --> BLOCKED : SYNC_BLOCKED
     }
 
-    ACTIVE --> ARCHITECT : DECISION_REOPENED
-    ACTIVE --> DOD_AMENDMENT : DOD_CHANGE_REQUESTED
+    ACTIVE --> ARCHITECT : DECISION_REOPENED [run_id set]
+    ACTIVE --> DOD_AMENDMENT : DOD_CHANGE_REQUESTED [run_id set]
     COMPLETE --> [*]
     BLOCKED --> [*]
     ERROR --> [*]

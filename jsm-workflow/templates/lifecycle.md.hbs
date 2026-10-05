@@ -1,36 +1,38 @@
+{{#with context}}
 # Lifecycle
 
-**Run:** {{run_id}}
+**Run:** {{{run_id}}}
 
 ## Scope
 
-{{scope_record.summary}}
+{{{scope_record.summary}}}
 
 ## Decision
 
-{{decision_record.summary}}
+{{{decision_record.summary}}}
 
-**ADR:** {{decision_record.adr_path}}
+**ADR:** {{{decision_record.adr_path}}}
 
 ## Context
 
-{{context_record.summary}}
+{{{context_record.summary}}}
 
 ## Build
 
-{{build_record.summary}}
+{{{build_record.summary}}}
 
 ## Documentation
 
-{{document_record.summary}}
+{{{document_record.summary}}}
 
 ## Sync
 
-{{sync_record.summary}}
+{{{sync_record.summary}}}
 
 ## DoD
 
-**Status:** {{dod_record.status}}
-**Criteria passed:** {{dod_audit_record.passed_count}}
-**Criteria failed:** {{dod_audit_record.failed_count}}
-**Evidence:** {{dod_audit_record.evidence_location}}
+**Status:** {{{dod_record.status}}}
+**Criteria passed:** {{{dod_audit_record.passed_count}}}
+**Criteria failed:** {{{dod_audit_record.failed_count}}}
+**Evidence:** {{{dod_audit_record.evidence_location}}}
+{{/with}}

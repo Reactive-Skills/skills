@@ -26,7 +26,7 @@ It unifies the nine discrete JSM workflow skills (`scope`, `audit`, `architect`,
 The workflow presents one concise Definition of Done before implementation.
 The approval card names the outcome, deliverables and locations, setup and use, itemized checks and evidence, assumptions, gotchas, exclusions, decisions, and planned external actions.
 Exact checks run deterministically; Jev judges semantic checks at a 0.85 probability threshold, with each question tied to one criterion ID.
-The runtime scores a Jev probability `p` as confidence `|2p - 1|`, so `skill.yaml` declares `min_confidence: 0.70`, which is exactly `p >= 0.85`.
+`skill.yaml` declares `min_probability: 0.85` on that judgment, which needs runtime 0.17.0 or later with the `judgment.probability_thresholds` capability.
 The runtime refuses `USER_APPROVED` unless the DoD has an outcome and every criterion has a unique ID, question, expected result, `exact` or `semantic` check type, and evidence method.
 Failed criteria return to the agent with the unsupported assertions and evidence, then route through repair and re-check.
 The workflow asks for another approval only for a focused DoD diff after an accepted outcome or load-bearing decision changes.
@@ -43,11 +43,11 @@ stateDiagram-v2
 
     state ACTIVE {
         [*] --> INTAKE
-        INTAKE --> SCOPE : WORK_REQUEST_READY (Greenfield / Slices)
-        INTAKE --> DOD_APPROVAL : BUG_FIX_REQUESTED
-        INTAKE --> AUDIT : AUDIT_REQUESTED (Brownfield Audit-first)
-        INTAKE --> DOD_APPROVAL : DIRECT_BUILD_REQUESTED
-        INTAKE --> BLOCKED : INTAKE_BLOCKED
+        INTAKE --> SCOPE : WORK_REQUEST_READY [run_id set] (Greenfield / Slices)
+        INTAKE --> DOD_APPROVAL : BUG_FIX_REQUESTED [run_id set]
+        INTAKE --> AUDIT : AUDIT_REQUESTED [run_id set] (Brownfield Audit-first)
+        INTAKE --> DOD_APPROVAL : DIRECT_BUILD_REQUESTED [run_id set]
+        INTAKE --> BLOCKED : INTAKE_BLOCKED [run_id set]
         SCOPE --> ARCHITECT : SCOPE_READY
         SCOPE --> DOD_APPROVAL : SCOPE_ONLY
         SCOPE --> BLOCKED : SCOPE_BLOCKED
@@ -93,8 +93,8 @@ stateDiagram-v2
         SYNC --> BLOCKED : SYNC_BLOCKED
     }
 
-    ACTIVE --> ARCHITECT : DECISION_REOPENED (Bubbled from any active phase)
-    ACTIVE --> DOD_AMENDMENT : DOD_CHANGE_REQUESTED (Bubbled from any active phase)
+    ACTIVE --> ARCHITECT : DECISION_REOPENED [run_id set] (Bubbled from any active phase)
+    ACTIVE --> DOD_AMENDMENT : DOD_CHANGE_REQUESTED [run_id set] (Bubbled from any active phase)
     COMPLETE --> [*]
     BLOCKED --> [*]
     ERROR --> [*]
@@ -148,7 +148,7 @@ Use `reactive_state` to inspect the current state prompt and `reactive_emit_sign
 
 ## 📁 Artifacts & Projections
 
-All run metadata is automatically projected to `.docs/jsm-workflow/<run_id>/`:
+The `deliverable_projections` in `skill.yaml` render run metadata to `.docs/jsm-workflow/<run_id>/` when each phase emits its milestone signal, writing each job's copy under `jobs/<job>/` there and the active job's copy at the top of that directory:
 - `dod.md`: approved final output, setup, acceptance checks, evidence methods, and boundaries.
 - `intake.md`: Work request, target area, desired outcome, constraints, blockers.
 - `lifecycle.md`: End-to-end scope, decision, context, build, and sync summary.
@@ -169,6 +169,7 @@ jsm-workflow/
 ├── skill.yaml
 ├── guards/
 │   ├── dod-structure.cjs
+│   ├── run-id.cjs
 │   └── workflow.test.cjs
 ├── states/
 │   ├── architect.md
@@ -207,7 +208,7 @@ node scripts/validate-skills.js jsm-workflow --no-runtime
 node --test jsm-workflow/guards/workflow.test.cjs
 ```
 
-The acceptance scenarios cover the bubbled `DOD_CHANGE_REQUESTED` and `DECISION_REOPENED` events, the Jev probability threshold at 0.84, 0.85, and 0.86, the completion guard, the structural DoD guard on both approval gates, the three-attempt repair cap, and the fresh-context review guard.
+The acceptance scenarios cover the bubbled `DOD_CHANGE_REQUESTED` and `DECISION_REOPENED` events, the Jev probability threshold at 0.84, 0.85, and 0.86, the Jev question taken from the submitted `active_check`, the completion guard, the structural DoD guard on both approval gates, the run_id guard, verbatim artifact rendering under `artifact_base/run_id` with and without a sync record, the three-attempt repair cap, and the fresh-context review guard.
 They stub the TypeSafe SDK that the runtime loads, so no Jev key or network is needed.
 Bubbled events need a runtime that keeps run version checks valid during bubbling; Reactive Skills 0.16.0 rejects them with `RUN_VERSION_CONFLICT`.
 To test a local runtime build, set `JSM_WORKFLOW_RUNTIME` to its absolute `dist/index.js` path before running the acceptance suite.

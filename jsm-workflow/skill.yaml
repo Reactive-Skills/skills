@@ -1,9 +1,13 @@
 schema_version: 2.1.0
 name: jsm-workflow
-version: 1.3.0
+version: 1.4.0
 description: Reactive SDLC coordinator taking software changes from intake to final context sync, implementing the JS Mastery Engineering Workflow (https://jsmastery.com/skills).
 initial_state: INIT
 strict_execution: true
+runtime_requirements:
+  min_runtime_version: 0.17.0
+  required_capabilities:
+    - judgment.probability_thresholds
 lifecycle_events:
   DECISION_REOPENED:
     description: Bubbled lifecycle event handled by ACTIVE when any active phase reopens a load bearing decision.
@@ -66,28 +70,31 @@ context_schema:
   dod_audit_record:
     type: object
     description: Per-item check question, exact or semantic judgment, evidence, failure reason, and repair routing.
-projections:
-  intake:
-    template: templates/intake.md.hbs
-    output: "{{artifact_base}}/{{run_id}}/intake.md"
-  lifecycle:
-    template: templates/lifecycle.md.hbs
-    output: "{{artifact_base}}/{{run_id}}/lifecycle.md"
-  adr:
-    template: templates/adr.md.hbs
-    output: "{{artifact_base}}/{{run_id}}/adr.md"
-  verification:
-    template: templates/verification.md.hbs
-    output: "{{artifact_base}}/{{run_id}}/verification.md"
-  review:
-    template: templates/review.md.hbs
-    output: "{{artifact_base}}/{{run_id}}/review.md"
-  handoff:
-    template: templates/handoff.md.hbs
-    output: "{{artifact_base}}/{{run_id}}/handoff.md"
-  dod:
-    template: templates/dod.md.hbs
-    output: "{{artifact_base}}/{{run_id}}/dod.md"
+default_context:
+  artifact_base: .docs/jsm-workflow
+# Projections render on milestone signals only, so nothing renders before INTAKE sets run_id.
+deliverable_projections:
+  - template: templates/intake.md.hbs
+    output: "{{context.artifact_base}}/{{context.run_id}}/intake.md"
+    trigger_on: [WORK_REQUEST_READY, BUG_FIX_REQUESTED, AUDIT_REQUESTED, DIRECT_BUILD_REQUESTED, INTAKE_BLOCKED]
+  - template: templates/lifecycle.md.hbs
+    output: "{{context.artifact_base}}/{{context.run_id}}/lifecycle.md"
+    trigger_on: [SCOPE_READY, SCOPE_ONLY, SPEC_READY, CONTEXT_READY, CONTEXT_REFRESHED, BUILD_READY, BUILD_SKIPPED, DOCUMENTED, DOCUMENT_DEFERRED, SYNCED, DOD_AUDIT_PASSED, DOD_AUDIT_REPAIR_REQUIRED, DOD_AUDIT_BLOCKED]
+  - template: templates/adr.md.hbs
+    output: "{{context.artifact_base}}/{{context.run_id}}/adr.md"
+    trigger_on: [SPEC_READY, DOD_AMENDMENT_REQUIRED, DECISION_DEFERRED, DESIGN_FLAW_CONFIRMED, DECISION_REOPENED]
+  - template: templates/verification.md.hbs
+    output: "{{context.artifact_base}}/{{context.run_id}}/verification.md"
+    trigger_on: [VERIFY_PASSED, VERIFY_FAILED, VERIFY_DEFERRED, TEST_PASSED, TEST_FAILED, TEST_DEFERRED, DOD_AUDIT_PASSED, DOD_AUDIT_REPAIR_REQUIRED, DOD_AUDIT_BLOCKED]
+  - template: templates/review.md.hbs
+    output: "{{context.artifact_base}}/{{context.run_id}}/review.md"
+    trigger_on: [REVIEW_PASSED, REVIEW_FINDINGS, REVIEW_DEFERRED]
+  - template: templates/handoff.md.hbs
+    output: "{{context.artifact_base}}/{{context.run_id}}/handoff.md"
+    trigger_on: [DOD_AUDIT_PASSED, SYNC_BLOCKED]
+  - template: templates/dod.md.hbs
+    output: "{{context.artifact_base}}/{{context.run_id}}/dod.md"
+    trigger_on: [USER_APPROVED, USER_REVISION_REQUESTED, USER_REJECTED, DOD_CHANGE_REQUESTED, DOD_AUDIT_PASSED, DOD_AUDIT_REPAIR_REQUIRED, DOD_AUDIT_BLOCKED]
 states:
   INIT:
     description: Verify reactive runtime before any lifecycle work.
@@ -103,8 +110,10 @@ states:
     transitions:
       DECISION_REOPENED:
         target: ACTIVE.ARCHITECT
+        guardFunction: guards/run-id.cjs
       DOD_CHANGE_REQUESTED:
         target: ACTIVE.DOD_AMENDMENT
+        guardFunction: guards/run-id.cjs
     substates:
       INTAKE:
         description: Capture the work request, repo state, and completion target.
@@ -112,14 +121,19 @@ states:
         transitions:
           WORK_REQUEST_READY:
             target: ACTIVE.SCOPE
+            guardFunction: guards/run-id.cjs
           BUG_FIX_REQUESTED:
             target: ACTIVE.DOD_APPROVAL
+            guardFunction: guards/run-id.cjs
           AUDIT_REQUESTED:
             target: ACTIVE.AUDIT
+            guardFunction: guards/run-id.cjs
           DIRECT_BUILD_REQUESTED:
             target: ACTIVE.DOD_APPROVAL
+            guardFunction: guards/run-id.cjs
           INTAKE_BLOCKED:
             target: BLOCKED
+            guardFunction: guards/run-id.cjs
       SCOPE:
         description: Convert the request into ordered work with acceptance seeds.
         prompt_template: states/scope.md
@@ -198,9 +212,9 @@ states:
             target: ACTIVE.DOD_AUDIT
             judgment:
               type: predicate
-              criterion: "Does the delivered output satisfy the single approved assertion in `event.contextUpdates.dod_record.active_check.question` (or `context.dod_record.active_check.question` when this signal omits it), based only on that check's `expected_result` and `evidence`?"
-              # The runtime scores a Jev predicate as confidence = |2p - 1|, so 0.70 passes a true verdict at probability p >= 0.85.
-              min_confidence: 0.70
+              # Jev sees the signal payload as `event`; the stored context still holds the previous check, so only the signal's check counts.
+              criterion: "Does the delivered output satisfy the single approved assertion in `event.contextUpdates.dod_record.active_check.question`, based only on that check's `expected_result` and `evidence`? Answer no when this signal carries no active check."
+              min_probability: 0.85
               adapter_hint: jev
               fallback_target: ACTIVE.DEVELOP
           DOD_AUDIT_PASSED:
