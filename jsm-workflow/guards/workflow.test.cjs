@@ -71,6 +71,9 @@ async function fixture(t) {
   return engine;
 }
 
+// A named job that is not the active one gets only its per-job copy under the run directory.
+const runDir = engine => path.join(workspaces.get(engine), '.docs', 'jsm-workflow', 'run-1', 'jobs', 'acceptance');
+
 async function signal(engine, name, payload, state) {
   const result = await engine.handleSignal(name, payload);
   assert.equal(engine.getCurrentState(), state, name);
@@ -204,9 +207,8 @@ test('every signal that can leave INTAKE is refused until run_id is set', async 
   assert.equal(fs.existsSync(path.join(workspace, '.docs')), false);
 
   await signal(engine, 'INTAKE_BLOCKED', { contextUpdates: { run_id: 'run-1' } }, 'BLOCKED');
-  const runDir = path.join(workspace, '.docs', 'jsm-workflow', 'run-1', 'jobs', 'acceptance');
-  assert.ok(fs.existsSync(path.join(runDir, 'intake.md')));
-  assert.equal(fs.existsSync(path.join(runDir, 'handoff.md')), false, 'a blocked intake has no sync record to hand off');
+  assert.ok(fs.existsSync(path.join(runDir(engine), 'intake.md')));
+  assert.equal(fs.existsSync(path.join(runDir(engine), 'handoff.md')), false, 'a blocked intake has no sync record to hand off');
 });
 
 test('projected artifacts keep the recorded text verbatim', async t => {
@@ -219,36 +221,51 @@ test('projected artifacts keep the recorded text verbatim', async t => {
   record.criteria = [{ ...record.criteria[0], question }, record.criteria[1]];
 
   await signal(engine, 'USER_APPROVED', { contextUpdates: { dod_record: record } }, 'ACTIVE.DEVELOP');
-  const dod = fs.readFileSync(path.join(workspaces.get(engine), '.docs', 'jsm-workflow', 'run-1', 'jobs', 'acceptance', 'dod.md'), 'utf8');
+  const dod = fs.readFileSync(path.join(runDir(engine), 'dod.md'), 'utf8');
   for (const text of [outcome, question, `\`${location}\``]) assert.ok(dod.includes(text), text);
 });
 
-test('a run renders its DoD and handoff artifacts under artifact_base/run_id', async t => {
+const noSyncLine = 'No sync ran for this run (scope-only or audit-only run).';
+
+test('a run that skips the build renders its DoD and a no-sync handoff under artifact_base/run_id', async t => {
   const engine = await fixture(t);
   const workspace = workspaces.get(engine);
-  // A named job that is not the active one gets only its per-job copy under the run directory.
-  const runDir = path.join(workspace, '.docs', 'jsm-workflow', 'run-1', 'jobs', 'acceptance');
   await signal(engine, 'RUNTIME_READY', { compatible: true }, 'ACTIVE.INTAKE');
   assert.equal(fs.existsSync(path.join(workspace, '.docs')), false, 'nothing renders before INTAKE sets run_id');
 
   await toDodAudit(engine);
   const passed = dodRecord('passed');
-  await signal(engine, 'DOD_AUDIT_PASSED', {
-    contextUpdates: {
-      dod_record: passed,
-      sync_record: { outcome: 'Site redesigned', next_action: 'Merge the preview' },
-    },
-  }, 'COMPLETE');
+  await signal(engine, 'DOD_AUDIT_PASSED', { contextUpdates: { dod_record: passed } }, 'COMPLETE');
 
   assert.deepEqual(engine.getEventStore().query({ type: 'PROJECTION_FAILED' }), []);
   const files = ['intake.md', 'dod.md', 'lifecycle.md', 'verification.md', 'handoff.md'];
-  for (const file of files) assert.ok(fs.existsSync(path.join(runDir, file)), file);
-  const dod = fs.readFileSync(path.join(runDir, 'dod.md'), 'utf8');
+  for (const file of files) assert.ok(fs.existsSync(path.join(runDir(engine), file)), file);
+  const dod = fs.readFileSync(path.join(runDir(engine), 'dod.md'), 'utf8');
   assert.match(dod, /\*\*Run:\*\* run-1/);
   assert.match(dod, new RegExp(passed.outcome));
   assert.match(dod, /pnpm build exited 0/);
-  const handoff = fs.readFileSync(path.join(runDir, 'handoff.md'), 'utf8');
+  const handoff = fs.readFileSync(path.join(runDir(engine), 'handoff.md'), 'utf8');
+  assert.match(handoff, /\*\*Run:\*\* run-1/);
+  assert.ok(handoff.includes(noSyncLine));
+  assert.doesNotMatch(handoff, /\*\*Outcome:\*\*/);
+  assert.match(handoff, /\*\*DoD status:\*\* approved/);
+});
+
+test('a run through SYNC hands off the sync record', async t => {
+  const engine = await fixture(t);
+  await toPhase(engine, 'ACTIVE.REVIEW');
+  const steps = [
+    ['REVIEW_PASSED', { contextUpdates: { review_record: { result: 'passed', reviewer: { isolation: 'fresh_context', agent: 'code-reviewer subagent' } } } }, 'ACTIVE.DOCUMENT'],
+    ['DOCUMENTED', {}, 'ACTIVE.SYNC'],
+    ['SYNCED', { contextUpdates: { sync_record: { outcome: 'Site redesigned', next_action: 'Merge the preview' } } }, 'ACTIVE.DOD_AUDIT'],
+    ['DOD_AUDIT_PASSED', { contextUpdates: { dod_record: dodRecord('passed') } }, 'COMPLETE'],
+  ];
+  for (const [name, payload, state] of steps) await signal(engine, name, payload, state);
+
+  const handoff = fs.readFileSync(path.join(runDir(engine), 'handoff.md'), 'utf8');
   assert.match(handoff, /\*\*Outcome:\*\* Site redesigned/);
+  assert.match(handoff, /\*\*Next action:\*\* Merge the preview/);
+  assert.ok(!handoff.includes(noSyncLine));
   assert.match(handoff, /\*\*DoD status:\*\* approved/);
 });
 

@@ -3,6 +3,7 @@
 
 **Run:** {{{run_id}}}
 
+{{#if sync_record}}
 **Outcome:** {{{sync_record.outcome}}}
 
 **Changed artifacts:** {{{sync_record.changed_artifacts}}}
@@ -12,6 +13,9 @@
 **Blockers:** {{{sync_record.blockers}}}
 
 **Next action:** {{{sync_record.next_action}}}
+{{else}}
+No sync ran for this run (scope-only or audit-only run).
+{{/if}}
 
 **DoD status:** {{{dod_record.status}}}
 

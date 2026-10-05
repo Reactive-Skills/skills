@@ -43,11 +43,11 @@ stateDiagram-v2
 
     state ACTIVE {
         [*] --> INTAKE
-        INTAKE --> SCOPE : WORK_REQUEST_READY (Greenfield / Slices)
-        INTAKE --> DOD_APPROVAL : BUG_FIX_REQUESTED
-        INTAKE --> AUDIT : AUDIT_REQUESTED (Brownfield Audit-first)
-        INTAKE --> DOD_APPROVAL : DIRECT_BUILD_REQUESTED
-        INTAKE --> BLOCKED : INTAKE_BLOCKED
+        INTAKE --> SCOPE : WORK_REQUEST_READY [run_id set] (Greenfield / Slices)
+        INTAKE --> DOD_APPROVAL : BUG_FIX_REQUESTED [run_id set]
+        INTAKE --> AUDIT : AUDIT_REQUESTED [run_id set] (Brownfield Audit-first)
+        INTAKE --> DOD_APPROVAL : DIRECT_BUILD_REQUESTED [run_id set]
+        INTAKE --> BLOCKED : INTAKE_BLOCKED [run_id set]
         SCOPE --> ARCHITECT : SCOPE_READY
         SCOPE --> DOD_APPROVAL : SCOPE_ONLY
         SCOPE --> BLOCKED : SCOPE_BLOCKED
@@ -93,8 +93,8 @@ stateDiagram-v2
         SYNC --> BLOCKED : SYNC_BLOCKED
     }
 
-    ACTIVE --> ARCHITECT : DECISION_REOPENED (Bubbled from any active phase)
-    ACTIVE --> DOD_AMENDMENT : DOD_CHANGE_REQUESTED (Bubbled from any active phase)
+    ACTIVE --> ARCHITECT : DECISION_REOPENED [run_id set] (Bubbled from any active phase)
+    ACTIVE --> DOD_AMENDMENT : DOD_CHANGE_REQUESTED [run_id set] (Bubbled from any active phase)
     COMPLETE --> [*]
     BLOCKED --> [*]
     ERROR --> [*]
@@ -169,6 +169,7 @@ jsm-workflow/
 ├── skill.yaml
 ├── guards/
 │   ├── dod-structure.cjs
+│   ├── run-id.cjs
 │   └── workflow.test.cjs
 ├── states/
 │   ├── architect.md
@@ -207,7 +208,7 @@ node scripts/validate-skills.js jsm-workflow --no-runtime
 node --test jsm-workflow/guards/workflow.test.cjs
 ```
 
-The acceptance scenarios cover the bubbled `DOD_CHANGE_REQUESTED` and `DECISION_REOPENED` events, the Jev probability threshold at 0.84, 0.85, and 0.86, the completion guard, the structural DoD guard on both approval gates, the three-attempt repair cap, and the fresh-context review guard.
+The acceptance scenarios cover the bubbled `DOD_CHANGE_REQUESTED` and `DECISION_REOPENED` events, the Jev probability threshold at 0.84, 0.85, and 0.86, the completion guard, the structural DoD guard on both approval gates, the run_id guard, the three-attempt repair cap, and the fresh-context review guard.
 They stub the TypeSafe SDK that the runtime loads, so no Jev key or network is needed.
 Bubbled events need a runtime that keeps run version checks valid during bubbling; Reactive Skills 0.16.0 rejects them with `RUN_VERSION_CONFLICT`.
 To test a local runtime build, set `JSM_WORKFLOW_RUNTIME` to its absolute `dist/index.js` path before running the acceptance suite.
