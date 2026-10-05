@@ -29,7 +29,7 @@ Each implementation route converges on one DoD approval before changes begin.
 The concise approval card records outcome, deliverables and locations, setup and use, itemized criteria with observable results and evidence methods, boundaries, assumptions, gotchas, approved decisions, and planned external actions.
 Scope, workflow tier, architecture, UI direction, and optional documentation recommendations appear in that same approval card.
 After approval, exact checks run deterministically and Jev judges semantic criteria at a 0.85 probability pass threshold.
-The runtime scores a Jev probability `p` as confidence `|2p - 1|`, so the judgment declares `min_confidence: 0.70`, which is exactly `p >= 0.85`.
+`skill.yaml` declares `min_probability: 0.85` on that judgment, which needs runtime 0.17.0 or later with the `judgment.probability_thresholds` capability.
 Each semantic check includes a focused question tied to one criterion ID; a failed judgment records unsupported assertions and routes those items to repair and re-verification.
 Both approval gates refuse a DoD that lacks an outcome or has a criterion without a unique ID, question, expected result, check type, or evidence method.
 The lifecycle reaches COMPLETE only when all approved criteria pass with evidence.
@@ -93,7 +93,7 @@ Each DoD criterion has a unique `id`, one atomic `question`, `expected_result`, 
 `dod_audit_record` contains per-item results, Jev probability, exact command results, failed item IDs, passed and failed counts, and evidence location.
 The exact completion guard independently requires every criterion to be marked passed with evidence.
 Guards read the stored context before a signal's `contextUpdates` merge, so the completion guard checks the `dod_record` carried by `DOD_AUDIT_PASSED`, or the stored record when the signal omits it.
-The DoD check judgment likewise reads the active check from the signal before the stored record.
+The DoD check judgment reads the active check only from the signal, because the stored record still holds the previous check.
 
 ## ADR Policy
 

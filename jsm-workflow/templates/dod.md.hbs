@@ -1,3 +1,4 @@
+{{#with context}}
 # Definition of Done
 
 **Run:** {{run_id}}
@@ -35,3 +36,4 @@
 **Exclusions:** {{#each dod_record.exclusions}}{{this}}; {{/each}}
 **Approved decisions:** {{#each dod_record.decisions}}{{this}}; {{/each}}
 **Planned external actions:** {{#each dod_record.external_actions}}{{this}}; {{/each}}
+{{/with}}

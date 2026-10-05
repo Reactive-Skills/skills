@@ -26,7 +26,7 @@ It unifies the nine discrete JSM workflow skills (`scope`, `audit`, `architect`,
 The workflow presents one concise Definition of Done before implementation.
 The approval card names the outcome, deliverables and locations, setup and use, itemized checks and evidence, assumptions, gotchas, exclusions, decisions, and planned external actions.
 Exact checks run deterministically; Jev judges semantic checks at a 0.85 probability threshold, with each question tied to one criterion ID.
-The runtime scores a Jev probability `p` as confidence `|2p - 1|`, so `skill.yaml` declares `min_confidence: 0.70`, which is exactly `p >= 0.85`.
+`skill.yaml` declares `min_probability: 0.85` on that judgment, which needs runtime 0.17.0 or later with the `judgment.probability_thresholds` capability.
 The runtime refuses `USER_APPROVED` unless the DoD has an outcome and every criterion has a unique ID, question, expected result, `exact` or `semantic` check type, and evidence method.
 Failed criteria return to the agent with the unsupported assertions and evidence, then route through repair and re-check.
 The workflow asks for another approval only for a focused DoD diff after an accepted outcome or load-bearing decision changes.
@@ -148,7 +148,7 @@ Use `reactive_state` to inspect the current state prompt and `reactive_emit_sign
 
 ## 📁 Artifacts & Projections
 
-All run metadata is automatically projected to `.docs/jsm-workflow/<run_id>/`:
+The `deliverable_projections` in `skill.yaml` render run metadata to `.docs/jsm-workflow/<run_id>/` when each phase emits its milestone signal, writing each job's copy under `jobs/<job>/` there and the active job's copy at the top of that directory:
 - `dod.md`: approved final output, setup, acceptance checks, evidence methods, and boundaries.
 - `intake.md`: Work request, target area, desired outcome, constraints, blockers.
 - `lifecycle.md`: End-to-end scope, decision, context, build, and sync summary.

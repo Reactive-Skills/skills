@@ -30,6 +30,6 @@ Do not choose architecture, tools, or write code here.
 ## Task
 
 Update `work_request` with summary, target, outcome, expected output, setup needs, constraints, assumptions, route type, and blockers.
-Set `run_id` and default `artifact_base` when absent.
+Set `run_id` when absent; run artifacts render under `artifact_base`/`run_id`, and `artifact_base` defaults to `.docs/jsm-workflow`.
 Emit `WORK_REQUEST_READY` for scoped work, `BUG_FIX_REQUESTED` for bugs, `AUDIT_REQUESTED` for brownfield-first work, or `DIRECT_BUILD_REQUESTED` for ready pre-specced changes.
 Emit `INTAKE_BLOCKED` only when a required fact cannot be inferred safely.

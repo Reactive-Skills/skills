@@ -4,7 +4,7 @@
 `DECISION_REOPENED` bubbles to `ACTIVE.ARCHITECT`.
 `DOD_CHANGE_REQUESTED` bubbles to `ACTIVE.DOD_AMENDMENT`.
 An approved amendment refreshes project context before implementation resumes.
-The `DOD_CHECK_SUBMITTED` probability labels map to `min_confidence: 0.70`, because the runtime scores a Jev probability `p` as confidence `|2p - 1|`.
+The `DOD_CHECK_SUBMITTED` probability labels map to `min_probability: 0.85`.
 
 ```mermaid
 stateDiagram-v2
