@@ -1,39 +1,39 @@
 {{#with context}}
 # Definition of Done
 
-**Run:** {{run_id}}
-**Version:** {{dod_record.version}}
-**Status:** {{dod_record.status}}
+**Run:** {{{run_id}}}
+**Version:** {{{dod_record.version}}}
+**Status:** {{{dod_record.status}}}
 
 ## Highlights
 
-{{dod_record.highlights}}
+{{{dod_record.highlights}}}
 
 ## Outcome
 
-{{dod_record.outcome}}
+{{{dod_record.outcome}}}
 
 ## Deliverables and setup
 
 {{#each dod_record.deliverables}}
-- **{{name}}**: {{description}}. Location: `{{location}}`.
+- **{{{name}}}**: {{{description}}}. Location: `{{{location}}}`.
 {{/each}}
 
 {{#each dod_record.setup_steps}}
-- {{this}}
+- {{{this}}}
 {{/each}}
 
 ## Acceptance checks
 
 {{#each dod_record.criteria}}
-- [{{status}}] **{{id}}**: {{question}} Expected: {{expected_result}} Check: {{check_type}}. Evidence method: {{evidence_method}}. Command: {{command}}. Result: {{evidence}}
+- [{{{status}}}] **{{{id}}}**: {{{question}}} Expected: {{{expected_result}}} Check: {{{check_type}}}. Evidence method: {{{evidence_method}}}. Command: {{{command}}}. Result: {{{evidence}}}
 {{/each}}
 
 ## Boundaries and decisions
 
-**Assumptions:** {{#each dod_record.assumptions}}{{this}}; {{/each}}
-**Gotchas:** {{#each dod_record.gotchas}}{{this}}; {{/each}}
-**Exclusions:** {{#each dod_record.exclusions}}{{this}}; {{/each}}
-**Approved decisions:** {{#each dod_record.decisions}}{{this}}; {{/each}}
-**Planned external actions:** {{#each dod_record.external_actions}}{{this}}; {{/each}}
+**Assumptions:** {{#each dod_record.assumptions}}{{{this}}}; {{/each}}
+**Gotchas:** {{#each dod_record.gotchas}}{{{this}}}; {{/each}}
+**Exclusions:** {{#each dod_record.exclusions}}{{{this}}}; {{/each}}
+**Approved decisions:** {{#each dod_record.decisions}}{{{this}}}; {{/each}}
+**Planned external actions:** {{#each dod_record.external_actions}}{{{this}}}; {{/each}}
 {{/with}}

@@ -67,6 +67,7 @@ Each state includes an atomic gate so the agent can objectively decide whether t
 Each phase writes a structured record into context before emitting a success, deferred, or blocked signal.
 DEBUG gets three repair attempts per failure; `BUG_FIXED` needs `debug_record.failure_id`, `failure_evidence`, and an `attempt` that counts up from 1.
 `REVIEW_PASSED` needs `review_record.reviewer` with `isolation: "fresh_context"` and a named agent.
+Every INTAKE exit, `DOD_CHANGE_REQUESTED`, and `DECISION_REOPENED` need a non-blank `run_id`.
 These guards read records the agent reports, so they catch honest mistakes rather than enforce against a dishonest agent.
 The `deliverable_projections` in `skill.yaml` render those records into run artifacts under `.docs/jsm-workflow/<run_id>/` at each phase's milestone signals, each job's copy under `jobs/<job>/` there, and the active job's copy at the top of that directory.
 

@@ -1,27 +1,27 @@
 {{#with context}}
 # Verification
 
-**Run:** {{run_id}}
+**Run:** {{{run_id}}}
 
 ## Behavior Checks
 
-{{verification_record.checks}}
+{{{verification_record.checks}}}
 
 ## Test Result
 
-{{test_record.result}}
+{{{test_record.result}}}
 
 ## Failures
 
-{{verification_record.failures}}
+{{{verification_record.failures}}}
 
 ## Deferred Checks
 
-{{verification_record.deferred}}
+{{{verification_record.deferred}}}
 
 ## DoD Evidence
 
 {{#each dod_audit_record.results}}
-- [{{status}}] **{{criterion_id}}**: {{evidence}}
+- [{{{status}}}] **{{{criterion_id}}}**: {{{evidence}}}
 {{/each}}
 {{/with}}

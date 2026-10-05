@@ -32,7 +32,7 @@ function runtime() {
 
 // Answers every Jev predicate with `probability` by stubbing the TypeSafe SDK the runtime loads,
 // so the runtime's own `min_probability` threshold decides the transition.
-// Returns the states Jev was asked to judge, in call order.
+// Returns each state Jev was asked to judge with the question it was asked, in call order.
 async function stubJev(t, probability) {
   await runtime();
   const runtimeRequire = createRequire(runtimeEntry);
@@ -42,8 +42,8 @@ async function stubJev(t, probability) {
   const original = sdk.TypeSafeClient.prototype.systemOne;
   const originalKey = process.env.TYPESAFE_API_KEY;
   process.env.TYPESAFE_API_KEY = originalKey || 'jsm-workflow-test-key';
-  const states = [];
-  sdk.TypeSafeClient.prototype.systemOne = async ({ state }) => (states.push(state), {
+  const calls = [];
+  sdk.TypeSafeClient.prototype.systemOne = async ({ state, questions }) => (calls.push({ state, instructions: questions.judgment.instructions }), {
     model: 'jev-test',
     answers: { judgment: { type: 'noul', noul: probability } },
   });
@@ -52,7 +52,7 @@ async function stubJev(t, probability) {
     if (originalKey === undefined) delete process.env.TYPESAFE_API_KEY;
     else process.env.TYPESAFE_API_KEY = originalKey;
   });
-  return states;
+  return calls;
 }
 
 const workspaces = new WeakMap();
@@ -171,13 +171,10 @@ for (const [probability, state] of [[0.85, 'ACTIVE.DOD_AUDIT'], [0.86, 'ACTIVE.D
   });
 }
 
-test('the DoD check criterion points Jev at the check this signal submits, not the stored one', async t => {
-  const states = await stubJev(t, 0.9);
+test('Jev is asked about the check this signal submits, not the stored one', async t => {
+  const calls = await stubJev(t, 0.9);
   const engine = await fixture(t);
   await toDodAudit(engine);
-  const criterion = engine.manifest.states.ACTIVE.substates.DOD_AUDIT.transitions.DOD_CHECK_SUBMITTED.judgment.criterion;
-  const paths = [...criterion.matchAll(/`([a-z_.]+)`/gi)].map(match => match[1]).filter(ref => /^(event|context)\./.test(ref));
-  assert.deepEqual(paths, ['event.contextUpdates.dod_record.active_check.question']);
   const resolve = (state, ref) => ref.split('.').reduce((value, key) => value?.[key], state);
 
   for (const id of ['C1', 'C2']) {
@@ -185,10 +182,45 @@ test('the DoD check criterion points Jev at the check this signal submits, not t
     await signal(engine, 'DOD_CHECK_SUBMITTED', {
       contextUpdates: { dod_record: dodRecord('pending', { active_check: activeCheck }) },
     }, 'ACTIVE.DOD_AUDIT');
-    assert.equal(resolve(states.at(-1), paths[0]), activeCheck.question, id);
+    const { state, instructions } = calls.at(-1);
+    const paths = [...instructions.matchAll(/`([a-z_.]+)`/gi)].map(match => match[1]).filter(ref => /^(event|context)\./.test(ref));
+    assert.deepEqual(paths, ['event.contextUpdates.dod_record.active_check.question'], id);
+    assert.equal(resolve(state, paths[0]), activeCheck.question, id);
   }
   // The stored record still holds C1 while C2 is judged, so a context fallback would judge a stale check.
-  assert.equal(states.at(-1).context.dod_record.active_check.id, 'C1');
+  assert.equal(calls.at(-1).state.context.dod_record.active_check.id, 'C1');
+});
+
+test('every signal that can leave INTAKE is refused until run_id is set', async t => {
+  const engine = await fixture(t);
+  const workspace = workspaces.get(engine);
+  await signal(engine, 'RUNTIME_READY', { compatible: true }, 'ACTIVE.INTAKE');
+  const exits = ['WORK_REQUEST_READY', 'BUG_FIX_REQUESTED', 'AUDIT_REQUESTED', 'DIRECT_BUILD_REQUESTED', 'INTAKE_BLOCKED', 'DOD_CHANGE_REQUESTED', 'DECISION_REOPENED'];
+  for (const name of exits) {
+    for (const payload of [{}, { contextUpdates: { run_id: ' ' } }]) {
+      assert.equal((await signal(engine, name, payload, 'ACTIVE.INTAKE')).transitioned, false, name);
+    }
+  }
+  assert.equal(fs.existsSync(path.join(workspace, '.docs')), false);
+
+  await signal(engine, 'INTAKE_BLOCKED', { contextUpdates: { run_id: 'run-1' } }, 'BLOCKED');
+  const runDir = path.join(workspace, '.docs', 'jsm-workflow', 'run-1', 'jobs', 'acceptance');
+  assert.ok(fs.existsSync(path.join(runDir, 'intake.md')));
+  assert.equal(fs.existsSync(path.join(runDir, 'handoff.md')), false, 'a blocked intake has no sync record to hand off');
+});
+
+test('projected artifacts keep the recorded text verbatim', async t => {
+  const engine = await fixture(t);
+  await toPhase(engine, 'ACTIVE.DOD_APPROVAL');
+  const outcome = "The page's header uses a=b & <b>";
+  const question = "Does the header's markup read <b>a=b & c</b>?";
+  const location = 'src/a=b.ts';
+  const record = dodRecord('pending', { outcome, deliverables: [{ name: 'Header', description: 'Updated header', location }] });
+  record.criteria = [{ ...record.criteria[0], question }, record.criteria[1]];
+
+  await signal(engine, 'USER_APPROVED', { contextUpdates: { dod_record: record } }, 'ACTIVE.DEVELOP');
+  const dod = fs.readFileSync(path.join(workspaces.get(engine), '.docs', 'jsm-workflow', 'run-1', 'jobs', 'acceptance', 'dod.md'), 'utf8');
+  for (const text of [outcome, question, `\`${location}\``]) assert.ok(dod.includes(text), text);
 });
 
 test('a run renders its DoD and handoff artifacts under artifact_base/run_id', async t => {
@@ -218,7 +250,6 @@ test('a run renders its DoD and handoff artifacts under artifact_base/run_id', a
   const handoff = fs.readFileSync(path.join(runDir, 'handoff.md'), 'utf8');
   assert.match(handoff, /\*\*Outcome:\*\* Site redesigned/);
   assert.match(handoff, /\*\*DoD status:\*\* approved/);
-  assert.equal(fs.existsSync(path.join(workspace, '.docs', 'jsm-workflow', 'intake.md')), false);
 });
 
 test('DOD_AUDIT_PASSED completes on the first emit that carries a fully passed dod_record', async t => {

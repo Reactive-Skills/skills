@@ -91,7 +91,7 @@ deliverable_projections:
     trigger_on: [REVIEW_PASSED, REVIEW_FINDINGS, REVIEW_DEFERRED]
   - template: templates/handoff.md.hbs
     output: "{{context.artifact_base}}/{{context.run_id}}/handoff.md"
-    trigger_on: [DOD_AUDIT_PASSED, DOD_AUDIT_BLOCKED, INTAKE_BLOCKED, SCOPE_BLOCKED, DECISION_DEFERRED, CONTEXT_BLOCKED, USER_REJECTED, DEBUG_BLOCKED, SYNC_BLOCKED]
+    trigger_on: [DOD_AUDIT_PASSED, SYNC_BLOCKED]
   - template: templates/dod.md.hbs
     output: "{{context.artifact_base}}/{{context.run_id}}/dod.md"
     trigger_on: [USER_APPROVED, USER_REVISION_REQUESTED, USER_REJECTED, DOD_CHANGE_REQUESTED, DOD_AUDIT_PASSED, DOD_AUDIT_REPAIR_REQUIRED, DOD_AUDIT_BLOCKED]
@@ -110,8 +110,10 @@ states:
     transitions:
       DECISION_REOPENED:
         target: ACTIVE.ARCHITECT
+        guardFunction: guards/run-id.cjs
       DOD_CHANGE_REQUESTED:
         target: ACTIVE.DOD_AMENDMENT
+        guardFunction: guards/run-id.cjs
     substates:
       INTAKE:
         description: Capture the work request, repo state, and completion target.
@@ -119,14 +121,19 @@ states:
         transitions:
           WORK_REQUEST_READY:
             target: ACTIVE.SCOPE
+            guardFunction: guards/run-id.cjs
           BUG_FIX_REQUESTED:
             target: ACTIVE.DOD_APPROVAL
+            guardFunction: guards/run-id.cjs
           AUDIT_REQUESTED:
             target: ACTIVE.AUDIT
+            guardFunction: guards/run-id.cjs
           DIRECT_BUILD_REQUESTED:
             target: ACTIVE.DOD_APPROVAL
+            guardFunction: guards/run-id.cjs
           INTAKE_BLOCKED:
             target: BLOCKED
+            guardFunction: guards/run-id.cjs
       SCOPE:
         description: Convert the request into ordered work with acceptance seeds.
         prompt_template: states/scope.md
