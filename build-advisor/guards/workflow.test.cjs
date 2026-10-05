@@ -4,7 +4,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { createRequire } = require('node:module');
 const { pathToFileURL } = require('node:url');
-const { execFileSync } = require('node:child_process');
+const { execSync } = require('node:child_process');
 const { test } = require('node:test');
 
 const skillDir = path.resolve(__dirname, '..');
@@ -18,7 +18,9 @@ function runtime() {
       try {
         entry = require.resolve('@reactive-skills/runtime');
       } catch {
-        const globalRoot = execFileSync('rtk', ['npm', 'root', '-g'], { encoding: 'utf8' }).trim();
+        // One command string through the shell finds npm.cmd on Windows without the argument
+        // array that Node 24 deprecates alongside `shell` (DEP0190).
+        const globalRoot = execSync('npm root -g', { encoding: 'utf8' }).trim();
         const axiRequire = createRequire(path.join(globalRoot, '@reactive-skills/axi/package.json'));
         entry = axiRequire.resolve('@reactive-skills/runtime');
       }
@@ -417,7 +419,7 @@ test('an incompatible runtime follows the recovery route', async t => {
 
 test('state prompts, signals, context keys, and diagram match the manifest', async () => {
   const { SkillManifestSchema, createReactiveBootloaderReference } = await runtime();
-  const globalRoot = execFileSync('rtk', ['npm', 'root', '-g'], { encoding: 'utf8' }).trim();
+  const globalRoot = execSync('npm root -g', { encoding: 'utf8' }).trim();
   const yaml = createRequire(path.join(globalRoot, '@reactive-skills/axi/package.json'))('js-yaml');
   const manifest = yaml.load(fs.readFileSync(path.join(skillDir, 'skill.yaml'), 'utf8'));
   SkillManifestSchema.parse(manifest);

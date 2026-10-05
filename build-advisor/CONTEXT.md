@@ -1,7 +1,7 @@
 # build-advisor contract
 
 Schema version is 2.1.0.
-Package version is 1.0.1.
+Package version is 1.0.2.
 The supported operation is contextual advisory work through develop, challenge, and advise routes.
 Use substates and initial_substate for hierarchy supported by the runtime.
 

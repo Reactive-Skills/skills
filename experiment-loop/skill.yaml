@@ -1,6 +1,6 @@
 schema_version: 2.1.0
 name: experiment-loop
-version: 1.0.0
+version: 1.0.1
 type: reactive
 description: >-
   Run bounded, evidence-backed improvement experiments with fixed evaluators, repeated baselines,

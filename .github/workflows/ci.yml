@@ -58,6 +58,23 @@ jobs:
       - name: Verify Table of Contents
         run: node scripts/update-toc.js --check
 
+      - name: Install Reactive Skills runtime
+        run: npm install --global @reactive-skills/axi@0.17.3
+
+      - name: Test skill guards
+        run: node --test */guards/*.test.cjs */guards/*.test.js
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install resume-manager test dependencies
+        run: python -m pip install python-docx==1.2.0
+
+      - name: Test resume-manager DOCX export
+        run: python -m unittest discover -s resume-manager/tests
+
   validate-skill-releases:
     name: Validate Skill Releases
     runs-on: ubuntu-latest
