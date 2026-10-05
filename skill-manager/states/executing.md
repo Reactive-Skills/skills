@@ -59,7 +59,7 @@ For CREATE or UPDATE, run the bundled `node "{{context.manager_skill_dir}}/scrip
 Resolve definite errors within the approved scope; report navigation and size advisories separately.
 Validate supported nested structure before attributing a transition failure to the runtime.
 For DELETE, verify the approved target is absent.
-Record changed files, protected-file checks, command results, unresolved failures, and actual executor coverage.
+Record changed paths in `contextUpdates.files` for the inventory and snapshot projections, plus protected-file checks, command results, unresolved failures, and actual executor coverage.
 
 Measure prompt sizes as raw source whitespace words, separately from rendered words or host-measured tokens.
 Use state-specific budgets supported by evaluations; an unset budget stays provisional and is not a hard gate.

@@ -8,7 +8,7 @@
   },
   "candidate": {
     "path": "..",
-    "digest": "6e10534d0dff717590ac320cfe0660a39bad9ace8034d361650b824be26de9b3"
+    "digest": "79c4ebf928304ea3ba94942a7d797e5d60f662fa78a11164de35f94253375e48"
   },
   "states": [
     {
@@ -200,8 +200,8 @@
       "candidate": {
         "source": "states/executing.md",
         "method": "raw-source-whitespace-words",
-        "words": 655,
-        "digest": "ae063c4dc1c1636e2a709133be99562b7a9a916a01dbfbf97ebc2e59806ed154",
+        "words": 664,
+        "digest": "fa9e2a131499eb7f4454b99ffe3760e73f55318aa50339993a0dc079b0207696",
         "rendered_words": null,
         "host_tokens": null
       },
