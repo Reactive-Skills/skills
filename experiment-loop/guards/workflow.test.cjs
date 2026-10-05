@@ -6,7 +6,7 @@ const os = require('node:os');
 const path = require('node:path');
 const { createRequire } = require('node:module');
 const { pathToFileURL } = require('node:url');
-const { execFileSync } = require('node:child_process');
+const { execSync } = require('node:child_process');
 const { test } = require('node:test');
 const policy = require('./policy.cjs');
 const skillDir = path.resolve(__dirname, '..');
@@ -18,7 +18,9 @@ function runtime() {
     if (!entry) {
       try { entry = require.resolve('@reactive-skills/runtime'); }
       catch {
-        const globalRoot = execFileSync('rtk', ['npm','root','-g'], { encoding:'utf8' }).trim();
+        // One command string through the shell finds npm.cmd on Windows without the argument
+        // array that Node 24 deprecates alongside `shell` (DEP0190).
+        const globalRoot = execSync('npm root -g', { encoding: 'utf8' }).trim();
         entry = createRequire(path.join(globalRoot,'@reactive-skills/axi/package.json')).resolve('@reactive-skills/runtime');
       }
     }
@@ -292,7 +294,7 @@ test('nonfinite paired arithmetic is invalid rather than improved',()=>{
 });
 test('manifest, state prompts, wrappers, and Mermaid topology match',async()=>{
   const {FSMEngine}=await runtime();assert.ok(FSMEngine);
-  const globalRoot=execFileSync('rtk',['npm','root','-g'],{encoding:'utf8'}).trim();
+  const globalRoot=execSync('npm root -g',{encoding:'utf8'}).trim();
   const yaml=createRequire(path.join(globalRoot,'@reactive-skills/axi/package.json'))('js-yaml');
   const m=yaml.load(fs.readFileSync(path.join(skillDir,'skill.yaml'),'utf8'));
   const diagram=fs.readFileSync(path.join(skillDir,'STATECHART.md'),'utf8');

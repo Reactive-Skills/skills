@@ -4,7 +4,7 @@ description: >-
   Develop worthwhile products, challenge existing ideas and experiences, or advise builders on product, leadership, team, business, and career decisions using contextual principles from Tony Fadell's Build.
 type: reactive
 metadata:
-  version: "1.0.1"
+  version: "1.0.2"
 ---
 
 <!-- REACTIVE BOOTLOADER -->

@@ -1,7 +1,7 @@
 # Experiment loop context
 
 Schema: 2.1.0.
-Package: 1.0.0, experimental channel, Alpha maturity.
+Package: 1.0.1, experimental channel, Alpha maturity.
 Runtime: 0.16.0 or newer with bootloader, transport handshake, and accepted_update_replay capability.
 The globally installed 0.16.0 package lacks the replay repair and has a parent-dispatch defect.
 Use the verified local source build until a repaired runtime is distributed.

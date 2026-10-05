@@ -23,6 +23,7 @@ A change to skill content must increase the skill's SemVer; edits limited to rel
 The release validator checks manifest parity, valid SemVer for both independent versions, new skills starting at `1.0.0`, and required skill version increases against the target branch.
 The validator rejects removal or renaming of a registered skill until a separate retirement or migration policy is approved.
 Update registry skills through pull requests.
+Every `<skill>/guards/*.test.cjs` and `<skill>/guards/*.test.js` suite runs automatically in the `Validate Reactive Skills` check against the globally installed `@reactive-skills/axi` version pinned in `.github/workflows/ci.yml`; the glob matches only test files directly inside a skill's top-level `guards/` directory.
 The `Require pull requests and CI for main` GitHub ruleset requires the `Validate Reactive Skills` and `Validate Skill Releases` checks before merging.
 That ruleset currently requires zero approvals; add an approval requirement after an independent maintainer is available.
 Registry release metadata can change without changing the skill's SemVer, but the same pull request and checks are required.
@@ -54,4 +55,5 @@ skills/<skill-name>/
 - [ ] Does the skill contain a comprehensive `README.md` with usage and installation?
 - [ ] Does `node scripts/validate-skills.js` pass with zero errors and zero warnings?
 - [ ] Has `node scripts/update-toc.js` been run to update `README.md`?
+- [ ] Do the guard suites (`node --test */guards/*.test.cjs */guards/*.test.js`) pass with the pinned `@reactive-skills/axi` installed globally?
 
