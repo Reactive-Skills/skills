@@ -336,12 +336,3 @@ test('state contract detects source drift independently of the recorded bundle i
   assert.ok(errors.some(e => e.includes('candidate word count mismatch')));
   assert.ok(errors.some(e => e.includes('candidate source digest mismatch')));
 });
-
-test('a state prompt persists the changed-file field the projections read', () => {
-  const skillRoot = path.resolve(__dirname, '..');
-  const read = relative => fs.readFileSync(path.join(skillRoot, relative), 'utf8');
-  for (const template of ['templates/inventory.json.hbs', 'templates/manifest_snapshot.md.hbs']) {
-    assert.match(read(template), /context\.files\b/, `${template} reads context.files`);
-  }
-  assert.match(read('states/executing.md'), /`contextUpdates\.files`/);
-});

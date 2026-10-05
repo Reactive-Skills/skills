@@ -26,7 +26,9 @@ Perform the actual migration file operations.
 Delegate file operations to a general agent.
 
 ## Stop Criteria
-All file operations complete. Emit EXECUTED.
+All file operations complete.
+Record created, modified, and deleted paths in `contextUpdates.files` as a flat array of path strings for the inventory and snapshot projections.
+Emit EXECUTED.
 
 ## Exit Code
 Set exit_code = 0 on success, exit_code = 1 on failure.

@@ -8,7 +8,7 @@
   },
   "candidate": {
     "path": "..",
-    "digest": "79c4ebf928304ea3ba94942a7d797e5d60f662fa78a11164de35f94253375e48"
+    "digest": "df67887e1290afeebce23cce61dbc273e8284fa8b6d7a3053729b08d8ae5531f"
   },
   "states": [
     {
@@ -200,8 +200,8 @@
       "candidate": {
         "source": "states/executing.md",
         "method": "raw-source-whitespace-words",
-        "words": 664,
-        "digest": "fa9e2a131499eb7f4454b99ffe3760e73f55318aa50339993a0dc079b0207696",
+        "words": 679,
+        "digest": "d3077c91ce7d6017c2b2677d55ad0d35de68f160c7a9cb283cc2d4cddc8fe4c9",
         "rendered_words": null,
         "host_tokens": null
       },
@@ -230,14 +230,14 @@
         {
           "id": "observable-exit",
           "baseline_evidence": "states/executing.md:39",
-          "candidate_evidence": "states/executing.md:68",
+          "candidate_evidence": "states/executing.md:69",
           "disposition": "preserved",
           "rationale": "Retains the observable exit requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
         },
         {
           "id": "actual-signals",
           "baseline_evidence": "states/executing.md:45",
-          "candidate_evidence": "states/executing.md:68",
+          "candidate_evidence": "states/executing.md:69",
           "disposition": "preserved",
           "rationale": "Retains the actual signals requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
         },
@@ -265,7 +265,7 @@
         {
           "id": "truthful-evidence",
           "baseline_evidence": "states/executing.md:65; states/executing.md:94",
-          "candidate_evidence": "states/executing.md:62",
+          "candidate_evidence": "states/executing.md:62; states/executing.md:63",
           "disposition": "preserved",
           "rationale": "Retains the truthful evidence requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
         },
@@ -405,14 +405,14 @@
         {
           "id": "measured-provisional-budgets",
           "baseline_evidence": "states/executing.md:80 (universal 200-word hard rule replaced under PLAN-004)",
-          "candidate_evidence": "states/executing.md:64",
+          "candidate_evidence": "states/executing.md:65",
           "disposition": "replaced-with-approved-contract",
           "rationale": "Replaces the contradicted global 200-word hard cap with separate source measurements and explicitly provisional state budgets."
         },
         {
           "id": "exit-code-and-executed",
           "baseline_evidence": "states/executing.md:39; states/executing.md:42; skill.yaml: EXECUTING transition",
-          "candidate_evidence": "states/executing.md:69",
+          "candidate_evidence": "states/executing.md:70",
           "disposition": "preserved",
           "rationale": "Retains the exit code and executed requirement in the served state prompt; wording is scoped to the approved operation and available evidence."
         }
