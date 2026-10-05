@@ -3,7 +3,7 @@
 > Official catalog of **Reactive Skills** powered by the [Reactive Skills Architecture](https://github.com/Reactive-Skills/reactive-skills).
 
 Each skill is a hierarchical state machine with isolated state prompts, deterministic guards, and projected deliverables.
-Browse the catalog online at [reactive-skills.github.io/registry](https://reactive-skills.github.io/registry/).
+Browse the catalog online at [reactive-skills.com/registry](https://reactive-skills.com/registry/).
 
 ---
 
