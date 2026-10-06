@@ -26,7 +26,8 @@ It unifies the nine discrete JSM workflow skills (`scope`, `audit`, `architect`,
 The workflow presents one concise Definition of Done before implementation.
 The approval card names the outcome, deliverables and locations, setup and use, itemized checks and evidence, assumptions, gotchas, exclusions, decisions, and planned external actions.
 Exact checks run deterministically; Jev judges semantic checks at a 0.85 probability threshold, with each question tied to one criterion ID.
-`skill.yaml` declares `min_probability: 0.85` on that judgment, which needs runtime 0.17.0 or later with the `judgment.probability_thresholds` capability.
+`skill.yaml` declares `min_probability: 0.85` on that judgment, which needs runtime 0.19.0 or later with the `judgment.probability_thresholds` and `judgment.context_paths` capabilities.
+The judgment sets `context_paths: []` and `include_payload: true`, so Jev sees only the submitted `active_check` from the signal payload and none of the run context; older runtimes refuse the skill rather than sending the whole run.
 The runtime refuses `USER_APPROVED` unless the DoD has an outcome and every criterion has a unique ID, question, expected result, `exact` or `semantic` check type, and evidence method.
 Failed criteria return to the agent with the unsupported assertions and evidence, then route through repair and re-check.
 The workflow asks for another approval only for a focused DoD diff after an accepted outcome or load-bearing decision changes.

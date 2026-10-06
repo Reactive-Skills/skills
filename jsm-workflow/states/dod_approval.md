@@ -27,7 +27,9 @@ Do not begin implementation before approval.
 
 - Outcome, deliverables, locations, setup, and use are explicit.
 - Each check has a unique ID, one observable assertion, a yes/no question, an expected result, an `exact` or `semantic` check type, and an evidence method.
-- Compound checks are split into separate item IDs before approval.
+- Refuse a compound semantic check; split it into separate item IDs before approval. The judge scores one assertion per call, so a joined assertion can pass on one half while the other half fails unnoticed.
+  Compound: `C3: Does the page show the totals and send the receipt email?`
+  Split: `C3: Does the page show the totals?` and `C4: Does the system send the receipt email?`
 - Assumptions, gotchas, exclusions, decisions, and external actions are listed.
 - Only blocking user-owned choices remain open.
 - A short highlight summary makes the approval card skimmable.
