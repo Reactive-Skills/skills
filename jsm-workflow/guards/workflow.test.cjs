@@ -190,8 +190,9 @@ test('Jev is asked about the check this signal submits, not the stored one', asy
     assert.deepEqual(paths, ['event.contextUpdates.dod_record.active_check.question'], id);
     assert.equal(resolve(state, paths[0]), activeCheck.question, id);
   }
-  // The stored record still holds C1 while C2 is judged, so a context fallback would judge a stale check.
-  assert.equal(calls.at(-1).state.context.dod_record.active_check.id, 'C1');
+  // The stored record still holds C1 while C2 is judged; the scoped judgment sends no run context, so the stale check never reaches Jev.
+  assert.deepEqual(calls.at(-1).state.context, {});
+  assert.equal(calls.at(-1).state.event.contextUpdates.dod_record.active_check.id, 'C2');
 });
 
 test('every signal that can leave INTAKE is refused until run_id is set', async t => {
