@@ -27,7 +27,7 @@ allow:
   - skill: onboarding-map
     rule: code/child-process
     path: guards/terminal_guard_assertions.test.js
-    reason: "Node test harness that locates the global runtime with `npm root -g`; skill.yaml does not reference it, so the runtime never loads it."
+    reason: "Node test harness listed under skill.yaml guards: as a validation test; it is not a guardFunction, so the runtime never loads it; it locates the global runtime with `npm root -g`."
   - skill: pep8-review
     rule: code/child-process
     path: guards/workflow.test.cjs
