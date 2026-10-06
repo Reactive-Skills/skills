@@ -93,3 +93,71 @@ jobs:
         run: node scripts/validate-skill-releases.js --base-ref "$BASE_REF"
         env:
           BASE_REF: ${{ github.event.pull_request.base.sha || github.event.before }}
+
+  vet-skills:
+    name: Vet Skills
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Reactive Skills runtime
+        run: npm install --global @reactive-skills/axi@0.19.0
+
+      - name: Select skills to vet
+        id: select
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          all=$(for f in */skill.yaml; do dirname "$f"; done)
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            changed=$(git diff --name-only "$BASE_SHA...$HEAD_SHA")
+            # A change to the allowlist or this workflow can affect every skill.
+            if printf '%s\n' "$changed" | grep -qxE '\.vet-allowlist\.yaml|\.github/workflows/ci\.yml'; then
+              skills=$all
+            else
+              skills=$(printf '%s\n' "$changed" | cut -d/ -f1 | sort -u | while read -r d; do
+                [ -f "$d/skill.yaml" ] && echo "$d" || true
+              done)
+            fi
+          else
+            skills=$all
+          fi
+          echo "Skills to vet:"; printf '%s\n' "$skills"
+          echo "skills<<EOF" >> "$GITHUB_OUTPUT"
+          printf '%s\n' "$skills" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+
+      - name: Vet skills
+        env:
+          SKILLS: ${{ steps.select.outputs.skills }}
+        run: |
+          mkdir -p vet-report
+          status=0
+          for skill in $SKILLS; do
+            code=0
+            reactive-skills-axi vet "$skill" --allowlist .vet-allowlist.yaml --fail-on high --json > "vet-report/$skill.json" || code=$?
+            echo "::group::vet $skill (exit $code)"
+            reactive-skills-axi vet "$skill" --allowlist .vet-allowlist.yaml --fail-on high || true
+            echo "::endgroup::"
+            if [ "$code" -ne 0 ]; then status=1; fi
+          done
+          exit $status
+
+      - name: Upload vet report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vet-report
+          path: vet-report/
+          if-no-files-found: ignore
