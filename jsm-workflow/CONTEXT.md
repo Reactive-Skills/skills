@@ -29,7 +29,8 @@ Each implementation route converges on one DoD approval before changes begin.
 The concise approval card records outcome, deliverables and locations, setup and use, itemized criteria with observable results and evidence methods, boundaries, assumptions, gotchas, approved decisions, and planned external actions.
 Scope, workflow tier, architecture, UI direction, and optional documentation recommendations appear in that same approval card.
 After approval, exact checks run deterministically and Jev judges semantic criteria at a 0.85 probability pass threshold.
-`skill.yaml` declares `min_probability: 0.85` on that judgment, which needs runtime 0.17.0 or later with the `judgment.probability_thresholds` capability.
+`skill.yaml` declares `min_probability: 0.85` on that judgment, which needs runtime 0.19.0 or later with the `judgment.probability_thresholds` and `judgment.context_paths` capabilities.
+The judgment sets `context_paths: []` and `include_payload: true`, so Jev sees only the submitted `active_check` from the signal payload and none of the run context; older runtimes refuse the skill rather than sending the whole run.
 Each semantic check includes a focused question tied to one criterion ID; a failed judgment records unsupported assertions and routes those items to repair and re-verification.
 Both approval gates refuse a DoD that lacks an outcome or has a criterion without a unique ID, question, expected result, check type, or evidence method.
 The lifecycle reaches COMPLETE only when all approved criteria pass with evidence.

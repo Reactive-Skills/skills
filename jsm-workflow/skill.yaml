@@ -1,13 +1,14 @@
 schema_version: 2.1.0
 name: jsm-workflow
-version: 1.4.0
+version: 1.5.0
 description: Reactive SDLC coordinator taking software changes from intake to final context sync, implementing the JS Mastery Engineering Workflow (https://jsmastery.com/skills).
 initial_state: INIT
 strict_execution: true
 runtime_requirements:
-  min_runtime_version: 0.17.0
+  min_runtime_version: 0.19.0
   required_capabilities:
     - judgment.probability_thresholds
+    - judgment.context_paths
 lifecycle_events:
   DECISION_REOPENED:
     description: Bubbled lifecycle event handled by ACTIVE when any active phase reopens a load bearing decision.
@@ -215,6 +216,9 @@ states:
               # Jev sees the signal payload as `event`; the stored context still holds the previous check, so only the signal's check counts.
               criterion: "Does the delivered output satisfy the single approved assertion in `event.contextUpdates.dod_record.active_check.question`, based only on that check's `expected_result` and `evidence`? Answer no when this signal carries no active check."
               min_probability: 0.85
+              # The check travels in the payload, and the stored context holds the previous one, so send the payload and no context.
+              context_paths: []
+              include_payload: true
               adapter_hint: jev
               fallback_target: ACTIVE.DEVELOP
           DOD_AUDIT_PASSED:

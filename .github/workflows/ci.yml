@@ -59,7 +59,7 @@ jobs:
         run: node scripts/update-toc.js --check
 
       - name: Install Reactive Skills runtime
-        run: npm install --global @reactive-skills/axi@0.17.3
+        run: npm install --global @reactive-skills/axi@0.19.0
 
       - name: Test skill guards
         run: node --test */guards/*.test.cjs */guards/*.test.js
