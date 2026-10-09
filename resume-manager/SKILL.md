@@ -75,10 +75,11 @@ Triggered when the user provides a Job Description (JD) or asks to tailor materi
    - De-emphasizes raw years of experience unless explicitly demanded by JD thresholds.
 4. **Gap Analysis & 25–35 Keyword Calibration:** Weaves 25–35 role-specific terms into bullet points and taxonomy. Socratic verification prevents unearned keyword claims.
 5. **Company Alignment:** Researches culture, mission, public signals, and conversation angles (`company_alignment.md`).
-6. **ATS Drafting:** Generates single-column `resume.md` and tailored `cover_letter.md` in `<output_dir>/<Company>/<Role>/`. Gated before export by `guards/voice_standards_audit.yaml` to ensure zero AI clichés or sycophantic corporate openings.
-7. **Document Export:** Automatically compiles `.docx` and `.pdf` via bundled `convert_resume.py`.
-8. **Interview Prep:** Produces `interview_prep.md` including pre-emptive answers to "Why this job? Aren't you overqualified?".
-9. **Continuous Flywheel:** Offers to capture newly verified skills and sharpened phrasing back into the master profile.
+6. **ATS Drafting:** Generates single-column `resume.md` and tailored `cover_letter.md` in `<output_dir>/<Company>/<Role>/`. Gated by `guards/voice_standards_audit.yaml` to ensure zero AI clichés or sycophantic corporate openings in the cover letter.
+7. **Authenticity Review:** Audits the resume headline and bullets for AI-generated tells (buzzwords with no named system, missing result or method, repeated opening verbs, template phrasing, em dashes) and checks every metric against the master profile. Gated before export by `guards/resume_authenticity_audit.yaml`. Flagged lines return to drafting and are rewritten from verified profile facts only; the candidate is asked when a line has no verified metric or method.
+8. **Document Export:** Automatically compiles `.docx` and `.pdf` via bundled `convert_resume.py`.
+9. **Interview Prep:** Produces `interview_prep.md` including pre-emptive answers to "Why this job? Aren't you overqualified?".
+10. **Continuous Flywheel:** Offers to capture newly verified skills and sharpened phrasing back into the master profile.
 
 ### 2. Maintenance Mode (`MAINTAIN`)
 Triggered when the user wants to add an accomplishment, promotion, or new skill:
@@ -122,6 +123,7 @@ For customized applications:
 - `guards/profile_track_selection.yaml` — Jev choice contract for matching target JD to profile archetype.
 - `guards/profile_evaluation_questionnaire.yaml` — Jev bundled questionnaire for parallel forward-pass profile evaluation.
 - `guards/voice_standards_audit.yaml` — Jev predicate gate auditing cover letter drafts for AI clichés and corporate slop.
+- `guards/resume_authenticity_audit.yaml`: Jev predicate gate judging whether the resume reads as written by the candidate, after the agent pre-check for mechanical tells and unverified metrics.
 - `guards/accomplishment_xyz_audit.yaml` — Jev predicate gate validating Google XYZ metric syntax.
 - `guards/mode_selection.yaml` — Jev choice contract for classifying user intent into operational modes.
 - `templates/resume-template.md` — Markdown layout contract the exporter renders (right-aligned dates via tab stops, no tables).

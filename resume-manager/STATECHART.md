@@ -71,7 +71,13 @@ stateDiagram-v2
     COMPANY_ALIGNMENT --> DRAFTING: ALIGNMENT_DRAFTED
 
     state "DRAFTING" as DRAFTING
-    DRAFTING --> EXPORTING: MATERIALS_DRAFTED [timeline_reconciled == true, gaps == 0, and voice predicate judgment P(clean) >= 0.80]
+    DRAFTING --> AUTHENTICITY_REVIEW: MATERIALS_DRAFTED [timeline_reconciled == true, gaps == 0, and voice predicate judgment P(clean) >= 0.80]
+    DRAFTING --> DRAFTING: judgment fallback [voice P(clean) < 0.80]
+
+    state "AUTHENTICITY_REVIEW" as AUTHENTICITY_REVIEW
+    AUTHENTICITY_REVIEW --> EXPORTING: RESUME_AUTHENTIC [flag counts == 0 and resume predicate judgment P(clean) >= 0.80]
+    AUTHENTICITY_REVIEW --> DRAFTING: RESUME_FLAGGED [authenticity_flag_count > 0 or unverified_metric_count > 0]
+    AUTHENTICITY_REVIEW --> DRAFTING: judgment fallback [resume P(clean) < 0.80]
 
     state "EXPORTING" as EXPORTING
     EXPORTING --> INTERVIEW_PREP: EXPORT_COMPLETE [exit_code == 0]

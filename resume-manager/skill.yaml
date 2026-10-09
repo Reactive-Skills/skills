@@ -1,5 +1,5 @@
 schema_version: 2.1.0
-version: 2.5.1
+version: 2.6.0
 name: resume-manager
 description: >-
   Consolidated reactive career management engine. Orchestrates master profile bootstrapping,
@@ -34,6 +34,9 @@ context_keys:
   - cover_letter_path
   - alignment_path
   - interview_prep_path
+  - resume_text
+  - authenticity_flags
+  - unverified_metrics
   - new_achievements
 
 default_context:
@@ -58,6 +61,9 @@ default_context:
   cover_letter_path: null
   alignment_path: null
   interview_prep_path: null
+  resume_text: null
+  authenticity_flags: []
+  unverified_metrics: []
   new_achievements: []
 
 states:
@@ -298,7 +304,7 @@ states:
       - ask_question
     transitions:
       MATERIALS_DRAFTED:
-        target: EXPORTING
+        target: AUTHENTICITY_REVIEW
         guard: payload.timeline_reconciled == true && payload.unresolved_gap_count == 0
         judgment:
           type: predicate
@@ -306,6 +312,26 @@ states:
           min_probability: 0.8
           fallback_adapter: script
           fallback_target: DRAFTING
+
+  AUTHENTICITY_REVIEW:
+    description: "Audit resume headline and bullets for AI-generated tells and unverified metrics before export"
+    prompt_template: states/authenticity_review.md
+    tools:
+      - view_file
+      - ask_question
+    transitions:
+      RESUME_AUTHENTIC:
+        target: EXPORTING
+        guard: payload.authenticity_flag_count == 0 && payload.unverified_metric_count == 0
+        judgment:
+          type: predicate
+          criterion: "Does the resume text in resume_text read as written by the candidate, with concrete systems, actions, results, and methods in each bullet and no buzzwords or template phrasing?"
+          min_probability: 0.8
+          fallback_adapter: script
+          fallback_target: DRAFTING
+      RESUME_FLAGGED:
+        target: DRAFTING
+        guard: payload.authenticity_flag_count > 0 || payload.unverified_metric_count > 0
 
   EXPORTING:
     description: "Export markdown application materials to formatted DOCX and PDF"
