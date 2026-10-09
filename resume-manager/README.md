@@ -131,8 +131,10 @@ Defined in [`skill.yaml`](skill.yaml). For the full interactive diagram, see [`S
 
 The customization path can route from `PROFILE_SELECTION` to `FIT_REVIEW` when fit evidence is weak or uncertain.
 The workflow does not auto-reject the role.
-The `DRAFTING` to `EXPORTING` transition requires a completed timeline reconciliation with zero unresolved employment gaps.
+The `DRAFTING` to `AUTHENTICITY_REVIEW` transition requires a completed timeline reconciliation with zero unresolved employment gaps.
 The drafting state restores verified roles that resolve omissions and asks the candidate about uncertain dates or intentional omissions instead of inventing explanations.
+The `AUTHENTICITY_REVIEW` to `EXPORTING` transition requires zero flagged tells, zero unverified metrics, and a passing resume judgment (`guards/resume_authenticity_audit.yaml`).
+Otherwise the resume returns to `DRAFTING`, which rewrites only the flagged lines from verified profile facts and asks the candidate when a line has no verified metric or method.
 
 ```
    ┌──────┐
@@ -171,6 +173,11 @@ The drafting state restores verified roles that resolve omissions and asks the c
    │ DRAFTING │
    └─────┬────┘
          │ MATERIALS_DRAFTED
+         ▼
+   ┌─────────────────────┐   RESUME_FLAGGED
+   │ AUTHENTICITY_REVIEW ├──────────────────► back to DRAFTING
+   └─────┬───────────────┘
+         │ RESUME_AUTHENTIC
          ▼
    ┌───────────┐
    │ EXPORTING │ ◄── Compiles DOCX & PDF
@@ -260,7 +267,7 @@ resume-manager/
 │   ├── overqualification-and-framing.md
 │   └── professional-voice-standards.md
 ├── guards/                 # Deterministic transition guards
-├── states/                 # 20 isolated state prompts (*.md)
+├── states/                 # 22 isolated state prompts (*.md)
 ├── tests/                  # DOCX exporter layout tests
 └── templates/              # Resume layout, master profile, snapshot & inventory templates
 ```

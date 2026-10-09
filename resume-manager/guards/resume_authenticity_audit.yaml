@@ -1,0 +1,26 @@
+# Judgment: Resume Authenticity Audit
+primitive: noul
+
+state:
+  resume_text: "`context.resume_text`"
+
+question: |
+  Does `state.resume_text` read as written by the candidate, with concrete systems, actions, results, and methods in each bullet and no buzzwords or template phrasing?
+
+# Mechanical tells (repeated opening verb, "Accomplished" opener, "as measured by", stacked hedges, em dashes)
+# and metrics missing from the master profile are checked by AUTHENTICITY_REVIEW before this judgment runs.
+# The judgment covers the holistic read that those checks cannot.
+# P is P(clean). No escalate band: anything below accept returns to DRAFTING.
+thresholds:
+  accept: ">= 0.80"
+  reject: "< 0.80"
+
+failure_behavior: fail_closed
+
+snap_on:
+  judgment:
+    type: predicate
+    criterion: "Does the resume text in resume_text read as written by the candidate, with concrete systems, actions, results, and methods in each bullet and no buzzwords or template phrasing?"
+    min_probability: 0.8
+    fallback_adapter: script
+    fallback_target: DRAFTING

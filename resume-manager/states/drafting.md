@@ -39,10 +39,26 @@ You are drafting the candidate's single-column ATS-compliant resume (`resume.md`
 - Emit `MATERIALS_DRAFTED` with `timeline_reconciled: true`, `unresolved_gap_count: 0`, and `timeline_audit_notes` alongside the resume and cover letter paths.
 - If any gap is unresolved, repair the resume or ask the candidate, then repeat the chronology audit before emitting the signal.
 
+## Revision After Authenticity Review
+- Apply this section only when `AUTHENTICITY_REVIEW` sent the resume back: `context.authenticity_flags` or `context.unverified_metrics` has entries, or `context.resume_text` is set.
+- If both lists are empty but `resume_text` is set, the judgment rejected the resume as a whole.
+  Reread `resume.md` against the question in `guards/resume_authenticity_audit.yaml` and rewrite the weakest bullets.
+- Otherwise rewrite only the flagged lines in `resume.md`.
+  Leave every other line and `cover_letter.md` unchanged.
+- Build each rewrite from facts in the verified master profile: the real system, the real action, the real result, and the real method.
+- Give each rewritten bullet a different opening verb from the other bullets in its entry.
+- Remove or replace each metric listed in `unverified_metrics` with the figure the master profile supports.
+- If the profile gives no verified metric or method for a flagged line, ask the candidate for the real detail.
+  Never invent, estimate, or round up a number to clear a flag.
+- If a flag has `repeat` of 1 or more, the same location failed review after a rewrite.
+  Stop rewriting it and ask the candidate for the real detail.
+- Leave `authenticity_flags` in context when emitting `MATERIALS_DRAFTED`.
+  `AUTHENTICITY_REVIEW` reads it to detect repeats and clears it when the resume passes.
+
 ## Instructions
 1. Use the same resolved `master_profile_path` and selected track under `profiles_dir` used by earlier states; do not search a second agent-specific location.
-2. Draft `resume.md` adhering to all ATS and calibration constraints.
-3. Draft `cover_letter.md` adhering to voice rules and intent framing.
+2. Draft `resume.md` adhering to all ATS and calibration constraints, or follow `Revision After Authenticity Review` when flags are present.
+3. Draft `cover_letter.md` adhering to voice rules and intent framing, unless this is a revision pass.
 4. Save both files to the target role directory.
 5. Emit `MATERIALS_DRAFTED` with payload `{"resume_path": resume_path, "cover_letter_path": cover_letter_path}`.
 
@@ -56,7 +72,9 @@ You are drafting the candidate's single-column ATS-compliant resume (`resume.md`
 - [CRUCIAL] No unexplained employment gaps remain before export.
 - [IMPORTANT] Confirmed career breaks or intentional omissions are recorded in the timeline audit notes.
 - [IMPORTANT] 25–35 keywords woven naturally across resume and cover letter.
+- [CRUCIAL] On a revision pass, no metric was invented, estimated, or rounded up.
 - [NEGATIVE] Absence of corporate buzzwords and AI cliché openers (enforced via `guards/voice_standards_audit.yaml`).
 
 ## Signal
 Emit: `MATERIALS_DRAFTED` (gated by `guards/voice_standards_audit.yaml` predicate contract).
+The resume then goes to `AUTHENTICITY_REVIEW`, which uses `guards/resume_authenticity_audit.yaml`.
