@@ -1,0 +1,229 @@
+schema_version: 2.1.0
+name: llm-eval-design
+version: 1.0.0
+type: reactive
+description: >-
+  Define measurable success criteria for an LLM application and design the evaluations that test them.
+  Produces an approved plan covering criteria, eval methods, graders, and test-case coverage.
+  Optionally generates an eval harness and runs it, each behind its own human approval gate.
+initial_state: INIT
+strict_execution: true
+runtime_requirements:
+  min_runtime_version: 0.16.0
+  required_capabilities:
+    - runtime.bootloader
+    - runtime.transport_handshake
+    - runtime.accepted_update_replay
+context_keys: []
+context_schema:
+  selected_runtime:
+    type: object
+    nullable: true
+  intake:
+    type: object
+    nullable: true
+  criteria:
+    type: object
+    nullable: true
+  eval_design:
+    type: object
+    nullable: true
+  grading:
+    type: object
+    nullable: true
+  plan_approval:
+    type: object
+    nullable: true
+  harness:
+    type: object
+    nullable: true
+  run_approval:
+    type: object
+    nullable: true
+  calibration:
+    type: object
+    nullable: true
+  results:
+    type: object
+    nullable: true
+  stop:
+    type: object
+    nullable: true
+  report:
+    type: object
+    nullable: true
+default_context:
+  selected_runtime: null
+  intake: null
+  criteria: null
+  eval_design: null
+  grading: null
+  plan_approval: null
+  harness: null
+  run_approval: null
+  calibration: null
+  results: null
+  stop: null
+  report: null
+states:
+  INIT:
+    prompt_template: states/init.md
+    model:
+      tier: fast
+    transitions:
+      RUNTIME_READY:
+        target: ACTIVE
+        guardFunction: guards/runtime-ready.cjs
+      SETUP_REQUIRED:
+        target: BYPASS_DETECTED
+        guardFunction: guards/setup-required.cjs
+  ACTIVE:
+    prompt_template: states/active/parent.md
+    model:
+      tier: balanced
+    transitions:
+      CANCEL:
+        target: ACTIVE.FINALIZE
+        guardFunction: guards/cancel.cjs
+      DEPENDENCY_FAILED:
+        target: ACTIVE.FINALIZE
+        guardFunction: guards/dependency-failed.cjs
+    initial_substate: INTAKE
+    substates:
+      INTAKE:
+        prompt_template: states/active/intake.md
+        model:
+          tier: balanced
+        transitions:
+          INTAKE_READY:
+            target: ACTIVE.CRITERIA
+            guardFunction: guards/intake-ready.cjs
+      CRITERIA:
+        prompt_template: states/active/criteria.md
+        model:
+          tier: reasoning
+        transitions:
+          CRITERIA_READY:
+            target: ACTIVE.EVAL_DESIGN
+            guardFunction: guards/criteria-ready.cjs
+      EVAL_DESIGN:
+        prompt_template: states/active/eval_design.md
+        model:
+          tier: reasoning
+        transitions:
+          EVAL_DESIGN_READY:
+            target: ACTIVE.GRADING
+            guardFunction: guards/eval-design-ready.cjs
+      GRADING:
+        prompt_template: states/active/grading.md
+        model:
+          tier: reasoning
+        transitions:
+          GRADING_READY:
+            target: ACTIVE.APPROVE_PLAN
+            guardFunction: guards/grading-ready.cjs
+      APPROVE_PLAN:
+        prompt_template: states/active/approve_plan.md
+        model:
+          tier: decision
+        transitions:
+          PLAN_APPROVED_FINAL:
+            target: ACTIVE.FINALIZE
+            guardFunction: guards/plan-approved-final.cjs
+          PLAN_APPROVED_BUILD:
+            target: ACTIVE.HARNESS
+            guardFunction: guards/plan-approved-build.cjs
+          REVISE_PLAN:
+            target: ACTIVE.CRITERIA
+            guardFunction: guards/revise-plan.cjs
+      HARNESS:
+        prompt_template: states/active/harness.md
+        model:
+          tier: balanced
+        transitions:
+          HARNESS_READY:
+            target: ACTIVE.APPROVE_RUN
+            guardFunction: guards/harness-ready.cjs
+      APPROVE_RUN:
+        prompt_template: states/active/approve_run.md
+        model:
+          tier: decision
+        transitions:
+          RUN_APPROVED:
+            target: ACTIVE.RUN
+            guardFunction: guards/run-approved.cjs
+          RUN_DECLINED:
+            target: ACTIVE.FINALIZE
+            guardFunction: guards/run-declined.cjs
+      RUN:
+        prompt_template: states/active/run/parent.md
+        model:
+          tier: balanced
+        initial_substate: CALIBRATE
+        substates:
+          CALIBRATE:
+            prompt_template: states/active/run/calibrate.md
+            model:
+              tier: reasoning
+            transitions:
+              CALIBRATION_PASSED:
+                target: ACTIVE.RUN.SCORE
+                guardFunction: guards/calibration-passed.cjs
+              CALIBRATION_FAILED:
+                target: ACTIVE.GRADING
+                guardFunction: guards/calibration-failed.cjs
+          SCORE:
+            prompt_template: states/active/run/score.md
+            model:
+              tier: balanced
+            transitions:
+              SCORING_COMPLETE:
+                target: ACTIVE.FINALIZE
+                guardFunction: guards/scoring-complete.cjs
+      FINALIZE:
+        prompt_template: states/active/finalize.md
+        model:
+          tier: balanced
+        transitions:
+          REPORT_READY:
+            target: COMPLETE
+            guardFunction: guards/report-ready.cjs
+          REPORT_BLOCKED:
+            target: BLOCKED
+            guardFunction: guards/report-blocked.cjs
+  COMPLETE:
+    prompt_template: states/complete.md
+    model:
+      tier: fast
+  BLOCKED:
+    prompt_template: states/blocked.md
+    model:
+      tier: fast
+  BYPASS_DETECTED:
+    prompt_template: states/bypass_detected.md
+    model:
+      tier: fast
+deliverable_projections:
+  - template: templates/snapshot.md.hbs
+    output: .docs/llm-eval-design/snapshot.md
+    trigger_on:
+      - STATE_TRANSITION
+  - template: templates/inventory.json.hbs
+    output: .docs/llm-eval-design/inventory.json
+    trigger_on:
+      - STATE_TRANSITION
+  - template: templates/plan.md.hbs
+    output: .docs/llm-eval-design/plan.md
+    trigger_on:
+      - PLAN_APPROVED_FINAL
+      - PLAN_APPROVED_BUILD
+  - template: templates/plan.json.hbs
+    output: .docs/llm-eval-design/plan.json
+    trigger_on:
+      - PLAN_APPROVED_FINAL
+      - PLAN_APPROVED_BUILD
+  - template: templates/report.md.hbs
+    output: .docs/llm-eval-design/report.md
+    trigger_on:
+      - REPORT_READY
+      - REPORT_BLOCKED

@@ -1,0 +1,23 @@
+# Eval design report
+Job: {{jobId}}
+Outcome: {{context.report.outcome}}
+Measured claims: {{context.report.claims_measured}}
+
+{{context.report.summary}}
+
+## Results
+```json
+{{{json context.results}}}
+{{{json context.calibration}}}
+```
+
+## Evidence and limitations
+```json
+{{{json context.report.evidence_refs}}}
+{{{json context.report.limitations}}}
+{{{json context.stop}}}
+```
+
+Results cover only the approved cases, graders, and conditions.
+Held-out cases were not used to tune prompts or rubrics.
+A grader error count above zero lowers confidence in the affected criterion.
