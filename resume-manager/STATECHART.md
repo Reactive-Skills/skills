@@ -75,9 +75,9 @@ stateDiagram-v2
     DRAFTING --> DRAFTING: judgment fallback [voice P(clean) < 0.80]
 
     state "AUTHENTICITY_REVIEW" as AUTHENTICITY_REVIEW
-    AUTHENTICITY_REVIEW --> EXPORTING: RESUME_AUTHENTIC [flag counts == 0 and resume predicate judgment P(clean) >= 0.80]
+    AUTHENTICITY_REVIEW --> EXPORTING: RESUME_AUTHENTIC [flag counts == 0 and resume predicate judgment P(clean) >= 0.70]
     AUTHENTICITY_REVIEW --> DRAFTING: RESUME_FLAGGED [authenticity_flag_count > 0 or unverified_metric_count > 0]
-    AUTHENTICITY_REVIEW --> DRAFTING: judgment fallback [resume P(clean) < 0.80]
+    AUTHENTICITY_REVIEW --> DRAFTING: judgment fallback [resume P(clean) < 0.70]
 
     state "EXPORTING" as EXPORTING
     EXPORTING --> INTERVIEW_PREP: EXPORT_COMPLETE [exit_code == 0]

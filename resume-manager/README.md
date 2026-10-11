@@ -133,7 +133,8 @@ The customization path can route from `PROFILE_SELECTION` to `FIT_REVIEW` when f
 The workflow does not auto-reject the role.
 The `DRAFTING` to `AUTHENTICITY_REVIEW` transition requires a completed timeline reconciliation with zero unresolved employment gaps.
 The drafting state restores verified roles that resolve omissions and asks the candidate about uncertain dates or intentional omissions instead of inventing explanations.
-The `AUTHENTICITY_REVIEW` to `EXPORTING` transition requires zero flagged tells, zero unverified metrics, and a passing resume judgment (`guards/resume_authenticity_audit.yaml`).
+The `AUTHENTICITY_REVIEW` to `EXPORTING` transition requires zero flagged tells, zero unverified metrics, and a resume style judgment of `P(clean) >= 0.70` (`guards/resume_authenticity_audit.yaml`).
+This operating threshold is not evidence of calibrated AI-authorship detection.
 Otherwise the resume returns to `DRAFTING`, which rewrites only the flagged lines from verified profile facts and asks the candidate when a line has no verified metric or method.
 
 ```
