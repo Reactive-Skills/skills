@@ -13,7 +13,9 @@ You are transforming raw interview notes into the candidate's canonical Master E
   3. `operations_management.md`: Emphasizing workflow redesign, cycle-time elimination, cost reduction, and operational oversight.
   4. `solutions_client_facing.md`: Emphasizing technical translation, customer empathy, and commercial alignment.
   5. `adjacent_industry.md`: Emphasizing grounded language, dependability, stable problem-solving, and anti-flight risk framing.
-- All bullet points across all profiles must be verb-first Google XYZ per `CONTEXT.md`.
+- All rendered bullets across all profiles must be verb-first Google XYZ per `CONTEXT.md`; raw project facts are exempt.
+- Write each Project Record in place under its employer entry or Open Source, using the Project Record block in `templates/master-profile-template.md`.
+- Each track file carries only the Project Records whose track relevance names that track.
 
 ## Instructions
 1. Compile and format `master_profile.md` at the resolved `master_profile_path` using the standard master profile template.
@@ -24,7 +26,8 @@ You are transforming raw interview notes into the candidate's canonical Master E
 ## Atomic Verification Checklist
 - [CRUCIAL] `master_profile.md` generated with full sections (contact, summary, skills, experience, education, projects).
 - [CRUCIAL] All five profile archetypes scaffolded with distinct narrative emphasis.
-- [IMPORTANT] Every bullet point is verb-first Google XYZ with a result, a metric, and a method.
+- [CRUCIAL] Project Records keep raw facts and rendered bullets together, with a `verified` flag on every metric.
+- [IMPORTANT] Every rendered bullet is verb-first Google XYZ with a result, a metric, and a method.
 - [NEGATIVE] Absence of generic or unedited template placeholders.
 
 ## Signal

@@ -2,6 +2,14 @@
 
 This guide codifies the exact linguistic rules and tone architecture used to ensure resumes, cover letters, and interview materials sound authentic, human, and grounded, completely devoid of AI generative clichés.
 
+## Contents
+
+- [1. The 6 Dead Tells of AI-Generated Application Materials](#1-the-6-dead-tells-of-ai-generated-application-materials)
+- [2. The Professional Peer-to-Peer Register](#2-the-professional-peer-to-peer-register)
+- [3. Side-by-Side Calibration Examples](#3-side-by-side-calibration-examples)
+- [4. Candidate Voice Profiles & Registers](#4-candidate-voice-profiles--registers)
+- [5. Weak Openers, Hedges, and Benefit Lines](#5-weak-openers-hedges-and-benefit-lines)
+
 ---
 
 ## 1. The 6 Dead Tells of AI-Generated Application Materials
@@ -86,3 +94,30 @@ Different candidates have distinct personal communication styles. During profili
 4. **Standard Clean Professional (Default Baseline):**
    - **Characteristics:** Balanced, polite, direct professional baseline used when no specific preference is expressed. Clean, credible, and free of hype.
 
+---
+
+## 5. Weak Openers, Hedges, and Benefit Lines
+
+### Weak Openers and Hedges
+Apply to spoken answers, interview scripts, and cover letters.
+
+| Cut | Use instead |
+|---|---|
+| "I just wanted to say that" | "My point is" |
+| "I hope this isn't a bad idea, but" | "My perspective is" |
+| "I think we should maybe try" | State the recommendation: "We should try X." |
+| "To be honest", "kind of", "sort of" | Delete them and state the claim |
+
+State the answer first, give two or three reasons, then stop.
+Add detail only when asked.
+
+### Benefit Lines
+Use for resume summary sentence 3, the spoken 20-word introduction, and the cover letter opener.
+
+- Write about the audience, not the candidate: say what the employer gets, not a list of titles or awards.
+- Benefit form: a verb phrase naming the audience and the result it wants.
+- Breakthrough form: the benefit plus a `without` clause naming the cost the audience wants to avoid.
+- Use the employer's own terms and plain words; no value-proposition language.
+- Resume summary sentence 3 is third person with an implied subject.
+  The spoken introduction and cover letter opener are first person.
+- Back every benefit line with a verified project record.

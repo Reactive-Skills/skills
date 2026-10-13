@@ -1,5 +1,5 @@
 schema_version: 2.1.0
-version: 2.6.1
+version: 2.7.0
 name: resume-manager
 description: >-
   Consolidated reactive career management engine. Orchestrates master profile bootstrapping,
@@ -38,6 +38,9 @@ context_keys:
   - authenticity_flags
   - unverified_metrics
   - new_achievements
+  - project_record
+  - selected_projects
+  - new_accomplishment
 
 default_context:
   mode: null
@@ -65,6 +68,9 @@ default_context:
   authenticity_flags: []
   unverified_metrics: []
   new_achievements: []
+  project_record: []
+  selected_projects: []
+  new_accomplishment: null
 
 states:
   INIT:

@@ -9,6 +9,7 @@ Check every metric against the verified master profile.
 - `context.resume_path`
 - `context.master_profile_path`
 - `context.active_profile_id`
+- `context.selected_projects`
 
 ## Context Variables Set
 - `context.resume_text`: full text of the resume headline and experience bullets
@@ -19,7 +20,7 @@ Check every metric against the verified master profile.
 1. Read `resume_path` and the master profile at `master_profile_path` for the selected track under `profiles_dir`.
    Read the existing `context.authenticity_flags`: entries there come from the previous review round.
 2. Set `resume_text` to the headline and every experience bullet.
-3. Flag each line that has any of these tells (see `references/professional-voice-standards.md`, tells 2, 5, and 6).
+3. Flag each line that has any of these tells (see `references/professional-voice-standards.md`, tells 2, 5, and 6, and the Project Record rules in `CONTEXT.md`).
    Record `location` as the employer or project plus the bullet number, or `headline`.
    Set `repeat` to 0 for a new flag, or to the previous `repeat` plus 1 when the same `location` was flagged in the previous round.
    - buzzwords with no named system or action
@@ -27,7 +28,10 @@ Check every metric against the verified master profile.
    - the same opening verb on more than two bullets
    - an "Accomplished" opener, an "as measured by" clause, or stacked hedges such as "up to approximately"
    - an em dash, or a double hyphen used as one
+   - a statement the master profile lists as a non-claim
+   - a confidential internal product name (a record with `visibility: confidential` carries the resume label to use instead)
 4. Check every number and percentage in the resume against the master profile.
+   A metric is supported only when a Project Record lists it with `verified: yes` or the profile's role text states it.
    Record each one the profile does not support in `unverified_metrics`.
 5. Never edit `resume.md` in this state.
    Never invent or adjust a metric to clear a flag.
@@ -46,6 +50,7 @@ Persist `resume_text`, `authenticity_flags`, and `unverified_metrics` in `contex
 ## Atomic Verification Checklist
 - [CRUCIAL] Every resume metric was compared with the master profile.
 - [CRUCIAL] No metric was invented, rounded up, or adjusted to clear a flag.
+- [CRUCIAL] No resume line states a non-claim or a confidential internal product name.
 - [CRUCIAL] `resume.md` is unchanged by this state.
 - [IMPORTANT] Each flag names the exact line and the tell.
 - [IMPORTANT] Counts in the payload equal the list lengths in context.
