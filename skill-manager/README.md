@@ -72,6 +72,9 @@ Defined in [`skill.yaml`](skill.yaml). For full Mermaid state diagrams, see [`ST
 1. **`PLANNING`**: Resolves missing requirements and compares suitable architectural shapes when undecided.
 Records the chosen shape, rationale, exact file manifest, and all seven RED answers when enabled.
 2. **`APPROVING`**: Pre-commit approval gate displaying the chosen shape, architectural rationale, and structured file manifest.
+   - `USER_APPROVED` continues to `EXECUTING`.
+   - `USER_REVISE` sends the user's feedback to `REVISING`, which updates the plan and returns here. Rounds are unlimited and led by the user.
+   - `USER_REJECTED` ends the run in `CANCELLED`, a clean terminal state with nothing written.
 3. **`EXECUTING`**: Applies only approved file operations in the canonical source, preserving nested paths and unrelated files.
 4. **`VERIFYING`**: Validates the new/modified skill with the runtime's `validate "<target_skill_dir>"` and bundled authoring checker, bi-directional hygiene checks (no orphan templates or empty folders), and syntax checks.
 5. **`ROLLING_BACK`**: Atomic cleanup on verification failure before transitioning to `ERROR`.
@@ -223,7 +226,7 @@ skill-manager/
 ├── evals/                  # Behavioral scenarios and measured evidence
 ├── tests/                  # Offline helper/evidence tests
 ├── guards/                 # Deterministic transition guards
-├── states/                 # 22 isolated state prompts (*.md)
+├── states/                 # 24 isolated state prompts (*.md)
 │   ├── init.md
 │   ├── setup_runtime.md
 │   ├── ready.md

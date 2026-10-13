@@ -29,7 +29,9 @@ stateDiagram-v2
     %% CREATE / UPDATE / DELETE Lifecycle Branch
     PLANNING --> APPROVING : PLAN_READY
     APPROVING --> EXECUTING : USER_APPROVED
-    APPROVING --> ERROR : USER_REJECTED
+    APPROVING --> REVISING : USER_REVISE
+    REVISING --> APPROVING : PLAN_READY
+    APPROVING --> CANCELLED : USER_REJECTED
     EXECUTING --> VERIFYING : EXECUTED
     VERIFYING --> PROJECTING : VERIFIED_OK [exit_code == 0]
     VERIFYING --> ROLLING_BACK : VERIFIED_FAIL [exit_code != 0]
@@ -58,6 +60,7 @@ stateDiagram-v2
     %% Projection & Terminal States
     PROJECTING --> SUCCESS : PROJECTED
     SUCCESS --> [*]
+    CANCELLED --> [*]
     ERROR --> [*]
 ```
 
@@ -67,6 +70,6 @@ stateDiagram-v2
 |-------|--------|-------------|
 | **Bootloader** | `INIT`, `SETUP_RUNTIME`, `READY`, `PARSING` | Uses read-only compatibility preflight, retains one invoked manager run, and parses the requested operation; unavailable setup requires explicit authorization. |
 | **Detection** | `DETECTING` | Checks the absolute target within the selected registered authoring source to determine whether the target exists, is legacy, or is v1 reactive. Routes to the appropriate branch or halts on constraint errors. |
-| **CRUD Lifecycle** | `PLANNING`, `APPROVING`, `EXECUTING`, `VERIFYING`, `ROLLING_BACK` | Scaffolds (`CREATE`), modifies (`UPDATE`), or deletes (`DELETE`) skills with a mandatory human approval gate and automated rollback on verification failure. Hierarchical authoring uses `substates` and `initial_substate`; validation checks those fields before attributing nested-target errors to the runtime. Planning exposes design decisions, execution follows the approved manifest, and verification checks observed outcomes. Each served prompt retains its constraints and signals; prompt budgets remain provisional until supported by evaluations. |
+| **CRUD Lifecycle** | `PLANNING`, `APPROVING`, `REVISING`, `EXECUTING`, `VERIFYING`, `ROLLING_BACK` | Scaffolds (`CREATE`), modifies (`UPDATE`), or deletes (`DELETE`) skills with a mandatory human approval gate and automated rollback on verification failure. Hierarchical authoring uses `substates` and `initial_substate`; validation checks those fields before attributing nested-target errors to the runtime. Planning exposes design decisions, execution follows the approved manifest, and verification checks observed outcomes. Each served prompt retains its constraints and signals; prompt budgets remain provisional until supported by evaluations. |
 | **Migration Lifecycle** | `BACKING_UP_MIGRATE`, `INFERRING_LEGACY`, `GRILLING_MIGRATE`, `INSPECTING_REACTIVE`, `PLANNING_MIGRATE`, `APPROVING_MIGRATE`, `EXECUTING_MIGRATE`, `VERIFYING_MIGRATE`, `RESTORING_MIGRATE` | Creates an atomic backup, analyzes legacy `SKILL.md` or v1 `skill.yaml` structure (with Socratic grilling if confidence is $< 0.5$), executes migration, and restores from backup on failure. |
-| **Delivery & Terminus** | `PROJECTING`, `SUCCESS`, `ERROR` | Renders runtime-owned snapshot and inventory projections; completion reports verify the retained run's actual archive paths and contents rather than assuming optional root mirrors exist. |
+| **Delivery & Terminus** | `PROJECTING`, `SUCCESS`, `CANCELLED`, `ERROR` | Renders runtime-owned snapshot and inventory projections; completion reports verify the retained run's actual archive paths and contents rather than assuming optional root mirrors exist. `CANCELLED` records a run the user ended at the approval gate, with no writes. |
