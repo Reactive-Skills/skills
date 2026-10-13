@@ -42,6 +42,22 @@ A high-level summary of career scope, domain expertise, and core strengths acros
   - [Verb] [result X with metric Y] by [method Z].
 - **Core Technologies Used:** [List of tools/languages]
 - **Architectural & Operational Complexity:** [Detailed notes on technical or operational hurdles overcome]
+- **Projects:** One Project Record per project, nested below (see `CONTEXT.md`). Raw facts are exempt from the XYZ criterion. Rendered bullets are held to it.
+
+#### [Project Name] | [Month YYYY – Month YYYY]
+- **Visibility / Resume Label:** [public | confidential] | [function-only label used on resumes when confidential]
+- **Role / Ownership / Team:** [title on this project] | [sole | lead | contributor] | [team size]
+- **Problem & Context:** [what was broken or needed, and why it mattered to the business]
+- **Stack:** [languages, frameworks, services]
+- **Decisions & Tradeoffs:** [key choices, alternatives rejected, and why]
+- **Metrics:**
+  - [value] | [source] | [verified: yes | no]
+- **Non-Claims:** [statements the evidence does not support]
+- **Track Relevance:** [senior_technical, practical_mid_technical, operations_management, solutions_client_facing, adjacent_industry]
+- **Keyword Tags:** [exact terms a job description might use]
+- **Story Seed:** Challenge: [...]. Action: [...]. Result: [...]. Own the miss: [one line]. Derived figures: [value = arithmetic from a verified metric, labeled derived].
+- **Rendered Bullets (verb-first Google XYZ):**
+  - [Verb] [result X with metric Y] by [method Z].
 
 ---
 
@@ -52,4 +68,4 @@ A high-level summary of career scope, domain expertise, and core strengths acros
 ---
 
 ## Open Source, Projects & Publications
-- **[Project Name]:** [Description, link, scale/impact]
+- **[Project Name]:** [Description, link, scale/impact]. Add a Project Record block with the same fields under each entry.

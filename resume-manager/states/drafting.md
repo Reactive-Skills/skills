@@ -15,14 +15,27 @@ You are drafting the candidate's single-column ATS-compliant resume (`resume.md`
   - Attribute work to the employer where it was done. Personal or open-source work goes under `Open Source` or `Projects`, never under an employer entry.
   - Follow the markdown layout in `templates/resume-template.md` so the exporter can right-align dates and locations without tables.
   - Title Mirroring: headline mirrors or standardizes the target job title.
+  - Project Selection: build experience bullets from `context.selected_projects`, using only rendered bullets and metrics marked `verified: yes`.
+    When `selected_projects` is empty because the profile has no Project Records, build bullets from the existing role-level bullets and metrics as before.
+    Never state a non-claim.
+    Describe a `confidential` project by its resume label and keep internal product names out.
+  - Professional Summary has three sentences.
+    Sentence 1 mirrors the target title with the core stack.
+    Sentence 2 gives two or three headline metrics.
+    Sentence 3 is a benefit line of about 20 words: third person with an implied subject (no "I"), stating what the employer gets, with a `without` clause naming the avoided cost, built from a verified project record, or a verified role-level metric when no records exist, in the employer's vocabulary (see `references/professional-voice-standards.md`).
 - Overqualification & Down-Leveling Calibration (when `overqualified_risk == true`):
   - Apply grounded language mappings from `calibrate_framing.md`.
   - Strip out raw year-count lead-ins ("15+ years").
   - Emphasize practical execution, team collaboration, and reliable day-to-day delivery.
 - Cover Letter Voice & Constraints:
   - Adhere to candidate's calibrated voice register (`direct_practitioner`, `mission_led`, `executive_strategic`, or `standard_professional`).
-  - If `direct_practitioner`: strictly zero glazing, zero storytelling preamble, zero company flattery; lead directly with problem domain, technical mechanics, and quantifiable outcomes.
+  - If `direct_practitioner`: strictly zero glazing, zero storytelling preamble, zero company flattery; after the benefit sentence, go directly to problem domain, technical mechanics, and quantifiable outcomes.
   - Grounded, conversational, sharp first-person voice.
+  - Open with what the employer gets, in plain words and first person, with a `without` clause naming the avoided cost.
+    Never open with a list of accomplishments.
+    For `direct_practitioner`, follow the benefit sentence immediately with the system and verified result that back it.
+  - Cut weak openers and hedges ("I just wanted to", "I hope this isn't a bad idea, but", "I think we should maybe", "to be honest", "kind of").
+    State the claim instead.
   - Zero em dashes (`—` or `--`). Use periods, commas, or split sentences.
   - Zero corporate slop or AI cliché openers ("I am writing to express my enthusiastic interest", "testament to", "delve", "leverage", "synergy").
   - For overqualified/adjacent roles, weave the authentic anti-flight risk intent narrative naturally into paragraphs 1 and 4.
@@ -57,6 +70,7 @@ You are drafting the candidate's single-column ATS-compliant resume (`resume.md`
 
 ## Instructions
 1. Use the same resolved `master_profile_path` and selected track under `profiles_dir` used by earlier states; do not search a second agent-specific location.
+   Read the Project Records named in `context.selected_projects`.
 2. Draft `resume.md` adhering to all ATS and calibration constraints, or follow `Revision After Authenticity Review` when flags are present.
 3. Draft `cover_letter.md` adhering to voice rules and intent framing, unless this is a revision pass.
 4. Save both files to the target role directory.
@@ -68,6 +82,8 @@ You are drafting the candidate's single-column ATS-compliant resume (`resume.md`
 - [CRUCIAL] Every resume bullet is verb-first Google XYZ: result, metric, and method, with no "Accomplished" opener or "as measured by" clause.
 - [CRUCIAL] Every bullet sits under the employer or project where the work was actually done.
 - [CRUCIAL] Contact info in primary body text without emojis or header XML.
+- [CRUCIAL] Summary sentence 3 is a benefit line with a `without` clause, built from a verified project record or role-level metric.
+- [CRUCIAL] Every metric comes from a record marked `verified: yes` or, when no records exist, from the profile's role-level text; no non-claim or confidential product name appears.
 - [CRUCIAL] Every dated role from the master profile has been compared with the tailored resume timeline.
 - [CRUCIAL] No unexplained employment gaps remain before export.
 - [IMPORTANT] Confirmed career breaks or intentional omissions are recorded in the timeline audit notes.

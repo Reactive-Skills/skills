@@ -8,7 +8,7 @@
 
 {{one_sentence_positioning_with_target_title_and_core_stack}}
 {{one_sentence_with_two_or_three_headline_metrics}}
-{{one_sentence_scope_or_domain_line}}
+{{benefit_line_about_20_words_third_person_with_without_clause}}
 
 ## Technical Skills
 
@@ -40,5 +40,6 @@ Layout contract read by assets/convert_resume.py:
 - `### Left | Right` renders bold with the right part right-aligned by a tab stop, never a table.
 - The line directly after `###` renders italic with the part after the last ` | ` right-aligned.
 - Bullets are verb-first Google XYZ (see CONTEXT.md). Personal projects go under Open Source, never under an employer.
+- Summary sentence 3 is a benefit line of about 20 words: third person with an implied subject, what the employer gets, and a `without` clause naming the avoided cost, built from a verified project record.
 - Drop this comment block from drafted resumes.
 -->

@@ -6,6 +6,8 @@ You are interviewing a candidate who does not currently have a Master Experience
 ## Realistic Constraints
 - Career history must be gathered chronologically, starting from the most recent role.
 - Every major achievement must capture Google XYZ content (result X, metric Y, method Z), recorded verb-first per `CONTEXT.md`. Never settle for passive responsibilities (e.g. "Responsible for backend development").
+- Capture each major project as a Project Record per `CONTEXT.md`: raw facts, a story seed, and at least one rendered bullet.
+  Raw facts are exempt from the XYZ gate; rendered bullets are not.
 - Inquire about target career directions: Senior Technical, Hands-on Mid-Level, Operations/Leadership, or Non-Technical/Adjacent Industries.
 - Do not fabricate dates, roles, or metrics. State assumptions explicitly if estimates are given.
 
@@ -16,6 +18,7 @@ You are interviewing a candidate who does not currently have a Master Experience
    - Core technical stack and business tools used.
    - Top 3–5 quantifiable accomplishments with concrete metrics (latency, scale, revenue, cost, cycle time).
    - Architectural or operational hurdles overcome.
+   - For each major project: ownership, team size, problem and context, stack, decisions and tradeoffs, metrics with sources, non-claims, public or confidential visibility, and a story seed (challenge, action, result, one line on what went wrong or would change).
    - Leadership, mentorship, or cross-functional coordination.
 2. Collect education, certifications, and portfolio projects.
 3. Conduct Socratic Voice & Tone Discovery:
@@ -31,6 +34,7 @@ You are interviewing a candidate who does not currently have a Master Experience
 ## Atomic Verification Checklist
 - [CRUCIAL] Every recorded achievement contains an explicit metric or quantifiable outcome.
 - [CRUCIAL] Core technical tools and frameworks cataloged.
+- [CRUCIAL] Every major project has a Project Record with sourced metrics, visibility, and non-claims.
 - [IMPORTANT] Candidate's target industry preferences recorded.
 - [NEGATIVE] Zero action-only or responsibility-only bullet points.
 

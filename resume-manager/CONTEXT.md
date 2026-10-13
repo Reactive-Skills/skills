@@ -49,3 +49,41 @@ Render bullets verb-first: *[Strong past-tense verb] [result with metric] by [me
 Example: "Cut client onboarding from 3-5 days to under 5 minutes by building a React/TypeScript operations console and .NET Core API."
 Never open with "Accomplished", never write "as measured by", and never use a measurement that restates the action ("as measured by team size mentored").
 Action-only bullets without quantifiable outcomes are strictly prohibited.
+This ban applies to rendered bullets, not to the raw facts of a Project Record.
+
+### Project Record
+The unit of granular career evidence in the master profile.
+One record per project, product, or system, stored in place under its employer entry or under Open Source.
+A record holds raw facts and rendered bullets.
+Raw facts are exempt from the XYZ gate: period, role, team size, visibility, problem and context, ownership, stack, decisions and tradeoffs, metrics, non-claims, track relevance, keyword tags, and story seed.
+Rendered bullets are verb-first Google XYZ and are the only part held to the criterion in `guards/accomplishment_xyz_audit.yaml`.
+The runtime judges `context.new_accomplishment` at `RECORDED`, so the agent checks each earlier bullet against that criterion before emitting `RECORD_MORE`.
+Every record carries at least one rendered bullet.
+When enriching an existing project, restate its existing bullet if it is still accurate so the gate re-verifies it.
+
+Field rules:
+- `visibility` is `public` or `confidential`.
+  A confidential record also carries a resume label: a function-only description used on resumes in place of internal product names.
+- `ownership` is `sole`, `lead`, or `contributor`.
+- Each metric is written as `value | source | verified yes or no`.
+  Only `verified: yes` metrics may appear in drafted materials.
+  A figure with conflicting sources stays `verified: no` until the candidate resolves it.
+- A non-claim is a statement the evidence does not support, such as a speed gain that was never measured.
+  Drafting and authenticity review treat non-claims as banned claims.
+- `track relevance` lists one or more profile archetype ids.
+- `keyword tags` are the exact terms a job description might use for this project.
+- Facts prefilled from repositories or earlier drafts carry `verified: no` until the candidate confirms them.
+
+Where a role, project, or profile has no Project Records, use its existing role-level bullets and metrics as before.
+Selection, drafting, interview prep, and company alignment must not stall or drop real metrics when no records exist.
+A role-level metric counts as verified when the profile text states it; unconfirmed prefill never counts.
+
+### Story Seed
+A short interview narrative stored on a Project Record.
+It holds the challenge, the action, and the result in CAR order, one line on what went wrong or what the candidate would change, and any derived figures.
+It is raw material for interview answers, not resume text.
+
+### Derived Figure
+A number computed from a verified metric to make scale easier to hear, such as a daily count restated per second.
+Label it derived and show the arithmetic.
+Use it only in spoken answers, never on a resume.

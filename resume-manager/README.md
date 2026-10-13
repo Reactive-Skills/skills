@@ -3,7 +3,7 @@
 > Consolidated reactive career management engine. Orchestrates master profile bootstrapping, continuous achievement maintenance, multi-track profile specialization, and job application tailoring with automated overqualification and anti-flight risk calibration.
 
 [![Schema Version](https://img.shields.io/badge/schema-v2.1.0-blue.svg)](skill.yaml)
-[![Skill Version](https://img.shields.io/badge/version-v2.2.0-green.svg)](skill.yaml)
+[![Skill Version](https://img.shields.io/badge/version-v2.7.0-green.svg)](skill.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE)
 
 ---
@@ -84,17 +84,18 @@ Triggered when providing a Job Description (JD) to tailor a full application pac
 2. **Profile Selection & Role Fit Judgment**: Selects the optimal archetype, evaluates fit from JD and verified profile evidence, and checks for overqualification triggers.
    Weak or low-confidence fits pause at `FIT_REVIEW` for a human decision before tailoring continues.
 3. **Framing & Anti-Flight Risk Calibration**: Neutralizes jargon and grounds intent.
-4. **25–35 Keyword Calibration**: Weaves ATS keywords into bullet points with truthful candidate verification.
+4. **25–35 Keyword Calibration**: Weaves ATS keywords into bullet points with truthful candidate verification and selects 3 to 5 Project Records with verified metrics.
 5. **Company Alignment**: Researches employer mission, engineering values, and conversational angles.
-6. **ATS Drafting**: Generates clean, single-column `resume.md` and tailored `cover_letter.md`.
+6. **ATS Drafting**: Generates clean, single-column `resume.md` and tailored `cover_letter.md`. Summary sentence 3 is a benefit line with a `without` clause.
 7. **Career Timeline Reconciliation**: Compares dated roles in the master profile with the tailored resume and resolves unexplained gaps before export.
 8. **Document Export**: Compiles pixel-perfect `.docx` and `.pdf` files.
-9. **Interview Prep**: Produces tailored Q&A including pre-emptive answers for "Why this role? Aren't you overqualified?".
+9. **Interview Prep**: Produces a 20-word introduction, one lead story in CAR order, pre-emptive answers for "Why this role? Aren't you overqualified?", success and obstacle questions to ask, and a closing line built from verified facts.
 10. **Continuous Flywheel**: Prompts to compound newly verified skills and sharpened phrasing back into the master profile.
 
 ### 2. Maintenance Mode (`MAINTAIN`)
 Triggered when adding a new achievement, promotion, or skill:
-- Formulates verb-first Google XYZ bullet points (*[Verb] [result with metric] by [method]*).
+- Captures a Project Record per project: raw facts (ownership, stack, decisions, sourced metrics, non-claims, visibility, track relevance, story seed) plus verb-first Google XYZ bullets (*[Verb] [result with metric] by [method]*).
+- Tags prefilled facts `verified: no` until you confirm them; only verified metrics reach drafted materials.
 - Synchronizes updates across active profile tracks.
 
 ### 3. Bootstrap Mode (`BOOTSTRAP`)
@@ -269,7 +270,7 @@ resume-manager/
 │   └── professional-voice-standards.md
 ├── guards/                 # Deterministic transition guards
 ├── states/                 # 22 isolated state prompts (*.md)
-├── tests/                  # DOCX exporter layout tests
+├── tests/                  # DOCX layout, authenticity threshold, and project record contract tests
 └── templates/              # Resume layout, master profile, snapshot & inventory templates
 ```
 

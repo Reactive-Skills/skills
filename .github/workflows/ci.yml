@@ -44,7 +44,7 @@ jobs:
         run: node scripts/validate-skills.js
 
       - name: Test skill-manager evaluation evidence
-        run: node --test skill-manager/tests/evals.test.cjs skill-manager/tests/run-cli.test.cjs
+        run: node --test skill-manager/tests/evals.test.cjs skill-manager/tests/run-cli.test.cjs skill-manager/tests/approval-flow.test.cjs
 
       - name: Test portable authoring checks
         run: node --test skill-manager/tests/authoring-quality.test.cjs

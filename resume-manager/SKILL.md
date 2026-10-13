@@ -73,7 +73,7 @@ Triggered when the user provides a Job Description (JD) or asks to tailor materi
    - Translates high-abstraction tech jargon into grounded business outcomes (see `references/overqualification-and-framing.md`).
    - Crafts a credible, grounded intent narrative in the cover letter explaining why this specific environment and role are genuinely attractive.
    - De-emphasizes raw years of experience unless explicitly demanded by JD thresholds.
-4. **Gap Analysis & 25–35 Keyword Calibration:** Weaves 25–35 role-specific terms into bullet points and taxonomy. Socratic verification prevents unearned keyword claims.
+4. **Gap Analysis & 25–35 Keyword Calibration:** Weaves 25–35 role-specific terms into bullet points and taxonomy. Socratic verification prevents unearned keyword claims. Ranks Project Records against the JD and selects 3 to 5 with verified metrics.
 5. **Company Alignment:** Researches culture, mission, public signals, and conversation angles (`company_alignment.md`).
 6. **ATS Drafting:** Generates single-column `resume.md` and tailored `cover_letter.md` in `<output_dir>/<Company>/<Role>/`. Gated by `guards/voice_standards_audit.yaml` to ensure zero AI clichés or sycophantic corporate openings in the cover letter.
 7. **Authenticity Review:** Audits the resume headline and bullets for AI-generated tells (buzzwords with no named system, missing result or method, repeated opening verbs, template phrasing, em dashes) and checks every metric against the master profile.
@@ -81,13 +81,14 @@ Triggered when the user provides a Job Description (JD) or asks to tailor materi
    This style threshold does not establish calibrated AI-authorship detection.
    Flagged lines return to drafting and are rewritten from verified profile facts only; the candidate is asked when a line has no verified metric or method.
 8. **Document Export:** Automatically compiles `.docx` and `.pdf` via bundled `convert_resume.py`.
-9. **Interview Prep:** Produces `interview_prep.md` including pre-emptive answers to "Why this job? Aren't you overqualified?".
+9. **Interview Prep:** Produces `interview_prep.md` with a 20-word introduction, one lead story in CAR order, pre-emptive answers to "Why this job? Aren't you overqualified?", success and obstacle questions to ask, and a closing line built from verified facts.
 10. **Continuous Flywheel:** Offers to capture newly verified skills and sharpened phrasing back into the master profile.
 
 ### 2. Maintenance Mode (`MAINTAIN`)
 Triggered when the user wants to add an accomplishment, promotion, or new skill:
 1. Loads target profile record.
-2. Prompts for the achievement using Google XYZ content (result, metric, method) and records it verb-first (*[Verb] [result with metric] by [method]*).
+2. Prompts for a Project Record: raw facts (ownership, stack, decisions, sourced metrics, non-claims, visibility, track relevance, story seed) plus verb-first rendered bullets (*[Verb] [result with metric] by [method]*).
+   Only rendered bullets are held to the XYZ criterion, and unconfirmed prefill stays `verified: no`.
 3. Updates experience entries and synchronizes skill taxonomies.
 
 ### 3. Bootstrap Mode (`BOOTSTRAP`)

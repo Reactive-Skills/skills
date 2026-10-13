@@ -22,6 +22,8 @@ Both evaluations can execute in a single forward pass via `guards/profile_evalua
    - Operations Manager, Program Manager, Business Process -> `operations_management`
    - Solutions Architect, TAM, Customer Engineering -> `solutions_client_facing`
    - Healthcare, Manufacturing, Government, Logistics, Non-Tech Sector -> `adjacent_industry`
+   - Read the Project Records whose track relevance names the chosen track.
+     Cite matching records in `role_fit_reasons` and name unmatched JD requirements in `role_fit_gaps`.
 7. **Evaluate Overqualification & Flight-Risk Flags:**
    - Does the candidate have 10-15+ years of senior/staff/principal background, while the role is mid-level, non-technical, or in a traditional non-software industry?
    - If YES, set `overqualified_risk = true` and prepare to down-level technical jargon, modulate seniority signals, and construct an authentic anti-flight risk intent narrative.
