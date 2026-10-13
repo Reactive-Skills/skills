@@ -119,6 +119,15 @@ Do not add a nonstandard model field to SKILL frontmatter.
 | MIGRATE_LEGACY | Convert a legacy SKILL.md skill to reactive (v1 or v2) |
 | MIGRATE_REACTIVE | Upgrade a reactive skill from v1 to v2.0.0 |
 
+## CRUD Approval Outcomes
+
+At APPROVING the user answers one of three ways.
+`USER_APPROVED` continues to EXECUTING.
+`USER_REVISE` sends feedback to REVISING, which updates the plan and returns to APPROVING; rounds are unlimited and led by the user.
+`USER_REJECTED` ends the run in CANCELLED, a terminal state that records no failure and writes no files.
+ERROR is reserved for failures.
+The migration branch is unchanged: a rejected migration plan restores from backup and ends in ERROR.
+
 ## MIGRATE_LEGACY Flow
 
 1. READY: Await skill_name + operation=MIGRATE_LEGACY

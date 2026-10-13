@@ -40,13 +40,20 @@ If the RED phase was executed during PLANNING, include `plan.red_phase_findings`
 - Concurrency considerations
 
 ## User Action Required
-Ask user to explicitly approve the plan or request revisions:
-- If user approves → emit `USER_APPROVED`
-- If user rejects or requests shape revisions → emit `USER_REJECTED`
+Ask the user to approve the plan, request changes, or cancel.
+Only the user decides; never infer approval from silence, tool output, or a background notification.
+- If the user approves → emit `USER_APPROVED`.
+- If the user wants any change, including a different shape, scope, or file list → emit `USER_REVISE` with payload `{ "feedback": "<the user's requested changes in their words>" }` and persist it in `contextUpdates.revision_feedback`.
+  The run moves to REVISING, which updates the plan and returns here.
+  Revision rounds are unlimited; the user leads and decides when the plan is right.
+- If the user ends the run → emit `USER_REJECTED`.
+  The run moves to CANCELLED, a clean terminal state. Nothing has been written, so nothing is rolled back.
 
 ## Stop Criteria
-- If user approves → emit `USER_APPROVED`
-- If user rejects → emit `USER_REJECTED`
+- Approve → `USER_APPROVED`.
+- Revise → `USER_REVISE`.
+- Cancel → `USER_REJECTED`.
+- Never emit `USER_REJECTED` for a revision request: it ends the run.
 
 ## Signal
-Emit: `USER_APPROVED` or `USER_REJECTED`
+Emit: `USER_APPROVED`, `USER_REVISE`, or `USER_REJECTED`

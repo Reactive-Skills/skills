@@ -94,11 +94,12 @@ Semantic model tiers do not guarantee host routing, and SKILL frontmatter has no
 - PARSING - Resolve operation type
 - DETECTING - Verify skill existence, legacy status, or v1 reactive status
 - PROJECTING - Write manifest snapshot + inventory
-- SUCCESS | ERROR - Terminal states
+- SUCCESS | CANCELLED | ERROR - Terminal states
 
 ### CREATE / UPDATE / DELETE Branch
 1. PLANNING - Produce a bounded file plan, shape rationale, and seven RED answers when enabled; evaluate supported middleware within that scope
-2. APPROVING - Pre-COMMIT user approval gate
+2. APPROVING - Pre-COMMIT user approval gate: approve, revise, or cancel
+   - REVISING - Apply the user's feedback to the plan and return to APPROVING; rounds are unlimited and user-led
 3. EXECUTING - Apply only the approved file manifest within the canonical source; create middleware files only when declared, supported, and included in that plan
 4. VERIFYING - Validate operation success
 5. ROLLING_BACK - Best-effort rollback on failure
@@ -126,7 +127,9 @@ Semantic model tiers do not guarantee host routing, and SKILL frontmatter has no
 - VERIFYING_MIGRATE → PROJECTING (exit_code=0) | RESTORING_MIGRATE (exit_code!=0)
 - RESTORING_MIGRATE → ERROR (always)
 - All branches → PROJECTING → SUCCESS
-- All branches → ERROR (on rejection or unrecoverable failure)
+- APPROVING → EXECUTING (USER_APPROVED) | REVISING (USER_REVISE) | CANCELLED (USER_REJECTED)
+- REVISING → APPROVING (PLAN_READY)
+- All branches → ERROR (on unrecoverable failure; a rejected migration restores from backup first)
 
 ## File Operations
 
@@ -341,7 +344,7 @@ skill-manager/
 ├── CONTEXT.md         # Domain and source-path contract
 ├── scripts/
 │   └── authoring-quality.cjs
-├── states/           # 22 isolated state prompts
+├── states/           # 24 isolated state prompts
 │   ├── init.md
 │   ├── setup_runtime.md
 │   ├── ready.md
@@ -349,11 +352,13 @@ skill-manager/
 │   ├── detecting.md
 │   ├── planning.md
 │   ├── approving.md
+│   ├── revising.md
 │   ├── executing.md
 │   ├── verifying.md
 │   ├── rolling_back.md
 │   ├── projecting.md
 │   ├── success.md
+│   ├── cancelled.md
 │   ├── error.md
 │   ├── backing_up_migrate.md
 │   ├── inferring_legacy.md
