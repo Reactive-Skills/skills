@@ -5,7 +5,7 @@ You are interviewing a candidate who does not currently have a Master Experience
 
 ## Realistic Constraints
 - Career history must be gathered chronologically, starting from the most recent role.
-- Every major achievement must capture Google XYZ content (result X, metric Y, method Z), recorded verb-first per `CONTEXT.md`. Never settle for passive responsibilities (e.g. "Responsible for backend development").
+- Every major achievement must capture Google XYZ content (result X, evidence Y, method Z), recorded verb-first per `CONTEXT.md`. Never settle for passive responsibilities (e.g. "Responsible for backend development").
 - Capture each major project as a Project Record per `CONTEXT.md`: raw facts, a story seed, and at least one rendered bullet.
   Raw facts are exempt from the XYZ gate; rendered bullets are not.
 - Inquire about target career directions: Senior Technical, Hands-on Mid-Level, Operations/Leadership, or Non-Technical/Adjacent Industries.
@@ -16,7 +16,7 @@ You are interviewing a candidate who does not currently have a Master Experience
    - Company name, location/remote status, exact title, and dates (`Month YYYY – Month YYYY`).
    - High-level mission of the team/business domain.
    - Core technical stack and business tools used.
-   - Top 3–5 quantifiable accomplishments with concrete metrics (latency, scale, revenue, cost, cycle time).
+   - Top 3–5 accomplishments with concrete evidence: a sourced number (latency, scale, revenue, cost, cycle time) when one is recorded, otherwise a before/after or who it helped.
    - Architectural or operational hurdles overcome.
    - For each major project: ownership, team size, problem and context, stack, decisions and tradeoffs, metrics with sources, non-claims, public or confidential visibility, and a story seed (challenge, action, result, one line on what went wrong or would change).
    - Leadership, mentorship, or cross-functional coordination.
@@ -32,7 +32,7 @@ You are interviewing a candidate who does not currently have a Master Experience
 5. If candidate cancels, emit `ABORT_BOOTSTRAP`.
 
 ## Atomic Verification Checklist
-- [CRUCIAL] Every recorded achievement contains an explicit metric or quantifiable outcome.
+- [CRUCIAL] Every recorded achievement contains concrete evidence: a sourced number, a before/after, or who it helped.
 - [CRUCIAL] Core technical tools and frameworks cataloged.
 - [CRUCIAL] Every major project has a Project Record with sourced metrics, visibility, and non-claims.
 - [IMPORTANT] Candidate's target industry preferences recorded.

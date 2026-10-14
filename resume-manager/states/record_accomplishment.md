@@ -6,7 +6,8 @@ The unit of capture is a Project Record (see `CONTEXT.md`): raw facts plus at le
 
 ## Realistic Constraints
 - Raw facts are exempt from the XYZ gate.
-  Each rendered bullet is verb-first Google XYZ with a result, a metric, and a method, recorded per `CONTEXT.md`: *[Verb] [result with metric] by [method]*.
+  Each rendered bullet is verb-first Google XYZ with a result, evidence, and a method, recorded per `CONTEXT.md`: *[Verb] [result with evidence] by [method]*.
+  Evidence is a sourced number, a before/after, or who it helped. Never require a number.
 - Record which employer or personal project the work belongs to.
   Enrich the existing entry in place; never move, reorder, or delete existing content.
 - Never invent a metric, role, date, team size, or outcome.
@@ -21,17 +22,18 @@ The unit of capture is a Project Record (see `CONTEXT.md`): raw facts plus at le
 ## Instructions
 1. Name the project and its employer or Open Source home.
    If the profile already has an entry or prefill, read it and confirm each prefilled fact with the candidate.
-2. Collect the raw facts one field at a time: period, role, team size, ownership, problem and context, stack, decisions and tradeoffs, metrics with sources, non-claims, visibility and resume label, track relevance, keyword tags.
+2. Collect the raw facts one field at a time: period, role, team size, ownership, problem and context, stack, decisions and tradeoffs, any recorded numbers with their sources (ask what is recorded and where; none is a valid answer), non-claims, visibility and resume label, track relevance, keyword tags.
 3. Draft the story seed: challenge, action, result, one line on what went wrong or what the candidate would change, and any derived figures.
    Compute each derived figure from a verified metric, show the arithmetic, and label it derived.
 4. Draft the rendered bullets, or restate the existing bullet if it is still accurate.
+   Build the evidence from the first true option: a sourced number, then a before/after, then who it helped.
    Append the completed record to the `project_record` list in `contextUpdates`, never overwriting earlier entries, and set `context.new_accomplishment` to the bullet being verified.
 5. If the candidate has another bullet or project to add, first check the current bullet against the XYZ criterion yourself, because the runtime judges only `context.new_accomplishment` at `RECORDED`, then emit `RECORD_MORE`.
 6. If the candidate is finished recording, emit `RECORDED`.
 
 ## Atomic Verification Checklist
-- [CRUCIAL] Each rendered bullet is verb-first Google XYZ with a result, a metric, and a method.
-- [CRUCIAL] Every metric has a source and a verified flag; unconfirmed prefill stays `verified: no`.
+- [CRUCIAL] Each rendered bullet is verb-first Google XYZ with a result, evidence (a sourced number, a before/after, or who it helped), and a method.
+- [CRUCIAL] Every recorded metric has a source and a verified flag (a record with no metrics is valid); unconfirmed prefill stays `verified: no`.
 - [CRUCIAL] No fact was invented, estimated, or rounded up.
 - [CRUCIAL] Specific technologies, frameworks, or methodologies documented.
 - [IMPORTANT] Visibility, ownership, non-claims, and destination profile tracks recorded.

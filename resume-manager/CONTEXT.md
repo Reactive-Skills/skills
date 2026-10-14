@@ -3,7 +3,7 @@
 ## Core Entities & Concepts
 
 ### Master Experience Profile (`master_profile.md`)
-The single, comprehensive repository of a professional's entire career history. Unlike a tailored resume, it is intentionally unconstrained in length and contains every role, quantifiable accomplishment, system architecture decision, leadership metric, patent, and tool ever used.
+The single, comprehensive repository of a professional's entire career history. Unlike a tailored resume, it is intentionally unconstrained in length and contains every role, accomplishment, system architecture decision, leadership metric, patent, and tool ever used.
 
 ## Profile Home and Path Resolution
 
@@ -43,12 +43,19 @@ Low-confidence or weak classifications require human review before tailoring wor
 Empirical ATS optimization standard where resumes containing between 25 and 35 exact-match keywords from the target job posting achieve peak search ranking without tripping automated AI spam/keyword-stuffing penalties.
 
 ### Google XYZ Formula
-The content standard for every resume bullet: a result [X], a quantified measurement [Y], and the method [Z].
+The content standard for every resume bullet: a result [X], evidence [Y], and the method [Z].
+Evidence is the first of these that is true, in order of preference:
+1. A sourced number: scope or scale (volumes, customers served, headcount, direct reports, company context such as ARR growth) or a measured before/after pair.
+2. A before/after in words, with the changed state named.
+3. Who it helped or what depended on it.
+A number is welcome whenever the candidate can name its source, and the interview asks for the number and its basis.
+A number is never required: never create, estimate, or round up a number to fill Y, and effect percentages appear only when verified.
 XYZ is a content check, not literal wording.
-Render bullets verb-first: *[Strong past-tense verb] [result with metric] by [method]*.
-Example: "Cut client onboarding from 3-5 days to under 5 minutes by building a React/TypeScript operations console and .NET Core API."
-Never open with "Accomplished", never write "as measured by", and never use a measurement that restates the action ("as measured by team size mentored").
-Action-only bullets without quantifiable outcomes are strictly prohibited.
+Render bullets verb-first: *[Strong past-tense verb] [result with evidence] by [method]*.
+Example with a measured before/after: "Cut client onboarding from 3-5 days to under 5 minutes by building a React/TypeScript operations console and .NET Core API."
+Example with an audience: "Gave internal analysts and external consumers access to normalized MLS data through .NET Core APIs with OIDC authentication and Redis caching."
+Never open with "Accomplished", never write "as measured by", and never use evidence that restates the action ("as measured by team size mentored").
+Action-only bullets with no evidence are strictly prohibited, and a vague claim such as "improved processes" is not evidence.
 This ban applies to rendered bullets, not to the raw facts of a Project Record.
 
 ### Project Record
@@ -65,7 +72,8 @@ Field rules:
 - `visibility` is `public` or `confidential`.
   A confidential record also carries a resume label: a function-only description used on resumes in place of internal product names.
 - `ownership` is `sole`, `lead`, or `contributor`.
-- Each metric is written as `value | source | verified yes or no`.
+- Metrics are optional, and a record may have none.
+  Each metric that exists is written as `value | source | verified yes or no`.
   Only `verified: yes` metrics may appear in drafted materials.
   A figure with conflicting sources stays `verified: no` until the candidate resolves it.
 - A non-claim is a statement the evidence does not support, such as a speed gain that was never measured.

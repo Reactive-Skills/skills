@@ -3,7 +3,7 @@
 > Consolidated reactive career management engine. Orchestrates master profile bootstrapping, continuous achievement maintenance, multi-track profile specialization, and job application tailoring with automated overqualification and anti-flight risk calibration.
 
 [![Schema Version](https://img.shields.io/badge/schema-v2.1.0-blue.svg)](skill.yaml)
-[![Skill Version](https://img.shields.io/badge/version-v2.7.0-green.svg)](skill.yaml)
+[![Skill Version](https://img.shields.io/badge/version-v2.8.0-green.svg)](skill.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE)
 
 ---
@@ -94,8 +94,9 @@ Triggered when providing a Job Description (JD) to tailor a full application pac
 
 ### 2. Maintenance Mode (`MAINTAIN`)
 Triggered when adding a new achievement, promotion, or skill:
-- Captures a Project Record per project: raw facts (ownership, stack, decisions, sourced metrics, non-claims, visibility, track relevance, story seed) plus verb-first Google XYZ bullets (*[Verb] [result with metric] by [method]*).
+- Captures a Project Record per project: raw facts (ownership, stack, decisions, sourced metrics, non-claims, visibility, track relevance, story seed) plus verb-first Google XYZ bullets (*[Verb] [result with evidence] by [method]*).
 - Tags prefilled facts `verified: no` until you confirm them; only verified metrics reach drafted materials.
+- Numbers are optional: a bullet's evidence can be a sourced number, a before/after, or who it helped.
 - Synchronizes updates across active profile tracks.
 
 ### 3. Bootstrap Mode (`BOOTSTRAP`)

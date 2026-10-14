@@ -19,13 +19,13 @@
 
 ### {{employer}} | {{Mon YYYY}} – {{Mon YYYY or Present}}
 *{{title}}* | {{City, ST or Remote}}
-- {{Verb}} {{result with metric}} by {{method and stack}}.
-- {{Verb}} {{result with metric}} by {{method and stack}}.
+- {{Verb}} {{result with evidence}} by {{method and stack}}.
+- {{Verb}} {{result with evidence}} by {{method and stack}}.
 
 ## Open Source
 
 ### [{{project}}]({{project_url}}) | {{Mon YYYY}} – {{Mon YYYY or Present}}
-- {{Verb}} {{result with metric}} by {{method and stack}}.
+- {{Verb}} {{result with evidence}} by {{method and stack}}.
 
 ## Education
 
