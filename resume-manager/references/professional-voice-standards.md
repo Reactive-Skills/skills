@@ -40,12 +40,12 @@ When hiring managers, recruiters, and engineering leaders read resumes and cover
 
 ### Tell 5: Abstract Claims Without Mechanics
 - **The Problem:** *"Led cross-functional initiatives driving organizational alignment and technological innovation."* (Zero meaning).
-- **The Rule:** **Action + Technical Scope + Quantifiable Metric (Google XYZ).**
+- **The Rule:** **Action + Technical Scope + Evidence (Google XYZ).** Evidence is a sourced number, a before/after, or who it helped.
   > *"Refactored order processing pipeline to use asynchronous event streams, eliminating database lock contention and reducing checkout latency from 850ms to 45ms under peak Black Friday load."*
 
 ### Tell 6: Template-Stamped Bullets
 - **The Problem:** Every bullet opens with the same word and repeats the formula literally: *"Accomplished consistent practices across 8-10 engineers, as measured by team size mentored, by mentoring through code review."*
-- **The Rule:** Treat Google XYZ as a content check, not a sentence template. Open with a varied, specific verb, put the metric early, and end with the method. Use `~` once for an estimate instead of stacking hedges like "up to approximately".
+- **The Rule:** Treat Google XYZ as a content check, not a sentence template. Open with a varied, specific verb, put the evidence early, and end with the method. Use `~` once for an estimate instead of stacking hedges like "up to approximately".
   > *"Mentored 8-10 engineers in code review and SOLID design while setting team-wide xUnit and Jest testing baselines."*
 
 ---

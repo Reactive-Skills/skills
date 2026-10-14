@@ -39,6 +39,31 @@ class ProjectRecordContractTests(unittest.TestCase):
         ):
             self.assertIn("no Project Records", read(path), path)
 
+    def test_xyz_requires_evidence_not_a_number(self):
+        for path in (
+            "CONTEXT.md",
+            "guards/accomplishment_xyz_audit.yaml",
+            "skill.yaml",
+            "states/record_accomplishment.md",
+            "states/drafting.md",
+            "states/profile_bootstrap.md",
+            "templates/master-profile-template.md",
+            "templates/resume-template.md",
+        ):
+            text = read(path)
+            self.assertNotIn("quantified measurement", text, path)
+            self.assertNotRegex(text, r"(?i)result (X )?with metric", path)
+        self.assertIn("evidence [Y]", read("CONTEXT.md"))
+        self.assertIn("Never require a number", read("states/record_accomplishment.md"))
+        self.assertIn("Never add a number just to have one", read("states/drafting.md"))
+
+    def test_recorded_gate_criterion_matches_the_guard(self):
+        pattern = r'(?m)^\s+criterion: "([^"]+)"'
+        guard = re.search(pattern, read("guards/accomplishment_xyz_audit.yaml")).group(1)
+        manifest = re.search(pattern, read("skill.yaml")).group(1)
+        self.assertEqual(guard, manifest)
+        self.assertIn("a sourced number, a before/after, or who it helped", guard)
+
     def test_master_template_has_project_record_fields(self):
         template = read("templates/master-profile-template.md")
         for field in (

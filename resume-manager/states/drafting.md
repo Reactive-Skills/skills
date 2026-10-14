@@ -9,7 +9,9 @@ You are drafting the candidate's single-column ATS-compliant resume (`resume.md`
   - Plain text contact info in first paragraph of body flow (zero icons/emojis, never in header/footer XML).
   - Standard headings: `Professional Experience`, `Technical Skills` (or `Core Competencies`), `Education & Certifications`, `Projects`.
   - Strict uniform date syntax: `Month YYYY – Present` or `Month YYYY – Month YYYY`.
-  - Universal metric standard: every bullet point carries Google XYZ content (result X, metric Y, method Z) rendered verb-first per `CONTEXT.md` ("Cut client onboarding from 3-5 days to under 5 minutes by building a React/TypeScript operations console").
+  - Universal evidence standard: every bullet point carries Google XYZ content (result X, evidence Y, method Z) rendered verb-first per `CONTEXT.md`.
+    Use a verified number when one exists ("Cut client onboarding from 3-5 days to under 5 minutes by building a React/TypeScript operations console"), and otherwise a before/after or the audience served.
+    Never add a number just to have one.
   - Never open a bullet with "Accomplished" and never write "as measured by". No opening verb starts more than two bullets in one resume.
   - State an estimate once with `~` ("~40%"). Never stack hedges ("up to approximately").
   - Attribute work to the employer where it was done. Personal or open-source work goes under `Open Source` or `Projects`, never under an employer entry.
@@ -29,7 +31,7 @@ You are drafting the candidate's single-column ATS-compliant resume (`resume.md`
   - Emphasize practical execution, team collaboration, and reliable day-to-day delivery.
 - Cover Letter Voice & Constraints:
   - Adhere to candidate's calibrated voice register (`direct_practitioner`, `mission_led`, `executive_strategic`, or `standard_professional`).
-  - If `direct_practitioner`: strictly zero glazing, zero storytelling preamble, zero company flattery; after the benefit sentence, go directly to problem domain, technical mechanics, and quantifiable outcomes.
+  - If `direct_practitioner`: strictly zero glazing, zero storytelling preamble, zero company flattery; after the benefit sentence, go directly to problem domain, technical mechanics, and concrete outcomes.
   - Grounded, conversational, sharp first-person voice.
   - Open with what the employer gets, in plain words and first person, with a `without` clause naming the avoided cost.
     Never open with a list of accomplishments.
@@ -79,7 +81,7 @@ You are drafting the candidate's single-column ATS-compliant resume (`resume.md`
 ## Atomic Verification Checklist
 - [CRUCIAL] Single-column linear layout strictly enforced.
 - [CRUCIAL] Zero em dashes anywhere in cover letter.
-- [CRUCIAL] Every resume bullet is verb-first Google XYZ: result, metric, and method, with no "Accomplished" opener or "as measured by" clause.
+- [CRUCIAL] Every resume bullet is verb-first Google XYZ: result, evidence, and method, with no "Accomplished" opener or "as measured by" clause.
 - [CRUCIAL] Every bullet sits under the employer or project where the work was actually done.
 - [CRUCIAL] Contact info in primary body text without emojis or header XML.
 - [CRUCIAL] Summary sentence 3 is a benefit line with a `without` clause, built from a verified project record or role-level metric.

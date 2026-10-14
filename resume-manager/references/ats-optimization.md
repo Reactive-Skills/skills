@@ -47,12 +47,12 @@ Based on empirical testing across thousands of applications on major ATS platfor
   - `Education & Certifications` (or `Education`)
   - `Projects & Open Source`
 
-### Law 8: Universal Metric & Methodology Requirement (Zero Action-Only Bullets)
-* **Finding:** AI screening tools (Jobright, Resume Worded, etc.) flag any bullet that ends on an action or responsibility without a quantifiable outcome or explicit engineering methodology.
+### Law 8: Evidence & Methodology Requirement (Zero Action-Only Bullets)
+* **Finding (unverified):** Vendor tools such as Jobright and Resume Worded say they flag bullets that end on an action or responsibility with no outcome or method. This repository has not verified that claim, so treat it as a heuristic, not a measured ATS behavior.
 * **Rule:** **Every single bullet point** must contain all 3 components:
   1. **Action & Methodology:** Specific engineering practice, architectural paradigm, or tool used (e.g., *via Change Data Capture*, *using Infrastructure-as-Code*, *through deterministic state machines*).
   2. **Technical Scope:** Exact system, service, or pipeline built.
-  3. **Quantifiable Outcome:** Concrete metric, percentage, scale, throughput, or compliance milestone (e.g., *cutting deployment time ~40%*, *serving 100K+ daily requests*, *achieving 100% test traceability across 200+ safety requirements*).
+  3. **Evidence of the Result:** A sourced number (scale, throughput, a measured before/after, a compliance milestone), a before/after in words, or who it helped (e.g., *serving 100K+ daily requests*, *achieving 100% test traceability across 200+ safety requirements*, *moving from manual operational tasks to a single operations console*, *giving analysts direct access to normalized data*). Never invent a number to fill this slot.
 
 ### Law 9: De-Emphasize Total Years of Experience (Convey Seasoning via Language)
 * **Finding:** Leading with high total career numbers (e.g. "15+ years of experience") frequently triggers age bias, over-qualification friction, or perceived cultural misalignment in startups and high-growth scale-ups catering to younger demographics. Reviewers can easily deduce career timeline from dates.

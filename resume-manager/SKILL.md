@@ -87,7 +87,7 @@ Triggered when the user provides a Job Description (JD) or asks to tailor materi
 ### 2. Maintenance Mode (`MAINTAIN`)
 Triggered when the user wants to add an accomplishment, promotion, or new skill:
 1. Loads target profile record.
-2. Prompts for a Project Record: raw facts (ownership, stack, decisions, sourced metrics, non-claims, visibility, track relevance, story seed) plus verb-first rendered bullets (*[Verb] [result with metric] by [method]*).
+2. Prompts for a Project Record: raw facts (ownership, stack, decisions, sourced metrics, non-claims, visibility, track relevance, story seed) plus verb-first rendered bullets (*[Verb] [result with evidence] by [method]*).
    Only rendered bullets are held to the XYZ criterion, and unconfirmed prefill stays `verified: no`.
 3. Updates experience entries and synchronizes skill taxonomies.
 

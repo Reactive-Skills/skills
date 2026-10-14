@@ -1,5 +1,5 @@
 schema_version: 2.1.0
-version: 2.7.0
+version: 2.8.0
 name: resume-manager
 description: >-
   Consolidated reactive career management engine. Orchestrates master profile bootstrapping,
@@ -161,7 +161,7 @@ states:
         target: PERSIST_PROFILE
         judgment:
           type: predicate
-          criterion: "Is the achievement bullet verb-first Google XYZ, opening with a strong verb other than Accomplished, with a quantified measurement [Y] and a specific method [Z]?"
+          criterion: "Is the achievement bullet verb-first Google XYZ, opening with a strong verb other than Accomplished, stating a concrete result with evidence (a sourced number, a before/after, or who it helped) and a specific method [Z]?"
           min_probability: 0.85
           fallback_adapter: script
           fallback_target: RECORD_ACCOMPLISHMENT
