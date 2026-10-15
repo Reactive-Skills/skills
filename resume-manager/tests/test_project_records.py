@@ -24,10 +24,9 @@ class ProjectRecordContractTests(unittest.TestCase):
             self.assertRegex(manifest, rf"(?m)^  - {key}\s*$")
             self.assertRegex(manifest, rf"(?m)^  {key}: ")
 
-    def test_records_accumulate_and_gate_key_is_declared(self):
+    def test_project_records_accumulate(self):
         manifest = read("skill.yaml")
         self.assertRegex(manifest, r"(?m)^  project_record: \[\]\s*$")
-        self.assertRegex(manifest, r"(?m)^  - new_accomplishment\s*$")
         self.assertIn("never overwriting earlier entries", read("states/record_accomplishment.md"))
 
     def test_profiles_without_records_fall_back_to_role_level_text(self):
@@ -42,7 +41,6 @@ class ProjectRecordContractTests(unittest.TestCase):
     def test_xyz_requires_evidence_not_a_number(self):
         for path in (
             "CONTEXT.md",
-            "guards/accomplishment_xyz_audit.yaml",
             "skill.yaml",
             "states/record_accomplishment.md",
             "states/drafting.md",
@@ -57,12 +55,13 @@ class ProjectRecordContractTests(unittest.TestCase):
         self.assertIn("Never require a number", read("states/record_accomplishment.md"))
         self.assertIn("Never add a number just to have one", read("states/drafting.md"))
 
-    def test_recorded_gate_criterion_matches_the_guard(self):
-        pattern = r'(?m)^\s+criterion: "([^"]+)"'
-        guard = re.search(pattern, read("guards/accomplishment_xyz_audit.yaml")).group(1)
-        manifest = re.search(pattern, read("skill.yaml")).group(1)
-        self.assertEqual(guard, manifest)
-        self.assertIn("a sourced number, a before/after, or who it helped", guard)
+    def test_recorded_has_no_model_gate_and_needs_candidate_approval(self):
+        block = re.search(r"(?ms)^      RECORDED:\n(.*?)^      RECORD_MORE:", read("skill.yaml")).group(1)
+        self.assertNotIn("judgment", block)
+        self.assertFalse((SKILL_DIR / "guards" / "accomplishment_xyz_audit.yaml").exists())
+        prompt = read("states/record_accomplishment.md")
+        self.assertIn("explicit approval", prompt)
+        self.assertNotIn("runtime judges", prompt)
 
     def test_master_template_has_project_record_fields(self):
         template = read("templates/master-profile-template.md")

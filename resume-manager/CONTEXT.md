@@ -62,11 +62,11 @@ This ban applies to rendered bullets, not to the raw facts of a Project Record.
 The unit of granular career evidence in the master profile.
 One record per project, product, or system, stored in place under its employer entry or under Open Source.
 A record holds raw facts and rendered bullets.
-Raw facts are exempt from the XYZ gate: period, role, team size, visibility, problem and context, ownership, stack, decisions and tradeoffs, metrics, non-claims, track relevance, keyword tags, and story seed.
-Rendered bullets are verb-first Google XYZ and are the only part held to the criterion in `guards/accomplishment_xyz_audit.yaml`.
-The runtime judges `context.new_accomplishment` at `RECORDED`, so the agent checks each earlier bullet against that criterion before emitting `RECORD_MORE`.
+Raw facts are exempt from the XYZ criterion: period, role, team size, visibility, problem and context, ownership, stack, decisions and tradeoffs, metrics, non-claims, track relevance, keyword tags, and story seed.
+Rendered bullets are verb-first Google XYZ and are the only part held to the XYZ criterion.
+The agent checks each bullet against the criterion, and the candidate approves every rendered bullet before `RECORDED`.
 Every record carries at least one rendered bullet.
-When enriching an existing project, restate its existing bullet if it is still accurate so the gate re-verifies it.
+When enriching an existing project, restate its existing bullet if it is still accurate so the candidate re-approves it.
 
 Field rules:
 - `visibility` is `public` or `confidential`.

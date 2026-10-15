@@ -27,12 +27,14 @@ The unit of capture is a Project Record (see `CONTEXT.md`): raw facts plus at le
    Compute each derived figure from a verified metric, show the arithmetic, and label it derived.
 4. Draft the rendered bullets, or restate the existing bullet if it is still accurate.
    Build the evidence from the first true option: a sourced number, then a before/after, then who it helped.
-   Append the completed record to the `project_record` list in `contextUpdates`, never overwriting earlier entries, and set `context.new_accomplishment` to the bullet being verified.
-5. If the candidate has another bullet or project to add, first check the current bullet against the XYZ criterion yourself, because the runtime judges only `context.new_accomplishment` at `RECORDED`, then emit `RECORD_MORE`.
-6. If the candidate is finished recording, emit `RECORDED`.
+   Append the completed record to the `project_record` list in `contextUpdates`, never overwriting earlier entries.
+5. Show the candidate each rendered bullet with the facts it rests on, check it against the checklist yourself, and get the candidate's explicit approval or edits.
+   If the candidate has another bullet or project to add, emit `RECORD_MORE`.
+6. When the candidate has approved every rendered bullet and is finished recording, emit `RECORDED`.
 
 ## Atomic Verification Checklist
 - [CRUCIAL] Each rendered bullet is verb-first Google XYZ with a result, evidence (a sourced number, a before/after, or who it helped), and a method.
+- [CRUCIAL] The candidate gave explicit approval to each rendered bullet before `RECORDED`.
 - [CRUCIAL] Every recorded metric has a source and a verified flag (a record with no metrics is valid); unconfirmed prefill stays `verified: no`.
 - [CRUCIAL] No fact was invented, estimated, or rounded up.
 - [CRUCIAL] Specific technologies, frameworks, or methodologies documented.
@@ -40,4 +42,4 @@ The unit of capture is a Project Record (see `CONTEXT.md`): raw facts plus at le
 - [NEGATIVE] Zero vague or responsibility-only rendered bullets.
 
 ## Signal
-Emit: `RECORDED` (verified by `guards/accomplishment_xyz_audit.yaml` predicate contract) or `RECORD_MORE`
+Emit: `RECORDED` (after the candidate approves the bullets) or `RECORD_MORE`

@@ -128,7 +128,6 @@ For customized applications:
 - `guards/profile_evaluation_questionnaire.yaml` — Jev bundled questionnaire for parallel forward-pass profile evaluation.
 - `guards/voice_standards_audit.yaml` — Jev predicate gate auditing cover letter drafts for AI clichés and corporate slop.
 - `guards/resume_authenticity_audit.yaml`: Jev predicate gate judging whether the resume reads as written by the candidate, after the agent pre-check for mechanical tells and unverified metrics.
-- `guards/accomplishment_xyz_audit.yaml` — Jev predicate gate validating Google XYZ metric syntax.
 - `guards/mode_selection.yaml` — Jev choice contract for classifying user intent into operational modes.
 - `templates/resume-template.md` — Markdown layout contract the exporter renders (right-aligned dates via tab stops, no tables).
 - `tests/test_convert_resume.py` — DOCX layout regression tests (`python -m unittest discover -s resume-manager/tests`).
