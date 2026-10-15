@@ -61,7 +61,7 @@ class AuthenticityThresholdTests(unittest.TestCase):
     def test_other_gates_are_unchanged(self):
         self.assertEqual(probabilities(state_block("DRAFTING")), [0.80])
         self.assertEqual(probabilities(state_block("PROFILE_SELECTION")), [0.80, 0.80])
-        self.assertEqual(probabilities(state_block("RECORD_ACCOMPLISHMENT")), [0.85])
+        self.assertNotIn("judgment:", state_block("RECORD_ACCOMPLISHMENT"))
         self.assertIn(
             "guard: payload.timeline_reconciled == true && payload.unresolved_gap_count == 0",
             state_block("DRAFTING"),
