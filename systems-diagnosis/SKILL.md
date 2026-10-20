@@ -5,8 +5,8 @@ description: >
   intervention. Use when a user asks why a system repeatedly produces an
   unwanted result or how to change that pattern.
 metadata:
-  author: Reactive-Skills
-  version: "1.0.0"
+  author: bytesbybrandon
+  version: "1.0.1"
   type: reactive
 ---
 

@@ -1,6 +1,6 @@
 schema_version: "2.0.0"
 name: "test-coverage-gate"
-version: "1.0.0"
+version: "1.0.1"
 description: "Test coverage quality gate that establishes a clean baseline, measures statement, branch, function, and line coverage, analyzes gaps, and blocks release below explicit thresholds."
 initial_state: "INTAKE"
 

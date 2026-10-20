@@ -3,7 +3,7 @@ name: skill-manager
 description: >-
   Full CRUD lifecycle management for reactive skills. Uses reactive-skills-axi CLI for execution. Authors only in the explicitly selected registered source and uses absolute paths. Use when the user wants to CREATE a new reactive skill, UPDATE an existing skill's states/manifest, DELETE a skill, MIGRATE_LEGACY a SKILL.md-only skill to reactive format, or MIGRATE_REACTIVE a v1 reactive skill to v2.0.0. Triggers on: "create a reactive skill", "manage skills", "skill lifecycle", "scaffold a skill", "install a skill", "remove a skill", "migrate a skill", "convert skill to reactive", "upgrade reactive skill", or any skill management request.
 metadata:
-  author: Reactive-Skills
+  author: bytesbybrandon
   version: "2.1.0"
   type: reactive
 ---

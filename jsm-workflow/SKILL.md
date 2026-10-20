@@ -2,6 +2,8 @@
 name: jsm-workflow
 description: Reactive SDLC coordinator that guides a change from request intake through scope, design, context, build, verification, tests, debug, review, documentation, and sync.
 type: reactive
+metadata:
+  author: bytesbybrandon
 ---
 
 <!-- REACTIVE BOOTLOADER -->

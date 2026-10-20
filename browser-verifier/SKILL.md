@@ -3,8 +3,8 @@ name: browser-verifier
 description: >-
   Automated browser verification reactive skill that launches headless browser sessions, verifies DOM states, intercepts console errors, and captures visual artifacts.
 metadata:
-  author: Reactive-Skills
-  version: "1.0.0"
+  author: bytesbybrandon
+  version: "1.0.1"
   type: reactive
 ---
 

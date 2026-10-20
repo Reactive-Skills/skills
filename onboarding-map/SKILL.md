@@ -1,6 +1,8 @@
 ---
 name: onboarding-map
 description: "Codebase onboarding workflow: intake role and scope, scan architecture and ownership, map modules and dependencies, design a personalized learning path, review with stakeholders, and approve completion."
+metadata:
+  author: bytesbybrandon
 ---
 
 <!-- REACTIVE BOOTLOADER -->

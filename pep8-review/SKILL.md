@@ -2,6 +2,8 @@
 name: pep8-review
 description: Reactive review of Python changes for PEP 8 style and applicable project conventions.
 type: reactive
+metadata:
+  author: bytesbybrandon
 ---
 
 <!-- REACTIVE BOOTLOADER -->

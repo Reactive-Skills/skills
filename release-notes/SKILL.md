@@ -3,8 +3,8 @@ name: release-notes
 description: >-
   Automated changelog and release note generator that scopes changes, classifies entries, composes draft notes, validates formatting, and gates human approval.
 metadata:
-  author: Reactive-Skills
-  version: "1.0.0"
+  author: bytesbybrandon
+  version: "1.0.1"
   type: reactive
 ---
 

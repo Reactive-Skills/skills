@@ -3,8 +3,8 @@ name: ci-cd-automation
 description: >-
   Automated CI/CD pipeline generator and linter that scaffolds production-ready workflows with caching, matrix builds, and security gates.
 metadata:
-  author: Reactive-Skills
-  version: "1.0.0"
+  author: bytesbybrandon
+  version: "1.0.1"
   type: reactive
 ---
 

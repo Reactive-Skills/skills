@@ -3,7 +3,8 @@ name: llm-eval-design
 description: Define measurable success criteria for an LLM application and design the evals that test them. Use when planning how to measure prompt or model quality, choosing eval methods and graders, writing LLM-as-judge rubrics, or turning an approved plan into an eval harness. Harness generation and eval runs are opt-in, each behind a human approval gate.
 type: reactive
 metadata:
-  version: "1.0.0"
+  author: bytesbybrandon
+  version: "1.0.1"
   maturity: Alpha
 ---
 

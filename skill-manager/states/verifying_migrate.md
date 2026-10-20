@@ -5,8 +5,7 @@ Validate that the migration produced a valid reactive skill.
 
 ## Logic
 - For MIGRATE_LEGACY:
-  - Verify skill.yaml is valid YAML
-  - Verify skill.yaml conforms to reactive/v1 schema
+  - Run `node "{{context.manager_skill_dir}}/scripts/authoring-quality.cjs" "{{context.target_skill_dir}}" --json` and the selected runtime's `validate "{{context.target_skill_dir}}"`; definite errors fail verification
   - Verify all states/*.md files exist
 - Verify templates/*.hbs exist
 - Verify `SKILL.md` contains exactly one complete runtime bootloader pointer
@@ -14,10 +13,7 @@ Validate that the migration produced a valid reactive skill.
 - Verify `SKILL.md` does not embed a copy of the runtime-served bootloader instructions
 
 - For MIGRATE_REACTIVE:
-  - Verify skill.yaml is valid YAML
-  - Verify skill.yaml conforms to v2.0.0 schema
-  - Verify SQLite event store is initialized
-  - Verify MCP config is valid
+  - Run `node "{{context.manager_skill_dir}}/scripts/authoring-quality.cjs" "{{context.target_skill_dir}}" --json` and the selected runtime's `validate "{{context.target_skill_dir}}"`; definite errors fail verification
   - Verify all states/*.md files are loadable
 
 ## Transition

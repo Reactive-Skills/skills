@@ -8,7 +8,7 @@ Collect git-staged files that are pending commit for security scanning.
 
 ## Instructions
 1. Run `git diff --cached --name-only` to list all staged files.
-2. Filter to source files (`.js`, `.ts`, `.jsx`, `.tsx`, `.json`, `.yaml`, `.yml`, `.env`, `.config.*`).
+2. Exclude only binary files (images, archives, compiled artifacts); keep every text file, including key files such as `.pem` and `.key`.
 3. Verify at least 1 staged file exists.
 4. Set context: `staged_files` = array of file paths.
 

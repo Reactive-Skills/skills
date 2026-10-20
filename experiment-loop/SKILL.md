@@ -3,7 +3,8 @@ name: experiment-loop
 description: Run bounded improvement experiments for prompts, code, and workflows when outcomes can be observed and evaluated credibly. Use for iterative measured optimization with approval, fixed evaluation, budgets, confirmation, and recovery.
 type: reactive
 metadata:
-  version: "1.0.1"
+  author: bytesbybrandon
+  version: "1.0.2"
   maturity: Alpha
 ---
 

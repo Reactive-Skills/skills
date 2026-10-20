@@ -3,8 +3,8 @@ name: test-coverage-gate
 description: >-
   Test coverage quality gate that establishes a clean baseline, measures statement, branch, function, and line coverage, analyzes gaps, and blocks release below explicit thresholds.
 metadata:
-  author: Reactive-Skills
-  version: "1.0.0"
+  author: bytesbybrandon
+  version: "1.0.1"
   type: reactive
 ---
 
