@@ -73,8 +73,8 @@ Keep approval, canonical source containment, bootloader ownership, verification 
 
 Measure raw source words separately from rendered words and host tokens.
 State-specific budgets remain provisional until supported by evaluation evidence; no universal 200-word gate applies.
-The registered authoring source's `evals/state-contracts.json` retains reviewed invariants and measurements.
-Its `evals/results/` records identify actual tested models and harnesses.
+Keep reviewed invariants and measurements in the local, Git-ignored `evals/state-contracts.json`.
+Local, Git-ignored `evals/results/` records identify actual tested models and harnesses; this repository distributes no measured coverage.
 Semantic model tiers do not guarantee host routing, and SKILL frontmatter has no added model-selection field.
 
 ## Operations

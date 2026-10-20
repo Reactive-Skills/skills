@@ -1,18 +1,12 @@
 # Skill-manager behavioral evaluations
 
 This package distinguishes offline evidence validation from measured task quality.
-The primary repeated coverage is one selected profile: Codex CLI, gpt-6.1-sol, xhigh reasoning, Windows PowerShell.
-The user approved supplemental desktop edge cases for source selection, approval boundaries, and misleading attachments.
-Those checks are reported separately and do not imply complete desktop comparison coverage.
-Use [the desktop checklist](desktop-checks.md) for those three cases.
-The reviewed fixed-runtime baseline is complete: 19 PASS and five understood manager-job failures.
-See [baseline status](results/baseline-help-safe-status.md), [preserved portable comparison](results/portable-status.md), and [output-path correction status](results/portable-paths-status.md).
-The final guidance 1.3.0 checkpoint passed all 24 independently reviewed trials.
-Both comparisons passed, against baseline-help-safe and portable-hsm.
-See [comparison evidence](results/evidence/guidance-comparison.json) and [static checks](results/evidence/guidance-final-static-checks.json).
-All 75 offline checks passed.
-The three Desktop cases remain NOT_RUN; their fixture handoff does not establish Desktop coverage.
-Other models have no claimed coverage.
+Evaluation runs, frozen bundles, and measured state contracts are local artifacts and are not distributed in this repository.
+The generated `results/` directory and `state-contracts.json` are ignored by Git.
+Keep private transcripts, opinions files, user data, credentials, and environment dumps out of published artifacts.
+The checked-in specification and synthetic fixtures support offline validation; a clean checkout has no measured coverage.
+The selected profile is Codex CLI, gpt-6.1-sol, xhigh reasoning, Windows PowerShell.
+Use [the desktop checklist](desktop-checks.md) for supplemental cases; other hosts have no implied coverage.
 
 ## Contents
 
@@ -61,7 +55,10 @@ Coverage requires 24 completed trials for each checkpoint; a FAIL is completed e
 Comparison requires complete comparable checkpoints, all candidate critical assertions passing, and no reduction in successful tasks for either arm.
 Compare runtime build identity, tool availability and versions, and actual executor metadata across checkpoints.
 Keep dependent adoption gated until baseline failures are understood and the approved candidate passes its critical assertions.
-Ordinary CI runs only Node tests and structural evidence validation, without providers or live model calls.
+Ordinary CI runs only Node tests and specification/fixture validation, without providers or live model calls.
+When local result records exist, validation requires the local `state-contracts.json` and verifies all referenced evidence and frozen bundles.
+A present state contract is always validated, even without result records.
+Retain reviewed invariants, source measurements, evaluation digest, and budget status in that local contract before validating measured runs.
 
 ## Identities and digests
 

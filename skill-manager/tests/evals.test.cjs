@@ -93,6 +93,38 @@ test('CLI preserves missing-coverage exit code 2', () => {
   assert.equal(JSON.parse(result.stdout).status, 'INCOMPLETE');
 });
 
+function runLocalCli(root) {
+  fs.copyFileSync(path.join(evalRoot, 'validate-evals.cjs'), path.join(root, 'validate-evals.cjs'));
+  const result = spawnSync(process.execPath, [path.join(root, 'validate-evals.cjs'), '--mode', 'structure', '--json'], { encoding: 'utf8' });
+  return { exitCode: result.status, report: JSON.parse(result.stdout) };
+}
+
+test('CLI validates a checkout without local evidence and rejects records without a contract', t => {
+  const f = fixture(t);
+  write(f.root, 'evals.json', f.spec);
+  assert.deepEqual(runLocalCli(f.root), {
+    exitCode: 0, report: { status: 'PASS', exit_code: 0, records: 0, measured_quality: false },
+  });
+  f.addCheckpoint('baseline');
+  write(f.root, 'results/baseline/trial.result.json', f.records[0]);
+  const result = runLocalCli(f.root);
+  assert.equal(result.exitCode, 1);
+  assert.deepEqual(result.report.errors, ['Local result records require state-contracts.json']);
+});
+
+test('CLI still validates a present local contract without result records', t => {
+  const f = contractFixture(t);
+  write(f.root, 'evals.json', sourceSpec);
+  fs.cpSync(path.join(evalRoot, 'fixtures'), path.join(f.root, 'fixtures'), { recursive: true });
+  write(f.root, 'state-contracts.json', f.contract);
+  assert.equal(runLocalCli(f.root).exitCode, 0);
+  f.contract.baseline.digest = '0'.repeat(64);
+  write(f.root, 'state-contracts.json', f.contract);
+  const result = runLocalCli(f.root);
+  assert.equal(result.exitCode, 1);
+  assert.ok(result.report.errors.some(error => error.includes('baseline bundle digest mismatch')));
+});
+
 test('scenario seeds preserve comparison copies, nested paths, and the long-reference challenge', () => {
   const update = JSON.parse(fs.readFileSync(path.join(evalRoot, 'fixtures/update-source/seed.json'), 'utf8')).files;
   for (const [file, content] of Object.entries(update).filter(([file]) => file.startsWith('source-a/eval-update/'))) {

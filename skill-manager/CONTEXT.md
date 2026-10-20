@@ -102,8 +102,8 @@ The runtime owns schema interpretation, bootloader logic, ledgers, and projectio
 Prompt budgets are state-specific and provisional until supporting evaluations establish an operating limit.
 Raw source whitespace words, rendered words, and actual host tokens are separate measurements.
 Record unmeasured rendered words and tokens as null.
-The registered authoring source's `evals/state-contracts.json` retains the reviewed invariant inventory, source measurements, selected evaluation digest, and budget status.
-Behavioral evidence is retained under `evals/results/` in the registered authoring source; reduced source size alone proves no task-quality or token improvement.
+Keep the reviewed invariant inventory, source measurements, selected evaluation digest, and budget status in the local, Git-ignored `evals/state-contracts.json`.
+Behavioral evidence stays in local, Git-ignored `evals/results/` and is not distributed in this repository; reduced source size alone proves no task-quality or token improvement.
 Current evaluation scope is the selected Codex CLI profile, with supplemental desktop checks recorded separately.
 Semantic model tiers express intended capabilities; only actual host evidence establishes executor coverage.
 Contract validation checks recorded measurements and evidence identities; human review and behavioral trials establish whether the instructions preserve required behavior.

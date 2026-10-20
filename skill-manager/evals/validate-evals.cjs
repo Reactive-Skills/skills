@@ -440,12 +440,17 @@ function main(args) {
   }
   const root = __dirname;
   const spec = JSON.parse(fs.readFileSync(path.join(root, 'evals.json'), 'utf8'));
-  const contract = JSON.parse(fs.readFileSync(path.join(root, 'state-contracts.json'), 'utf8'));
-  const contractErrors = validateStateContracts(contract, { root, skillRoot: path.resolve(root, '..'), spec });
-  if (contractErrors.length) return { status: 'INVALID', exit_code: 1, errors: contractErrors };
   const resultRoot = path.join(root, 'results');
   const records = fs.existsSync(resultRoot) ? collectFiles(resultRoot, fs.readdirSync(resultRoot))
     .filter(file => file.endsWith('.result.json')).map(file => JSON.parse(fs.readFileSync(resolveInside(resultRoot, file), 'utf8'))) : [];
+  const contractPath = path.join(root, 'state-contracts.json');
+  if (fs.existsSync(contractPath)) {
+    const contract = JSON.parse(fs.readFileSync(contractPath, 'utf8'));
+    const contractErrors = validateStateContracts(contract, { root, skillRoot: path.resolve(root, '..'), spec });
+    if (contractErrors.length) return { status: 'INVALID', exit_code: 1, errors: contractErrors };
+  } else if (records.length) {
+    return { status: 'INVALID', exit_code: 1, errors: ['Local result records require state-contracts.json'] };
+  }
   return evaluate({ ...options, spec, records, root });
 }
 

@@ -19,3 +19,10 @@ __pycache__/
 # Local agent planning and delivery evidence
 plans/
 .workflow/
+
+# Local evaluation runs, frozen bundles, and measured contracts
+/skill-manager/evals/results/
+/skill-manager/evals/state-contracts.json
+
+# Private agent opinions
+OPINIONS.md

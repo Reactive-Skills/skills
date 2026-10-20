@@ -158,13 +158,13 @@ Execution prompts constrain exact approved operations.
 Verification prompts require observable results and explicit coverage limits.
 All three preserve source selection, approval, guard behavior, bootloader ownership, and rollback routing.
 
-The registered authoring source's `evals/state-contracts.json` retains the reviewed baseline and candidate invariants, source measurements, evaluation digest, and budget status.
+Keep reviewed baseline and candidate invariants, source measurements, evaluation digest, and budget status in the local, Git-ignored `evals/state-contracts.json`.
 Raw source whitespace words are separate from rendered words and host-measured tokens.
 Budgets remain provisional until evaluations support a state-specific limit; no universal 200-word cap applies.
 Smaller source prompts alone establish neither token savings nor improved task outcomes.
 
 The registered source's behavioral evaluations use the selected Codex CLI model and harness with three repetitions per arm.
-Check the retained results for passing coverage; supplemental desktop cases remain separate.
+Measured results stay in local, Git-ignored `evals/results/`; this repository distributes no measured coverage. Supplemental desktop cases remain separate.
 Other models and harnesses have no implied coverage.
 Semantic model tiers describe capability intent, not observed host routing.
 
