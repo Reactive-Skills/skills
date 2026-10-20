@@ -4,9 +4,10 @@
 Best-effort rollback: restore original state or delete partial artifacts.
 
 ## Logic
-- UPDATE: attempt to restore original file contents from backup or git
-- DELETE: if deletion failed, retry deletion
-- CREATE: if creation failed, delete any created files
+- First recheck that `context.target_skill_dir` canonically remains inside `context.authoring_source`.
+- UPDATE: restore only the paths in the approved file plan (`context.plan`); never run a repository-wide restore.
+- DELETE: do not replay deletion; emit `ROLLBACK_FAILED` listing the paths that remain.
+- CREATE: delete only the created paths listed in the approved file plan.
 
 ## Stop Criteria
 - If rollback succeeds → emit `ROLLED_BACK`

@@ -1,6 +1,6 @@
 schema_version: 2.1.0
 name: pep8-review
-version: 1.0.0
+version: 1.0.1
 description: >-
   Reactive Python style review using PEP 8, project-specific style rules, and
   relevant companion conventions for docstrings and type annotations.

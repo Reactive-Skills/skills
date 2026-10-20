@@ -13,7 +13,7 @@ Scan the repository to discover module boundaries, ownership metadata, and entry
 1. Enumerate packages/directories in `repo_path`.
 2. Read `package.json` names or `go.mod` modules or equivalent.
 3. Extract ownership from OWNERS files, CODEOWNERS, or module metadata.
-4. Set `context.module_count`.
+4. Set `context.module_count`, and store each discovered module with its owners and entry points in `context.dependency_graph.modules` so MAP and PATH can read them.
 
 ## Atomic Checklist
 

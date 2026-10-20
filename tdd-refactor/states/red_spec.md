@@ -13,4 +13,5 @@ You are in the **RED_SPEC** state of the TDD loop.
 4. **DO NOT** write the production code implementation yet.
 5. The test MUST fail (`exit_code != 0`).
 
-Once the test fails, the reactive engine will automatically advance your state to **GREEN_CODE**.
+After running the suite, emit `TEST_RAN` with payload `{ "exit_code": <actual exit code> }`.
+A non-zero exit code advances the run to **GREEN_CODE**.

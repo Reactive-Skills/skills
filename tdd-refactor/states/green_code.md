@@ -11,4 +11,5 @@ You are in the **GREEN_CODE** state of the TDD loop.
 2. Run the test suite using `run_command`.
 3. Do not perform extraneous refactoring yet—only make the tests green (`exit_code === 0`).
 
-Once all tests pass cleanly, the reactive engine will automatically advance your state to **REFACTOR**.
+After running the suite, emit `TEST_RAN` with payload `{ "exit_code": <actual exit code> }`.
+An exit code of 0 advances the run to **REFACTOR**.

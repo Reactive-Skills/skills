@@ -3,7 +3,7 @@ name: docs-architect
 description: >-
   Documentation architecture workflow that discovers source truth, designs information architecture, authors living documentation, embeds diagrams, validates links, and gates publication.
 metadata:
-  author: Reactive-Skills
+  author: bytesbybrandon
   version: "1.0.0"
   type: reactive
 ---

@@ -1,6 +1,6 @@
 schema_version: 2.2.0
 name: mutation-tester
-version: 1.0.0
+version: 1.0.1
 description: Technology-agnostic mutation testing reactive skill powered by high-performance Go CLI engine.
 initial_state: READY
 strict_execution: true

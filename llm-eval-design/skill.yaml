@@ -1,6 +1,6 @@
 schema_version: 2.1.0
 name: llm-eval-design
-version: 1.0.0
+version: 1.0.1
 type: reactive
 description: >-
   Define measurable success criteria for an LLM application and design the evaluations that test them.

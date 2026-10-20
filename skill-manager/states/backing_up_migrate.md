@@ -17,7 +17,7 @@ Create a full backup of the source skill before migration begins.
 - backup_timestamp: ISO timestamp of the backup
 
 ## Stop Criteria
-Backup created successfully. Emit BACKED_UP.
+Backup created successfully. Emit `BACKED_UP_LEGACY` for MIGRATE_LEGACY or `BACKED_UP_REACTIVE` for MIGRATE_REACTIVE, with `backup_path` and `backup_timestamp` in the payload.
 
 ## Signal
-Emit: BACKED_UP
+Emit: `BACKED_UP_LEGACY` or `BACKED_UP_REACTIVE`

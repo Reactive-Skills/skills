@@ -1,6 +1,6 @@
 schema_version: "2.0.0"
 name: "api-contract"
-version: "1.0.0"
+version: "1.0.1"
 description: "OpenAPI/Swagger spec vs client code drift detector — parses spec, walks fetch/axios calls, detects mismatches"
 initial_state: "DISCOVER_APIS"
 

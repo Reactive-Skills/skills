@@ -5,11 +5,10 @@ Compare the source v1 reactive skill with the v2.0.0 schema to compute the migra
 
 ## Logic
 - Read existing skill.yaml (v1)
-- Read v2.0.0 schema reference (from reactive-skill-creator or docs)
+- Read the target schema from `{{context.manager_skill_dir}}/skill.yaml` and CONTEXT.md
 - Compute diff:
   - New required fields in v2 (version, event_store config, mcp config)
   - States that need splitting (combined phases -> separate state files)
-  - Guards that need rewriting (JS -> Zod schema)
   - Templates that need new projection syntax
 - Set migration_plan with the computed transforms
 

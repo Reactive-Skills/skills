@@ -76,7 +76,7 @@ You are drafting the candidate's single-column ATS-compliant resume (`resume.md`
 2. Draft `resume.md` adhering to all ATS and calibration constraints, or follow `Revision After Authenticity Review` when flags are present.
 3. Draft `cover_letter.md` adhering to voice rules and intent framing, unless this is a revision pass.
 4. Save both files to the target role directory.
-5. Emit `MATERIALS_DRAFTED` with payload `{"resume_path": resume_path, "cover_letter_path": cover_letter_path}`.
+5. After the chronology audit passes, emit `MATERIALS_DRAFTED` with payload `{"resume_path": resume_path, "cover_letter_path": cover_letter_path, "timeline_reconciled": true, "unresolved_gap_count": 0, "timeline_audit_notes": timeline_audit_notes}`.
 
 ## Atomic Verification Checklist
 - [CRUCIAL] Single-column linear layout strictly enforced.

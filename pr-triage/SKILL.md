@@ -3,7 +3,7 @@ name: pr-triage
 description: >-
   Pull request triage workflow that collects PR metadata, classifies risk and ownership, assesses readiness, routes work, and pauses at a human disposition gate.
 metadata:
-  author: Reactive-Skills
+  author: bytesbybrandon
   version: "1.0.0"
   type: reactive
 ---

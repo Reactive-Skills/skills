@@ -1,6 +1,6 @@
 schema_version: "2.0.0"
 name: "docs-architect"
-version: "1.0.1"
+version: "1.0.2"
 description: "Documentation architecture workflow that discovers source truth, designs information architecture, authors living documentation, embeds diagrams, validates links, and gates publication."
 initial_state: "INTAKE"
 

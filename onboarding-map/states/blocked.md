@@ -12,7 +12,7 @@ Signal that human intervention is required to proceed.
 ## Actions
 
 1. Log the blocker reason in `context.stakeholder_feedback`.
-2. Notify the workflow owner via preferred channel (e.g. Slack, email).
+2. Report the blocker reason to the user.
 
 ## Signal
 

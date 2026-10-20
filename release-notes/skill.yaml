@@ -1,6 +1,6 @@
 schema_version: "2.0.0"
 name: "release-notes"
-version: "1.0.0"
+version: "1.0.1"
 description: "Automated changelog and release note generator that scopes changes, classifies entries, composes draft notes, validates formatting, and gates human approval."
 initial_state: "INTAKE"
 

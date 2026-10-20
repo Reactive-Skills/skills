@@ -17,6 +17,8 @@ triggers:
   - "interview me for my resume"
   - "overqualified resume"
   - "multiple resume profiles"
+metadata:
+  author: bytesbybrandon
 ---
 
 <!-- REACTIVE BOOTLOADER -->

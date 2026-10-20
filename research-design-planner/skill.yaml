@@ -1,6 +1,6 @@
 schema_version: "2.1.0"
 name: research-design-planner
-version: "1.0.0"
+version: "1.0.1"
 description: >-
   One reactive entry point that helps users explore, choose, plan, or review a
   quantitative, qualitative, or mixed methods research design.

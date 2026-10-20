@@ -22,7 +22,8 @@ Scan staged files for hardcoded credentials — passwords, bearer tokens, and au
 - [ ] Findings recorded in `credentials_found`
 
 ## Output
-Set context: `credentials_found` = [{file, line, type, snippet}].
+Set context: `credentials_found` = [{file, line, type}].
+Do not copy the matched value into context, payloads, or reports, because they are stored in the event log.
 
 Emit `CREDENTIALS_SCANNED` with payload:
 ```json

@@ -1,6 +1,6 @@
 schema_version: 2.1.0
 name: systems-diagnosis
-version: 1.0.0
+version: 1.0.1
 description: >-
   Diagnose recurring or surprising behavior in a system, explain it through
   observed patterns and structure, and develop a testable intervention.

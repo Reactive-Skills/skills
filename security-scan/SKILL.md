@@ -3,8 +3,8 @@ name: security-scan
 description: >-
   Pre-commit secret and credential scanner with remediation checklist. Scans staged git changes for API keys, tokens, private keys, hardcoded credentials, and insecure defaults. Blocks commit on critical findings.
 metadata:
-  author: Reactive-Skills
-  version: "1.0.0"
+  author: bytesbybrandon
+  version: "1.0.1"
   type: reactive
 ---
 

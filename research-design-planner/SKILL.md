@@ -5,6 +5,8 @@ description: >-
   sixth edition. Routes users from uncertainty to a focused design task and loads
   only the needed method or proposal states.
 type: reactive
+metadata:
+  author: bytesbybrandon
 ---
 
 <!-- REACTIVE BOOTLOADER -->

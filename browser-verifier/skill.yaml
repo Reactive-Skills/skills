@@ -1,6 +1,6 @@
 schema_version: "2.0.0"
 name: "browser-verifier"
-version: "1.0.0"
+version: "1.0.1"
 description: "Automated browser verification reactive skill that launches headless browser sessions, verifies DOM states, intercepts console errors, and captures visual artifacts."
 initial_state: "INTAKE"
 

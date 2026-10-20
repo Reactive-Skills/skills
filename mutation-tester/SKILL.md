@@ -2,8 +2,8 @@
 name: mutation-tester
 description: Technology-agnostic mutation testing reactive skill powered by high-performance Go CLI engine. Auto-detects test runners, performs AST/token mutations, and scopes via git diff.
 metadata:
-  author: Reactive-Skills
-  version: "1.0.0"
+  author: bytesbybrandon
+  version: "1.0.1"
   type: reactive
 ---
 

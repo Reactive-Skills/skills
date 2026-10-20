@@ -1,6 +1,6 @@
 schema_version: "2.0.0"
 name: "ci-cd-automation"
-version: "1.0.0"
+version: "1.0.1"
 description: "Automated CI/CD pipeline generator and linter that scaffolds production-ready workflows with caching, matrix builds, and security gates."
 initial_state: "INTAKE"
 
