@@ -31,16 +31,16 @@ def probabilities(block):
 
 
 class AuthenticityThresholdTests(unittest.TestCase):
-    def test_resume_threshold_is_seventy_percent(self):
-        self.assertEqual(probabilities(state_block("AUTHENTICITY_REVIEW")), [0.70])
+    def test_resume_threshold_is_seventy_five_percent(self):
+        self.assertEqual(probabilities(state_block("AUTHENTICITY_REVIEW")), [0.75])
 
-    def test_observed_seventy_five_percent_score_passes_style_policy(self):
+    def test_observed_seventy_eight_percent_score_passes_style_policy(self):
         threshold, = probabilities(state_block("AUTHENTICITY_REVIEW"))
-        self.assertGreaterEqual(0.75, threshold)
+        self.assertGreaterEqual(0.78, threshold)
 
     def test_style_policy_boundary(self):
         threshold, = probabilities(state_block("AUTHENTICITY_REVIEW"))
-        for score, accepted in [(0.69, False), (0.70, True), (0.75, True), (0.80, True)]:
+        for score, accepted in [(0.70, False), (0.74, False), (0.75, True), (0.80, True)]:
             with self.subTest(score=score):
                 self.assertEqual(score >= threshold, accepted)
 
@@ -59,7 +59,7 @@ class AuthenticityThresholdTests(unittest.TestCase):
         self.assertNotIn("min_confidence:", block)
 
     def test_other_gates_are_unchanged(self):
-        self.assertEqual(probabilities(state_block("DRAFTING")), [0.80])
+        self.assertEqual(probabilities(state_block("DRAFTING")), [0.75])
         self.assertEqual(probabilities(state_block("PROFILE_SELECTION")), [0.80, 0.80])
         self.assertNotIn("judgment:", state_block("RECORD_ACCOMPLISHMENT"))
         self.assertIn(
@@ -69,20 +69,34 @@ class AuthenticityThresholdTests(unittest.TestCase):
 
     def test_guard_contract_matches_runtime_policy(self):
         contract = read("guards/resume_authenticity_audit.yaml")
-        self.assertIn('accept: ">= 0.70"', contract)
-        self.assertIn('reject: "< 0.70"', contract)
-        self.assertEqual(probabilities(contract), [0.70])
+        self.assertIn('accept: ">= 0.75"', contract)
+        self.assertIn('reject: "< 0.75"', contract)
+        self.assertEqual(probabilities(contract), [0.75])
+        self.assertIn("failure_behavior: fail_closed", contract)
+
+    def test_voice_threshold_is_seventy_five_percent(self):
+        threshold, = probabilities(state_block("DRAFTING"))
+        for score, accepted in [(0.74, False), (0.75, True), (0.78, True), (0.80, True)]:
+            with self.subTest(score=score):
+                self.assertEqual(score >= threshold, accepted)
+
+    def test_voice_guard_contract_matches_runtime_policy(self):
+        contract = read("guards/voice_standards_audit.yaml")
+        self.assertIn('accept: ">= 0.75"', contract)
+        self.assertIn('reject: "< 0.75"', contract)
+        self.assertEqual(probabilities(contract), [0.75])
         self.assertIn("failure_behavior: fail_closed", contract)
 
     def test_state_diagram_and_documentation_match_policy(self):
-        self.assertIn("P(clean) is below 0.70", read("states/authenticity_review.md"))
+        self.assertIn("P(clean) is below 0.75", read("states/authenticity_review.md"))
         diagram = read("STATECHART.md")
-        self.assertIn("resume predicate judgment P(clean) >= 0.70", diagram)
-        self.assertIn("resume P(clean) < 0.70", diagram)
-        self.assertIn("voice predicate judgment P(clean) >= 0.80", diagram)
+        self.assertIn("resume predicate judgment P(clean) >= 0.75", diagram)
+        self.assertIn("resume P(clean) < 0.75", diagram)
+        self.assertIn("voice predicate judgment P(clean) >= 0.75", diagram)
+        self.assertIn("voice P(clean) < 0.75", diagram)
         for path in ("SKILL.md", "README.md"):
             with self.subTest(path=path):
-                self.assertIn("P(clean) >= 0.70", read(path))
+                self.assertIn("P(clean) >= 0.75", read(path))
 
 
 if __name__ == "__main__":

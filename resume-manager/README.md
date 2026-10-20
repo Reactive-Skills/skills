@@ -3,7 +3,7 @@
 > Consolidated reactive career management engine. Orchestrates master profile bootstrapping, continuous achievement maintenance, multi-track profile specialization, and job application tailoring with automated overqualification and anti-flight risk calibration.
 
 [![Schema Version](https://img.shields.io/badge/schema-v2.1.0-blue.svg)](skill.yaml)
-[![Skill Version](https://img.shields.io/badge/version-v2.8.1-green.svg)](skill.yaml)
+[![Skill Version](https://img.shields.io/badge/version-v2.8.3-green.svg)](skill.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE)
 
 ---
@@ -135,7 +135,7 @@ The customization path can route from `PROFILE_SELECTION` to `FIT_REVIEW` when f
 The workflow does not auto-reject the role.
 The `DRAFTING` to `AUTHENTICITY_REVIEW` transition requires a completed timeline reconciliation with zero unresolved employment gaps.
 The drafting state restores verified roles that resolve omissions and asks the candidate about uncertain dates or intentional omissions instead of inventing explanations.
-The `AUTHENTICITY_REVIEW` to `EXPORTING` transition requires zero flagged tells, zero unverified metrics, and a resume style judgment of `P(clean) >= 0.70` (`guards/resume_authenticity_audit.yaml`).
+The `AUTHENTICITY_REVIEW` to `EXPORTING` transition requires zero flagged tells, zero unverified metrics, and a resume style judgment of `P(clean) >= 0.75` (`guards/resume_authenticity_audit.yaml`).
 This operating threshold is not evidence of calibrated AI-authorship detection.
 Otherwise the resume returns to `DRAFTING`, which rewrites only the flagged lines from verified profile facts and asks the candidate when a line has no verified metric or method.
 
