@@ -14,7 +14,7 @@ Anchor the product initiative to overarching strategic vision, define measurable
 - `ask_question`
 
 ## Instructions
-1. **Identify Overarching Strategic Objectives**:
+1. **Identify Overarching Strategic Objectives** from the user's request and the discovery evidence; use `ask_question` for any the user has not stated:
    - What high-level business goal or organizational theme does this effort advance?
    - How does it align with the product's North Star metric?
 2. **Define Success Metrics & OKRs**:

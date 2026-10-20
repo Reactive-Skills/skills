@@ -4,7 +4,7 @@ description: >-
   Documentation architecture workflow that discovers source truth, designs information architecture, authors living documentation, embeds diagrams, validates links, and gates publication.
 metadata:
   author: bytesbybrandon
-  version: "1.0.0"
+  version: "1.0.3"
   type: reactive
 ---
 

@@ -1,17 +1,19 @@
 schema_version: "2.1.0"
 name: tdd-refactor
-version: "2.0.5"
+version: "2.0.6"
 description: >-
   Hierarchical TDD & Refactoring state machine with nested micro-cycles,
   regression detection, event bubbling, and live projections
 initial_state: INIT
 strict_execution: true
 context_keys:
+  - requirement
   - target_file
   - test_file
   - refactor_cycles
   - clean_passes
 default_context:
+  requirement: null
   target_file: src/auth.ts
   test_file: tests/auth.test.ts
   refactor_cycles: 0

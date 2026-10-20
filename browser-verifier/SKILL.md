@@ -4,7 +4,7 @@ description: >-
   Automated browser verification reactive skill that launches headless browser sessions, verifies DOM states, intercepts console errors, and captures visual artifacts.
 metadata:
   author: bytesbybrandon
-  version: "1.0.1"
+  version: "1.0.2"
   type: reactive
 ---
 

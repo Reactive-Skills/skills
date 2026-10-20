@@ -1,6 +1,7 @@
 # COMPOSE
 
 Compose release notes from classified entries.
+When `revision_feedback` is present, apply it to the previous draft.
 
 ## Actions
 1. Order entries by category and severity.

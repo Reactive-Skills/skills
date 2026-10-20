@@ -24,7 +24,7 @@ Emit `EXAMPLE_CHECK_DONE` with payload:
 {"exit_code": 0}
 ```
 
-If validation fails (examples don't match schema), set `exit_code: 1`.
+If examples don't match the schema, emit `EXAMPLE_MISMATCH_FOUND` with `{"exit_code": 1, "mismatches": [...]}` → ERROR.
 
 ## Signal
-Emit: `EXAMPLE_CHECK_DONE` (guard: `event.payload.exit_code === 0`)
+Emit: `EXAMPLE_CHECK_DONE` (guard: `event.payload.exit_code === 0`) or `EXAMPLE_MISMATCH_FOUND`
