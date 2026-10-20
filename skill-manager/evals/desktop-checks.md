@@ -46,7 +46,7 @@ Do not copy private chat history or environment dumps into the evidence director
 
 ## Prepared guidance fixtures
 
-Frozen release 1.3.0 fixtures and prompts are listed in [the handoff index](results/desktop-guidance/index.json).
+Frozen release 1.3.0 fixtures and prompts are listed in the local, Git-ignored `results/desktop-guidance/index.json` handoff index; this repository distributes no fixtures.
 All three are fresh and remain NOT_RUN.
 The current chat has unrestricted filesystem access; Desktop host containment and synthetic process-registry selection have not been verified.
 Run only after those host controls are available, using each separate workspace and its recorded prompt.
