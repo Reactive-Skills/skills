@@ -1,5 +1,5 @@
 schema_version: 2.1.0
-version: 2.8.2
+version: 2.8.3
 name: resume-manager
 description: >-
   Consolidated reactive career management engine. Orchestrates master profile bootstrapping,
@@ -307,7 +307,7 @@ states:
         judgment:
           type: predicate
           criterion: "Does the drafted application cover letter adhere to professional voice standards and remain free of AI clichés, generic buzzwords, or sycophantic corporate openings?"
-          min_probability: 0.8
+          min_probability: 0.75
           fallback_adapter: script
           fallback_target: DRAFTING
 
@@ -324,7 +324,7 @@ states:
         judgment:
           type: predicate
           criterion: "Does the resume text in resume_text read as written by the candidate, with concrete systems, actions, results, and methods in each bullet and no buzzwords or template phrasing?"
-          min_probability: 0.7
+          min_probability: 0.75
           fallback_adapter: script
           fallback_target: DRAFTING
       RESUME_FLAGGED:

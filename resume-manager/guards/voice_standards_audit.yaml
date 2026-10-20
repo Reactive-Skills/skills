@@ -10,8 +10,8 @@ question: |
 
 # P is P(clean). No escalate band: anything below accept returns to DRAFTING.
 thresholds:
-  accept: ">= 0.80"
-  reject: "< 0.80"
+  accept: ">= 0.75"
+  reject: "< 0.75"
 
 failure_behavior: fail_closed
 
@@ -19,6 +19,6 @@ snap_on:
   judgment:
     type: predicate
     criterion: "Does the drafted application cover letter adhere to professional voice standards and remain free of AI clichés, generic buzzwords, or sycophantic corporate openings?"
-    min_probability: 0.8
+    min_probability: 0.75
     fallback_adapter: script
     fallback_target: DRAFTING

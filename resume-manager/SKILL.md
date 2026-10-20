@@ -79,7 +79,7 @@ Triggered when the user provides a Job Description (JD) or asks to tailor materi
 5. **Company Alignment:** Researches culture, mission, public signals, and conversation angles (`company_alignment.md`).
 6. **ATS Drafting:** Generates single-column `resume.md` and tailored `cover_letter.md` in `<output_dir>/<Company>/<Role>/`. Gated by `guards/voice_standards_audit.yaml` to ensure zero AI clichés or sycophantic corporate openings in the cover letter.
 7. **Authenticity Review:** Audits the resume headline and bullets for AI-generated tells (buzzwords with no named system, missing result or method, repeated opening verbs, template phrasing, em dashes) and checks every metric against the master profile.
-   Gated before export by `guards/resume_authenticity_audit.yaml` with style judgment `P(clean) >= 0.70`, zero flagged tells, and zero unverified metrics.
+   Gated before export by `guards/resume_authenticity_audit.yaml` with style judgment `P(clean) >= 0.75`, zero flagged tells, and zero unverified metrics.
    This style threshold does not establish calibrated AI-authorship detection.
    Flagged lines return to drafting and are rewritten from verified profile facts only; the candidate is asked when a line has no verified metric or method.
 8. **Document Export:** Automatically compiles `.docx` and `.pdf` via bundled `convert_resume.py`.

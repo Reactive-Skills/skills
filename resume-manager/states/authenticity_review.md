@@ -40,7 +40,7 @@ Check every metric against the verified master profile.
 ## Signals
 If `authenticity_flags` and `unverified_metrics` are both empty, emit `RESUME_AUTHENTIC` with payload `{"authenticity_flag_count": 0, "unverified_metric_count": 0}`.
 Persist `resume_text` and the two empty lists in `contextUpdates`.
-The runtime then judges `resume_text` against `guards/resume_authenticity_audit.yaml` and routes to `DRAFTING` when P(clean) is below 0.70.
+The runtime then judges `resume_text` against `guards/resume_authenticity_audit.yaml` and routes to `DRAFTING` when P(clean) is below 0.75.
 This is a style policy threshold, not a calibrated AI-authorship detector.
 Factual metric checks remain mandatory regardless of the style score.
 
