@@ -4,11 +4,11 @@
 Terminal state: Unrecoverable error occurred during execution.
 
 ## Context
-This state was reached because an unrecoverable error occurred during `REPORT` generation (bubble-up transition `REPORT_ERROR`) or another unexpected failure.
+This state was reached because the spec failed validation (`OPENAPI_CHECK_FAILED`, `TYPE_MISMATCH_FOUND`, or `EXAMPLE_MISMATCH_FOUND`), `REPORT` generation failed (bubble-up transition `REPORT_ERROR`), or another unexpected failure occurred.
 
 ## Instructions
 1. Review the event log at `.reactive/skills/api-contract/events.jsonl` for the last transition before the error.
-2. Identify the root cause from `context.drift_findings` and any error messages in the event payload.
+2. Identify the root cause from `context.drift_findings` and the error or mismatch list in the event payload.
 3. Document the error in `.docs/api-contract/error-report.md` with:
    - Error description
    - Last successful state

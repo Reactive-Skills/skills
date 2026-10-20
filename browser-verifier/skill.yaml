@@ -1,6 +1,6 @@
 schema_version: "2.0.0"
 name: "browser-verifier"
-version: "1.0.1"
+version: "1.0.2"
 description: "Automated browser verification reactive skill that launches headless browser sessions, verifies DOM states, intercepts console errors, and captures visual artifacts."
 initial_state: "INTAKE"
 
@@ -54,7 +54,7 @@ states:
     transitions:
       CONFIGURE:
         target: "BOOT"
-        guard: "Boolean(context.target_url)"
+        guard: "Boolean(context.target_url) && Array.isArray(context.assertion_rules) && context.assertion_rules.length > 0"
       ABORT:
         target: "ERROR"
 

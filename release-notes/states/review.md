@@ -15,4 +15,4 @@ Pause for a human release decision.
 - [ ] Rejection reason is recorded.
 
 ## Signal
-Emit `USER_APPROVED` with `approved: true`, `USER_REQUEST_REVISIONS` with `revisions_requested: true`, or `USER_REJECTED` with `rejected: true`.
+Emit `USER_APPROVED` with `approved: true`, `USER_REQUEST_REVISIONS` with `revisions_requested: true` and `revision_feedback` holding the reviewer's words, or `USER_REJECTED` with `rejected: true`.

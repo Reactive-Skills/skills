@@ -24,7 +24,7 @@ Human review gate — present the drift report and allow approval, revision requ
 
 ## Output / Signal
 - **Approve**: emit `USER_APPROVED` `{"approved": true}` → COMPLETED
-- **Revisions**: emit `USER_REQUEST_REVISIONS` `{"revisions_requested": true}` → DRIFT_ANALYSIS
+- **Revisions**: ask the user what to change, then emit `USER_REQUEST_REVISIONS` `{"revisions_requested": true, "revision_feedback": "<user's words>"}` → DRIFT_ANALYSIS
 - **Reject**: emit `USER_REJECTED` `{"rejected": true}` → BLOCKED
 
 **Note**: This is the sole Human-in-the-Loop checkpoint. All other transitions are deterministic.

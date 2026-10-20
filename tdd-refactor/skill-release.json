@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "skillId": "tdd-refactor",
   "channel": "stable",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "type": "reactive",
   "reactiveSchemaVersion": "2.1.0"
 }

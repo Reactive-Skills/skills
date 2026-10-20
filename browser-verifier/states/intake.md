@@ -4,7 +4,7 @@
 Collect the target application URL, browser environment parameters, and required assertion rules.
 
 ## Instructions
-1. Verify that `context.target_url` points to a reachable endpoint (e.g. `http://localhost:3000`).
-2. Identify desired browser type (`chromium`, `firefox`, or `webkit`).
-3. Formulate the initial DOM assertion rules and expected element selectors.
-4. Emit `CONFIGURE` to proceed to browser initialization, or `ABORT` to terminate.
+1. Ask the user for the target URL, browser type (`chromium`, `firefox`, or `webkit`), and DOM assertion rules, unless the invoke payload already supplied them.
+   Do not invent selectors or expected text; every assertion rule comes from the user or the payload.
+2. Verify that the target URL points to a reachable endpoint.
+3. Emit `CONFIGURE` with `target_url`, `browser_type`, and a non-empty `assertion_rules` list in `payload.contextUpdates` to proceed to browser initialization, or `ABORT` to terminate.

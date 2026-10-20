@@ -4,7 +4,7 @@ description: >-
   OpenAPI/Swagger spec vs client code drift detector — parses spec, walks fetch/axios calls, detects mismatches. Uses HSM statechart with composite validation phases and human-in-the-loop gate.
 metadata:
   author: bytesbybrandon
-  version: "1.0.1"
+  version: "1.0.2"
   type: reactive
 ---
 

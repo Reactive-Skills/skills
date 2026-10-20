@@ -8,6 +8,7 @@ Analyze drift findings and classify by severity.
 - `context.missing_endpoints` — endpoints called but not in spec
 - `context.type_mismatches` — type incompatibilities
 - `context.deprecated_usage` — deprecated endpoints used
+- `context.revision_feedback`: the user's requested changes after a GATE revision; apply them first when present
 
 ## Classifications
 - **Critical**: Exposed credentials in spec, type mismatch causing runtime null-pointer risk

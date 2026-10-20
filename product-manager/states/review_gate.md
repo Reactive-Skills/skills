@@ -19,6 +19,12 @@ Present the consolidated Lean Product Charter, Eisenhower Matrix, and Vertical S
 - `view_file`
 
 ## Instructions
+If `context.vertical_slices` is empty, this gate was entered from `WORTHWHILE_DOUBTFUL` before goals, priorities, or slices exist.
+In that case, present the worthwhileness score and the risks and blockers VALIDATE_WORTHWHILENESS reported, then use `ask_question` with two choices:
+- "Continue Despite Doubts" -> Emit `CONTINUE_DESPITE_DOUBTS`
+- "Abort Opportunity" -> Emit `ABORT`
+
+Otherwise:
 1. Present the consolidated synthesis:
    - **Product Summary**: Name, Opportunity Type, Problem Statement, Worthwhileness Score.
    - **Strategic Alignment**: Core OKRs & explicit Anti-Goals.
@@ -46,4 +52,5 @@ Human decision received. Emit corresponding signal.
 - `USER_APPROVED`
 - `REVISE_SLICES`
 - `REVISE_PRIORITIES`
+- `CONTINUE_DESPITE_DOUBTS`
 - `ABORT`

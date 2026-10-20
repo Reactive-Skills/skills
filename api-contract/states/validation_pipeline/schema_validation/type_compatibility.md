@@ -24,7 +24,7 @@ Emit `TYPE_CHECK_DONE` with payload:
 {"exit_code": 0, "type_mismatches": []}
 ```
 
-If mismatches found, set `exit_code: 1` and list mismatches in `type_mismatches`.
+If mismatches are found, emit `TYPE_MISMATCH_FOUND` with `{"exit_code": 1, "type_mismatches": [...]}` → ERROR.
 
 ## Signal
-Emit: `TYPE_CHECK_DONE` (guard: `event.payload.exit_code === 0`)
+Emit: `TYPE_CHECK_DONE` (guard: `event.payload.exit_code === 0`) or `TYPE_MISMATCH_FOUND`

@@ -1,6 +1,6 @@
 schema_version: "2.0.0"
 name: "api-contract"
-version: "1.0.1"
+version: "1.0.2"
 description: "OpenAPI/Swagger spec vs client code drift detector — parses spec, walks fetch/axios calls, detects mismatches"
 initial_state: "DISCOVER_APIS"
 
@@ -40,6 +40,7 @@ context_keys:
   - "type_mismatches"
   - "deprecated_usage"
   - "coverage_matrix"
+  - "revision_feedback"
 
 default_context:
   api_spec_path: null
@@ -51,6 +52,7 @@ default_context:
   type_mismatches: []
   deprecated_usage: []
   coverage_matrix: {}
+  revision_feedback: null
 
 states:
   DISCOVER_APIS:
@@ -88,6 +90,8 @@ states:
               OPENAPI_CHECK_DONE:
                 target: "VALIDATION_PIPELINE.SCHEMA_VALIDATION.TYPE_COMPATIBILITY"
                 guard: "event.payload.exit_code === 0"
+              OPENAPI_CHECK_FAILED:
+                target: "ERROR"
 
           TYPE_COMPATIBILITY:
             description: "Verify spec schema types and definitions are consistent"
@@ -97,6 +101,8 @@ states:
               TYPE_CHECK_DONE:
                 target: "VALIDATION_PIPELINE.SCHEMA_VALIDATION.BREAKING_CHANGE_DETECTION"
                 guard: "event.payload.exit_code === 0"
+              TYPE_MISMATCH_FOUND:
+                target: "ERROR"
 
           BREAKING_CHANGE_DETECTION:
             description: "Scan for deprecated endpoints and breaking change patterns"
@@ -115,6 +121,8 @@ states:
               EXAMPLE_CHECK_DONE:
                 target: "VALIDATION_PIPELINE.DRIFT_DIFFING"
                 guard: "event.payload.exit_code === 0"
+              EXAMPLE_MISMATCH_FOUND:
+                target: "ERROR"
 
       DRIFT_DIFFING:
         description: "Walk client code and diff against spec for mismatches"

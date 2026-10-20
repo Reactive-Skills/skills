@@ -1,6 +1,6 @@
 schema_version: "2.0.0"
 name: "release-notes"
-version: "1.0.1"
+version: "1.0.2"
 description: "Automated changelog and release note generator that scopes changes, classifies entries, composes draft notes, validates formatting, and gates human approval."
 initial_state: "INTAKE"
 
@@ -35,22 +35,28 @@ context_keys:
   - "repository"
   - "release_version"
   - "scope_refs"
+  - "format_policy"
+  - "excluded_paths"
   - "commits"
   - "changelog_entries"
   - "release_notes"
   - "reviewed_notes"
   - "review_decision"
+  - "revision_feedback"
   - "deliverable_path"
 
 default_context:
   repository: null
   release_version: null
   scope_refs: []
+  format_policy: null
+  excluded_paths: []
   commits: []
   changelog_entries: []
   release_notes: null
   reviewed_notes: null
   review_decision: null
+  revision_feedback: null
   deliverable_path: null
 
 states:

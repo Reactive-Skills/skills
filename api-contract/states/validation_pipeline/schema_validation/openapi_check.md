@@ -26,7 +26,7 @@ Emit `OPENAPI_CHECK_DONE` with payload:
 {"exit_code": 0, "spec_schema": "<parsed_structure_summary>"}
 ```
 
-If validation fails, emit with `exit_code: 1` and a description of the schema error.
+If validation fails, emit `OPENAPI_CHECK_FAILED` with `{"exit_code": 1, "error": "<schema error>"}` → ERROR.
 
 ## Signal
-Emit: `OPENAPI_CHECK_DONE` (guard: `event.payload.exit_code === 0`)
+Emit: `OPENAPI_CHECK_DONE` (guard: `event.payload.exit_code === 0`) or `OPENAPI_CHECK_FAILED`

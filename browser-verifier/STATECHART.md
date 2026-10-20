@@ -3,7 +3,7 @@
 ```mermaid
 stateDiagram-v2
     [*] --> INTAKE
-    INTAKE --> BOOT: CONFIGURE
+    INTAKE --> BOOT: CONFIGURE [target_url and assertion_rules set]
     INTAKE --> ERROR: ABORT
 
     BOOT --> NAVIGATE: READY

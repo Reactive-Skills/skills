@@ -6,7 +6,7 @@ Signal that human intervention is required to proceed.
 
 ## Causes
 
-- No stakeholder responded within the review timeout.
+- The user could not get an approver for the learning path.
 - Missing mandatory context that cannot be auto-inferred.
 
 ## Actions

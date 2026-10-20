@@ -42,6 +42,7 @@ stateDiagram-v2
     REVIEW_GATE --> PROJECTING: USER_APPROVED (script predicate)
     REVIEW_GATE --> VERTICAL_SLICING: REVISE_SLICES
     REVIEW_GATE --> EISENHOWER_PRIORITIZATION: REVISE_PRIORITIES
+    REVIEW_GATE --> ALIGN_GOALS: CONTINUE_DESPITE_DOUBTS (no slices yet)
     REVIEW_GATE --> ERROR: ABORT
 
     PROJECTING --> SUCCESS: PROJECTED
@@ -81,6 +82,7 @@ Templates read product fields from `context.*` and render text or structured rec
 | `REVIEW_GATE` | `USER_APPROVED` | `PROJECTING` | Score >= 3; goals and slices present; MVP slice IDs non-empty | Human approves structurally complete specification |
 | `REVIEW_GATE` | `REVISE_SLICES` | `VERTICAL_SLICING` | — | Human requests slice redesign |
 | `REVIEW_GATE` | `REVISE_PRIORITIES` | `EISENHOWER_PRIORITIZATION` | — | Human requests priority reshuffle |
+| `REVIEW_GATE` | `CONTINUE_DESPITE_DOUBTS` | `ALIGN_GOALS` | No vertical slices yet | Human continues a doubtful opportunity into goal alignment |
 | `REVIEW_GATE` | `ABORT` | `ERROR` | — | Human cancels opportunity |
 | `PROJECTING` | `PROJECTED` | `SUCCESS` | — | Specs and inventory written to disk |
 | `SUCCESS` | — | `[*]` | — | Terminal success state |

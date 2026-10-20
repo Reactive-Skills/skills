@@ -10,7 +10,7 @@ Collect the release scope and format policy.
 ## Actions
 1. Confirm the repository is reachable.
 2. Confirm at least one scope ref is named.
-3. Record the format policy and excluded paths.
+3. Take the format policy and excluded paths from the payload, or ask the user for them.
 
 ## Atomic checklist
 - [ ] Repository is explicit.
@@ -19,4 +19,4 @@ Collect the release scope and format policy.
 - [ ] Format policy is recorded.
 
 ## Signal
-Emit `INTAKE_READY` with valid inputs, or `INTAKE_INVALID` with the missing or invalid fields.
+Emit `INTAKE_READY` with valid inputs, including `format_policy` and `excluded_paths`, or `INTAKE_INVALID` with the missing or invalid fields.

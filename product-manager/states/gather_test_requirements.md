@@ -15,7 +15,7 @@ Elicit functional and non-functional requirements and rigorously test them again
 
 ## Instructions
 1. **Gather Candidate Requirements**:
-   - Collect functional requirements: capabilities the user or system must exhibit.
+   - Collect functional requirements (capabilities the user or system must exhibit) from the user's request and the discovery evidence; use `ask_question` for any the user has not stated.
    - Collect non-functional requirements: performance, latency, security, compliance, error resilience.
    - Collect integration requirements: external APIs, databases, message buses, file formats.
 2. **Apply Falsification & Stress Testing**:

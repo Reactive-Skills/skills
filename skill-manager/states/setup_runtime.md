@@ -7,6 +7,8 @@ type: reactive
 # SETUP_RUNTIME — Configure Reactive Runtime
 
 Run the runtime setup command to configure state machine tool access for your agent harness.
+Run it only after the user explicitly authorizes setup.
+Without that authorization, report the missing requirement and emit `SETUP_FAILED` with payload `{"exit_code": 1}`.
 
 ```bash
 npx -y @reactive-skills/axi setup

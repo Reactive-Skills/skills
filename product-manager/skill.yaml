@@ -1,5 +1,5 @@
 schema_version: 2.1.0
-version: 1.0.3
+version: 1.0.4
 name: product-manager
 description: >-
   Event-driven product management and opportunity realization engine. Orchestrates
@@ -202,6 +202,7 @@ states:
         - Approve Product Slices & Prioritization
         - Revise Vertical Slices
         - Revise Eisenhower Prioritization
+        - Continue Despite Doubts
         - Abort Opportunity
     transitions:
       USER_APPROVED:
@@ -217,6 +218,9 @@ states:
         target: VERTICAL_SLICING
       REVISE_PRIORITIES:
         target: EISENHOWER_PRIORITIZATION
+      CONTINUE_DESPITE_DOUBTS:
+        target: ALIGN_GOALS
+        guard: "!Array.isArray(context.vertical_slices) || context.vertical_slices.length === 0"
       ABORT:
         target: ERROR
 

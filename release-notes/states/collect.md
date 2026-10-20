@@ -3,7 +3,7 @@
 Collect commits and artifacts within the release scope.
 
 ## Actions
-1. Resolve the scope refs to a commit range.
+1. Resolve the scope refs to a commit range, and leave out changes that only touch `excluded_paths`.
 2. Enumerate commits with hashes, authors, dates, and messages.
 3. Attach linked artifacts, PRs, and breaking-change markers.
 4. Preserve every commit identifier for classification.

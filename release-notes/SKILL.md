@@ -4,7 +4,7 @@ description: >-
   Automated changelog and release note generator that scopes changes, classifies entries, composes draft notes, validates formatting, and gates human approval.
 metadata:
   author: bytesbybrandon
-  version: "1.0.1"
+  version: "1.0.2"
   type: reactive
 ---
 
