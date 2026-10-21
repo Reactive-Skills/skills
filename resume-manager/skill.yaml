@@ -1,5 +1,5 @@
 schema_version: 2.1.0
-version: 2.8.3
+version: 2.9.0
 name: resume-manager
 description: >-
   Consolidated reactive career management engine. Orchestrates master profile bootstrapping,
@@ -11,6 +11,7 @@ runtime_requirements:
   min_runtime_version: 0.17.0
   required_capabilities:
     - judgment.probability_thresholds
+    - judgment.context_paths
 
 context_keys:
   - mode
@@ -35,6 +36,8 @@ context_keys:
   - alignment_path
   - interview_prep_path
   - resume_text
+  - cover_letter_text
+  - voice_register
   - authenticity_flags
   - unverified_metrics
   - new_achievements
@@ -64,6 +67,8 @@ default_context:
   alignment_path: null
   interview_prep_path: null
   resume_text: null
+  cover_letter_text: null
+  voice_register: null
   authenticity_flags: []
   unverified_metrics: []
   new_achievements: []
@@ -306,8 +311,11 @@ states:
         guard: payload.timeline_reconciled == true && payload.unresolved_gap_count == 0
         judgment:
           type: predicate
-          criterion: "Does the drafted application cover letter adhere to professional voice standards and remain free of AI clichés, generic buzzwords, or sycophantic corporate openings?"
+          criterion: 'Does the cover letter in cover_letter_text follow the voice_register professional voice standards and stay free of AI writing clichés (such as "I am writing to express my enthusiastic interest", "testament to", "delve", "leverage", "synergy"), corporate buzzword slop, and ungrounded flattery?'
           min_probability: 0.75
+          # Judge only the text under review; the rest of the run context skews the score.
+          context_paths: [cover_letter_text, voice_register]
+          include_payload: false
           fallback_adapter: script
           fallback_target: DRAFTING
 
@@ -325,6 +333,9 @@ states:
           type: predicate
           criterion: "Does the resume text in resume_text read as written by the candidate, with concrete systems, actions, results, and methods in each bullet and no buzzwords or template phrasing?"
           min_probability: 0.75
+          # Judge only the text under review; the rest of the run context skews the score.
+          context_paths: [resume_text]
+          include_payload: false
           fallback_adapter: script
           fallback_target: DRAFTING
       RESUME_FLAGGED:

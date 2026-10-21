@@ -78,6 +78,7 @@ Triggered when the user provides a Job Description (JD) or asks to tailor materi
 4. **Gap Analysis & 25–35 Keyword Calibration:** Weaves 25–35 role-specific terms into bullet points and taxonomy. Socratic verification prevents unearned keyword claims. Ranks Project Records against the JD and selects 3 to 5 with verified metrics.
 5. **Company Alignment:** Researches culture, mission, public signals, and conversation angles (`company_alignment.md`).
 6. **ATS Drafting:** Generates single-column `resume.md` and tailored `cover_letter.md` in `<output_dir>/<Company>/<Role>/`. Gated by `guards/voice_standards_audit.yaml` to ensure zero AI clichés or sycophantic corporate openings in the cover letter.
+   The voice and resume judgments read only the text under review (`cover_letter_text` and `voice_register`, or `resume_text`), not the rest of the run context.
 7. **Authenticity Review:** Audits the resume headline and bullets for AI-generated tells (buzzwords with no named system, missing result or method, repeated opening verbs, template phrasing, em dashes) and checks every metric against the master profile.
    Gated before export by `guards/resume_authenticity_audit.yaml` with style judgment `P(clean) >= 0.75`, zero flagged tells, and zero unverified metrics.
    This style threshold does not establish calibrated AI-authorship detection.
