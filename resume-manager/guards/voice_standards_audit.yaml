@@ -6,7 +6,7 @@ state:
   voice_register: "`context.voice_register`"
 
 question: |
-  Does `state.cover_letter_text` adhere to `state.voice_register` professional voice standards and remain free of AI writing clichés (such as "I am writing to express my enthusiastic interest", "testament to", "delve", "leverage", "synergy"), corporate buzzword slop, and ungrounded flattery?
+  Does the cover letter in cover_letter_text follow the voice_register professional voice standards and stay free of AI writing clichés (such as "I am writing to express my enthusiastic interest", "testament to", "delve", "leverage", "synergy"), corporate buzzword slop, and ungrounded flattery?
 
 # P is P(clean). No escalate band: anything below accept returns to DRAFTING.
 thresholds:
@@ -18,7 +18,9 @@ failure_behavior: fail_closed
 snap_on:
   judgment:
     type: predicate
-    criterion: "Does the drafted application cover letter adhere to professional voice standards and remain free of AI clichés, generic buzzwords, or sycophantic corporate openings?"
+    criterion: 'Does the cover letter in cover_letter_text follow the voice_register professional voice standards and stay free of AI writing clichés (such as "I am writing to express my enthusiastic interest", "testament to", "delve", "leverage", "synergy"), corporate buzzword slop, and ungrounded flattery?'
     min_probability: 0.75
+    context_paths: [cover_letter_text, voice_register]
+    include_payload: false
     fallback_adapter: script
     fallback_target: DRAFTING

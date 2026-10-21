@@ -23,5 +23,7 @@ snap_on:
     type: predicate
     criterion: "Does the resume text in resume_text read as written by the candidate, with concrete systems, actions, results, and methods in each bullet and no buzzwords or template phrasing?"
     min_probability: 0.75
+    context_paths: [resume_text]
+    include_payload: false
     fallback_adapter: script
     fallback_target: DRAFTING

@@ -38,14 +38,15 @@ Check every metric against the verified master profile.
 6. If a line has no flag and no unverified metric, leave it out of both lists.
 
 ## Signals
-If `authenticity_flags` and `unverified_metrics` are both empty, emit `RESUME_AUTHENTIC` with payload `{"authenticity_flag_count": 0, "unverified_metric_count": 0}`.
-Persist `resume_text` and the two empty lists in `contextUpdates`.
+If `authenticity_flags` and `unverified_metrics` are both empty, emit `RESUME_AUTHENTIC` with payload `{"authenticity_flag_count": 0, "unverified_metric_count": 0, "resume_text": resume_text}`.
+Send `resume_text` as a top-level payload field: the judgment reads only that field.
+Persist the two empty lists in `contextUpdates`.
 The runtime then judges `resume_text` against `guards/resume_authenticity_audit.yaml` and routes to `DRAFTING` when P(clean) is below 0.75.
 This is a style policy threshold, not a calibrated AI-authorship detector.
 Factual metric checks remain mandatory regardless of the style score.
 
-If either list has entries, emit `RESUME_FLAGGED` with payload `{"authenticity_flag_count": <n>, "unverified_metric_count": <m>}`.
-Persist `resume_text`, `authenticity_flags`, and `unverified_metrics` in `contextUpdates` so `DRAFTING` can rewrite only the flagged lines.
+If either list has entries, emit `RESUME_FLAGGED` with payload `{"authenticity_flag_count": <n>, "unverified_metric_count": <m>, "resume_text": resume_text}`.
+Persist `authenticity_flags`, and `unverified_metrics` in `contextUpdates` so `DRAFTING` can rewrite only the flagged lines.
 
 ## Atomic Verification Checklist
 - [CRUCIAL] Every resume metric was compared with the master profile.
