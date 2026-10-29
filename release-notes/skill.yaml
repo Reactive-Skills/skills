@@ -41,8 +41,6 @@ evidence:
   signals:
     NOTES_COMPOSED:
       /release_notes: { media_type: text/markdown, projection: utf8 }
-    COMPOSITION_FAILED:
-      /release_notes: { media_type: text/markdown, projection: utf8 }
   context:
     /release_notes: { media_type: text/markdown, projection: utf8 }
 

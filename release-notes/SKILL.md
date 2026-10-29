@@ -28,7 +28,7 @@ Requires Reactive Skills runtime **0.20.0 or newer** with `evidence.local_regist
 Run `reactive-skills-axi preflight release-notes --json` before invocation and stop on incompatibility; keep the same compatible transport and run UUID throughout.
 Do not remove evidence fields to continue on an older runtime. Existing inline text submissions remain supported on compatible runtimes.
 
-The draft states prefer `emit --evidence` with workspace-relative Markdown paths.
+The compose state prefers `emit --evidence` with a workspace-relative path to the saved draft. `COMPOSITION_FAILED` stays inline.
 This imports and verifies the saved bytes in the signal call, preserving existing guards, judgment inputs and projections.
 For MCP, use `reactive_emit_signal` with the same pointer map in `evidence`.
 For reuse, `evidence <skill> import <path> --media-type text/markdown --job <run-uuid>` returns a receipt; bind it as `{"/field":{"reference":<receipt>}}`.

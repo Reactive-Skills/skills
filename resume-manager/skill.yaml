@@ -20,13 +20,8 @@ evidence:
   signals:
     MATERIALS_DRAFTED:
       /cover_letter_text: { media_type: text/markdown, projection: utf8 }
-    RESUME_AUTHENTIC:
-      /resume_text: { media_type: text/markdown, projection: utf8 }
-    RESUME_FLAGGED:
-      /resume_text: { media_type: text/markdown, projection: utf8 }
   context:
     /cover_letter_text: { media_type: text/markdown, projection: utf8 }
-    /resume_text: { media_type: text/markdown, projection: utf8 }
 
 context_keys:
   - mode
