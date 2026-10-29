@@ -37,7 +37,23 @@ Check every metric against the verified master profile.
    Never invent or adjust a metric to clear a flag.
 6. If a line has no flag and no unverified metric, leave it out of both lists.
 
+## Saved review evidence
+
+After reading and checking the resume, save the exact `resume_text` headline and experience bullets to a workspace-local Markdown evidence file.
+Keep `resume.md` unchanged. Import that excerpt with the signal so the judgment sees the same text scope as the inline form:
+
+```bash
+reactive-skills-axi emit resume-manager RESUME_AUTHENTIC --job <run-uuid> --payload '{"authenticity_flag_count":0,"unverified_metric_count":0,"contextUpdates":{"authenticity_flags":[],"unverified_metrics":[]}}' --evidence '{"/resume_text":{"path":"<workspace-relative-review-excerpt>","media_type":"text/markdown"}}'
+```
+
+Use `RESUME_FLAGGED` with the actual counts and populated lists when findings exist; bind the same `/resume_text` pointer.
+For MCP supply the pointer map in `reactive_emit_signal.evidence`.
+Re-import the current excerpt each round. Import/verification failure must be corrected before retrying.
+Never send an inline `resume_text` or duplicate it in `contextUpdates` when binding `/resume_text`.
+The existing guards, factual checks, judgment scope, and 0.75 threshold still apply.
+
 ## Signals
+The following inline forms remain valid on the same compatible runtime.
 If `authenticity_flags` and `unverified_metrics` are both empty, emit `RESUME_AUTHENTIC` with payload `{"authenticity_flag_count": 0, "unverified_metric_count": 0, "resume_text": resume_text}`.
 Send `resume_text` as a top-level payload field: the judgment reads only that field.
 Persist the two empty lists in `contextUpdates`.

@@ -4,7 +4,7 @@ description: >-
   Automated changelog and release note generator that scopes changes, classifies entries, composes draft notes, validates formatting, and gates human approval.
 metadata:
   author: bytesbybrandon
-  version: "1.0.2"
+  version: "1.1.0"
   type: reactive
 ---
 
@@ -21,6 +21,19 @@ metadata:
 # Release Notes
 
 `release-notes` generates auditable release notes from source-scoped change evidence. It scopes the release, collects commits and artifacts, classifies changes into changelog categories, composes draft release notes, validates formatting and links, and pauses at a human approval gate.
+
+## Runtime and saved evidence
+
+Requires Reactive Skills runtime **0.20.0 or newer** with `evidence.local_registry` and `evidence.reference_submission`.
+Run `reactive-skills-axi preflight release-notes --json` before invocation and stop on incompatibility; keep the same compatible transport and run UUID throughout.
+Do not remove evidence fields to continue on an older runtime. Existing inline text submissions remain supported on compatible runtimes.
+
+The draft states prefer `emit --evidence` with workspace-relative Markdown paths.
+This imports and verifies the saved bytes in the signal call, preserving existing guards, judgment inputs and projections.
+For MCP, use `reactive_emit_signal` with the same pointer map in `evidence`.
+For reuse, `evidence <skill> import <path> --media-type text/markdown --job <run-uuid>` returns a receipt; bind it as `{"/field":{"reference":<receipt>}}`.
+Receipts belong to the selected run. Re-import after editing a file; do not reuse a receipt for changed content.
+Only an explicit evidence read returns the saved content.
 
 ## Workflow
 

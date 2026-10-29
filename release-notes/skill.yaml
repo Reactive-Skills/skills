@@ -1,8 +1,13 @@
 schema_version: "2.0.0"
 name: "release-notes"
-version: "1.0.2"
+version: "1.1.0"
 description: "Automated changelog and release note generator that scopes changes, classifies entries, composes draft notes, validates formatting, and gates human approval."
 initial_state: "INTAKE"
+runtime_requirements:
+  min_runtime_version: "0.20.0"
+  required_capabilities:
+    - evidence.local_registry
+    - evidence.reference_submission
 
 middleware:
   hooks:
@@ -30,6 +35,16 @@ middleware:
           - "password"
           - "api_key"
         replacement: "[REDACTED]"
+
+# Resolve saved draft bytes into the existing fields before checks and projections.
+evidence:
+  signals:
+    NOTES_COMPOSED:
+      /release_notes: { media_type: text/markdown, projection: utf8 }
+    COMPOSITION_FAILED:
+      /release_notes: { media_type: text/markdown, projection: utf8 }
+  context:
+    /release_notes: { media_type: text/markdown, projection: utf8 }
 
 context_keys:
   - "repository"

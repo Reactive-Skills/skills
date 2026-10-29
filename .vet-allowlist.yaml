@@ -36,10 +36,18 @@ allow:
     rule: code/child-process
     path: guards/projections.test.cjs
     reason: "Node test harness that locates the global runtime with `npm root -g`; skill.yaml does not reference it, so the runtime never loads it."
+  - skill: release-notes
+    rule: code/child-process
+    path: guards/evidence_references.test.cjs
+    reason: "Node test harness that locates the global runtime with `npm root -g`; skill.yaml does not reference it, so the runtime never loads it."
   - skill: resume-manager
     rule: code/child-process
     path: assets/convert_resume.py
     reason: "Resume converter script that drives the local PDF/DOCX tooling by design."
+  - skill: resume-manager
+    rule: code/child-process
+    path: guards/evidence_references.test.cjs
+    reason: "Node test harness that locates the global runtime with `npm root -g`; skill.yaml does not reference it, so the runtime never loads it."
   - skill: skill-manager
     rule: hidden/zero-width
     path: evals/results/evidence/**
