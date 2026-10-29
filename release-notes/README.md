@@ -61,6 +61,7 @@ release-notes/
 ├── STATECHART.md
 ├── skill.yaml
 ├── guards/
+│   ├── evidence_references.test.cjs
 │   └── terminal_guard_assertions.test.js
 ├── states/
 │   ├── intake.md
@@ -83,4 +84,5 @@ release-notes/
 node scripts/validate-skills.js --no-runtime release-notes
 npx -y @reactive-skills/axi inspect release-notes
 node --test release-notes/guards/terminal_guard_assertions.test.js
+node --test release-notes/guards/evidence_references.test.cjs
 ```
