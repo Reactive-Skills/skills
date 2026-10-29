@@ -317,5 +317,6 @@ This is one sample. Latency was not measured and no speedup is claimed. Rerun wi
 Role-fit checks require runtime 0.20.0 with `judgment.context_paths` and `judgment.payload_selection`.
 They send only `target_title`, parsed `jd_requirements`, and `candidate_experience_summary`; the signal payload is excluded.
 The profile-selection state prepares relevant verified evidence without candidate contact details or unrelated profile history.
-Missing requirements or experience refuses the signal before a model call; gather the evidence or request fit review.
+Runtime 0.20.0 refuses the signal before a model call only when requirements or experience are absent; a present `null` or empty value still reaches the model.
+Gather the evidence or request fit review.
 The 0.8 probability threshold, factual guards, and human-review fallback are unchanged.

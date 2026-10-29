@@ -15,7 +15,7 @@ For an explicit choice, emit `USER_CHOICE_SUBMITTED`.
 
 The remote judgment receives only `requested_task`, `study_topic`, `research_problem`, `research_purpose`, `output_scope`, `review_mode`, `missing_information`.
 Record this evidence before submitting a recommendation; the event payload is excluded.
-Core fields `requested_task` must be present; missing fields refuse the signal before a model call.
+Record core fields `requested_task` before submitting. Runtime 0.20.0 refuses the signal before a model call only when a required path is absent; a present `null`, empty string, or empty array, including the manifest's `null` and `[]` defaults, still reaches the model.
 Keep design notes limited to non-identifying decision evidence (feasibility, access, assignment, phenomenon, sequence, or integration as applicable).
 Keep unknowns explicit. If evidence is insufficient, use `NEED_CLARIFICATION` rather than inventing a recommendation.
 

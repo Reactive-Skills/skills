@@ -24,7 +24,9 @@ The minimum confidence for a recommendation is 0.7.
 Low confidence, invalid choice shapes, or judgment errors route to clarification.
 Recommendations require runtime 0.20.0 with `judgment.context_paths` and `judgment.payload_selection`.
 Each recommendation sends only its declared study-context fields and excludes the signal payload.
-Missing core evidence refuses the signal locally; gather it or request clarification.
+Runtime 0.20.0 refuses a recommendation locally only when a required context path is absent.
+A present `null`, empty string, or empty array still reaches the model, including the manifest's `null` and `[]` defaults.
+Record core evidence before submitting a recommendation, or request clarification.
 See the decision prompts and `skill.yaml` for the per-decision allowlists.
 Generation states are separate from decision states.
 The skill stores only relevant, non-identifying study context.

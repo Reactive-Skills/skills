@@ -29,13 +29,14 @@ Both evaluations can execute in a single forward pass via `guards/profile_evalua
    - If YES, set `overqualified_risk = true` and prepare to down-level technical jargon, modulate seniority signals, and construct an authentic anti-flight risk intent narrative.
    - If NO, set `overqualified_risk = false`.
 8. Prepare the judgment evidence: `jd_requirements` contains the required qualifications, seniority, technologies, and responsibilities parsed from the JD; `candidate_experience_summary` contains the relevant verified experience, transferable strengths, and missing or unverified requirements. Keep both as nonempty text. Omit candidate names, contact details, profile paths, unrelated achievements, and raw profile archives.
-   Include `target_title`, `jd_requirements`, and `candidate_experience_summary` as top-level fields in each fit branch payload. These declared context keys reach the judgment before the factual guard. The judge receives only those three fields and no event payload. Missing requirements or experience refuses the signal before a model call; gather the evidence or use `FIT_REVIEW_REQUIRED`.
+   Include `target_title`, `jd_requirements`, and `candidate_experience_summary` as top-level fields in each fit branch payload. These declared context keys reach the judgment before the factual guard. The judge receives only those three fields and no event payload. Runtime 0.20.0 refuses the signal before a model call only when requirements or experience are absent; a present empty value still reaches the model. Gather the evidence or use `FIT_REVIEW_REQUIRED`.
 9. **Route the result:**
    - If `role_fit` is `weak_fit` or `other`, or `role_fit_confidence` is below 0.8, emit `FIT_REVIEW_REQUIRED` with payload `{ selected_profile, overqualified_risk, role_fit, role_fit_confidence, role_fit_reasons, role_fit_gaps }`. If the user approves the fit, `FIT_REVIEW` still calibrates framing when `overqualified_risk` is `true`.
-   - Otherwise, if `overqualified_risk` is `true`, emit `CALIBRATION_REQUIRED` with payload `{ selected_profile, overqualified_risk: true, reason, role_fit, role_fit_confidence, role_fit_reasons, role_fit_gaps }`.
-   - Otherwise, emit `STANDARD_MATCH` with payload `{ selected_profile, overqualified_risk: false, role_fit, role_fit_confidence, role_fit_reasons, role_fit_gaps }`.
+   - Otherwise, if `overqualified_risk` is `true`, emit `CALIBRATION_REQUIRED` with payload `{ selected_profile, overqualified_risk: true, reason, target_title, jd_requirements, candidate_experience_summary, role_fit, role_fit_confidence, role_fit_reasons, role_fit_gaps }`.
+   - Otherwise, emit `STANDARD_MATCH` with payload `{ selected_profile, overqualified_risk: false, target_title, jd_requirements, candidate_experience_summary, role_fit, role_fit_confidence, role_fit_reasons, role_fit_gaps }`.
 
 Include `role_fit`, `role_fit_confidence`, `role_fit_reasons`, and `role_fit_gaps` in every branch payload.
+Also include `target_title`, `jd_requirements`, and `candidate_experience_summary` in the `CALIBRATION_REQUIRED` and `STANDARD_MATCH` payloads.
 
 The fit classification must distinguish transferable strengths from missing or unverified requirements.
 

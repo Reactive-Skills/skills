@@ -58,17 +58,32 @@ test('all five research requests retain decision evidence and exclude unrelated 
       assert.equal(old.passed, valid);
       measurement(t, kind + (valid ? ':valid' : ':unresolved'), calls.at(-1).state, outgoing.state);
     });
-    await t.test(`${kind} missing input never reaches the SDK`, async t => {
-      const context = { requested_task: 'Choose a design', research_problem: 'Problem', research_purpose: 'Purpose', research_questions: ['Question'] };
-      // Override the manifest's null/empty defaults with genuinely absent evidence.
-      context[required[0]] = undefined;
-      const f = await fixture(t, 'research-design-planner', `DECISIONS.${state}`, context);
-      const before = calls.length;
-      const result = await f.engine.handleSignal('RECOMMENDATION_SUBMITTED', { decision_kind: kind, choice });
-      assert.equal(result.transitioned, false);
-      assert.equal(f.engine.getCurrentState(), `DECISIONS.${state}`);
-      assert.equal(calls.length, before);
-    });
+    // Runtime 0.20.0 only checks path presence: manifest defaults and other present empty values still reach the SDK.
+    const recorded = { requested_task: 'Choose a design', research_problem: 'Problem', research_purpose: 'Purpose', research_questions: ['Question'] };
+    const defaults = manifest('research-design-planner').default_context;
+    for (const key of required) {
+      for (const [label, value] of [['manifest default', defaults[key]], ['empty string', ''], ['empty array', []]]) {
+        await t.test(`${kind} ${key} as ${label} still reaches the SDK`, async t => {
+          answer = () => ({ type: 'choice', choice, confidence: 0.7 });
+          const context = { ...recorded };
+          if (label === 'manifest default') delete context[key];
+          else context[key] = value;
+          const f = await fixture(t, 'research-design-planner', `DECISIONS.${state}`, context);
+          const before = calls.length;
+          await f.engine.handleSignal('RECOMMENDATION_SUBMITTED', { decision_kind: kind, choice });
+          assert.equal(calls.length, before + 1);
+          assert.deepEqual(calls.at(-1).state.context[key], value);
+        });
+      }
+      await t.test(`${kind} genuinely absent ${key} never reaches the SDK`, async t => {
+        const f = await fixture(t, 'research-design-planner', `DECISIONS.${state}`, { ...recorded, [key]: undefined });
+        const before = calls.length;
+        const result = await f.engine.handleSignal('RECOMMENDATION_SUBMITTED', { decision_kind: kind, choice });
+        assert.equal(result.transitioned, false);
+        assert.equal(f.engine.getCurrentState(), `DECISIONS.${state}`);
+        assert.equal(calls.length, before);
+      });
+    }
     await t.test(`${kind} explicit choice remains deterministic`, async t => {
       const f = await fixture(t, 'research-design-planner', `DECISIONS.${state}`);
       const before = calls.length;
