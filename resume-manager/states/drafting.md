@@ -76,7 +76,14 @@ You are drafting the candidate's single-column ATS-compliant resume (`resume.md`
 2. Draft `resume.md` adhering to all ATS and calibration constraints, or follow `Revision After Authenticity Review` when flags are present.
 3. Draft `cover_letter.md` adhering to voice rules and intent framing, unless this is a revision pass.
 4. Save both files to the target role directory.
-5. After the chronology audit passes, emit `MATERIALS_DRAFTED` with payload `{"resume_path": resume_path, "cover_letter_path": cover_letter_path, "timeline_reconciled": true, "unresolved_gap_count": 0, "timeline_audit_notes": timeline_audit_notes, "cover_letter_text": cover_letter_text, "voice_register": voice_register}`.
+5. Prefer the saved-letter reference path after the chronology audit passes. Use the selected runtime and same run UUID:
+   ```bash
+   reactive-skills-axi emit resume-manager MATERIALS_DRAFTED --job <run-uuid> --payload '{"resume_path":"<resume-path>","cover_letter_path":"<letter-path>","timeline_reconciled":true,"unresolved_gap_count":0,"timeline_audit_notes":"<audit-notes>","voice_register":"<selected-register>"}' --evidence '{"/cover_letter_text":{"path":"<workspace-relative-letter-path>","media_type":"text/markdown"}}'
+   ```
+   Use the actual saved letter, audit values, and voice register. The runtime resolves `/cover_letter_text` into the same scoped voice judgment; do not also send that text inline or under `contextUpdates`.
+   Re-import the current file on every revision. If import or verification fails, correct the file/reference before retrying; do not signal success without the content check.
+   The MCP equivalent supplies that pointer map in `reactive_emit_signal.evidence`.
+6. For an inline submission on the same compatible runtime, emit `MATERIALS_DRAFTED` with payload `{"resume_path": resume_path, "cover_letter_path": cover_letter_path, "timeline_reconciled": true, "unresolved_gap_count": 0, "timeline_audit_notes": timeline_audit_notes, "cover_letter_text": cover_letter_text, "voice_register": voice_register}`.
    Send `cover_letter_text` (the full letter) and `voice_register` as top-level payload fields: the voice judgment reads only those two fields.
 
 ## Atomic Verification Checklist

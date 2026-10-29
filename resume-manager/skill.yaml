@@ -1,5 +1,5 @@
 schema_version: 2.1.0
-version: 2.9.0
+version: 2.10.0
 name: resume-manager
 description: >-
   Consolidated reactive career management engine. Orchestrates master profile bootstrapping,
@@ -8,10 +8,20 @@ description: >-
   and job application tailoring with automated overqualification and anti-flight risk calibration.
 initial_state: INIT
 runtime_requirements:
-  min_runtime_version: 0.17.0
+  min_runtime_version: 0.20.0
   required_capabilities:
     - judgment.probability_thresholds
     - judgment.context_paths
+    - evidence.local_registry
+    - evidence.reference_submission
+
+# Resolve saved draft bytes into the existing fields before checks and projections.
+evidence:
+  signals:
+    MATERIALS_DRAFTED:
+      /cover_letter_text: { media_type: text/markdown, projection: utf8 }
+  context:
+    /cover_letter_text: { media_type: text/markdown, projection: utf8 }
 
 context_keys:
   - mode

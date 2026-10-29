@@ -3,6 +3,9 @@
 ## Goal
 Verify that the host agent harness is connected to the reactive runtime environment.
 
+Require runtime 0.20.0 or newer with `evidence.local_registry`, `evidence.reference_submission`, `judgment.context_paths`, and `judgment.probability_thresholds`.
+Run preflight for this skill before invocation; stop if incompatible. Never drop evidence fields to proceed.
+
 ## Instructions
 1. Check `reactive_capabilities` when the MCP tool is available.
 2. Otherwise check `reactive-skills-axi capabilities --json`, then `npx -y @reactive-skills/axi capabilities --json`.

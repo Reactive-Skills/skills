@@ -3,7 +3,7 @@
 > Consolidated reactive career management engine. Orchestrates master profile bootstrapping, continuous achievement maintenance, multi-track profile specialization, and job application tailoring with automated overqualification and anti-flight risk calibration.
 
 [![Schema Version](https://img.shields.io/badge/schema-v2.1.0-blue.svg)](skill.yaml)
-[![Skill Version](https://img.shields.io/badge/version-v2.9.0-green.svg)](skill.yaml)
+[![Skill Version](https://img.shields.io/badge/version-v2.10.0-green.svg)](skill.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE)
 
 ---
@@ -280,3 +280,34 @@ resume-manager/
 ## 📜 License
 
 Distributed under the **MIT License**. See [LICENSE](../LICENSE) for details.
+
+## Runtime and saved evidence
+
+Requires Reactive Skills runtime **0.20.0 or newer** with `evidence.local_registry` and `evidence.reference_submission`.
+Run `reactive-skills-axi preflight resume-manager --json` before invocation and stop on incompatibility; keep the same compatible transport and run UUID throughout.
+Do not remove evidence fields to continue on an older runtime. Existing inline text submissions remain supported on compatible runtimes.
+
+The drafting state prefers `emit --evidence` with a workspace-relative path to the saved cover letter. The resume review still sends its excerpt inline.
+This imports and verifies the saved bytes in the signal call, preserving existing guards, judgment inputs and projections.
+For MCP, use `reactive_emit_signal` with the same pointer map in `evidence`.
+For reuse, `evidence <skill> import <path> --media-type text/markdown --job <run-uuid>` returns a receipt; bind it as `{"/field":{"reference":<receipt>}}`.
+Receipts belong to the selected run. Re-import after editing a file; do not reuse a receipt for changed content.
+Only an explicit evidence read returns the saved content.
+
+### Measured path
+
+`resume-manager/guards/evidence_references.test.cjs` runs the real CLI for `MATERIALS_DRAFTED` with a 2,400-byte saved cover letter: file written, then imported, then checked, then projected.
+Every shape writes the draft file once (not shown in the table). Counts after that write cover: CLI calls, request argument bytes (excluding the skill path), response bytes, reads of the draft, saved blobs and receipts, and projection writes.
+Every shape also has one host read of the projection to verify it. Starting the run is not counted.
+
+| Shape | Calls | Request B | Response B | Draft reads | Blob reads | Receipt reads | Projection writes / B |
+|---|---:|---:|---:|---:|---:|---:|---|
+| Inline `cover_letter_text` | 1 | 2,738 | 8,418 | 1 | 0 | 0 | 2 / 558 |
+| `--evidence` path | 1 | 341 | 6,556 | 1 | 8 | 8 | 2 / 558 |
+| Import, then receipt | 2 | 668 | 6,844 | 1 | 8 | 8 | 2 / 558 |
+| Extra `evidence read` | +1 | +326 | +2,756 | 0 | +2 | +2 | 0 |
+
+A test adapter refuses a missing letter, so each transition shows the voice check got the text. The resume snapshot does not contain the letter.
+References cut request and response bytes. They do not cut total work: the runtime reads the saved blob and receipt 8 times each across import, checks and projection, and a separate receipt adds a call.
+If you need the text again after a reference, `evidence read` costs one more call and returns the text (the extra row above). Inline hosts already have it.
+This is one sample. Latency was not measured and no speedup is claimed. Rerun with `node --test resume-manager/guards/evidence_references.test.cjs` on runtime 0.20.0.
