@@ -3,7 +3,7 @@
 ## Goal
 Verify that the host agent harness is connected to the reactive runtime environment.
 
-Require runtime 0.20.0 or newer with `evidence.local_registry`, `evidence.reference_submission`, `judgment.context_paths`, and `judgment.probability_thresholds`.
+Require runtime 0.20.0 or newer with `evidence.local_registry`, `evidence.reference_submission`, `judgment.context_paths`, `judgment.payload_selection`, and `judgment.probability_thresholds`.
 Run preflight for this skill before invocation; stop if incompatible. Never drop evidence fields to proceed.
 
 ## Instructions

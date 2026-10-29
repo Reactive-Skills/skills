@@ -28,7 +28,9 @@ Both evaluations can execute in a single forward pass via `guards/profile_evalua
    - Does the candidate have 10-15+ years of senior/staff/principal background, while the role is mid-level, non-technical, or in a traditional non-software industry?
    - If YES, set `overqualified_risk = true` and prepare to down-level technical jargon, modulate seniority signals, and construct an authentic anti-flight risk intent narrative.
    - If NO, set `overqualified_risk = false`.
-8. **Route the result:**
+8. Prepare the judgment evidence: `jd_requirements` contains the required qualifications, seniority, technologies, and responsibilities parsed from the JD; `candidate_experience_summary` contains the relevant verified experience, transferable strengths, and missing or unverified requirements. Keep both as nonempty text. Omit candidate names, contact details, profile paths, unrelated achievements, and raw profile archives.
+   Include `target_title`, `jd_requirements`, and `candidate_experience_summary` as top-level fields in each fit branch payload. These declared context keys reach the judgment before the factual guard. The judge receives only those three fields and no event payload. Missing requirements or experience refuses the signal before a model call; gather the evidence or use `FIT_REVIEW_REQUIRED`.
+9. **Route the result:**
    - If `role_fit` is `weak_fit` or `other`, or `role_fit_confidence` is below 0.8, emit `FIT_REVIEW_REQUIRED` with payload `{ selected_profile, overqualified_risk, role_fit, role_fit_confidence, role_fit_reasons, role_fit_gaps }`. If the user approves the fit, `FIT_REVIEW` still calibrates framing when `overqualified_risk` is `true`.
    - Otherwise, if `overqualified_risk` is `true`, emit `CALIBRATION_REQUIRED` with payload `{ selected_profile, overqualified_risk: true, reason, role_fit, role_fit_confidence, role_fit_reasons, role_fit_gaps }`.
    - Otherwise, emit `STANDARD_MATCH` with payload `{ selected_profile, overqualified_risk: false, role_fit, role_fit_confidence, role_fit_reasons, role_fit_gaps }`.

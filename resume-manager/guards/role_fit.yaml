@@ -41,5 +41,8 @@ snap_on:
       - weak_fit
       - other
     min_probability: 0.8
+    context_paths: [target_title, jd_requirements, candidate_experience_summary]
+    required_context_paths: [jd_requirements, candidate_experience_summary]
+    include_payload: false
     fallback_adapter: script
     fallback_target: FIT_REVIEW

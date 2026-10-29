@@ -11,6 +11,14 @@ If the user named the task, preserve it and submit it as an explicit choice.
 If the user is unsure and asks for help choosing a next step, recommend one route from the user's goal and available context.
 For a recommendation, emit `RECOMMENDATION_SUBMITTED`.
 For an explicit choice, emit `USER_CHOICE_SUBMITTED`.
+## Recommendation evidence
+
+The remote judgment receives only `requested_task`, `study_topic`, `research_problem`, `research_purpose`, `output_scope`, `review_mode`, `missing_information`.
+Record this evidence before submitting a recommendation; the event payload is excluded.
+Core fields `requested_task` must be present; missing fields refuse the signal before a model call.
+Keep design notes limited to non-identifying decision evidence (feasibility, access, assignment, phenomenon, sequence, or integration as applicable).
+Keep unknowns explicit. If evidence is insufficient, use `NEED_CLARIFICATION` rather than inventing a recommendation.
+
 ## Context Variables Set
 
 Signals include top-level `decision_kind: "route_task"` and `choice`, plus `contextUpdates: {decision_kind, selected_choice}`.

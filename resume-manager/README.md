@@ -311,3 +311,11 @@ A test adapter refuses a missing letter, so each transition shows the voice chec
 References cut request and response bytes. They do not cut total work: the runtime reads the saved blob and receipt 8 times each across import, checks and projection, and a separate receipt adds a call.
 If you need the text again after a reference, `evidence read` costs one more call and returns the text (the extra row above). Inline hosts already have it.
 This is one sample. Latency was not measured and no speedup is claimed. Rerun with `node --test resume-manager/guards/evidence_references.test.cjs` on runtime 0.20.0.
+
+## Role-fit judgment inputs
+
+Role-fit checks require runtime 0.20.0 with `judgment.context_paths` and `judgment.payload_selection`.
+They send only `target_title`, parsed `jd_requirements`, and `candidate_experience_summary`; the signal payload is excluded.
+The profile-selection state prepares relevant verified evidence without candidate contact details or unrelated profile history.
+Missing requirements or experience refuses the signal before a model call; gather the evidence or request fit review.
+The 0.8 probability threshold, factual guards, and human-review fallback are unchanged.

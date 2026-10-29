@@ -1,11 +1,16 @@
 schema_version: "2.1.0"
 name: research-design-planner
-version: "1.0.1"
+version: "1.0.2"
 description: >-
   One reactive entry point that helps users explore, choose, plan, or review a
   quantitative, qualitative, or mixed methods research design.
 initial_state: INIT
 strict_execution: true
+runtime_requirements:
+  min_runtime_version: "0.20.0"
+  required_capabilities:
+    - judgment.context_paths
+    - judgment.payload_selection
 context_keys:
   - requested_task
   - study_topic
@@ -126,6 +131,9 @@ states:
               criterion: "Which allowed work path best fits the user's stated need and relevant non-identifying study context?"
               options: ["explore_or_clarify_goal","choose_research_approach","work_on_proposal_section","plan_quantitative_methods","plan_qualitative_methods","plan_mixed_methods","review_existing_plan","other"]
               min_confidence: 0.7
+              context_paths: [requested_task, study_topic, research_problem, research_purpose, output_scope, review_mode, missing_information]
+              required_context_paths: [requested_task]
+              include_payload: false
               adapter_hint: jev
               fallback_adapter: jev
               fallback_target: CLARIFY
@@ -144,6 +152,9 @@ states:
               criterion: "Which allowed research approach best fits the problem, purpose, questions, audience, and available information?"
               options: ["quantitative","qualitative","mixed_methods","other"]
               min_confidence: 0.7
+              context_paths: [research_problem, research_purpose, research_questions, hypotheses, intended_audience, worldview, design_notes, missing_information]
+              required_context_paths: [research_problem, research_purpose]
+              include_payload: false
               adapter_hint: jev
               fallback_adapter: jev
               fallback_target: CLARIFY
@@ -162,6 +173,9 @@ states:
               criterion: "Which allowed quantitative design best fits the questions, variables, comparison needs, and feasible data collection?"
               options: ["survey","experiment","other"]
               min_confidence: 0.7
+              context_paths: [research_purpose, research_questions, hypotheses, design_notes, missing_information]
+              required_context_paths: [research_questions]
+              include_payload: false
               adapter_hint: jev
               fallback_adapter: jev
               fallback_target: CLARIFY
@@ -180,6 +194,9 @@ states:
               criterion: "Which allowed qualitative strategy best fits the phenomenon, unit of analysis, setting, and intended understanding?"
               options: ["narrative","phenomenology","ethnography","case_study","grounded_theory","other"]
               min_confidence: 0.7
+              context_paths: [research_problem, research_purpose, research_questions, design_notes, missing_information]
+              required_context_paths: [research_purpose]
+              include_payload: false
               adapter_hint: jev
               fallback_adapter: jev
               fallback_target: CLARIFY
@@ -198,6 +215,9 @@ states:
               criterion: "Which allowed mixed methods design best fits the purpose for combining strands, their sequence, priority, and integration point?"
               options: ["convergent","explanatory_sequential","exploratory_sequential","complex","other"]
               min_confidence: 0.7
+              context_paths: [research_purpose, research_questions, design_notes, missing_information]
+              required_context_paths: [research_purpose]
+              include_payload: false
               adapter_hint: jev
               fallback_adapter: jev
               fallback_target: CLARIFY

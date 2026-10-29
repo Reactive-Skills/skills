@@ -22,6 +22,10 @@ Explicit user choices remain deterministic.
 Semantic recommendations use bounded categorical choices with an `other` option.
 The minimum confidence for a recommendation is 0.7.
 Low confidence, invalid choice shapes, or judgment errors route to clarification.
+Recommendations require runtime 0.20.0 with `judgment.context_paths` and `judgment.payload_selection`.
+Each recommendation sends only its declared study-context fields and excludes the signal payload.
+Missing core evidence refuses the signal locally; gather it or request clarification.
+See the decision prompts and `skill.yaml` for the per-decision allowlists.
 Generation states are separate from decision states.
 The skill stores only relevant, non-identifying study context.
 
