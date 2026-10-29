@@ -128,7 +128,7 @@ async function compose(f) {
   for (const [signal, payload] of [
     ['INTAKE_READY', { repository: '.', release_version: '1.2.0', scope_refs: ['v1.1.0', 'HEAD'] }],
     ['COLLECTION_COMPLETE', { commits: [{ hash: 'abc', message: 'fix: preserve text' }] }],
-    ['ENTRIES_CLASSIFIED', { changelog_entries: [{ category: 'Fixed', description: 'Preserve text', commit: 'abc' }] }]
+    ['ENTRIES_CLASSIFIED', { changelog_entries: [{ category: 'Fixed', scope: 'cli', description: 'Preserve text', commit: 'abc' }] }]
   ]) assert.equal((await f.engine.handleSignal(signal, payload)).transitioned, true);
 }
 
@@ -149,7 +149,12 @@ test('inline and referenced notes retain non-empty acceptance and rejection', as
       if (text) {
         const projected = result.deliverablesWritten.find(p => p.endsWith('state.json'));
         assert.ok(projected);
-        assert.equal(JSON.parse(fs.readFileSync(projected, 'utf8')).context.release_notes, text);
+        const snapshot = JSON.parse(fs.readFileSync(projected, 'utf8'));
+        assert.equal(snapshot.context.release_notes, text);
+        const notes = fs.readFileSync(result.deliverablesWritten.find(p => p.endsWith('release-notes.md')), 'utf8');
+        assert.ok(snapshot.timestamp);
+        for (const line of ['**Repository:** `.`', '**Release:** `1.2.0`', `**Generated:** ${snapshot.timestamp}`,
+          '### Fixed', '- `cli` Preserve text (abc)', text]) assert.ok(notes.includes(line), line);
         const context = f.reopen().getContext();
         const resolved = new f.api.EvidenceResolver(f.engine.getManifest().evidence,
           () => f.engine.getEventStore().getEvidenceStore()).resolveContext(context);

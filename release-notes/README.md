@@ -33,12 +33,12 @@ Every shape also has one host read of the projection to verify it. Starting the 
 
 | Shape | Calls | Request B | Response B | Draft reads | Blob reads | Receipt reads | Projection writes / B |
 |---|---:|---:|---:|---:|---:|---:|---|
-| Inline `release_notes` | 1 | 2,561 | 4,270 | 1 | 0 | 0 | 2 / 2,967 |
-| `--evidence` path | 1 | 165 | 2,404 | 1 | 8 | 8 | 2 / 2,967 |
-| Import, then receipt | 2 | 492 | 2,692 | 1 | 8 | 8 | 2 / 2,967 |
+| Inline `release_notes` | 1 | 2,561 | 4,270 | 1 | 0 | 0 | 2 / 5,377 |
+| `--evidence` path | 1 | 165 | 2,404 | 1 | 8 | 8 | 2 / 5,377 |
+| Import, then receipt | 2 | 492 | 2,692 | 1 | 8 | 8 | 2 / 5,377 |
 | Extra `evidence read` | +1 | +326 | +2,756 | 0 | +2 | +2 | 0 |
 
-The projected `state.json` holds the same 2,400 bytes in every shape.
+The projected `state.json` and `release-notes.md` both hold the same 2,400 bytes in every shape.
 References cut request and response bytes. They do not cut total work: the runtime reads the saved blob and receipt 8 times each across import, checks and projection, and a separate receipt adds a call.
 If you need the text again after a reference, `evidence read` costs one more call and returns the text (the extra row above). Inline hosts already have it.
 This is one sample. Latency was not measured and no speedup is claimed. Rerun with `node --test release-notes/guards/evidence_references.test.cjs` on runtime 0.20.0.
