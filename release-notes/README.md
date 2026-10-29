@@ -33,9 +33,9 @@ Every shape also has one host read of the projection to verify it. Starting the 
 
 | Shape | Calls | Request B | Response B | Draft reads | Blob reads | Receipt reads | Projection writes / B |
 |---|---:|---:|---:|---:|---:|---:|---|
-| Inline `release_notes` | 1 | 2,561 | 4,270 | 1 | 0 | 0 | 2 / 5,377 |
-| `--evidence` path | 1 | 165 | 2,404 | 1 | 8 | 8 | 2 / 5,377 |
-| Import, then receipt | 2 | 492 | 2,692 | 1 | 8 | 8 | 2 / 5,377 |
+| Inline `release_notes` | 1 | 2,561 | 4,270 | 1 | 0 | 0 | 2 / 5,379 |
+| `--evidence` path | 1 | 165 | 2,404 | 1 | 8 | 8 | 2 / 5,379 |
+| Import, then receipt | 2 | 492 | 2,692 | 1 | 8 | 8 | 2 / 5,379 |
 | Extra `evidence read` | +1 | +326 | +2,756 | 0 | +2 | +2 | 0 |
 
 The projected `state.json` and `release-notes.md` both hold the same 2,400 bytes in every shape.

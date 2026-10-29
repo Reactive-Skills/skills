@@ -155,6 +155,7 @@ test('inline and referenced notes retain non-empty acceptance and rejection', as
         assert.ok(snapshot.timestamp);
         for (const line of ['**Repository:** `.`', '**Release:** `1.2.0`', `**Generated:** ${snapshot.timestamp}`,
           '### Fixed', '- `cli` Preserve text (abc)', text]) assert.ok(notes.includes(line), line);
+        assert.ok(notes.includes(`**Repository:** \`.\`\\\n**Release:** \`1.2.0\`\\\n**Generated:** ${snapshot.timestamp}\n`));
         const context = f.reopen().getContext();
         const resolved = new f.api.EvidenceResolver(f.engine.getManifest().evidence,
           () => f.engine.getEventStore().getEvidenceStore()).resolveContext(context);
