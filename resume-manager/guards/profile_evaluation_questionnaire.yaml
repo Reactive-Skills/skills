@@ -1,5 +1,8 @@
 # Judgment: Profile Evaluation Questionnaire (Flat Fan-Out)
 # Evaluates track selection, role fit, and overqualification in a single forward pass
+# Industry, leveling, seniority, and years serve the track and overqualification questions.
+# The role_fit question uses only target_title, jd_requirements, and candidate_experience,
+# matching the narrower runtime role-fit judgment on CALIBRATION_REQUIRED and STANDARD_MATCH.
 
 state:
   target_title: "`context.target_title`"
