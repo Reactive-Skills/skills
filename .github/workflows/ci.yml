@@ -62,7 +62,7 @@ jobs:
         run: npm install --global @reactive-skills/axi@0.20.0
 
       - name: Test skill guards
-        run: node --test */guards/*.test.cjs */guards/*.test.js
+        run: REACTIVE_RUNTIME_MODULE="$(npm root -g)/@reactive-skills/axi/node_modules/@reactive-skills/runtime/dist/index.js" node --test */guards/*.test.cjs */guards/*.test.js
 
       - name: Set up Python
         uses: actions/setup-python@v5
