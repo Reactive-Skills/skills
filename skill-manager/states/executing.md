@@ -22,13 +22,15 @@ For nested HSMs use `substates` and `initial_substate`, dotted state targets, an
 Do not substitute nested `states` or `initial_state` for those fields.
 Preserve the approved nested prompt paths and any referenced parent prompt.
 
-Render the canonical pointer from the manager's `templates/reactive_bootloader.md.hbs` with the target skill name.
+For reactive CREATE, render the canonical pointer from the manager's `templates/reactive_bootloader.md.hbs` with the target skill name.
 Keep exactly one complete pointer in `SKILL.md`, under 50 lines, followed by specific usage guidance.
 Leave shared runtime selection and recovery instructions in the runtime.
 Render other manager templates only when their output files and states belong to the approved plan.
 A bypass prompt must support the selected transport rather than assume MCP-only recovery.
 
 For UPDATE, modify only listed files and remove only approved obsolete files.
+For passive UPDATE, preserve name, passive metadata, protected content, and absence of reactive manifests/bootloader; do not add reactive states; keep pre-update contents for comparison and scoped rollback.
+Reactive construction invariants below apply only to reactive targets.
 Keep diagram, documentation, and directory descriptions accurate when their corresponding behavior changes; accuracy does not authorize additional files.
 For DELETE, verify the resolved target again and remove only approved paths, then confirm absence.
 Do not replay deletion or add repair behavior.
@@ -55,10 +57,18 @@ Keep semantic model tiers separate from the executor actually observed.
 
 ## Evidence and exit
 
-For CREATE or UPDATE, run the bundled `node "{{context.manager_skill_dir}}/scripts/authoring-quality.cjs" "{{context.target_skill_dir}}" --json` and the selected runtime's `validate "{{context.target_skill_dir}}"`.
+For CREATE or UPDATE, run the bundled `node "{{context.manager_skill_dir}}/scripts/authoring-quality.cjs" "{{context.target_skill_dir}}" --json`.
+For passive UPDATE, also run the supported standard frontmatter command recorded in `context.plan.frontmatter_check`.
+Require valid YAML frontmatter with the preserved nonempty name and description; compare actual content with the approved change and pre-update contents.
+Confirm no `skill.yaml`, `skill.yml`, reactive bootloader or unapproved scaffolding was added, passive identity remains intact, and protected content and unplanned files are unchanged.
+Do not call runtime validate on passive targets: it requires a reactive manifest.
+For reactive CREATE/UPDATE, retain the selected runtime's `validate "{{context.target_skill_dir}}"` and all reactive structure, bootloader and guard checks.
+Re-observe actual target type; a present or malformed manifest must never select the passive branch.
+An unavailable required checker or failed comparison is a verification failure.
 Resolve definite errors within the approved scope; report navigation and size advisories separately.
 Validate supported nested structure before attributing a transition failure to the runtime.
 For DELETE, verify the approved target is absent.
+Record the actual `contextUpdates.target_type` (`passive` or `reactive`; `missing` after DELETE).
 Record created, modified, and deleted paths in `contextUpdates.files` as a flat array of path strings for the inventory and snapshot projections.
 Record protected-file checks, command results, unresolved failures, and actual executor coverage separately in the `EXECUTED` payload.
 

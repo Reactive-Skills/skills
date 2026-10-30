@@ -1,77 +1,44 @@
 # DETECTING State
 
-## Goal
-Determine the skill's existence status and type, then route to the correct branch.
+## Objective and inputs
 
-## Context Variables Read
-- `context.skill_name` � the skill identifier
-- `context.operation` � CREATE | UPDATE | DELETE | MIGRATE_LEGACY | MIGRATE_REACTIVE
+Inspect the actual target files and route the requested operation.
+Consume `context.skill_name`, `operation`, and the absolute source, target, and manager paths.
+Read the registered source list and honor the explicitly selected source.
+Resolve ambiguity before mutation; reject distribution and agent-local destinations before following links.
+Verify canonical target containment in the selected source, including existing ancestors and links.
+For CREATE, check the existing parent and planned path.
+Use `target_skill_dir` for every check, regardless of CWD.
 
-## Source Resolution
+## Observe target type
 
-Read the current registered source list and honor the explicitly selected source.
-Resolve ambiguity before any mutation; distribution and agent-local paths are not authoring sources, even when linked.
-Set absolute `context.authoring_source`, `context.target_skill_dir`, and `context.manager_skill_dir`.
-Verify canonical target containment in the chosen source; for CREATE, validate the existing parent and planned path.
-Use `target_skill_dir` for every check below, regardless of CWD.
+Check actual readable files under `context.target_skill_dir`:
+- `hasReactiveManifest`: `skill.yaml` or `skill.yml` exists. A malformed manifest remains reactive and must fail runtime validation; never fall back to passive checks.
+- `hasSKILL`: `SKILL.md` exists.
+- `target_type`: `reactive` when a manifest exists, `passive` when SKILL.md exists without a manifest, otherwise `missing`.
+- `skillExists`: either a reactive manifest or SKILL.md exists.
+- `isLegacy`: target_type is passive; this retains the explicit MIGRATE_LEGACY eligibility meaning, not a requirement to migrate.
+- `isV1Reactive`: a reactive manifest declares `schema_version: reactive/v1`.
+- `isV2Reactive`: a reactive manifest declares `schema_version: 2.0.0`; other schemas still require runtime validation.
 
-## Detection Logic
+Unreadable or non-file inputs are failures, not permission to overwrite them.
+Persist these observations in `contextUpdates`, including `target_type`.
+Existing passive skills are valid UPDATE targets. Preserve their identity without manufacturing a manifest, bootloader, states or topology.
 
-### Step 1: Check skill.yaml existence
-Use glob to check if `{{context.target_skill_dir}}/skill.yaml` exists.
-Set `skillExists = true` if found, `skillExists = false` if not.
+## Route and exit
 
-### Step 2: Check SKILL.md existence (legacy detection)
-Use glob to check if `{{context.target_skill_dir}}/SKILL.md` exists.
-Set `hasLegacySKILL = true` if found.
+| Operation | Observed condition | Signal |
+|---|---|---|
+| CREATE | skillExists is false | `NOT_EXISTS_CREATE` |
+| CREATE | skillExists is true, including passive | `EXISTS_CREATE` |
+| UPDATE | skillExists is true, reactive or passive | `EXISTS_UPDATE_DELETE` |
+| UPDATE | target_type is missing | `NOT_EXISTS_UPDATE_DELETE` |
+| DELETE | hasReactiveManifest is true | `EXISTS_UPDATE_DELETE` |
+| DELETE | hasReactiveManifest is false | `NOT_EXISTS_UPDATE_DELETE` |
+| MIGRATE_LEGACY | isLegacy is true | `IS_LEGACY` |
+| MIGRATE_LEGACY | isLegacy is false | `IS_NOT_LEGACY` |
+| MIGRATE_REACTIVE | isV1Reactive is true | `IS_V1_REACTIVE` |
+| MIGRATE_REACTIVE | isV1Reactive is false | `NOT_V1_REACTIVE` |
 
-### Step 3: Determine skill type
-If `skillExists` is true:
-- Read the first line of `{{context.target_skill_dir}}/skill.yaml`
-- Use grep to extract `schema_version:` value
-- If `schema_version` contains `reactive/v1` ? set `isV1Reactive = true`
-- If `schema_version` contains `2.0.0` ? set `isV2Reactive = true`
-- If neither ? `isV2Reactive = false` (unknown schema, treat as v2-compatible)
-
-If `skillExists` is false and `hasLegacySKILL` is true:
-- Set `isLegacy = true`
-- Set `isV1Reactive = false`, `isV2Reactive = false`
-
-If neither `skill.yaml` nor `SKILL.md` exists:
-- Set `isLegacy = false`, `isV1Reactive = false`, `isV2Reactive = false`
-
-### Step 4: Set context variables
-Before emitting any signal, set these context variables:
-- `skillExists`: boolean
-- `isLegacy`: boolean (SKILL.md exists AND no skill.yaml)
-- `isV1Reactive`: boolean (skill.yaml with schema_version "reactive/v1")
-- `isV2Reactive`: boolean (skill.yaml with schema_version "2.0.0")
-
-## Transition Logic
-
-Route based on operation type:
-
-### CREATE operation
-- If `skillExists == false` ? emit `NOT_EXISTS_CREATE`
-- If `skillExists == true` ? emit `EXISTS_CREATE`
-
-### UPDATE or DELETE operation
-- If `skillExists == true` ? emit `EXISTS_UPDATE_DELETE`
-- If `skillExists == false` ? emit `NOT_EXISTS_UPDATE_DELETE`
-
-### MIGRATE_LEGACY operation
-- If `isLegacy == true` ? emit `IS_LEGACY`
-- If `isLegacy == false` ? emit `IS_NOT_LEGACY`
-
-### MIGRATE_REACTIVE operation
-- If `isV1Reactive == true` ? emit `IS_V1_REACTIVE`
-- If `isV1Reactive == false` ? emit `NOT_V1_REACTIVE`
-
-## Context Variables Set
-- `skillExists`: boolean � skill.yaml was found
-- `isLegacy`: boolean � SKILL.md found without skill.yaml
-- `isV1Reactive`: boolean � skill.yaml with schema_version "reactive/v1"
-- `isV2Reactive`: boolean � skill.yaml with schema_version "2.0.0"
-
-## Signal
-Emit one of: `NOT_EXISTS_CREATE`, `EXISTS_CREATE`, `EXISTS_UPDATE_DELETE`, `NOT_EXISTS_UPDATE_DELETE`, `IS_LEGACY`, `IS_NOT_LEGACY`, `IS_V1_REACTIVE`, `NOT_V1_REACTIVE`
+DELETE retains its reactive-only scope. Passive UPDATE never implies migration.
+Emit only the applicable existing signal after recording the inspected type and source evidence.

@@ -42,7 +42,7 @@ Every operation is governed by a deterministic Hierarchical State Machine (HSM) 
 | Operation | Description | Target Scenarios |
 | :--- | :--- | :--- |
 | `CREATE` | Creates the approved manifest, documentation, diagram, and referenced prompts; guards or templates only where required by that design. | Building a new reactive skill. |
-| `UPDATE` | Changes the approved files and includes diagram or documentation updates when their corresponding behavior changes. | Editing prompts, adding states, or modifying transitions. |
+| `UPDATE` | Changes approved passive or reactive files, preserving target identity; diagram or documentation changes follow the approved scope. | Editing prompts, adding states, or modifying transitions. |
 | `DELETE` | Safely tears down a skill package and its associated artifacts. | Deprecating or removing skills. |
 | `MIGRATE_LEGACY` | Analyzes a single-file legacy `SKILL.md` skill, infers states, grills ambiguities via Socratic inquiry, and splits it into a reactive skill. | Modernizing legacy agent skills. |
 | `MIGRATE_REACTIVE` | Upgrades a reactive skill across schema versions (e.g. v1 to v2.1.0/v2.2.0), updating event store configurations and bootloader pointers. | Upgrading schema and capabilities. |
@@ -76,7 +76,7 @@ Records the chosen shape, rationale, exact file manifest, and all seven RED answ
    - `USER_REVISE` sends the user's feedback to `REVISING`, which updates the plan and returns here. Rounds are unlimited and led by the user.
    - `USER_REJECTED` ends the run in `CANCELLED`, a clean terminal state with nothing written.
 3. **`EXECUTING`**: Applies only approved file operations in the canonical source, preserving nested paths and unrelated files.
-4. **`VERIFYING`**: Validates the new/modified skill with the runtime's `validate "<target_skill_dir>"` and bundled authoring checker, bi-directional hygiene checks (no orphan templates or empty folders), and syntax checks.
+4. **`VERIFYING`**: Checks passive UPDATE with supported standard frontmatter validation, bundled authoring/reference checks and preserved identity/content. Reactive targets retain runtime validation, bootloader, guards and structure checks.
 5. **`ROLLING_BACK`**: Atomic cleanup on verification failure before transitioning to `ERROR`.
 
 ### Migration Branch (`MIGRATE_LEGACY` / `MIGRATE_REACTIVE`)
@@ -174,8 +174,20 @@ The [bundled Node helper](scripts/authoring-quality.cjs) works from any CWD with
 
 ```text
 node "<manager_skill_dir>/scripts/authoring-quality.cjs" "<target_skill_dir>" --json
+# Reactive targets only:
 reactive-skills-axi validate "<target_skill_dir>"
 ```
+
+For passive UPDATE, also run an available supported standard frontmatter checker by absolute path, for example `python3 "<skill-creator-dir>/scripts/quick_validate.py" "<target_skill_dir>"`.
+Record the exact available command in `plan.frontmatter_check` before approval; unavailable checks stop the run without installation or a substitute verifier.
+Compare actual approved content against pre-update files, preserve name and passive metadata, and confirm no reactive manifest, bootloader or scaffolding was added.
+The bundled checker supports manifest-free packages and checks manifest references only when a manifest exists. It does not validate frontmatter.
+Keep `target_type: passive` separate from domain taxonomy and set `plan.shape: null` for passive UPDATE. Missing UPDATE rejects; migration stays explicit.
+Use the same absolute manager path and returned UUID throughout. For a task-local source registry, read `sync --show-config --config "<task-config.json>"`; do not sync or alter installed copies to select an authoring source.
+Runtime signals contain host-supplied evidence; they do not authenticate filesystem checks or approval. Source containment and exact approved file checks remain executor responsibilities.
+
+Run regression checks with `SKILL_FRONTMATTER_VALIDATOR="<absolute-supported-checker.py>" node --test "<manager_skill_dir>/tests/passive-update.test.cjs"`.
+Runtime cases require an installed compatible AXI (optionally `REACTIVE_SKILLS_AXI`); frontmatter cases require that supported checker and its dependencies. Tests report missing prerequisites as skips, not verified coverage.
 
 Its exported `checkAuthoringQuality(skillRoot)` and CLI return schema_version 1, errors, warnings, and per-file line/body-line/whitespace-word measurements.
 Each finding includes code, relative path, line, and explanation.

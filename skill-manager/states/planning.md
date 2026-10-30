@@ -23,6 +23,13 @@ Plan guards, projection templates, runtime-init or bypass prompts only when the 
 Resolve manager templates from `context.manager_skill_dir`; shared bootloader logic stays runtime-owned.
 
 For UPDATE, list exact additions, modifications, and removals.
+For passive UPDATE, record `plan.target_type: passive` and `plan.shape: null`; passive instructions have no reactive topology.
+Preserve the name, passive metadata/identity, protected content and all unplanned files.
+Capture pre-update contents for comparison and scoped rollback before writing.
+Do not plan a manifest, reactive bootloader or states; conversion requires a separate explicit MIGRATE_LEGACY request.
+Record an available supported standard frontmatter checker as an absolute command in `plan.frontmatter_check` (for example the installed skill-creator `scripts/quick_validate.py` with its interpreter and absolute target).
+Confirm it is usable before approval; if absent, stop and report the requirement without installing or inventing a verifier.
+Plan that check plus the bundled authoring/reference check and approved-content comparison, without runtime validate on a manifest-free target.
 Keep existing nested paths and unrelated files intact.
 Include diagram or documentation edits when topology, capabilities, or layout change; a prompt-only change does not authorize unrelated writes.
 For DELETE, enumerate the canonical target directory and files proposed for removal.

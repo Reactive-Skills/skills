@@ -7,6 +7,7 @@ Present the action plan to the user for review and explicit approval before exec
 Show the user:
 - **Operation**: `CREATE` | `UPDATE` | `DELETE`
 - **Skill Name**: `context.skill_name`
+- **Target Type**: observed `context.target_type`; Passive UPDATE preserves SKILL.md identity and has no reactive shape.
 - **Architectural Shape**: `plan.shape` (`Flat Linear Pipeline` | `Flat Iterative Loop` | `Hierarchical HSM`)
 - **Architectural Rationale**: `plan.shape_rationale` (why this shape was selected, noting any bubbling handlers or loop boundaries)
 - **File Manifest**:
@@ -16,6 +17,8 @@ Show the user:
 
 ## Failure Catalog Summary
 When presenting the plan for approval, include a concise failure catalog derived from the skill type classification and architectural shape:
+
+For passive UPDATE, present only applicable failures: malformed frontmatter, broken references, identity/content loss, unapproved paths or escaping links. Show the actual standard checker and scoped restore plan; do not require reactive scaffolding.
 
 ### Known Failure Modes
 | Failure Mode | Trigger | Mitigation | Rollback Strategy |

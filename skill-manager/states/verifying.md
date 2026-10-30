@@ -12,19 +12,28 @@ Do not install prerequisites, alter providers, or widen the approved task manife
 
 ## Verify artifacts and structure
 
-For CREATE or UPDATE, run `node "{{context.manager_skill_dir}}/scripts/authoring-quality.cjs" "{{context.target_skill_dir}}" --json` and the selected runtime's `validate "{{context.target_skill_dir}}"`.
+Recheck approval for the exact changed paths and operations, and canonical source containment including links.
+Unapproved or outside-source writes fail verification, even when content checks pass.
+For CREATE or UPDATE, run the bundled `node "{{context.manager_skill_dir}}/scripts/authoring-quality.cjs" "{{context.target_skill_dir}}" --json`.
+For passive UPDATE, also run the supported standard frontmatter command recorded in `context.plan.frontmatter_check`.
+Require valid YAML frontmatter with the preserved nonempty name and description; compare actual content with the approved change and pre-update contents.
+Confirm no `skill.yaml`, `skill.yml`, reactive bootloader or unapproved scaffolding was added, passive identity remains intact, and protected content and unplanned files are unchanged.
+Do not call runtime validate on passive targets: it requires a reactive manifest.
+For reactive CREATE/UPDATE, retain the selected runtime's `validate "{{context.target_skill_dir}}"` and all reactive structure, bootloader and guard checks.
+Re-observe actual target type; a present or malformed manifest must never select the passive branch.
+An unavailable required checker or failed comparison is a verification failure.
 Definite checker or structural errors fail verification; navigation and size warnings remain advisory.
 For CREATE, verify the requested artifacts exist.
 For UPDATE, compare actual content with the approved change and confirm protected files remain unchanged.
 For DELETE, verify the exact approved target is absent without replaying deletion.
 
-Check each manifest prompt path, referenced state file, and justified parent placeholder; identify orphans and unexplained empty state directories.
+For reactive targets only, check each manifest prompt path, referenced state file, and justified parent placeholder; identify orphans and unexplained empty state directories.
 Resolve initial states and every transition target recursively, including dotted targets under `substates` and `initial_substate`.
 Compare the diagram with hierarchy, guards, signals, and inherited parent handlers.
 Validate the structure before attributing unexpected transitions to runtime defects.
 Check declared context roots and documented payload properties separately.
 
-Verify exactly one complete canonical bootloader pointer, rendered for the target name from the manager template and under 50 lines.
+For reactive targets only, verify exactly one complete canonical bootloader pointer, rendered for the target name from the manager template and under 50 lines.
 Shared bootloader logic remains runtime-owned.
 Any bypass prompt must permit the selected runtime transport.
 Verify declared middleware only where applicable: module presence, supported hook signatures, declared invariant context keys, and valid sanitizer patterns.
@@ -32,7 +41,10 @@ Report unavailable checks explicitly.
 
 ## Verify guards and transition behavior
 
-Read every guard and inspect its JavaScript syntax, deterministic behavior, Boolean semantics, and context or payload references.
+For passive UPDATE, guard/runtime tests are not applicable; record that fact, the actual frontmatter/reference command results, identity/content comparisons and source/approval evidence.
+Do not invent guards, states, a manifest or bootloader to make verification fit.
+
+For reactive targets, read every guard and inspect its JavaScript syntax, deterministic behavior, Boolean semantics, and context or payload references.
 Static inspection and schema validation do not prove runtime guard enforcement.
 For each guard that can be safely exercised, use isolated target runs to attempt both a violating and a satisfying signal payload.
 Confirm the actual before/after state and ledger evidence: violation must remain blocked, satisfaction must reach the declared target.
@@ -72,6 +84,8 @@ A state-specific budget without supporting evaluation evidence remains provision
 Preserve each state's objective, consumed context, allowed actions, observable exit, and signals.
 Record actual tested executor models and harnesses independently of semantic capability tiers.
 
+Persist observed `contextUpdates.target_type` and per-check receipts with command, result, comparison evidence and coverage limits.
+Signals record host-supplied results; the runtime does not execute or authenticate those checks or human approval.
 If all required checks pass, emit `VERIFIED_OK` with top-level `exit_code: 0` and the verification evidence.
 If a required check fails or cannot be completed, emit `VERIFIED_FAIL` with `exit_code: 1`, failed checks, and coverage limits.
 Preserve the existing transitions to PROJECTING on verified success and ROLLING_BACK on failure.
