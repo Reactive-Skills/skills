@@ -1,30 +1,30 @@
-# Documentation Architecture: {{documentation_scope}}
+# Documentation Architecture: {{context.documentation_scope}}
 
-**Audience:** {{audience}}  
-**Generated:** {{timestamp}}
+**Audience:** {{context.audience}}  
+**Generated:** {{lastUpdated}}
 
 ## Outcomes
 
-{{#each outcomes}}
+{{#each context.outcomes}}
 - {{this}}
 {{/each}}
 
 ## Information Architecture
 
-{{architecture_decision}}
+{{context.architecture_decision}}
 
 ## Outline
 
-{{#each documentation_outline}}
+{{#each context.documentation_outline}}
 - {{this}}
 {{/each}}
 
 ## Source Facts
 
-{{#each extracted_facts}}
+{{#each context.extracted_facts}}
 - {{this}}
 {{/each}}
 
 ## Validation
 
-Validation exit code: `{{validation_exit_code}}`
+Validation exit code: `{{context.validation_exit_code}}`
