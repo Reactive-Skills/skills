@@ -16,6 +16,8 @@ Validate that the migration produced a valid reactive skill.
   - Run `node "{{context.manager_skill_dir}}/scripts/authoring-quality.cjs" "{{context.target_skill_dir}}" --json` and the selected runtime's `validate "{{context.target_skill_dir}}"`; definite errors fail verification
   - Verify all states/*.md files are loadable
 
+Re-observe the target and record the actual `contextUpdates.target_type` with either signal.
+
 ## Transition
 - VERIFIED_OK (exit_code=0) → PROJECTING
 - VERIFIED_FAIL (exit_code!=0) → RESTORING_MIGRATE

@@ -17,8 +17,12 @@ Skill Manager is a reactive skill that manages the full lifecycle of skills in t
 
 ## Language
 
-**Legacy Skill**:
-A skill that has only a SKILL.md file (and optionally scripts/, references/, assets/) but no skill.yaml. These were created before the reactive skill architecture and contain all instructions in one file.
+**Passive Skill**:
+A standard skill with SKILL.md and optional supporting files, without skill.yaml or skill.yml.
+Ordinary UPDATE preserves this identity. `isLegacy` retains its eligibility meaning only for explicit MIGRATE_LEGACY.
+`target_type` records passive, reactive or missing independently of the domain taxonomy `plan.skill_type`.
+Passive UPDATE records no reactive shape and uses the supported standard frontmatter checker, bundled authoring/reference checks and actual content/identity comparison.
+Runtime manifest, bootloader and guard checks apply to reactive targets; a malformed manifest never selects passive validation.
 
 **Reactive Skill (v1)**:
 A skill with a skill.yaml (schema_version: "reactive/v1"), a states/ directory of isolated prompt slices, and optionally guards/ and templates/. The FSM drives execution through discrete states.
@@ -114,7 +118,7 @@ Do not add a nonstandard model field to SKILL frontmatter.
 | Operation | Description |
 |-----------|-------------|
 | CREATE | Scaffold a new reactive skill from scratch |
-| UPDATE | Modify an existing reactive skill's states, guards, or templates |
+| UPDATE | Modify approved files of an existing passive or reactive skill |
 | DELETE | Remove a reactive skill entirely |
 | MIGRATE_LEGACY | Convert a legacy SKILL.md skill to reactive (v1 or v2) |
 | MIGRATE_REACTIVE | Upgrade a reactive skill from v1 to v2.0.0 |

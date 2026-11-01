@@ -11,7 +11,7 @@ Revision rounds are unlimited and led by the user; stop only when the user appro
 
 ## Rules
 - Change only what the feedback asks for. Keep every other decision, path, and invariant exactly as approved.
-- Keep the full plan schema: `operation`, `skill_name`, `shape`, `shape_rationale`, `skill_type`, `files_to_create`, `files_to_modify`, `files_to_delete`, preserved invariants, verification conditions, and `red_phase_findings` when RED is enabled.
+- Keep the full plan schema: `operation`, `skill_name`, `shape`, `shape_rationale`, `skill_type`, `files_to_create`, `files_to_modify`, `files_to_delete`, `pre_update_capture_dir` for UPDATE, `shape: null` and `frontmatter_check` for passive UPDATE, preserved invariants, verification conditions, and `red_phase_findings` when RED is enabled.
 - Re-derive the file manifest from the changed decisions, add or drop the paths the feedback implies, and say which.
 - Keep every proposed path inside `context.authoring_source`; distribution and agent-local copies are never targets.
 - Ask the user only about decisions the feedback leaves open. Do not repeat answered questions.

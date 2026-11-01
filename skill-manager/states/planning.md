@@ -23,6 +23,13 @@ Plan guards, projection templates, runtime-init or bypass prompts only when the 
 Resolve manager templates from `context.manager_skill_dir`; shared bootloader logic stays runtime-owned.
 
 For UPDATE, list exact additions, modifications, and removals.
+Record `plan.pre_update_capture_dir` as an absolute `<authoring_source>/.backup/<skill_name>/<timestamp>/` path; EXECUTING fills it with a copy of the whole target for comparison and rollback.
+For passive UPDATE, record `plan.shape: null`; passive instructions have no reactive topology.
+For passive UPDATE, preserve the name, passive metadata/identity, protected content and all unplanned files.
+For passive UPDATE, do not plan a manifest, reactive bootloader or states; conversion requires a separate explicit MIGRATE_LEGACY request.
+For passive UPDATE, record an available supported standard frontmatter checker as an absolute command in `plan.frontmatter_check` (for example the installed skill-creator `scripts/quick_validate.py` with its interpreter and absolute target).
+For passive UPDATE, confirm that checker is usable before approval; if absent, stop and report the requirement without installing or inventing a verifier.
+For passive UPDATE, plan that check plus the bundled authoring/reference check and approved-content comparison, without runtime validate on a manifest-free target.
 Keep existing nested paths and unrelated files intact.
 Include diagram or documentation edits when topology, capabilities, or layout change; a prompt-only change does not authorize unrelated writes.
 For DELETE, enumerate the canonical target directory and files proposed for removal.
@@ -51,7 +58,7 @@ Semantic model tiers express capability intent, not proof of host routing or exe
 
 ## Plan and exit
 
-Produce `plan` with `operation`, `skill_name`, `shape`, `shape_rationale`, `skill_type`, and exact `files_to_create`, `files_to_modify`, and `files_to_delete`.
+Produce `plan` with `operation`, `skill_name`, `shape`, `shape_rationale`, `skill_type`, and exact `files_to_create`, `files_to_modify`, and `files_to_delete`; UPDATE also includes `pre_update_capture_dir`, and passive UPDATE also includes `frontmatter_check`.
 When RED is requested, include `red_phase: true` and all seven `red_phase_findings`.
 Record preserved invariants, source paths, verification conditions, and any middleware decisions.
 Every planned state needs its objective, consumed context, allowed actions, observable exit, and actual signals.

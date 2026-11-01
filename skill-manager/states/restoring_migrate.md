@@ -9,6 +9,7 @@ Restore the skill from the pre-migration backup.
 - Use backup_path from BACKING_UP_MIGRATE
 - Delete any partial artifacts first
 - Copy backup back to original location
+- Re-observe the target and record the actual `contextUpdates.target_type` (`passive`, `reactive`, or `missing`) with either signal
 
 ## Stop Criteria
 Restore complete (success or failure). Emit RESTORED or RESTORE_FAILED.

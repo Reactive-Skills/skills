@@ -3,7 +3,7 @@
 > Full CRUD lifecycle management for reactive skills - `CREATE`, `UPDATE`, `DELETE`, `MIGRATE_LEGACY`, and `MIGRATE_REACTIVE` with pre-commit approval gates, best-effort rollback, and manifest snapshot projections.
 
 [![Schema Version](https://img.shields.io/badge/schema-v2.1.0-blue.svg)](skill.yaml)
-[![Skill Version](https://img.shields.io/badge/version-v1.3.1-green.svg)](skill.yaml)
+[![Skill Version](https://img.shields.io/badge/version-v1.5.0-green.svg)](skill.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE)
 
 ---
@@ -31,7 +31,7 @@
 
 ## 🔍 Overview
 
-`skill-manager` is the authoritative lifecycle automation engine for the Reactive Skills Architecture. It allows developers and AI agents to scaffold, update, delete, and migrate reactive skills reliably.
+`skill-manager` is the authoritative lifecycle automation engine for the Reactive Skills Architecture. It allows developers and AI agents to scaffold, delete, and migrate reactive skills and update passive or reactive skills reliably.
 
 Every operation is governed by a deterministic Hierarchical State Machine (HSM) with pre-commit human/agent approval gates, strict verification against schema validators, and automatic rollback on failure.
 
@@ -42,7 +42,7 @@ Every operation is governed by a deterministic Hierarchical State Machine (HSM) 
 | Operation | Description | Target Scenarios |
 | :--- | :--- | :--- |
 | `CREATE` | Creates the approved manifest, documentation, diagram, and referenced prompts; guards or templates only where required by that design. | Building a new reactive skill. |
-| `UPDATE` | Changes the approved files and includes diagram or documentation updates when their corresponding behavior changes. | Editing prompts, adding states, or modifying transitions. |
+| `UPDATE` | Changes approved passive or reactive files, preserving target identity; diagram or documentation changes follow the approved scope. | Editing passive skill content or prompts, adding states, or modifying transitions. |
 | `DELETE` | Safely tears down a skill package and its associated artifacts. | Deprecating or removing skills. |
 | `MIGRATE_LEGACY` | Analyzes a single-file legacy `SKILL.md` skill, infers states, grills ambiguities via Socratic inquiry, and splits it into a reactive skill. | Modernizing legacy agent skills. |
 | `MIGRATE_REACTIVE` | Upgrades a reactive skill across schema versions (e.g. v1 to v2.1.0/v2.2.0), updating event store configurations and bootloader pointers. | Upgrading schema and capabilities. |
@@ -76,8 +76,8 @@ Records the chosen shape, rationale, exact file manifest, and all seven RED answ
    - `USER_REVISE` sends the user's feedback to `REVISING`, which updates the plan and returns here. Rounds are unlimited and led by the user.
    - `USER_REJECTED` ends the run in `CANCELLED`, a clean terminal state with nothing written.
 3. **`EXECUTING`**: Applies only approved file operations in the canonical source, preserving nested paths and unrelated files.
-4. **`VERIFYING`**: Validates the new/modified skill with the runtime's `validate "<target_skill_dir>"` and bundled authoring checker, bi-directional hygiene checks (no orphan templates or empty folders), and syntax checks.
-5. **`ROLLING_BACK`**: Atomic cleanup on verification failure before transitioning to `ERROR`.
+4. **`VERIFYING`**: Checks passive UPDATE with supported standard frontmatter validation, bundled authoring/reference checks and preserved identity/content. Reactive targets retain runtime validation, bootloader, guards and structure checks.
+5. **`ROLLING_BACK`**: Restores approved UPDATE paths from the pre-update capture of the target, or deletes CREATE artifacts, on verification failure before transitioning to `ERROR`. A change outside the approved plan or source is listed in `ROLLBACK_FAILED`, not restored; runtime-owned `.reactive/` and `.docs/skill-manager/` paths are excluded.
 
 ### Migration Branch (`MIGRATE_LEGACY` / `MIGRATE_REACTIVE`)
 1. **`BACKING_UP_MIGRATE`**: Creates an isolated snapshot at `<authoring_source>/.backup/<skill>/<timestamp>/`.
@@ -174,8 +174,21 @@ The [bundled Node helper](scripts/authoring-quality.cjs) works from any CWD with
 
 ```text
 node "<manager_skill_dir>/scripts/authoring-quality.cjs" "<target_skill_dir>" --json
+# Reactive targets only:
 reactive-skills-axi validate "<target_skill_dir>"
 ```
+
+For passive UPDATE, also run an available supported standard frontmatter checker by absolute path, for example `python3 "<skill-creator-dir>/scripts/quick_validate.py" "<target_skill_dir>"`.
+For passive UPDATE, record the exact available command in `plan.frontmatter_check` before approval; unavailable checks stop the run without installation or a substitute verifier.
+For every UPDATE, compare actual approved content and all unplanned files against the whole-target capture at `plan.pre_update_capture_dir`, excluding runtime-owned `.reactive/` and `.docs/skill-manager/` paths.
+For passive UPDATE, also preserve name and passive metadata and confirm no reactive manifest, bootloader or scaffolding was added.
+The bundled checker supports manifest-free packages and checks manifest references only when a manifest exists. It does not validate frontmatter.
+Keep `target_type: passive` separate from domain taxonomy and set `plan.shape: null` for passive UPDATE. Missing UPDATE rejects; migration stays explicit.
+Use the same absolute manager path and returned UUID throughout. For a task-local source registry, read `sync --show-config --config "<task-config.json>"`; do not sync or alter installed copies to select an authoring source.
+Runtime signals contain host-supplied evidence; they do not authenticate filesystem checks or approval. Source containment and exact approved file checks remain executor responsibilities.
+
+Run regression checks with `node --test "<manager_skill_dir>/tests/passive-update.test.cjs"`; they require `reactive-skills-axi` on PATH.
+They exercise served prompts, guards and projections. Host-performed work, including the frontmatter check, is outside their coverage.
 
 Its exported `checkAuthoringQuality(skillRoot)` and CLI return schema_version 1, errors, warnings, and per-file line/body-line/whitespace-word measurements.
 Each finding includes code, relative path, line, and explanation.
@@ -205,7 +218,7 @@ Report the paths and contents actually verified, and identify any incomplete cov
 Projection timestamps describe the rendered data; use ledger events when reporting exact transition or completion times.
 The runtime owns projections; do not fabricate or manually repair them.
 
-The archive contains `<skill_name>-snapshot.md` and `inventory.json`, summarizing the current skill, operation, state, timestamp, and any recorded file list.
+The archive contains `<skill_name>-snapshot.md` and `inventory.json`, summarizing the current skill, target type, operation, state, timestamp, and any recorded file list.
 An empty file list can reflect absent context; it does not mean the projection file is missing.
 The manifest also declares the SQLite `skill_inventory` projection; verify its contents before claiming database delivery.
 

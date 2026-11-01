@@ -28,6 +28,7 @@ Delegate file operations to a general agent.
 ## Stop Criteria
 All file operations complete.
 Record created, modified, and deleted paths in `contextUpdates.files` as a flat array of path strings for the inventory and snapshot projections.
+Record the actual `contextUpdates.target_type` after these writes.
 Emit EXECUTED.
 
 ## Exit Code

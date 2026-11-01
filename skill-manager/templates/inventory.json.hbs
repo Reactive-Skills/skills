@@ -1,5 +1,6 @@
 {
   "skill_name": "{{context.skill_name}}",
+  "target_type": "{{#if context.target_type}}{{context.target_type}}{{else}}unknown{{/if}}",
   "operation": "{{context.operation}}",
   "status": "{{currentState}}",
   "timestamp": "{{lastUpdated}}",
