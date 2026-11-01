@@ -77,7 +77,7 @@ Records the chosen shape, rationale, exact file manifest, and all seven RED answ
    - `USER_REJECTED` ends the run in `CANCELLED`, a clean terminal state with nothing written.
 3. **`EXECUTING`**: Applies only approved file operations in the canonical source, preserving nested paths and unrelated files.
 4. **`VERIFYING`**: Checks passive UPDATE with supported standard frontmatter validation, bundled authoring/reference checks and preserved identity/content. Reactive targets retain runtime validation, bootloader, guards and structure checks.
-5. **`ROLLING_BACK`**: Restores UPDATE paths from the pre-update capture, or deletes CREATE artifacts, on verification failure before transitioning to `ERROR`.
+5. **`ROLLING_BACK`**: Restores approved UPDATE paths from the pre-update capture of the target, or deletes CREATE artifacts, on verification failure before transitioning to `ERROR`. A change outside the approved plan or source is listed in `ROLLBACK_FAILED`, not restored.
 
 ### Migration Branch (`MIGRATE_LEGACY` / `MIGRATE_REACTIVE`)
 1. **`BACKING_UP_MIGRATE`**: Creates an isolated snapshot at `<authoring_source>/.backup/<skill>/<timestamp>/`.
@@ -180,7 +180,7 @@ reactive-skills-axi validate "<target_skill_dir>"
 
 For passive UPDATE, also run an available supported standard frontmatter checker by absolute path, for example `python3 "<skill-creator-dir>/scripts/quick_validate.py" "<target_skill_dir>"`.
 Record the exact available command in `plan.frontmatter_check` before approval; unavailable checks stop the run without installation or a substitute verifier.
-Compare actual approved content against the capture at `plan.pre_update_capture_dir`, preserve name and passive metadata, and confirm no reactive manifest, bootloader or scaffolding was added.
+Compare actual approved content and all unplanned files against the whole-target capture at `plan.pre_update_capture_dir`, preserve name and passive metadata, and confirm no reactive manifest, bootloader or scaffolding was added.
 The bundled checker supports manifest-free packages and checks manifest references only when a manifest exists. It does not validate frontmatter.
 Keep `target_type: passive` separate from domain taxonomy and set `plan.shape: null` for passive UPDATE. Missing UPDATE rejects; migration stays explicit.
 Use the same absolute manager path and returned UUID throughout. For a task-local source registry, read `sync --show-config --config "<task-config.json>"`; do not sync or alter installed copies to select an authoring source.

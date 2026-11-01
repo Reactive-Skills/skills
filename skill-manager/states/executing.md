@@ -28,7 +28,7 @@ Leave shared runtime selection and recovery instructions in the runtime.
 Render other manager templates only when their output files and states belong to the approved plan.
 A bypass prompt must support the selected transport rather than assume MCP-only recovery.
 
-For UPDATE, before the first write, copy every existing approved path byte-for-byte, keeping its relative path, to `{{context.plan.pre_update_capture_dir}}` and confirm that directory is inside the authoring source. A failed capture stops the operation before any write.
+For UPDATE, before the first write, copy the whole `{{context.target_skill_dir}}` recursively and byte-for-byte, keeping relative paths and links as links, to `{{context.plan.pre_update_capture_dir}}` and confirm that directory is inside the authoring source. A failed capture stops the operation before any write.
 Modify only listed files and remove only approved obsolete files.
 For passive UPDATE, preserve name, passive metadata, protected content, and absence of reactive manifests/bootloader; do not add reactive states.
 Reactive construction invariants below apply only to reactive targets.
@@ -61,7 +61,7 @@ Keep semantic model tiers separate from the executor actually observed.
 For CREATE or UPDATE, run the bundled `node "{{context.manager_skill_dir}}/scripts/authoring-quality.cjs" "{{context.target_skill_dir}}" --json`.
 For passive UPDATE, also run the supported standard frontmatter command recorded in `context.plan.frontmatter_check`.
 Require valid YAML frontmatter with the preserved nonempty name and description; compare actual content with the approved change and the pre-update capture.
-Confirm no `skill.yaml`, `skill.yml`, reactive bootloader or unapproved scaffolding was added, passive identity remains intact, and protected content and unplanned files are unchanged.
+Confirm no `skill.yaml`, `skill.yml`, reactive bootloader or unapproved scaffolding was added, passive identity remains intact, and protected content and unplanned files match the capture.
 Do not call runtime validate on passive targets: it requires a reactive manifest.
 For reactive CREATE/UPDATE, retain the selected runtime's `validate "{{context.target_skill_dir}}"` and all reactive structure, bootloader and guard checks.
 Re-observe actual target type; a present or malformed manifest must never select the passive branch.

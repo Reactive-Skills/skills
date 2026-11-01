@@ -53,7 +53,7 @@ function runManager(f, operation = 'UPDATE', paths = { authoring_source: f.sourc
 }
 
 function passiveUpdatePlan(f) {
-  return { operation: 'UPDATE', target_type: 'passive', shape: null, frontmatter_check: ['checker', f.target], pre_update_capture_dir: f.capture, files_to_modify: ['SKILL.md'], files_to_create: [], files_to_delete: [] };
+  return { operation: 'UPDATE', shape: null, frontmatter_check: ['checker', f.target], pre_update_capture_dir: f.capture, files_to_modify: ['SKILL.md'], files_to_create: [], files_to_delete: [] };
 }
 
 function approvedPassiveUpdate(f) {
@@ -105,8 +105,10 @@ test('passive UPDATE stays gated by approval and verification and projects its t
   assert.equal(run.state(), 'APPROVING');
   assert.equal(run.emit('EXECUTED').transitioned, false);
   run.emit('USER_APPROVED', { approval_evidence: 'Fixture authorizes only the declared file.' });
-  assert.ok(run.prompt().includes(`byte-for-byte, keeping its relative path, to \`${f.capture}\``));
+  assert.ok(run.prompt().includes(`copy the whole \`${f.target}\` recursively`));
+  assert.ok(run.prompt().includes(`to \`${f.capture}\``));
   run.emit('EXECUTED', { exit_code: 0, contextUpdates: { target_type: 'passive', files: ['SKILL.md'] } });
+  assert.ok(run.prompt().includes(`every other target path with the capture at \`${f.capture}\``));
   for (const exit_code of [undefined, 1]) {
     assert.equal(run.emit('VERIFIED_OK', { exit_code }).transitioned, false);
     assert.equal(run.state(), 'VERIFYING');
@@ -130,6 +132,16 @@ test('missing UPDATE stops at ERROR', t => {
   assert.equal(run.inventory().target_type, 'missing');
 });
 
+test('revising a passive plan is served the fields that keep its checker and capture', t => {
+  const f = fixture(t);
+  const run = runManager(f);
+  run.emit('EXISTS_UPDATE_DELETE', { contextUpdates: { target_type: 'passive' } });
+  run.emit('PLAN_READY', { contextUpdates: { plan: passiveUpdatePlan(f) } });
+  run.emit('USER_REVISE', { feedback: 'Change the wording.', contextUpdates: { revision_feedback: 'Change the wording.' } });
+  assert.equal(run.state(), 'REVISING');
+  assert.match(run.prompt(), /`pre_update_capture_dir` for UPDATE, `shape: null` and `frontmatter_check` for passive UPDATE/);
+});
+
 test('rejected passive plan cannot skip approval and ends cancelled', t => {
   const f = fixture(t);
   const run = runManager(f);
@@ -141,7 +153,7 @@ test('rejected passive plan cannot skip approval and ends cancelled', t => {
 });
 
 test('failed passive checks roll back from the capture instead of a repository restore', t => {
-  for (const failed_check of ['frontmatter', 'reference', 'outside-source', 'escaping-link', 'unapproved-file']) {
+  for (const failed_check of ['frontmatter', 'reference']) {
     const f = fixture(t);
     const run = approvedPassiveUpdate(f);
     failedVerification(run, failed_check);
@@ -151,6 +163,19 @@ test('failed passive checks roll back from the capture instead of a repository r
     assert.match(run.prompt(), /capture is missing or incomplete, emit `ROLLBACK_FAILED`/);
     assert.match(run.prompt(), /`contextUpdates\.target_type`/);
     run.emit('ROLLED_BACK', { contextUpdates: { target_type: 'passive' } });
+    assert.equal(run.state(), 'ERROR');
+    assert.equal(run.inventory().target_type, 'passive');
+  }
+});
+
+test('changes outside the approved plan or source end in ROLLBACK_FAILED', t => {
+  for (const failed_check of ['outside-source', 'escaping-link', 'unapproved-file']) {
+    const f = fixture(t);
+    const run = approvedPassiveUpdate(f);
+    failedVerification(run, failed_check);
+    assert.equal(run.state(), 'ROLLING_BACK', failed_check);
+    assert.match(run.prompt(), /Do not restore a change outside the approved plan or source; emit `ROLLBACK_FAILED` listing each such path/);
+    run.emit('ROLLBACK_FAILED', { failed_check, contextUpdates: { target_type: 'passive' } });
     assert.equal(run.state(), 'ERROR');
     assert.equal(run.inventory().target_type, 'passive');
   }
