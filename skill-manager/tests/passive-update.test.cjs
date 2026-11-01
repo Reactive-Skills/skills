@@ -33,7 +33,7 @@ function runManager(f, operation = 'UPDATE', paths = { authoring_source: f.sourc
     args.push('--job', runId || 'fixture');
     const input = path.join(f.workspace, 'payload.json');
     fs.writeFileSync(input, JSON.stringify(payload));
-    const result = spawnSync(runtime, [...args, '--payload', '@' + input, '--output', 'compact-v1'], { cwd: f.workspace, encoding: 'utf8' });
+    const result = spawnSync(runtime, [...args, '--payload', '@' + input, '--output', 'compact-v1'], { cwd: f.cwd || f.workspace, encoding: 'utf8' });
     assert.equal(result.status, 0, result.stdout + result.stderr);
     const receipt = JSON.parse(result.stdout);
     view = receipt.view || receipt;
@@ -152,8 +152,8 @@ test('rejected passive plan cannot skip approval and ends cancelled', t => {
   assert.equal(run.state(), 'CANCELLED');
 });
 
-test('failed passive checks roll back from the capture instead of a repository restore', t => {
-  for (const failed_check of ['frontmatter', 'reference']) {
+test('hand-reported check failures prove only the route to rollback from the capture', t => {
+  for (const failed_check of ['hand-reported-frontmatter-failure-rollback-route-only', 'hand-reported-reference-failure-rollback-route-only']) {
     const f = fixture(t);
     const run = approvedPassiveUpdate(f);
     failedVerification(run, failed_check);
@@ -165,6 +165,53 @@ test('failed passive checks roll back from the capture instead of a repository r
     run.emit('ROLLED_BACK', { contextUpdates: { target_type: 'passive' } });
     assert.equal(run.state(), 'ERROR');
     assert.equal(run.inventory().target_type, 'passive');
+  }
+});
+
+function changedAgainstCapture(f, approved, prompt) {
+  const served = prompt?.match(/manager-owned runtime paths ((?:`[^`]+`(?: and )?)+)/);
+  const excluded = served ? [...served[1].matchAll(/`([^`]+)`/g)].map(match => match[1]) : [];
+  const files = root => fs.readdirSync(root, { recursive: true }).map(file => file.split(path.sep).join('/')).filter(file => fs.statSync(path.join(root, file)).isFile());
+  const read = (root, file) => fs.existsSync(path.join(root, file)) ? fs.readFileSync(path.join(root, file)) : null;
+  return [...new Set([...files(f.target), ...files(f.capture)])]
+    .filter(file => !approved.includes(file) && !excluded.some(prefix => file.startsWith(prefix)))
+    .filter(file => { const [a, b] = [read(f.target, file), read(f.capture, file)]; return !a || !b || !a.equals(b); })
+    .sort();
+}
+
+test('runtime state written inside the target passes the served comparison while other changes fail it', t => {
+  for (const stray of [false, true]) {
+    const f = fixture(t);
+    f.cwd = f.target;
+    fs.mkdirSync(path.join(f.target, 'references'));
+    fs.writeFileSync(path.join(f.target, 'references/x.md'), 'Uncommitted edit.\n');
+    const run = approvedPassiveUpdate(f);
+    fs.cpSync(f.target, f.capture, { recursive: true });
+    fs.appendFileSync(path.join(f.target, 'SKILL.md'), '\nAn approved clarification.\n');
+    if (stray) {
+      fs.appendFileSync(path.join(f.target, 'references/x.md'), 'Stray write.\n');
+      fs.mkdirSync(path.join(f.target, '.docs'), { recursive: true });
+      fs.writeFileSync(path.join(f.target, '.docs/notes.md'), 'Stray write.\n');
+    }
+    run.emit('EXECUTED', { exit_code: 0, contextUpdates: { target_type: 'passive', files: ['SKILL.md'] } });
+    assert.deepEqual(checkAuthoringQuality(f.target).errors, []);
+    const unfiltered = changedAgainstCapture(f, ['SKILL.md']);
+    assert.ok(unfiltered.some(file => file.startsWith('.reactive/')), unfiltered.join());
+    assert.ok(unfiltered.some(file => file.startsWith('.docs/skill-manager/')), unfiltered.join());
+    const changed = changedAgainstCapture(f, ['SKILL.md'], run.prompt());
+    if (!stray) {
+      assert.deepEqual(changed, []);
+      run.emit('VERIFIED_OK', { exit_code: 0 });
+      assert.equal(run.state(), 'PROJECTING');
+      continue;
+    }
+    assert.deepEqual(changed, ['.docs/notes.md', 'references/x.md']);
+    assert.equal(run.emit('VERIFIED_OK', { exit_code: 1 }).transitioned, false);
+    run.emit('VERIFIED_FAIL', { exit_code: 1, failed_check: changed });
+    assert.equal(run.state(), 'ROLLING_BACK');
+    assert.deepEqual(changedAgainstCapture(f, ['SKILL.md'], run.prompt()), changed);
+    run.emit('ROLLBACK_FAILED', { paths: changed, contextUpdates: { target_type: 'passive' } });
+    assert.equal(run.state(), 'ERROR');
   }
 });
 
