@@ -3,7 +3,7 @@
 > Full CRUD lifecycle management for reactive skills - `CREATE`, `UPDATE`, `DELETE`, `MIGRATE_LEGACY`, and `MIGRATE_REACTIVE` with pre-commit approval gates, best-effort rollback, and manifest snapshot projections.
 
 [![Schema Version](https://img.shields.io/badge/schema-v2.1.0-blue.svg)](skill.yaml)
-[![Skill Version](https://img.shields.io/badge/version-v1.3.1-green.svg)](skill.yaml)
+[![Skill Version](https://img.shields.io/badge/version-v1.5.0-green.svg)](skill.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE)
 
 ---
@@ -31,7 +31,7 @@
 
 ## 🔍 Overview
 
-`skill-manager` is the authoritative lifecycle automation engine for the Reactive Skills Architecture. It allows developers and AI agents to scaffold, update, delete, and migrate reactive skills reliably.
+`skill-manager` is the authoritative lifecycle automation engine for the Reactive Skills Architecture. It allows developers and AI agents to scaffold, delete, and migrate reactive skills and update passive or reactive skills reliably.
 
 Every operation is governed by a deterministic Hierarchical State Machine (HSM) with pre-commit human/agent approval gates, strict verification against schema validators, and automatic rollback on failure.
 
@@ -42,7 +42,7 @@ Every operation is governed by a deterministic Hierarchical State Machine (HSM) 
 | Operation | Description | Target Scenarios |
 | :--- | :--- | :--- |
 | `CREATE` | Creates the approved manifest, documentation, diagram, and referenced prompts; guards or templates only where required by that design. | Building a new reactive skill. |
-| `UPDATE` | Changes approved passive or reactive files, preserving target identity; diagram or documentation changes follow the approved scope. | Editing prompts, adding states, or modifying transitions. |
+| `UPDATE` | Changes approved passive or reactive files, preserving target identity; diagram or documentation changes follow the approved scope. | Editing passive skill content or prompts, adding states, or modifying transitions. |
 | `DELETE` | Safely tears down a skill package and its associated artifacts. | Deprecating or removing skills. |
 | `MIGRATE_LEGACY` | Analyzes a single-file legacy `SKILL.md` skill, infers states, grills ambiguities via Socratic inquiry, and splits it into a reactive skill. | Modernizing legacy agent skills. |
 | `MIGRATE_REACTIVE` | Upgrades a reactive skill across schema versions (e.g. v1 to v2.1.0/v2.2.0), updating event store configurations and bootloader pointers. | Upgrading schema and capabilities. |
@@ -218,7 +218,7 @@ Report the paths and contents actually verified, and identify any incomplete cov
 Projection timestamps describe the rendered data; use ledger events when reporting exact transition or completion times.
 The runtime owns projections; do not fabricate or manually repair them.
 
-The archive contains `<skill_name>-snapshot.md` and `inventory.json`, summarizing the current skill, operation, state, timestamp, and any recorded file list.
+The archive contains `<skill_name>-snapshot.md` and `inventory.json`, summarizing the current skill, target type, operation, state, timestamp, and any recorded file list.
 An empty file list can reflect absent context; it does not mean the projection file is missing.
 The manifest also declares the SQLite `skill_inventory` projection; verify its contents before claiming database delivery.
 
