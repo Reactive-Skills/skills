@@ -236,6 +236,7 @@ test('failed CREATE projects the rolled-back target type, not the one recorded b
   run.emit('PLAN_READY', { contextUpdates: { plan: { operation: 'CREATE', files_to_create: ['skill.yaml'] } } });
   run.emit('USER_APPROVED', { approval_evidence: 'Fixture permits the manifest.' });
   run.emit('EXECUTED', { exit_code: 1, contextUpdates: { target_type: 'reactive', files: ['skill.yaml'] } });
+  assert.match(run.prompt(), /^For passive UPDATE, confirm no `skill\.yaml`/m);
   assert.equal(run.inventory().target_type, 'reactive');
   run.emit('VERIFIED_FAIL', { exit_code: 1 });
   assert.equal(run.state(), 'ROLLING_BACK');

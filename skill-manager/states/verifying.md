@@ -16,8 +16,8 @@ Recheck approval for the exact changed paths and operations, and canonical sourc
 Unapproved or outside-source writes fail verification, even when content checks pass.
 For CREATE or UPDATE, run the bundled `node "{{context.manager_skill_dir}}/scripts/authoring-quality.cjs" "{{context.target_skill_dir}}" --json`.
 For passive UPDATE, also run the supported standard frontmatter command recorded in `context.plan.frontmatter_check`.
-Require valid YAML frontmatter with the preserved nonempty name and description; compare actual content with the approved change and the capture at `{{context.plan.pre_update_capture_dir}}`.
-Confirm no `skill.yaml`, `skill.yml`, reactive bootloader or unapproved scaffolding was added, passive identity remains intact, and protected content and unplanned files match the capture, excluding the manager-owned runtime paths `.reactive/` and `.docs/skill-manager/`.
+For passive UPDATE, require valid YAML frontmatter with the preserved nonempty name and description; compare actual content with the approved change and the capture at `{{context.plan.pre_update_capture_dir}}`.
+For passive UPDATE, confirm no `skill.yaml`, `skill.yml`, reactive bootloader or unapproved scaffolding was added, passive identity remains intact, and protected content and unplanned files match the capture, excluding the manager-owned runtime paths `.reactive/` and `.docs/skill-manager/`.
 Do not call runtime validate on passive targets: it requires a reactive manifest.
 For reactive CREATE/UPDATE, retain the selected runtime's `validate "{{context.target_skill_dir}}"` and all reactive structure, bootloader and guard checks.
 Re-observe actual target type; a present or malformed manifest must never select the passive branch.
