@@ -267,6 +267,7 @@ test('reactive runtime and canonical bootloader failures retain verification rej
     assert.notEqual(result.status, 0, failure);
     const run = runManager(f);
     run.emit('EXISTS_UPDATE_DELETE', { contextUpdates: { target_type: 'reactive' } });
+    assert.match(run.prompt(), /^For passive UPDATE, do not plan a manifest, reactive bootloader or states/m);
     run.emit('PLAN_READY', { contextUpdates: { plan: { operation: 'UPDATE', pre_update_capture_dir: f.capture, files_to_modify: ['skill.yaml'] } } });
     run.emit('USER_APPROVED', { approval_evidence: 'Fixture update authorization.' });
     run.emit('EXECUTED', { exit_code: 1 });

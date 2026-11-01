@@ -179,8 +179,9 @@ reactive-skills-axi validate "<target_skill_dir>"
 ```
 
 For passive UPDATE, also run an available supported standard frontmatter checker by absolute path, for example `python3 "<skill-creator-dir>/scripts/quick_validate.py" "<target_skill_dir>"`.
-Record the exact available command in `plan.frontmatter_check` before approval; unavailable checks stop the run without installation or a substitute verifier.
-Compare actual approved content and all unplanned files against the whole-target capture at `plan.pre_update_capture_dir`, excluding runtime-owned `.reactive/` and `.docs/skill-manager/` paths, preserve name and passive metadata, and confirm no reactive manifest, bootloader or scaffolding was added.
+For passive UPDATE, record the exact available command in `plan.frontmatter_check` before approval; unavailable checks stop the run without installation or a substitute verifier.
+For every UPDATE, compare actual approved content and all unplanned files against the whole-target capture at `plan.pre_update_capture_dir`, excluding runtime-owned `.reactive/` and `.docs/skill-manager/` paths.
+For passive UPDATE, also preserve name and passive metadata and confirm no reactive manifest, bootloader or scaffolding was added.
 The bundled checker supports manifest-free packages and checks manifest references only when a manifest exists. It does not validate frontmatter.
 Keep `target_type: passive` separate from domain taxonomy and set `plan.shape: null` for passive UPDATE. Missing UPDATE rejects; migration stays explicit.
 Use the same absolute manager path and returned UUID throughout. For a task-local source registry, read `sync --show-config --config "<task-config.json>"`; do not sync or alter installed copies to select an authoring source.

@@ -56,7 +56,7 @@ Use `manager_skill_dir` to locate bundled templates and [the authoring checker](
 For CREATE/UPDATE, run `node "<manager_skill_dir>/scripts/authoring-quality.cjs" "<target_skill_dir>" --json`.
 For reactive targets also run the selected runtime's `validate "<target_skill_dir>"` and retain bootloader/guard checks.
 For passive UPDATE, use an available supported standard frontmatter checker recorded by absolute command in the approved plan (such as the installed skill-creator `scripts/quick_validate.py`), check references and compare approved content and protected pre-update files.
-Require preserved name/passive identity and no manifest or reactive bootloader; do not call the reactive-only runtime validator.
+For passive UPDATE, require preserved name/passive identity and no manifest or reactive bootloader; do not call the reactive-only runtime validator.
 Missing or unavailable required checks fail verification; UPDATE does not imply MIGRATE_LEGACY.
 The checker reports definite file-reference/input errors, advisory navigation/size findings, and whitespace word measurements.
 It does not parse the manifest schema, estimate tokens, or establish behavioral quality.
