@@ -23,9 +23,9 @@ Plan guards, projection templates, runtime-init or bypass prompts only when the 
 Resolve manager templates from `context.manager_skill_dir`; shared bootloader logic stays runtime-owned.
 
 For UPDATE, list exact additions, modifications, and removals.
+Record `plan.pre_update_capture_dir` as an absolute `<authoring_source>/.backup/<skill_name>/<timestamp>/` path; EXECUTING fills it for comparison and rollback.
 For passive UPDATE, record `plan.target_type: passive` and `plan.shape: null`; passive instructions have no reactive topology.
 Preserve the name, passive metadata/identity, protected content and all unplanned files.
-Capture pre-update contents for comparison and scoped rollback before writing.
 Do not plan a manifest, reactive bootloader or states; conversion requires a separate explicit MIGRATE_LEGACY request.
 Record an available supported standard frontmatter checker as an absolute command in `plan.frontmatter_check` (for example the installed skill-creator `scripts/quick_validate.py` with its interpreter and absolute target).
 Confirm it is usable before approval; if absent, stop and report the requirement without installing or inventing a verifier.
@@ -58,7 +58,7 @@ Semantic model tiers express capability intent, not proof of host routing or exe
 
 ## Plan and exit
 
-Produce `plan` with `operation`, `skill_name`, `shape`, `shape_rationale`, `skill_type`, and exact `files_to_create`, `files_to_modify`, and `files_to_delete`.
+Produce `plan` with `operation`, `skill_name`, `shape`, `shape_rationale`, `skill_type`, and exact `files_to_create`, `files_to_modify`, and `files_to_delete`; UPDATE also includes `pre_update_capture_dir`.
 When RED is requested, include `red_phase: true` and all seven `red_phase_findings`.
 Record preserved invariants, source paths, verification conditions, and any middleware decisions.
 Every planned state needs its objective, consumed context, allowed actions, observable exit, and actual signals.

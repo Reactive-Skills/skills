@@ -77,7 +77,7 @@ Records the chosen shape, rationale, exact file manifest, and all seven RED answ
    - `USER_REJECTED` ends the run in `CANCELLED`, a clean terminal state with nothing written.
 3. **`EXECUTING`**: Applies only approved file operations in the canonical source, preserving nested paths and unrelated files.
 4. **`VERIFYING`**: Checks passive UPDATE with supported standard frontmatter validation, bundled authoring/reference checks and preserved identity/content. Reactive targets retain runtime validation, bootloader, guards and structure checks.
-5. **`ROLLING_BACK`**: Atomic cleanup on verification failure before transitioning to `ERROR`.
+5. **`ROLLING_BACK`**: Restores UPDATE paths from the pre-update capture, or deletes CREATE artifacts, on verification failure before transitioning to `ERROR`.
 
 ### Migration Branch (`MIGRATE_LEGACY` / `MIGRATE_REACTIVE`)
 1. **`BACKING_UP_MIGRATE`**: Creates an isolated snapshot at `<authoring_source>/.backup/<skill>/<timestamp>/`.
@@ -180,14 +180,14 @@ reactive-skills-axi validate "<target_skill_dir>"
 
 For passive UPDATE, also run an available supported standard frontmatter checker by absolute path, for example `python3 "<skill-creator-dir>/scripts/quick_validate.py" "<target_skill_dir>"`.
 Record the exact available command in `plan.frontmatter_check` before approval; unavailable checks stop the run without installation or a substitute verifier.
-Compare actual approved content against pre-update files, preserve name and passive metadata, and confirm no reactive manifest, bootloader or scaffolding was added.
+Compare actual approved content against the capture at `plan.pre_update_capture_dir`, preserve name and passive metadata, and confirm no reactive manifest, bootloader or scaffolding was added.
 The bundled checker supports manifest-free packages and checks manifest references only when a manifest exists. It does not validate frontmatter.
 Keep `target_type: passive` separate from domain taxonomy and set `plan.shape: null` for passive UPDATE. Missing UPDATE rejects; migration stays explicit.
 Use the same absolute manager path and returned UUID throughout. For a task-local source registry, read `sync --show-config --config "<task-config.json>"`; do not sync or alter installed copies to select an authoring source.
 Runtime signals contain host-supplied evidence; they do not authenticate filesystem checks or approval. Source containment and exact approved file checks remain executor responsibilities.
 
-Run regression checks with `SKILL_FRONTMATTER_VALIDATOR="<absolute-supported-checker.py>" node --test "<manager_skill_dir>/tests/passive-update.test.cjs"`.
-Runtime cases require an installed compatible AXI (optionally `REACTIVE_SKILLS_AXI`); frontmatter cases require that supported checker and its dependencies. Tests report missing prerequisites as skips, not verified coverage.
+Run regression checks with `node --test "<manager_skill_dir>/tests/passive-update.test.cjs"`; they require `reactive-skills-axi` on PATH.
+They exercise served prompts, guards and projections. Host-performed work, including the frontmatter check, is outside their coverage.
 
 Its exported `checkAuthoringQuality(skillRoot)` and CLI return schema_version 1, errors, warnings, and per-file line/body-line/whitespace-word measurements.
 Each finding includes code, relative path, line, and explanation.

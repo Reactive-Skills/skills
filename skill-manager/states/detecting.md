@@ -3,11 +3,12 @@
 ## Objective and inputs
 
 Inspect the actual target files and route the requested operation.
-Consume `context.skill_name`, `operation`, and the absolute source, target, and manager paths.
+Consume `context.skill_name` and `operation`.
 Read the registered source list and honor the explicitly selected source.
 Resolve ambiguity before mutation; reject distribution and agent-local destinations before following links.
 Verify canonical target containment in the selected source, including existing ancestors and links.
 For CREATE, check the existing parent and planned path.
+Set absolute `context.authoring_source`, `context.target_skill_dir`, and `context.manager_skill_dir` in `contextUpdates`.
 Use `target_skill_dir` for every check, regardless of CWD.
 
 ## Observe target type

@@ -5,7 +5,7 @@
 Perform only the approved CREATE, UPDATE, or DELETE file plan.
 Consume `context.plan`, operation and skill name, approval evidence, and the absolute authoring, target, and manager paths.
 Before writing, verify approval covers the exact paths and operations.
-Recheck canonical containment of `context.target_skill_dir` within `context.authoring_source`, including existing ancestors and links.
+Recheck canonical containment of `{{context.target_skill_dir}}` within `{{context.authoring_source}}`, including existing ancestors and links.
 Reject distribution or agent-local destinations.
 Preserve unrelated files and user changes; changed scope requires an updated plan and approval.
 
@@ -28,8 +28,9 @@ Leave shared runtime selection and recovery instructions in the runtime.
 Render other manager templates only when their output files and states belong to the approved plan.
 A bypass prompt must support the selected transport rather than assume MCP-only recovery.
 
-For UPDATE, modify only listed files and remove only approved obsolete files.
-For passive UPDATE, preserve name, passive metadata, protected content, and absence of reactive manifests/bootloader; do not add reactive states; keep pre-update contents for comparison and scoped rollback.
+For UPDATE, before the first write, copy every existing approved path byte-for-byte, keeping its relative path, to `{{context.plan.pre_update_capture_dir}}` and confirm that directory is inside the authoring source. A failed capture stops the operation before any write.
+Modify only listed files and remove only approved obsolete files.
+For passive UPDATE, preserve name, passive metadata, protected content, and absence of reactive manifests/bootloader; do not add reactive states.
 Reactive construction invariants below apply only to reactive targets.
 Keep diagram, documentation, and directory descriptions accurate when their corresponding behavior changes; accuracy does not authorize additional files.
 For DELETE, verify the resolved target again and remove only approved paths, then confirm absence.
@@ -59,7 +60,7 @@ Keep semantic model tiers separate from the executor actually observed.
 
 For CREATE or UPDATE, run the bundled `node "{{context.manager_skill_dir}}/scripts/authoring-quality.cjs" "{{context.target_skill_dir}}" --json`.
 For passive UPDATE, also run the supported standard frontmatter command recorded in `context.plan.frontmatter_check`.
-Require valid YAML frontmatter with the preserved nonempty name and description; compare actual content with the approved change and pre-update contents.
+Require valid YAML frontmatter with the preserved nonempty name and description; compare actual content with the approved change and the pre-update capture.
 Confirm no `skill.yaml`, `skill.yml`, reactive bootloader or unapproved scaffolding was added, passive identity remains intact, and protected content and unplanned files are unchanged.
 Do not call runtime validate on passive targets: it requires a reactive manifest.
 For reactive CREATE/UPDATE, retain the selected runtime's `validate "{{context.target_skill_dir}}"` and all reactive structure, bootloader and guard checks.

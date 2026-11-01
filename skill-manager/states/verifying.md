@@ -4,7 +4,7 @@
 
 Determine whether the approved operation achieved its observable outcomes.
 Consume `context.plan`, approval and operation evidence, the target/source/manager paths, checker results, and runtime state.
-Use the approved absolute `context.target_skill_dir` within `context.authoring_source`.
+Use the approved absolute `{{context.target_skill_dir}}` within `{{context.authoring_source}}`.
 Keep the same manager run UUID, absolute manager path, and selected transport.
 Use preflight or the manifest for manager metadata; do not create an inspection job.
 Run target behavior checks by absolute target path in an isolated test workspace.
@@ -16,7 +16,7 @@ Recheck approval for the exact changed paths and operations, and canonical sourc
 Unapproved or outside-source writes fail verification, even when content checks pass.
 For CREATE or UPDATE, run the bundled `node "{{context.manager_skill_dir}}/scripts/authoring-quality.cjs" "{{context.target_skill_dir}}" --json`.
 For passive UPDATE, also run the supported standard frontmatter command recorded in `context.plan.frontmatter_check`.
-Require valid YAML frontmatter with the preserved nonempty name and description; compare actual content with the approved change and pre-update contents.
+Require valid YAML frontmatter with the preserved nonempty name and description; compare actual content with the approved change and the capture at `{{context.plan.pre_update_capture_dir}}`.
 Confirm no `skill.yaml`, `skill.yml`, reactive bootloader or unapproved scaffolding was added, passive identity remains intact, and protected content and unplanned files are unchanged.
 Do not call runtime validate on passive targets: it requires a reactive manifest.
 For reactive CREATE/UPDATE, retain the selected runtime's `validate "{{context.target_skill_dir}}"` and all reactive structure, bootloader and guard checks.

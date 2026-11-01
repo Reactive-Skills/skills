@@ -14,6 +14,7 @@ Show the user:
   - Files to create (grouped by directory/phase to highlight hierarchical structure if present)
   - Files to modify
   - Files to delete (highlighting any pruned orphan files)
+  - Pre-update capture directory for UPDATE: `plan.pre_update_capture_dir`
 
 ## Failure Catalog Summary
 When presenting the plan for approval, include a concise failure catalog derived from the skill type classification and architectural shape:
