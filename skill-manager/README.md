@@ -1,9 +1,9 @@
 # 🛠️ skill-manager
 
-> Full CRUD lifecycle management for reactive skills - `CREATE`, `UPDATE`, `DELETE`, `MIGRATE_LEGACY`, and `MIGRATE_REACTIVE` with pre-commit approval gates, best-effort rollback, and manifest snapshot projections.
+> Full CRUD lifecycle management for skills - `CREATE` (standard or reactive), `UPDATE`, `DELETE`, `MIGRATE_LEGACY`, and `MIGRATE_REACTIVE` with pre-commit approval gates, best-effort rollback, and manifest snapshot projections.
 
 [![Schema Version](https://img.shields.io/badge/schema-v2.1.0-blue.svg)](skill.yaml)
-[![Skill Version](https://img.shields.io/badge/version-v1.5.0-green.svg)](skill.yaml)
+[![Skill Version](https://img.shields.io/badge/version-v1.6.0-green.svg)](skill.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE)
 
 ---
@@ -31,7 +31,7 @@
 
 ## 🔍 Overview
 
-`skill-manager` is the authoritative lifecycle automation engine for the Reactive Skills Architecture. It allows developers and AI agents to scaffold, delete, and migrate reactive skills and update passive or reactive skills reliably.
+`skill-manager` is the authoritative lifecycle automation engine for the Reactive Skills Architecture. It allows developers and AI agents to create standard or reactive skills, delete and migrate reactive skills, and update passive or reactive skills reliably.
 
 Every operation is governed by a deterministic Hierarchical State Machine (HSM) with pre-commit human/agent approval gates, strict verification against schema validators, and automatic rollback on failure.
 
@@ -41,7 +41,7 @@ Every operation is governed by a deterministic Hierarchical State Machine (HSM) 
 
 | Operation | Description | Target Scenarios |
 | :--- | :--- | :--- |
-| `CREATE` | Creates the approved manifest, documentation, diagram, and referenced prompts; guards or templates only where required by that design. | Building a new reactive skill. |
+| `CREATE` | Decides the form, then creates a standard `SKILL.md` skill, or the approved reactive manifest, documentation, diagram, and referenced prompts; guards or templates only where required by that design. | Building a new skill. |
 | `UPDATE` | Changes approved passive or reactive files, preserving target identity; diagram or documentation changes follow the approved scope. | Editing passive skill content or prompts, adding states, or modifying transitions. |
 | `DELETE` | Safely tears down a skill package and its associated artifacts. | Deprecating or removing skills. |
 | `MIGRATE_LEGACY` | Analyzes a single-file legacy `SKILL.md` skill, infers states, grills ambiguities via Socratic inquiry, and splits it into a reactive skill. | Modernizing legacy agent skills. |
@@ -69,14 +69,14 @@ Defined in [`skill.yaml`](skill.yaml). For full Mermaid state diagrams, see [`ST
 ```
 
 ### CRUD Branch (`CREATE` / `UPDATE` / `DELETE`)
-1. **`PLANNING`**: Resolves missing requirements and compares suitable architectural shapes when undecided.
-Records the chosen shape, rationale, exact file manifest, and all seven RED answers when enabled.
+1. **`PLANNING`**: Resolves missing requirements. For `CREATE`, decides standard or reactive: an explicit selection or supplied manifest wins, otherwise reactive only when requirements need runtime-enforced behavior. Compares suitable flat and hierarchical shapes for reactive work when undecided.
+Records the chosen form, shape, rationale, exact file manifest, and all seven RED answers when enabled.
 2. **`APPROVING`**: Pre-commit approval gate displaying the chosen shape, architectural rationale, and structured file manifest.
    - `USER_APPROVED` continues to `EXECUTING`.
    - `USER_REVISE` sends the user's feedback to `REVISING`, which updates the plan and returns here. Rounds are unlimited and led by the user.
    - `USER_REJECTED` ends the run in `CANCELLED`, a clean terminal state with nothing written.
 3. **`EXECUTING`**: Applies only approved file operations in the canonical source, preserving nested paths and unrelated files.
-4. **`VERIFYING`**: Checks passive UPDATE with supported standard frontmatter validation, bundled authoring/reference checks and preserved identity/content. Reactive targets retain runtime validation, bootloader, guards and structure checks.
+4. **`VERIFYING`**: Checks passive UPDATE with supported standard frontmatter validation, bundled authoring/reference checks and preserved identity/content. Standard CREATE uses the same frontmatter and reference checks, approved paths, and no reactive scaffolding. For `CREATE`, the observed type must match the planned form. Reactive targets retain runtime validation, bootloader, guards and structure checks.
 5. **`ROLLING_BACK`**: Restores approved UPDATE paths from the pre-update capture of the target, or deletes CREATE artifacts, on verification failure before transitioning to `ERROR`. A change outside the approved plan or source is listed in `ROLLBACK_FAILED`, not restored; runtime-owned `.reactive/` and `.docs/skill-manager/` paths are excluded.
 
 ### Migration Branch (`MIGRATE_LEGACY` / `MIGRATE_REACTIVE`)
@@ -94,7 +94,7 @@ Records the chosen shape, rationale, exact file manifest, and all seven RED answ
 
 ## 📐 Scaffolding Standards
 
-When `skill-manager` scaffolds a skill (`CREATE` or `MIGRATE_LEGACY`), it strictly adheres to these engineering standards:
+When `skill-manager` scaffolds a reactive skill (reactive `CREATE` or `MIGRATE_LEGACY`), it strictly adheres to these engineering standards:
 
 1. **Dual Documentation**:
   - **`SKILL.md`**: Dedicated to the AI agent runtime. Contains YAML frontmatter, a pointer to the runtime-served bootloader, and skill-specific usage guidance.
@@ -182,13 +182,14 @@ For passive UPDATE, also run an available supported standard frontmatter checker
 For passive UPDATE, record the exact available command in `plan.frontmatter_check` before approval; unavailable checks stop the run without installation or a substitute verifier.
 For every UPDATE, compare actual approved content and all unplanned files against the whole-target capture at `plan.pre_update_capture_dir`, excluding runtime-owned `.reactive/` and `.docs/skill-manager/` paths.
 For passive UPDATE, also preserve name and passive metadata and confirm no reactive manifest, bootloader or scaffolding was added.
+For standard CREATE, record and confirm the same kind of frontmatter command before approval, then confirm only approved paths exist and no reactive manifest, bootloader or scaffolding was written.
 The bundled checker supports manifest-free packages and checks manifest references only when a manifest exists. It does not validate frontmatter.
 Keep `target_type: passive` separate from domain taxonomy and set `plan.shape: null` for passive UPDATE. Missing UPDATE rejects; migration stays explicit.
 Use the same absolute manager path and returned UUID throughout. For a task-local source registry, read `sync --show-config --config "<task-config.json>"`; do not sync or alter installed copies to select an authoring source.
 Runtime signals contain host-supplied evidence; they do not authenticate filesystem checks or approval. Source containment and exact approved file checks remain executor responsibilities.
 
 Run regression checks with `node --test "<manager_skill_dir>/tests/passive-update.test.cjs"`; they require `reactive-skills-axi` on PATH.
-They exercise served prompts, guards and projections. Host-performed work, including the frontmatter check, is outside their coverage.
+They exercise served prompts, guards and projections, and run real standard, flat and hierarchical CREATE packages through the authoring and runtime checks. Host-performed work, including the frontmatter check and the choice of form, is outside their coverage.
 
 Its exported `checkAuthoringQuality(skillRoot)` and CLI return schema_version 1, errors, warnings, and per-file line/body-line/whitespace-word measurements.
 Each finding includes code, relative path, line, and explanation.

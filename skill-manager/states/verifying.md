@@ -18,6 +18,9 @@ For CREATE or UPDATE, run the bundled `node "{{context.manager_skill_dir}}/scrip
 For passive UPDATE, also run the supported standard frontmatter command recorded in `context.plan.frontmatter_check`.
 For passive UPDATE, require valid YAML frontmatter with the preserved nonempty name and description; compare actual content with the approved change and the capture at `{{context.plan.pre_update_capture_dir}}`.
 For passive UPDATE, confirm no `skill.yaml`, `skill.yml`, reactive bootloader or unapproved scaffolding was added, passive identity remains intact, and protected content and unplanned files match the capture, excluding the manager-owned runtime paths `.reactive/` and `.docs/skill-manager/`.
+For standard CREATE, also run the supported standard frontmatter command recorded in `context.plan.frontmatter_check`; require valid YAML frontmatter with `name` equal to `skill_name` and a nonempty description.
+For standard CREATE, confirm no `skill.yaml`, `skill.yml`, reactive bootloader or unapproved scaffolding was written and the target holds only approved paths, excluding the manager-owned runtime paths `.reactive/` and `.docs/skill-manager/`.
+For CREATE, observed `target_type` must equal `plan.target_type`; a mismatch fails verification.
 Do not call runtime validate on passive targets: it requires a reactive manifest.
 For reactive CREATE/UPDATE, retain the selected runtime's `validate "{{context.target_skill_dir}}"` and all reactive structure, bootloader and guard checks.
 Re-observe actual target type; a present or malformed manifest must never select the passive branch.
@@ -42,6 +45,7 @@ Report unavailable checks explicitly.
 ## Verify guards and transition behavior
 
 For passive UPDATE, guard/runtime tests are not applicable; record that fact, the actual frontmatter/reference command results, identity/content comparisons and source/approval evidence.
+For standard CREATE, guard/runtime tests are likewise not applicable; record that fact, the actual frontmatter/reference command results, approved-path comparison and source/approval evidence.
 Do not invent guards, states, a manifest or bootloader to make verification fit.
 
 For reactive targets, read every guard and inspect its JavaScript syntax, deterministic behavior, Boolean semantics, and context or payload references.
