@@ -19,9 +19,10 @@ Skill Manager is a reactive skill that manages the full lifecycle of skills in t
 
 **Passive Skill**:
 A standard skill with SKILL.md and optional supporting files, without skill.yaml or skill.yml.
+CREATE can produce one, called a standard CREATE (`plan.target_type: passive`), when requirements do not need runtime-enforced behavior; DELETE stays reactive-only.
 Ordinary UPDATE preserves this identity. `isLegacy` retains its eligibility meaning only for explicit MIGRATE_LEGACY.
 `target_type` records passive, reactive or missing independently of the domain taxonomy `plan.skill_type`.
-Passive UPDATE records no reactive shape and uses the supported standard frontmatter checker, bundled authoring/reference checks and actual content/identity comparison.
+Passive UPDATE and standard CREATE record no reactive shape and use the supported standard frontmatter checker, bundled authoring/reference checks and actual content/identity comparison.
 Runtime manifest, bootloader and guard checks apply to reactive targets; a malformed manifest never selects passive validation.
 
 **Reactive Skill (v1)**:
@@ -43,7 +44,7 @@ Skill Manager migration targets and supported input schemas are documented indep
 The integer `schemaVersion` in `skill-release.json`, which versions the JSON release-manifest format independently from the skill and Reactive Skills schema versions.
 
 **Skill Type**:
-A classification of a reactive skill's domain and operational characteristics. Skill types inform architectural shape selection, middleware hook requirements, and verification criteria during the PLANNING phase. Types are: `tool`, `agent`, `workflow`, `orchestrator`, `data_pipeline`, `domain_model`.
+A classification of a skill's domain and operational characteristics. Skill types inform architectural shape selection, middleware hook requirements, and verification criteria during the PLANNING phase. Types are: `tool`, `agent`, `workflow`, `orchestrator`, `data_pipeline`, `domain_model`.
 
 **RED Phase**:
 An optional requirements phase enabled via `context.red_phase === true`.
@@ -94,7 +95,7 @@ Keep essential constraints in the served state slice when they would otherwise b
 
 | State purpose | Decisions and actions | Exit evidence |
 |---|---|---|
-| Planning | Compare suitable shapes, clarify unresolved requirements, and scope exact files | Selected shape and rationale, protected invariants, bounded manifest, and seven RED answers when enabled |
+| Planning | Decide the CREATE form, compare suitable shapes, clarify unresolved requirements, and scope exact files | Selected form, shape and rationale, protected invariants, bounded manifest, and seven RED answers when enabled |
 | Execution | Apply the approved operations in the canonical source | Actual changes, command results, protected-file checks, and operation exit code |
 | Verification | Check requested outcomes, structure, guards, and runtime-owned outputs | Observable assertions, errors versus advisories, coverage limits, and explicit verification exit code |
 
@@ -117,7 +118,7 @@ Do not add a nonstandard model field to SKILL frontmatter.
 
 | Operation | Description |
 |-----------|-------------|
-| CREATE | Scaffold a new reactive skill from scratch |
+| CREATE | Create a new skill; PLANNING decides standard or reactive (flat or hierarchical) |
 | UPDATE | Modify approved files of an existing passive or reactive skill |
 | DELETE | Remove a reactive skill entirely |
 | MIGRATE_LEGACY | Convert a legacy SKILL.md skill to reactive (v1 or v2) |

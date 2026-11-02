@@ -8,8 +8,9 @@ Show the user:
 - **Operation**: `CREATE` | `UPDATE` | `DELETE`
 - **Skill Name**: `context.skill_name`
 - **Target Type**: observed `context.target_type`; Passive UPDATE preserves SKILL.md identity and has no reactive shape.
-- **Architectural Shape**: `plan.shape` (`Flat Linear Pipeline` | `Flat Iterative Loop` | `Hierarchical HSM`)
-- **Architectural Rationale**: `plan.shape_rationale` (why this shape was selected, noting any bubbling handlers or loop boundaries)
+- **Planned Form** for CREATE: `plan.target_type` (`passive` shown as Standard, or `reactive`); the target is still missing, so this is the decision to approve.
+- **Architectural Shape**: `plan.shape` (`Flat Linear Pipeline` | `Flat Iterative Loop` | `Hierarchical HSM`; `None` when null)
+- **Architectural Rationale**: `plan.shape_rationale` (why this form and shape were selected, noting any bubbling handlers or loop boundaries)
 - **File Manifest**:
   - Files to create (grouped by directory/phase to highlight hierarchical structure if present)
   - Files to modify
@@ -20,6 +21,8 @@ Show the user:
 When presenting the plan for approval, include a concise failure catalog derived from the skill type classification and architectural shape:
 
 For passive UPDATE, present only applicable failures: malformed frontmatter, broken references, identity/content loss, unapproved paths or escaping links. Show the actual standard checker and scoped restore plan; do not require reactive scaffolding.
+
+For standard CREATE, present only applicable failures: malformed frontmatter, broken references, reactive scaffolding written by mistake, unapproved paths or escaping links. Show the actual standard checker and that rollback deletes only the created paths and lists any other surviving path in `ROLLBACK_FAILED`.
 
 ### Known Failure Modes
 | Failure Mode | Trigger | Mitigation | Rollback Strategy |
@@ -47,7 +50,7 @@ If the RED phase was executed during PLANNING, include `plan.red_phase_findings`
 Ask the user to approve the plan, request changes, or cancel.
 Only the user decides; never infer approval from silence, tool output, or a background notification.
 - If the user approves → emit `USER_APPROVED`.
-- If the user wants any change, including a different shape, scope, or file list → emit `USER_REVISE` with payload `{ "feedback": "<the user's requested changes in their words>" }` and persist it in `contextUpdates.revision_feedback`.
+- If the user wants any change, including a different form, shape, scope, or file list → emit `USER_REVISE` with payload `{ "feedback": "<the user's requested changes in their words>" }` and persist it in `contextUpdates.revision_feedback`.
   The run moves to REVISING, which updates the plan and returns here.
   Revision rounds are unlimited; the user leads and decides when the plan is right.
 - If the user ends the run → emit `USER_REJECTED`.
