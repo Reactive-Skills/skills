@@ -71,7 +71,7 @@ Defined in [`skill.yaml`](skill.yaml). For full Mermaid state diagrams, see [`ST
 ### CRUD Branch (`CREATE` / `UPDATE` / `DELETE`)
 1. **`PLANNING`**: Resolves missing requirements. For `CREATE`, decides standard or reactive: an explicit selection or supplied manifest wins, otherwise reactive only when requirements need runtime-enforced behavior. Compares suitable flat and hierarchical shapes for reactive work when undecided.
 Records the chosen form, shape, rationale, exact file manifest, and all seven RED answers when enabled.
-2. **`APPROVING`**: Pre-commit approval gate displaying the chosen shape, architectural rationale, and structured file manifest.
+2. **`APPROVING`**: Pre-commit approval gate displaying the chosen form for `CREATE`, shape, architectural rationale, and structured file manifest.
    - `USER_APPROVED` continues to `EXECUTING`.
    - `USER_REVISE` sends the user's feedback to `REVISING`, which updates the plan and returns here. Rounds are unlimited and led by the user.
    - `USER_REJECTED` ends the run in `CANCELLED`, a clean terminal state with nothing written.
@@ -184,7 +184,7 @@ For every UPDATE, compare actual approved content and all unplanned files agains
 For passive UPDATE, also preserve name and passive metadata and confirm no reactive manifest, bootloader or scaffolding was added.
 For standard CREATE, record and confirm the same kind of frontmatter command before approval, then confirm only approved paths exist and no reactive manifest, bootloader or scaffolding was written.
 The bundled checker supports manifest-free packages and checks manifest references only when a manifest exists. It does not validate frontmatter.
-Keep `target_type: passive` separate from domain taxonomy and set `plan.shape: null` for passive UPDATE. Missing UPDATE rejects; migration stays explicit.
+Keep `target_type: passive` separate from domain taxonomy and set `plan.shape: null` for passive UPDATE and standard CREATE. Missing UPDATE rejects; migration stays explicit.
 Use the same absolute manager path and returned UUID throughout. For a task-local source registry, read `sync --show-config --config "<task-config.json>"`; do not sync or alter installed copies to select an authoring source.
 Runtime signals contain host-supplied evidence; they do not authenticate filesystem checks or approval. Source containment and exact approved file checks remain executor responsibilities.
 
