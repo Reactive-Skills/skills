@@ -430,9 +430,9 @@ test('CREATE ends in the planned standard, flat or hierarchical form', t => {
 });
 
 test('hand-reported form mismatches prove only the route to rollback of created paths', t => {
-  for (const [name, outcome, files, observed] of [
-    ['standard plan, stray manifest', createOutcomes.standard, ['SKILL.md'], 'reactive'],
-    ['reactive plan, missing manifest', createOutcomes.flat, ['SKILL.md'], 'passive'],
+  for (const [name, outcome, files, observed, signal, remaining] of [
+    ['standard plan, stray manifest', createOutcomes.standard, ['SKILL.md'], 'reactive', 'ROLLBACK_FAILED', 'reactive'],
+    ['reactive plan, missing manifest', createOutcomes.flat, ['SKILL.md'], 'passive', 'ROLLED_BACK', 'missing'],
   ]) {
     const f = fixture(t);
     const { run, plan } = plannedCreate(f, outcome, files);
@@ -444,9 +444,10 @@ test('hand-reported form mismatches prove only the route to rollback of created 
     run.emit('VERIFIED_FAIL', { exit_code: 1, failed_check: 'form-mismatch' });
     assert.equal(run.state(), 'ROLLING_BACK', name);
     assert.match(run.prompt(), /CREATE: delete only the created paths listed in the approved file plan/, name);
-    run.emit('ROLLED_BACK', { contextUpdates: { target_type: 'missing' } });
+    assert.match(run.prompt(), /never delete a path outside the plan, and if any such file survives, emit `ROLLBACK_FAILED` listing each surviving path/, name);
+    run.emit(signal, { contextUpdates: { target_type: remaining } });
     assert.equal(run.state(), 'ERROR', name);
-    assert.equal(run.inventory().target_type, 'missing', name);
+    assert.equal(run.inventory().target_type, remaining, name);
   }
 });
 

@@ -22,7 +22,7 @@ When presenting the plan for approval, include a concise failure catalog derived
 
 For passive UPDATE, present only applicable failures: malformed frontmatter, broken references, identity/content loss, unapproved paths or escaping links. Show the actual standard checker and scoped restore plan; do not require reactive scaffolding.
 
-For standard CREATE, present only applicable failures: malformed frontmatter, broken references, reactive scaffolding written by mistake, unapproved paths or escaping links. Show the actual standard checker and that rollback deletes only the created paths.
+For standard CREATE, present only applicable failures: malformed frontmatter, broken references, reactive scaffolding written by mistake, unapproved paths or escaping links. Show the actual standard checker and that rollback deletes only the created paths and lists any other surviving path in `ROLLBACK_FAILED`.
 
 ### Known Failure Modes
 | Failure Mode | Trigger | Mitigation | Rollback Strategy |

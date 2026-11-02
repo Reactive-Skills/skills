@@ -77,7 +77,7 @@ Records the chosen form, shape, rationale, exact file manifest, and all seven RE
    - `USER_REJECTED` ends the run in `CANCELLED`, a clean terminal state with nothing written.
 3. **`EXECUTING`**: Applies only approved file operations in the canonical source, preserving nested paths and unrelated files.
 4. **`VERIFYING`**: Checks passive UPDATE with supported standard frontmatter validation, bundled authoring/reference checks and preserved identity/content. Standard CREATE uses the same frontmatter and reference checks, approved paths, and no reactive scaffolding. For `CREATE`, the observed type must match the planned form. Reactive targets retain runtime validation, bootloader, guards and structure checks.
-5. **`ROLLING_BACK`**: Restores approved UPDATE paths from the pre-update capture of the target, or deletes CREATE artifacts, on verification failure before transitioning to `ERROR`. A change outside the approved plan or source is listed in `ROLLBACK_FAILED`, not restored; runtime-owned `.reactive/` and `.docs/skill-manager/` paths are excluded.
+5. **`ROLLING_BACK`**: Restores approved UPDATE paths from the pre-update capture of the target, or deletes CREATE artifacts, on verification failure before transitioning to `ERROR`. A change outside the approved plan or source is listed in `ROLLBACK_FAILED`, not restored or deleted; runtime-owned `.reactive/` and `.docs/skill-manager/` paths are excluded.
 
 ### Migration Branch (`MIGRATE_LEGACY` / `MIGRATE_REACTIVE`)
 1. **`BACKING_UP_MIGRATE`**: Creates an isolated snapshot at `<authoring_source>/.backup/<skill>/<timestamp>/`.

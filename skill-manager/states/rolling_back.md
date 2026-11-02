@@ -9,6 +9,7 @@ Best-effort rollback: restore original state or delete partial artifacts.
 - UPDATE: then compare every other target path with the capture, excluding the manager-owned runtime paths `.reactive/` and `.docs/skill-manager/`, which are neither restored nor listed. Do not restore a change outside the approved plan or source; emit `ROLLBACK_FAILED` listing each such path and keep the capture.
 - DELETE: do not replay deletion; emit `ROLLBACK_FAILED` listing the paths that remain.
 - CREATE: delete only the created paths listed in the approved file plan.
+- CREATE: then compare the files remaining in the target with the approved plan, excluding the manager-owned runtime paths `.reactive/` and `.docs/skill-manager/`, which are neither deleted nor listed; never delete a path outside the plan, and if any such file survives, emit `ROLLBACK_FAILED` listing each surviving path.
 - Re-observe the target and record the actual `contextUpdates.target_type` (`passive`, `reactive`, or `missing`) with either signal.
 
 ## Stop Criteria
