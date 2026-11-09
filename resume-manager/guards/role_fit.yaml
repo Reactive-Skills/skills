@@ -3,12 +3,11 @@ primitive: choice
 
 state:
   target_title: "`context.target_title`"
-  target_industry: "`context.industry`"
   jd_requirements: "`context.jd_requirements`"
   candidate_experience: "`context.candidate_experience_summary`"
 
 question: |
-  Given the candidate's verified experience in `state.candidate_experience` and the requirements in `state.jd_requirements` for `state.target_title` (in `state.target_industry`), does the candidate represent:
+  Given the candidate's verified experience in `state.candidate_experience` and the requirements in `state.jd_requirements` for `state.target_title`, does the candidate represent:
   - strong_fit: Direct alignment across core competencies, seniority tier, technologies, and primary responsibilities
   - conditional_fit: Transferable strengths or adjacent experience with manageable gaps in core domain or tech stack
   - weak_fit: Critical required qualifications, domain knowledge, or mandatory skills are largely absent with minimal overlap
@@ -41,5 +40,8 @@ snap_on:
       - weak_fit
       - other
     min_probability: 0.8
+    context_paths: [target_title, jd_requirements, candidate_experience_summary]
+    required_context_paths: [jd_requirements, candidate_experience_summary]
+    include_payload: false
     fallback_adapter: script
     fallback_target: FIT_REVIEW

@@ -1,25 +1,22 @@
 # Release Notes
 
-**Repository:** `{{repository}}`  
-**Release:** `{{release_version}}`  
-**Generated:** {{timestamp}}
+**Repository:** `{{context.repository}}`\
+**Release:** `{{context.release_version}}`\
+**Generated:** {{lastUpdated}}
 
 ## Changes
 
-{{#each changelog_entries}}
+{{#each context.changelog_entries}}
 ### {{category}}
 
 - `{{scope}}` {{description}} ({{commit}})
 
 {{/each}}
 
-## Breaking Changes
+## Draft
 
-{{#each breaking_changes}}
-- {{description}} See `{{commit}}`.
-
-{{/each}}
+{{{context.release_notes}}}
 
 ## Review Decision
 
-`{{review_decision}}`
+`{{context.review_decision}}`

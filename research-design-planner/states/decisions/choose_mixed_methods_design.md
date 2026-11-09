@@ -14,6 +14,14 @@ Complex designs combine phases or features when a simple core design does not fi
 Ask why both strands are needed and where they will connect.
 Preserve an explicit user choice.
 For a recommendation, emit `RECOMMENDATION_SUBMITTED`; otherwise emit `USER_CHOICE_SUBMITTED`.
+## Recommendation evidence
+
+The remote judgment receives only `research_purpose`, `research_questions`, `design_notes`, `missing_information`.
+Record this evidence before submitting a recommendation; the event payload is excluded.
+Record core fields `research_purpose` before submitting. Runtime 0.20.0 refuses the signal before a model call only when a required path is absent; a present `null`, empty string, or empty array, including the manifest's `null` and `[]` defaults, still reaches the model.
+Keep design notes limited to non-identifying decision evidence (feasibility, access, assignment, phenomenon, sequence, or integration as applicable).
+Keep unknowns explicit. If evidence is insufficient, use `NEED_CLARIFICATION` rather than inventing a recommendation.
+
 ## Context Variables Set
 
 Signals include top-level `decision_kind: "mixed_methods_design"` and `choice`, plus `contextUpdates: {decision_kind, selected_choice, mixed_methods_design}`.

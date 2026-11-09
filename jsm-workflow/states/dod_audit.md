@@ -17,6 +17,8 @@ For each semantic item, emit `DOD_CHECK_SUBMITTED` for the configured decider, J
 Pass semantic items only at probability 0.85 or higher.
 The judgment declares `min_probability: 0.85`.
 Jev judges only the `active_check` in this signal's `contextUpdates.dod_record`, not a check stored by an earlier signal, so every `DOD_CHECK_SUBMITTED` must carry its own.
+Only the active check's `id`, `question`, `expected_result`, and `evidence` leave the runtime. Other active-check fields and the rest of the DoD record remain local. Every selected field must be present; a missing field refuses the signal before a model call.
+Continue submitting the full record for local validation and replay; payload selection does not alter the recorded signal.
 Jev returns probabilities, not explanations; use failed item IDs to make repair tasks.
 If the user or evidence changes the approved outcome, emit `DOD_CHANGE_REQUESTED` with the full `dod_record` plus `pending_diff`, `revision_reason`, and `downstream_work_to_rerun`.
 If authority or access is missing, emit `DOD_AUDIT_BLOCKED` with the exact blocker.

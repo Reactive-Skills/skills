@@ -181,8 +181,9 @@ function checkAuthoringQuality(skillRoot) {
       if (!(navigation.size >= 2 || (contentsHeading && navigation.size >= 1))) finding('warnings', 'MISSING_CONTENTS', relative, 1, 'Supporting document exceeds 100 lines without working contents/navigation links.');
     }
   }
-  const manifest = fs.existsSync(path.join(root, 'skill.yaml')) ? 'skill.yaml' : 'skill.yml';
-  const manifestText = read(manifest);
+  // Passive skills have no manifest. SKILL.md and Markdown references still apply.
+  const manifest = ['skill.yaml', 'skill.yml'].find(file => fs.existsSync(path.join(root, file)));
+  const manifestText = manifest ? read(manifest) : null;
   if (manifestText !== null) {
     // Lexical scalar references only, intentionally not a YAML parser.
     let blockIndent = null;

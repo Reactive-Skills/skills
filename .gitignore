@@ -1,4 +1,5 @@
 .reactive/
+.backup/
 .env*.*
 *.tgz
 .DS_Store

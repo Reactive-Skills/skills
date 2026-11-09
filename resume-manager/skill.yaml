@@ -1,5 +1,5 @@
 schema_version: 2.1.0
-version: 2.9.0
+version: 2.10.1
 name: resume-manager
 description: >-
   Consolidated reactive career management engine. Orchestrates master profile bootstrapping,
@@ -8,10 +8,21 @@ description: >-
   and job application tailoring with automated overqualification and anti-flight risk calibration.
 initial_state: INIT
 runtime_requirements:
-  min_runtime_version: 0.17.0
+  min_runtime_version: 0.20.0
   required_capabilities:
     - judgment.probability_thresholds
     - judgment.context_paths
+    - judgment.payload_selection
+    - evidence.local_registry
+    - evidence.reference_submission
+
+# Resolve saved draft bytes into the existing fields before checks and projections.
+evidence:
+  signals:
+    MATERIALS_DRAFTED:
+      /cover_letter_text: { media_type: text/markdown, projection: utf8 }
+  context:
+    /cover_letter_text: { media_type: text/markdown, projection: utf8 }
 
 context_keys:
   - mode
@@ -29,6 +40,8 @@ context_keys:
   - overqualified_risk
   - calibration_notes
   - jd_text
+  - jd_requirements
+  - candidate_experience_summary
   - keywords
   - output_dir
   - resume_path
@@ -222,6 +235,9 @@ states:
           criterion: "Classify candidate role fit as strong_fit, conditional_fit, or weak_fit based on verified experience against job requirements."
           options: ["strong_fit", "conditional_fit", "weak_fit", "other"]
           min_probability: 0.8
+          context_paths: [target_title, jd_requirements, candidate_experience_summary]
+          required_context_paths: [jd_requirements, candidate_experience_summary]
+          include_payload: false
           fallback_adapter: script
           fallback_target: FIT_REVIEW
       STANDARD_MATCH:
@@ -232,6 +248,9 @@ states:
           criterion: "Classify candidate role fit as strong_fit, conditional_fit, or weak_fit based on verified experience against job requirements."
           options: ["strong_fit", "conditional_fit", "weak_fit", "other"]
           min_probability: 0.8
+          context_paths: [target_title, jd_requirements, candidate_experience_summary]
+          required_context_paths: [jd_requirements, candidate_experience_summary]
+          include_payload: false
           fallback_adapter: script
           fallback_target: FIT_REVIEW
       FIT_REVIEW_REQUIRED:

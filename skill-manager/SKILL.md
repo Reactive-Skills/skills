@@ -1,10 +1,10 @@
 ---
 name: skill-manager
 description: >-
-  Full CRUD lifecycle management for reactive skills. Uses reactive-skills-axi CLI for execution. Authors only in the explicitly selected registered source and uses absolute paths. Use when the user wants to CREATE a new reactive skill, UPDATE an existing skill's states/manifest, DELETE a skill, MIGRATE_LEGACY a SKILL.md-only skill to reactive format, or MIGRATE_REACTIVE a v1 reactive skill to v2.0.0. Triggers on: "create a reactive skill", "manage skills", "skill lifecycle", "scaffold a skill", "install a skill", "remove a skill", "migrate a skill", "convert skill to reactive", "upgrade reactive skill", or any skill management request.
+  Full CRUD lifecycle management for skills. Uses reactive-skills-axi CLI for execution. Authors only in the explicitly selected registered source and uses absolute paths. Use when the user wants to CREATE a new skill and decide whether it should be standard or reactive (flat or hierarchical), UPDATE an existing passive or reactive skill, DELETE a skill, MIGRATE_LEGACY a SKILL.md-only skill to reactive format, or MIGRATE_REACTIVE a v1 reactive skill to v2.0.0. Triggers on: "create a skill", "create a reactive skill", "manage skills", "skill lifecycle", "scaffold a skill", "install a skill", "remove a skill", "migrate a skill", "convert skill to reactive", "upgrade reactive skill", or any skill management request.
 metadata:
   author: bytesbybrandon
-  version: "1.4.3"
+  version: "1.6.0"
   type: reactive
 ---
 
@@ -20,7 +20,7 @@ metadata:
 
 # Skill Manager
 
-Manages the complete lifecycle of reactive skills using a Hierarchical State Machine (HSM) model. Executes via reactive-skills-axi CLI.
+Manages the complete lifecycle of skills using a Hierarchical State Machine (HSM) model. Executes via reactive-skills-axi CLI.
 
 ## Startup and authoring paths
 
@@ -53,7 +53,12 @@ Recheck containment before a destructive operation.
 Task writes require the approved file plan; existing approval remains valid within its scope.
 
 Use `manager_skill_dir` to locate bundled templates and [the authoring checker](scripts/authoring-quality.cjs), independent of CWD.
-For CREATE/UPDATE, run `node "<manager_skill_dir>/scripts/authoring-quality.cjs" "<target_skill_dir>" --json` and the selected runtime's `validate "<target_skill_dir>"`.
+For CREATE/UPDATE, run `node "<manager_skill_dir>/scripts/authoring-quality.cjs" "<target_skill_dir>" --json`.
+For reactive targets also run the selected runtime's `validate "<target_skill_dir>"` and retain bootloader/guard checks.
+For passive UPDATE, use an available supported standard frontmatter checker recorded by absolute command in the approved plan (such as the installed skill-creator `scripts/quick_validate.py`), check references and compare approved content and protected pre-update files.
+For passive UPDATE, require preserved name/passive identity and no manifest or reactive bootloader; do not call the reactive-only runtime validator.
+For standard CREATE, use the same kind of frontmatter checker recorded in the approved plan, check references and approved paths, and confirm no manifest or reactive bootloader; do not call the reactive-only runtime validator.
+Missing or unavailable required checks fail verification; UPDATE does not imply MIGRATE_LEGACY.
 The checker reports definite file-reference/input errors, advisory navigation/size findings, and whitespace word measurements.
 It does not parse the manifest schema, estimate tokens, or establish behavioral quality.
 Warnings alone do not fail this checker.
@@ -81,8 +86,8 @@ Semantic model tiers do not guarantee host routing, and SKILL frontmatter has no
 
 | Operation | Description |
 |-----------|-------------|
-| CREATE | Scaffold a new reactive skill from scratch |
-| UPDATE | Modify an existing reactive skill's states, guards, or templates |
+| CREATE | Create a new skill; PLANNING decides standard or reactive (flat or hierarchical) |
+| UPDATE | Modify approved files of an existing passive or reactive skill |
 | DELETE | Remove a reactive skill entirely |
 | MIGRATE_LEGACY | Convert a legacy SKILL.md skill to reactive format |
 | MIGRATE_REACTIVE | Upgrade a reactive skill from v1 (reactive/v1) to v2.0.0 |
@@ -97,7 +102,7 @@ Semantic model tiers do not guarantee host routing, and SKILL frontmatter has no
 - SUCCESS | CANCELLED | ERROR - Terminal states
 
 ### CREATE / UPDATE / DELETE Branch
-1. PLANNING - Produce a bounded file plan, shape rationale, and seven RED answers when enabled; evaluate supported middleware within that scope
+1. PLANNING - Decide the CREATE form, then produce a bounded file plan, shape rationale, and seven RED answers when enabled; evaluate supported middleware within that scope
 2. APPROVING - Pre-COMMIT user approval gate: approve, revise, or cancel
    - REVISING - Apply the user's feedback to the plan and return to APPROVING; rounds are unlimited and user-led
 3. EXECUTING - Apply only the approved file manifest within the canonical source; create middleware files only when declared, supported, and included in that plan
@@ -225,7 +230,7 @@ Failure cascade: VERIFYING fails → ROLLING_BACK (or RESTORING_MIGRATE) attempt
 
 ## Middleware Hooks for CREATE
 
-When scaffolding via CREATE, assess middleware needs during PLANNING using the supplied requirements and seven RED answers.
+When scaffolding a reactive skill via CREATE, assess middleware needs during PLANNING using the supplied requirements and seven RED answers.
 Declare and implement only hooks supported by the selected runtime and included in the approved manifest.
 Resolve unknown support before approval; record justified omissions.
 Middleware is runtime behavior, not evidence that the host executed a particular model.

@@ -1,17 +1,17 @@
 {
   "skill": "release-notes",
-  "version": "1.0.0",
-  "timestamp": "{{timestamp}}",
-  "current_state": "{{current_state}}",
+  "version": "1.1.0",
+  "timestamp": "{{lastUpdated}}",
+  "current_state": "{{currentState}}",
   "context": {
-    "repository": {{toJson repository}},
-    "release_version": {{toJson release_version}},
-    "scope_refs": {{toJson scope_refs}},
-    "commits": {{toJson commits}},
-    "changelog_entries": {{toJson changelog_entries}},
-    "release_notes": {{toJson release_notes}},
-    "reviewed_notes": {{toJson reviewed_notes}},
-    "review_decision": {{toJson review_decision}},
-    "deliverable_path": {{toJson deliverable_path}}
+    "repository": {{{json context.repository}}},
+    "release_version": {{{json context.release_version}}},
+    "scope_refs": {{{json context.scope_refs}}},
+    "commits": {{{json context.commits}}},
+    "changelog_entries": {{{json context.changelog_entries}}},
+    "release_notes": {{{json context.release_notes}}},
+    "reviewed_notes": {{{json context.reviewed_notes}}},
+    "review_decision": {{{json context.review_decision}}},
+    "deliverable_path": {{{json context.deliverable_path}}}
   }
 }

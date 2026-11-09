@@ -59,3 +59,6 @@ node scripts/validate-skills.js --no-runtime docs-architect
 npx -y @reactive-skills/axi inspect docs-architect
 node --test docs-architect/guards/terminal_guard_assertions.test.js
 ```
+
+Projection regression checks run the installed runtime renderer against structured and legacy inventories, escaped JSON values, and initial context.
+Run `node --test docs-architect/guards/projection_contract.test.cjs`; set `REACTIVE_RUNTIME_MODULE` to the installed runtime entry when package resolution needs an explicit path.

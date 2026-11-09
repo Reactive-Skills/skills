@@ -1,10 +1,14 @@
 # Diagram Inventory
 
-{{#each diagram_inventory}}
+{{#each context.diagram_inventory}}
+{{#if title}}
 ## {{title}}
 
 - Type: `{{type}}`
 - Sources: {{sources}}
 - Status: `{{status}}`
+{{else}}
+- {{this}}
+{{/if}}
 
 {{/each}}

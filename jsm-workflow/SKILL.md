@@ -53,8 +53,8 @@ The workflow drafts one DoD after scope, design, and context discovery, then wai
 The DoD names the outcome, deliverables and locations, setup and use, observable checks with evidence methods, assumptions, gotchas, exclusions, approved decisions, and planned external actions.
 Scope and architecture recommendations appear in the same approval card.
 After approval, exact checks run deterministically and Jev judges semantic criteria at a 0.85 probability pass threshold.
-`skill.yaml` declares `min_probability: 0.85` on that judgment, which needs runtime 0.19.0 or later with the `judgment.probability_thresholds` and `judgment.context_paths` capabilities.
-The judgment sets `context_paths: []` and `include_payload: true`, so Jev sees only the submitted `active_check` from the signal payload and none of the run context; older runtimes refuse the skill rather than sending the whole run.
+`skill.yaml` declares `min_probability: 0.85` on that judgment, which needs runtime 0.20.0 or later with the `judgment.probability_thresholds`, `judgment.context_paths`, and `judgment.payload_selection` capabilities.
+The judgment sends only the submitted active check's `id`, `question`, `expected_result`, and `evidence`, selected from the signal payload, and no run context. Missing selected fields refuse the signal before a model call. The full DoD record remains available locally for validation and replay. Older runtimes refuse the skill.
 Both approval gates refuse `USER_APPROVED` unless the DoD has an outcome and every criterion has a unique ID, question, expected result, `exact` or `semantic` check type, and evidence method.
 The completion guard checks the `dod_record` carried by `DOD_AUDIT_PASSED`, or the stored record when the signal omits it.
 The workflow repairs failed criteria and reruns affected checks.

@@ -5,8 +5,8 @@ Resolve and validate the operation type from context.
 
 ## Logic
 Validate that `context.operation` is one of the five supported operations:
-- `CREATE` — scaffold a new reactive skill from scratch
-- `UPDATE` — modify an existing reactive skill's states, guards, or templates
+- `CREATE` — create a new skill; PLANNING decides standard or reactive (flat or hierarchical)
+- `UPDATE` — modify approved files of an existing passive or reactive skill
 - `DELETE` — remove a reactive skill entirely
 - `MIGRATE_LEGACY` — convert a legacy SKILL.md skill to reactive format
 - `MIGRATE_REACTIVE` — upgrade a reactive skill from v1 to v2.0.0
