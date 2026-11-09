@@ -25,6 +25,8 @@ You are drafting the candidate's single-column ATS-compliant resume (`resume.md`
     Sentence 1 mirrors the target title with the core stack.
     Sentence 2 gives two or three headline metrics.
     Sentence 3 is a benefit line of about 20 words: third person with an implied subject (no "I"), stating what the employer gets, with a `without` clause naming the avoided cost, built from a verified project record, or a verified role-level metric when no records exist, in the employer's vocabulary (see `references/professional-voice-standards.md`).
+    Write the sentences as one paragraph on a single line, separated by spaces.
+    This overrides any one-sentence-per-line Markdown rule for the summary.
 - Overqualification & Down-Leveling Calibration (when `overqualified_risk == true`):
   - Apply grounded language mappings from `calibrate_framing.md`.
   - Strip out raw year-count lead-ins ("15+ years").
@@ -93,6 +95,7 @@ You are drafting the candidate's single-column ATS-compliant resume (`resume.md`
 - [CRUCIAL] Every bullet sits under the employer or project where the work was actually done.
 - [CRUCIAL] Contact info in primary body text without emojis or header XML.
 - [CRUCIAL] Summary sentence 3 is a benefit line with a `without` clause, built from a verified project record or role-level metric.
+- [CRUCIAL] The Professional Summary is one paragraph: all sentences on a single line of `resume.md`, with no line breaks between them.
 - [CRUCIAL] Every metric comes from a record marked `verified: yes` or, when no records exist, from the profile's role-level text; no non-claim or confidential product name appears.
 - [CRUCIAL] Every dated role from the master profile has been compared with the tailored resume timeline.
 - [CRUCIAL] No unexplained employment gaps remain before export.

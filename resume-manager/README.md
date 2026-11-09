@@ -3,7 +3,7 @@
 > Consolidated reactive career management engine. Orchestrates master profile bootstrapping, continuous achievement maintenance, multi-track profile specialization, and job application tailoring with automated overqualification and anti-flight risk calibration.
 
 [![Schema Version](https://img.shields.io/badge/schema-v2.1.0-blue.svg)](skill.yaml)
-[![Skill Version](https://img.shields.io/badge/version-v2.10.0-green.svg)](skill.yaml)
+[![Skill Version](https://img.shields.io/badge/version-v2.10.2-green.svg)](skill.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE)
 
 ---
@@ -86,7 +86,7 @@ Triggered when providing a Job Description (JD) to tailor a full application pac
 3. **Framing & Anti-Flight Risk Calibration**: Neutralizes jargon and grounds intent.
 4. **25–35 Keyword Calibration**: Weaves ATS keywords into bullet points with truthful candidate verification and selects 3 to 5 Project Records with verified metrics.
 5. **Company Alignment**: Researches employer mission, engineering values, and conversational angles.
-6. **ATS Drafting**: Generates clean, single-column `resume.md` and tailored `cover_letter.md`. Summary sentence 3 is a benefit line with a `without` clause.
+6. **ATS Drafting**: Generates clean, single-column `resume.md` and tailored `cover_letter.md`. The summary is one paragraph on a single line, and its sentence 3 is a benefit line with a `without` clause.
 7. **Career Timeline Reconciliation**: Compares dated roles in the master profile with the tailored resume and resolves unexplained gaps before export.
 8. **Document Export**: Compiles pixel-perfect `.docx` and `.pdf` files.
 9. **Interview Prep**: Produces a 20-word introduction, one lead story in CAR order, pre-emptive answers for "Why this role? Aren't you overqualified?", success and obstacle questions to ask, and a closing line built from verified facts.
