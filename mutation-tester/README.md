@@ -3,7 +3,7 @@
 > Technology-agnostic mutation testing reactive skill powered by a high-performance Go CLI engine. Auto-detects test runners, performs AST and token mutations, and scopes fault injection via `git diff`.
 
 [![Schema Version](https://img.shields.io/badge/schema-v2.2.0-blue.svg)](skill.yaml)
-[![Skill Version](https://img.shields.io/badge/version-v1.0.0-green.svg)](skill.yaml)
+[![Skill Version](https://img.shields.io/badge/version-v1.0.2-green.svg)](skill.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE)
 
 ---
@@ -127,7 +127,15 @@ The skill is modeled as a Hierarchical State Machine (HSM) defined in [`skill.ya
 
 ## 📥 Installation
 
+Tell your agent:
+
+```text
+Check how well my tests detect code changes with the mutation-tester reactive skill.
+```
+
 Install into your agent workspace using `skills.sh` (`npx skills`):
+
+The command your agent runs:
 
 ```bash
 # Install mutation-tester
@@ -138,9 +146,17 @@ npx skills add Reactive-Skills/skills --skill mutation-tester
 
 ## 🚀 Execution & Usage
 
+Tell your agent:
+
+```text
+Check how well my tests detect code changes with the mutation-tester reactive skill.
+```
+
 Reactive skills execute deterministically via **`@reactive-skills/axi`**.
 
 ### CLI Mode (Shell)
+
+The command your agent runs:
 
 ```bash
 # 1. Inspect current instructions

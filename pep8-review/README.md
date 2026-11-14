@@ -1,11 +1,26 @@
 # PEP 8 Review
 
-A reactive code review skill for Python style.
+A reactive code review skill for Python style. It checks changed lines by default and follows the project's own style documentation and configured tools. It uses PEP 8 as the baseline and considers PEP 257 docstring conventions or PEP 484 type hints only when relevant. It reports actionable findings with file and line references. It does not modify source code.
 
-It checks changed lines by default and follows the project's own style documentation and configured tools.
-It uses PEP 8 as the baseline and considers PEP 257 docstring conventions or PEP 484 type hints only when relevant.
-It reports actionable findings with file and line references.
-It does not modify source code.
+## Quick Start
+
+Tell your agent:
+
+```text
+Review my changed Python files for PEP 8 style with the pep8-review reactive skill.
+```
+
+Install the skill into your agent environment:
+
+```bash
+npx skills add Reactive-Skills/skills --skill pep8-review
+```
+
+The command your agent runs:
+
+```bash
+npx -y @reactive-skills/axi invoke pep8-review
+```
 
 ## Review Flow
 
@@ -13,19 +28,6 @@ It does not modify source code.
 2. Discover rules reads project style documentation and formatter or linter configuration.
 3. Review checks applicable Python style rules and records evidence.
 4. Report returns findings or states that no actionable style findings were found.
-
-## Runtime
-
-Start a run with `npx -y @reactive-skills/axi invoke pep8-review`.
-Read the active prompt with `npx -y @reactive-skills/axi state pep8-review --job <job-id>`.
-Advance only with the signal named by the active prompt.
-Each work signal is guarded: intake needs a review input and scope, rule discovery needs recorded sources, and review completion needs findings, count, and outcome to agree.
-The skill uses the standard reactive runtime bootloader for runtime selection and recovery.
-
-## Installation
-
-Install it with `npx skills add Reactive-Skills/skills --skill pep8-review`.
-In an MCP host, invoke pep8-review with the host skill command, then use reactive_state and reactive_emit_signal for the active job.
 
 ## Standards
 
@@ -36,6 +38,15 @@ In an MCP host, invoke pep8-review with the host skill command, then use reactiv
 
 PEP numbers are identifiers, not a cumulative checklist.
 PEP 0 indexes proposals and is not a prerequisite for PEP 8.
+
+## For Agents and Maintainers
+
+Read the active prompt with `npx -y @reactive-skills/axi state pep8-review --job <job-id>`.
+Advance only with the signal named by the active prompt.
+Each work signal is guarded: intake needs a review input and scope, rule discovery needs recorded sources, and review completion needs findings, count, and outcome to agree.
+The skill uses the standard reactive runtime bootloader for runtime selection and recovery.
+
+In an MCP host, invoke pep8-review with the host skill command, then use reactive_state and reactive_emit_signal for the active job.
 
 ## Directory Layout
 

@@ -21,10 +21,18 @@ See [CONTEXT.md](CONTEXT.md) for the record protocol and [STATECHART.md](STATECH
 
 ## Installation and use
 
+Tell your agent:
+
+```text
+Define success criteria and design evaluations for my LLM application with the llm-eval-design reactive skill.
+```
+
 Install this package through the repository's supported source-aware sync workflow into the Reactive Skills runtime.
 Runtime 0.16.0 or newer must support bootloader, transport handshake, and runtime.accepted_update_replay.
 No evaluation library, paid service, or specific model vendor is required to produce a plan.
 A harness run needs a model API key, which you provide through an environment variable of your choice.
+
+The command your agent runs:
 
 ```text
 reactive-skills-axi bootloader llm-eval-design --json

@@ -78,7 +78,15 @@ product-manager/
 
 ## Quickstart
 
+Tell your agent:
+
+```text
+Assess my product opportunity and scope requirements with the product-manager reactive skill.
+```
+
 ### 1. In Your Shell (Zero-Install CLI)
+The command your agent runs:
+
 ```bash
 # Check current state
 npx -y @reactive-skills/axi state product-manager

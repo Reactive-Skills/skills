@@ -21,6 +21,14 @@
 
 ## Installation
 
+Tell your agent:
+
+```text
+Check my OpenAPI specification and client code for drift with the api-contract reactive skill.
+```
+
+The command your agent runs:
+
 ```bash
 # Zero-install via npx
 npx -y @reactive-skills/axi state api-contract
@@ -93,6 +101,14 @@ skills/api-contract/
 | ERROR | Terminal | Unrecoverable error occurred |
 
 ## Usage
+
+Tell your agent:
+
+```text
+Check my OpenAPI specification and client code for drift with the api-contract reactive skill.
+```
+
+The command your agent runs:
 
 ```bash
 # Read current state

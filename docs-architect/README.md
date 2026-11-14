@@ -15,7 +15,15 @@ Documentation architecture workflow for turning repository evidence into living,
 Exact validation predicates select AXI's script adapter explicitly.
 Semantic judgments continue through the configured decision backend.
 
-## Invoke
+## Quick Start
+
+Tell your agent:
+
+```text
+Plan and improve my project documentation with the docs-architect reactive skill.
+```
+
+The command your agent runs:
 
 ```bash
 npx -y @reactive-skills/axi invoke docs-architect --payload '{"source_paths":["README.md","src"],"audience":"maintainers","outcomes":["onboard","operate"]}'

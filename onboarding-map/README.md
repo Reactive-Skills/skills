@@ -27,7 +27,15 @@ onboarding-map/
     └── state_snapshot.json.hbs
 ```
 
-## Invocation
+## Quick Start
+
+Tell your agent:
+
+```text
+Create a learning path for this codebase and my role with the onboarding-map reactive skill.
+```
+
+The command your agent runs:
 
 ```bash
 npx -y @reactive-skills/axi invoke onboarding-map

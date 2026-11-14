@@ -18,6 +18,12 @@ A waiting job resumes at its persisted nested state.
 
 ## Use
 
+Tell your agent:
+
+```text
+Help me evaluate my product and team decisions with the build-advisor reactive skill.
+```
+
 Ask an agent to use build-advisor with your actual situation.
 For example: "Challenge this onboarding experience" or "Help us preserve quality while our team grows."
 Provide the material you have; missing evidence stays visible.
@@ -25,6 +31,8 @@ Provide the material you have; missing evidence stays visible.
 Start through a compatible Reactive Skills runtime, version 0.16.0 or later, containing the SQLite ancestor-dispatch repair.
 Unmodified 0.16.0 fails inherited transitions; version alone does not establish compatibility.
 No separate service or API key is required by this skill.
+
+The command your agent runs:
 
 ```powershell
 rtk reactive-skills-axi invoke build-advisor --job my-product

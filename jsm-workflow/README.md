@@ -125,15 +125,26 @@ stateDiagram-v2
 
 ## 🚀 Quick Start
 
+Tell your agent:
+
+```text
+Guide my software change from intake through verification with the jsm-workflow reactive skill.
+```
+
 ### Installation
 
 Install `jsm-workflow` directly into your agent environment using `npx skills`:
+
+The command your agent runs:
 
 ```bash
 npx skills add Reactive-Skills/skills --skill jsm-workflow
 ```
 
 ### 1. Execution via Reactive Skills CLI
+
+The command your agent runs:
+
 ```bash
 # Check current state prompt
 reactive-skills-axi state jsm-workflow
