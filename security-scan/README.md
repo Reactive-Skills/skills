@@ -24,7 +24,7 @@
 Tell your agent:
 
 ```text
-Install the reactive skill security-scan with Reactive Skills AXI.
+Set up Reactive Skills AXI and show the current instructions for the security-scan reactive skill.
 ```
 
 The command your agent runs:

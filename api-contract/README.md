@@ -24,7 +24,7 @@
 Tell your agent:
 
 ```text
-Install the reactive skill api-contract with Reactive Skills AXI.
+Set up Reactive Skills AXI and show the current instructions for the api-contract reactive skill.
 ```
 
 The command your agent runs:
