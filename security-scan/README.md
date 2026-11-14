@@ -24,7 +24,7 @@
 Tell your agent:
 
 ```text
-Check my staged changes for secrets and insecure configuration with the security-scan reactive skill.
+Install the reactive skill security-scan with Reactive Skills AXI.
 ```
 
 The command your agent runs:

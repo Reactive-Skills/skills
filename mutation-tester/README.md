@@ -130,12 +130,10 @@ The skill is modeled as a Hierarchical State Machine (HSM) defined in [`skill.ya
 Tell your agent:
 
 ```text
-Check how well my tests detect code changes with the mutation-tester reactive skill.
+Install the reactive skill mutation-tester from Reactive-Skills/skills into my agent environment.
 ```
 
-Install into your agent workspace using `skills.sh` (`npx skills`):
-
-The command your agent runs:
+The command your agent runs (via `skills.sh`):
 
 ```bash
 # Install mutation-tester

@@ -115,12 +115,10 @@ Use the runtime's `substates` and `initial_substate` fields; a prompt-only chang
 Tell your agent:
 
 ```text
-Help me create or update a skill in its registered authoring source with the skill-manager reactive skill.
+Install the reactive skill skill-manager from Reactive-Skills/skills into my agent environment.
 ```
 
-Install into your agent workspace using `skills.sh` (`npx skills`):
-
-The command your agent runs:
+The command your agent runs (via `skills.sh`):
 
 ```bash
 npx skills add Reactive-Skills/skills --skill skill-manager

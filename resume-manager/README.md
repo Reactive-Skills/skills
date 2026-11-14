@@ -209,12 +209,10 @@ Otherwise the resume returns to `DRAFTING`, which rewrites only the flagged line
 Tell your agent:
 
 ```text
-Tailor my resume for a role using my career profile with the resume-manager reactive skill.
+Install the reactive skill resume-manager from Reactive-Skills/skills into my agent environment.
 ```
 
-Install into your agent workspace using `skills.sh` (`npx skills`):
-
-The command your agent runs:
+The command your agent runs (via `skills.sh`):
 
 ```bash
 npx skills add Reactive-Skills/skills --skill resume-manager

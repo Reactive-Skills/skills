@@ -133,9 +133,7 @@ Guide my software change from intake through verification with the jsm-workflow 
 
 ### Installation
 
-Install `jsm-workflow` directly into your agent environment using `npx skills`:
-
-The command your agent runs:
+The command your agent runs (via `skills.sh`):
 
 ```bash
 npx skills add Reactive-Skills/skills --skill jsm-workflow

@@ -28,9 +28,7 @@ Tell your agent:
 Install the reactive skill <skill-name> from Reactive-Skills/skills into my agent environment.
 ```
 
-Install skills into your agent environment with `skills.sh` (`npx skills`):
-
-The command your agent runs:
+The command your agent runs (via `skills.sh`):
 
 ```bash
 # Install one skill
@@ -89,7 +87,7 @@ Run the reactive skill <skill-name> with Reactive Skills AXI.
 ```
 
 Reactive skills run through the `@reactive-skills/axi` CLI, which requires Node.js 22.5 or later.
-Use it through `npx` with no install, or install it globally for the `reactive-skills-axi` command:
+Use it through `npx` with no install, or install it globally for the `reactive-skills-axi` command.
 
 The command your agent runs:
 

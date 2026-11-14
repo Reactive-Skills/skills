@@ -24,7 +24,7 @@
 Tell your agent:
 
 ```text
-Check my OpenAPI specification and client code for drift with the api-contract reactive skill.
+Install the reactive skill api-contract with Reactive Skills AXI.
 ```
 
 The command your agent runs:
