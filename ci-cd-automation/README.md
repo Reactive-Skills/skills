@@ -17,6 +17,14 @@
 
 ## Quick Start
 
+Tell your agent:
+
+```text
+Create or review my CI/CD pipeline with the ci-cd-automation reactive skill.
+```
+
+The command your agent runs:
+
 ```bash
 npx -y @reactive-skills/axi invoke ci-cd-automation --payload '{
   "provider": "github-actions",

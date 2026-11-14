@@ -14,7 +14,15 @@ Auditable pull request triage for review queues and release readiness.
 Exact completeness predicates select AXI's script adapter explicitly.
 Semantic judgments continue through the configured decision backend.
 
-## Invoke
+## Quick Start
+
+Tell your agent:
+
+```text
+Assess and route my pull requests with the pr-triage reactive skill.
+```
+
+The command your agent runs:
 
 ```bash
 npx -y @reactive-skills/axi invoke pr-triage --payload '{"repository":".","pull_requests":["12","14"],"triage_policy":{"max_size":"medium","required_checks":["test","lint"]}}'

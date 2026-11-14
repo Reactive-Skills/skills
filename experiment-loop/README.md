@@ -22,6 +22,12 @@ See [CONTEXT.md](CONTEXT.md) for supported records and limitations and [STATECHA
 
 ## Installation and use
 
+Tell your agent:
+
+```text
+Plan and run a bounded improvement experiment with the experiment-loop reactive skill.
+```
+
 Install this package through the repository's supported source-aware sync workflow into the Reactive Skills runtime.
 Runtime 0.16.0 or newer must support bootloader, transport handshake, and runtime.accepted_update_replay.
 The installed 0.16.0 package lacks the last capability and is incompatible; use the repaired local source build until distribution.
@@ -31,6 +37,8 @@ Use a repaired runtime source checkout that advertises runtime.accepted_update_r
 Build its runtime package and AXI application before invoking the local AXI entry point below.
 The unrepaired published runtime is not supported by this experimental package.
 For acceptance tests, set EXPERIMENT_LOOP_RUNTIME to the absolute path of that checkout's `packages/runtime/dist/index.js`.
+
+The command your agent runs:
 
 ```text
 node <repaired-runtime-checkout>/apps/axi/dist/cli/index.js bootloader experiment-loop --json

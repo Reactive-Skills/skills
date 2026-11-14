@@ -21,6 +21,14 @@
 
 ## Installation
 
+Tell your agent:
+
+```text
+Set up Reactive Skills AXI and show the current instructions for the security-scan reactive skill.
+```
+
+The command your agent runs:
+
 ```bash
 # Zero-install via npx
 npx -y @reactive-skills/axi state security-scan
@@ -88,6 +96,14 @@ security-scan/
 | ERROR | Terminal | Unrecoverable error |
 
 ## Usage
+
+Tell your agent:
+
+```text
+Check my staged changes for secrets and insecure configuration with the security-scan reactive skill.
+```
+
+The command your agent runs:
 
 ```bash
 # Read current state

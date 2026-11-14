@@ -43,7 +43,15 @@ References cut request and response bytes. They do not cut total work: the runti
 If you need the text again after a reference, `evidence read` costs one more call and returns the text (the extra row above). Inline hosts already have it.
 This is one sample. Latency was not measured and no speedup is claimed. Rerun with `node --test release-notes/guards/evidence_references.test.cjs` on runtime 0.20.0.
 
-## Invoke
+## Quick Start
+
+Tell your agent:
+
+```text
+Draft release notes from my repository changes with the release-notes reactive skill.
+```
+
+The command your agent runs:
 
 ```bash
 npx -y @reactive-skills/axi invoke release-notes --payload '{"repository":".","release_version":"1.2.0","scope_refs":["main","v1.1.0"]}'

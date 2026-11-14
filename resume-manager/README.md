@@ -3,7 +3,7 @@
 > Consolidated reactive career management engine. Orchestrates master profile bootstrapping, continuous achievement maintenance, multi-track profile specialization, and job application tailoring with automated overqualification and anti-flight risk calibration.
 
 [![Schema Version](https://img.shields.io/badge/schema-v2.1.0-blue.svg)](skill.yaml)
-[![Skill Version](https://img.shields.io/badge/version-v2.10.2-green.svg)](skill.yaml)
+[![Skill Version](https://img.shields.io/badge/version-v2.10.3-green.svg)](skill.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE)
 
 ---
@@ -206,7 +206,13 @@ Otherwise the resume returns to `DRAFTING`, which rewrites only the flagged line
 
 ## 📥 Installation
 
-Install into your agent workspace using `skills.sh` (`npx skills`):
+Tell your agent:
+
+```text
+Install the reactive skill resume-manager from Reactive-Skills/skills into my agent environment.
+```
+
+The command your agent runs (via `skills.sh`):
 
 ```bash
 npx skills add Reactive-Skills/skills --skill resume-manager
@@ -216,7 +222,15 @@ npx skills add Reactive-Skills/skills --skill resume-manager
 
 ## 🚀 Execution & Usage
 
+Tell your agent:
+
+```text
+Tailor my resume for a role using my career profile with the resume-manager reactive skill.
+```
+
 ### CLI Mode (Shell)
+
+The command your agent runs:
 
 ```bash
 # Inspect current state instructions

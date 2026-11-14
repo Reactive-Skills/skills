@@ -11,7 +11,15 @@ Deterministic coverage enforcement for release quality gates.
 - Human exception and release-blocking gate
 - Reproducible Markdown and JSON projections
 
-## Invoke
+## Quick Start
+
+Tell your agent:
+
+```text
+Measure my test coverage and check it against agreed thresholds with the test-coverage-gate reactive skill.
+```
+
+The command your agent runs:
 
 ```bash
 npx -y @reactive-skills/axi invoke test-coverage-gate --payload '{"target_dir":".","test_command":"npm test","coverage_command":"npm run coverage","thresholds":{"lines":80,"statements":80,"branches":70,"functions":80}}'

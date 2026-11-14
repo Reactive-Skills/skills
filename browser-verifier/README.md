@@ -17,6 +17,14 @@
 
 ## Quick Start
 
+Tell your agent:
+
+```text
+Verify my app in a browser and capture evidence with the browser-verifier reactive skill.
+```
+
+The command your agent runs:
+
 ```bash
 # Execute browser verification against local dev server
 npx -y @reactive-skills/axi invoke browser-verifier --payload '{

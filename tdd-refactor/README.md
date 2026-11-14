@@ -25,6 +25,14 @@ flowchart LR
 
 ## Quick Start
 
+Tell your agent:
+
+```text
+Guide my code change through test-driven development and refactoring with the tdd-refactor reactive skill.
+```
+
+The command your agent runs:
+
 ```bash
 npx -y @reactive-skills/axi invoke tdd-refactor --payload '{
   "target_file": "src/service.ts",

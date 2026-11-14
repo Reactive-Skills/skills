@@ -3,7 +3,7 @@
 > Full CRUD lifecycle management for skills - `CREATE` (standard or reactive), `UPDATE`, `DELETE`, `MIGRATE_LEGACY`, and `MIGRATE_REACTIVE` with pre-commit approval gates, best-effort rollback, and manifest snapshot projections.
 
 [![Schema Version](https://img.shields.io/badge/schema-v2.1.0-blue.svg)](skill.yaml)
-[![Skill Version](https://img.shields.io/badge/version-v1.6.0-green.svg)](skill.yaml)
+[![Skill Version](https://img.shields.io/badge/version-v1.6.1-green.svg)](skill.yaml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](../LICENSE)
 
 ---
@@ -112,7 +112,13 @@ Use the runtime's `substates` and `initial_substate` fields; a prompt-only chang
 
 ## 📥 Installation
 
-Install into your agent workspace using `skills.sh` (`npx skills`):
+Tell your agent:
+
+```text
+Install the reactive skill skill-manager from Reactive-Skills/skills into my agent environment.
+```
+
+The command your agent runs (via `skills.sh`):
 
 ```bash
 npx skills add Reactive-Skills/skills --skill skill-manager
@@ -122,6 +128,12 @@ npx skills add Reactive-Skills/skills --skill skill-manager
 
 ## 🚀 Execution & Usage
 
+Tell your agent:
+
+```text
+Help me create or update a skill in its registered authoring source with the skill-manager reactive skill.
+```
+
 ### CLI Mode (Shell)
 
 Resolve the manager by its absolute authored source path.
@@ -129,6 +141,8 @@ Read `reactive-skills-axi sync --show-config` or the current environment's regis
 Reject distribution and agent-local destinations before following links, and verify canonical containment before any write.
 A new CREATE target need not exist; validate its existing source/parent first.
 If source selection is genuinely ambiguous, resolve it before authoring.
+
+The command your agent runs:
 
 ```text
 reactive-skills-axi preflight "<manager_skill_dir>" --json

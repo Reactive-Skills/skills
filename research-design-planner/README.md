@@ -4,6 +4,20 @@ A single reactive skill for users who know their next research task and users wh
 It routes into a small relevant section of Creswell and Creswell's research design framework.
 The hierarchical state machine keeps the active prompt focused on the current question.
 
+## Quick Start
+
+Tell your agent:
+
+```text
+Help me explore, plan, or review my research design with the research-design-planner reactive skill.
+```
+
+The command your agent runs:
+
+```bash
+npx -y @reactive-skills/axi invoke research-design-planner
+```
+
 ## What it helps with
 
 - Explore a topic and shape a research problem.

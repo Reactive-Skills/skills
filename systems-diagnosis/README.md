@@ -24,9 +24,17 @@ It converts systems concepts into a repeatable workflow for mapping structure, f
 
 ## Runtime
 
+Tell your agent:
+
+```text
+Help me explain recurring system behavior and plan a testable intervention with the systems-diagnosis reactive skill.
+```
+
 The shared runtime bootloader lives in the Reactive Skills runtime.
 
 Place this directory in a registered reactive skills source, then use the AXI CLI or the runtime MCP tools.
+
+The command your agent runs:
 
     reactive-skills-axi invoke systems-diagnosis
     reactive-skills-axi state systems-diagnosis --job <job-id>
