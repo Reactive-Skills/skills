@@ -33,7 +33,7 @@ function runManager(f, operation = 'UPDATE', paths = { authoring_source: f.sourc
     args.push('--job', runId || 'fixture');
     const input = path.join(f.workspace, 'payload.json');
     fs.writeFileSync(input, JSON.stringify(payload));
-    const result = spawnSync(runtime, [...args, '--payload', '@' + input, '--output', 'compact-v1'], { cwd: f.cwd || f.workspace, encoding: 'utf8' });
+    const result = spawnSync(runtime, [...args, '--payload', '@' + input, '--output', 'compact-v1', '--workspace', f.cwd || f.workspace], { cwd: f.cwd || f.workspace, encoding: 'utf8' });
     assert.equal(result.status, 0, result.stdout + result.stderr);
     const receipt = JSON.parse(result.stdout);
     view = receipt.view || receipt;
