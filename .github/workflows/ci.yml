@@ -164,3 +164,8 @@ jobs:
           name: vet-report
           path: vet-report/
           if-no-files-found: ignore
+
+  disclosure-guard:
+    uses: ByteQuilt/disclosure-check/.github/workflows/disclosure-guard.yml@main
+    with:
+      no-blocking-scan-reason: skill sources and docs; ships no browser bundle or npm package
